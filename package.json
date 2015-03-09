@@ -3,7 +3,8 @@
   "description": "A first attempt at writing a login and user system",
   "author": "Justin Barclay <justincbarclay@gmail.com>",
   "dependencies": {
-    "pg": "*"
+    "pg": "*",
+    "bcrypt": "*"
   },
 
   "devDependencies": {
