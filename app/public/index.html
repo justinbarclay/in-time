@@ -1,22 +1,26 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Mountain View Industries Ltd.</title>
-    <link type="text/css" rel="stylesheet" href="mainStylesheet.css"/>
+
 </head>
+
 
 <body>
   <div class="header"></div>
-  <form actions="/login" method="post">
+  <form id="loginForm" name="user" action="/login" method="post">
     <div>
       <label for="username">Username</label>
-      <input type="text" id="username" />
+      <input type="text" id="username" name="username" />
     </div>
     <div>
       <label for="password">Password</label>
-      <input type="password" id="password" />
+      <input type="password" id="password" name="password" />
     </div>
+    <input type="submit" value="Submit">
     <div class="footer"></div>
 </body>
+
+
+
 
 </html>
