@@ -3,7 +3,7 @@
 *
 */
 var pg = require('pg');
-var conString = "pg://postgres:aldorak@localhost:5432/employees";
+var conString = "pg://postgres:postgres@localhost:5432/employees";
 var client = new pg.Client(conString);
 
 var bcrypt = require('bcrypt');
@@ -140,6 +140,15 @@ function helper(){
   }
   function authenticateToken(userName)
   {
+
+  }
+  function validateEmail(userEmail){
+
+  }
+  function validateUsername(userName){
+
+  }
+  function validatePassword(userPassword){
 
   }
 }
