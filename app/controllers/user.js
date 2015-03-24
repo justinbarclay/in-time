@@ -92,7 +92,7 @@ function deleteUser(userName){
   });
 }
 
-function authenticateUser(userName, userPassword){
+function authenticateUser(userName, userPassword, callback){
   //this function checks to see if the userName and userPassword match the
   //anything stored in the user database
   pg.connect(conString, function(err, client, done) {
@@ -101,18 +101,28 @@ function authenticateUser(userName, userPassword){
     }
     client.query("SELECT * FROM UserLogin WHERE username =" + "'" + userName + "'", function(err, res){
       if(err){
-        console.error('error with a SELECT query',err);
         done();
         client.end();
+        callback(err, false);
+      } else if(typeof(res.rows[0]) === 'undefined'){
+        done();
+        client.end();
+        console.log(res);
+        callback(err, false);
       } else {
-
         bcrypt.compare(userPassword, res.rows[0].password, function(err, res){
-          if (res === true) {
+          if (err) {
             // code to add token to browser to act logged in
             // probably need to add a token to table somewhere as well
-            return console.log("User succesfully authorized");
+            done();
+            client.end();
+            callback(err, res);
+          } else {
+            done();
+            client.end();
+            callback(err, res);
           }
-          console.log("Failure");
+
         });
         done();
         client.end();
@@ -124,16 +134,16 @@ function authenticateUser(userName, userPassword){
 function helper(){
   function connect(callback)
   {
-    var conString = "pg://postgres:aldorak@localhost:5432/employees";
+    var conString = "pg://postgres:postgres@localhost:5432/employees";
     pg.connect(conString, function(err, client, done){
         callback(err, client, done);
       });
   }
-  function databaseError(err, client, done)
+  function databaseError(err, callback)
   {
-
     done();
     client.end();
+    callback(err, false);
   }
   function generateToken (userName) {
 
@@ -155,9 +165,8 @@ function helper(){
 //createUser("test user", "1234567", "test@email.com");
 //some basic tests
 //createUser("new user", "testpassword", "newuser@email.com");
-authenticateUser("new user", "testpassword");
-authenticateUser("new user", "bunny");
+//authenticateUser("new user", "testpassword");
+//authenticateUser("new user", "bunny");
 
 //deleteUser("new user");
-
-console.log('Done');
+module.exports.authenticate = authenticateUser;
