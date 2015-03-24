@@ -2,6 +2,7 @@ var expect = require('chai').expect;
 var should = require('chai').should;
 var myApp = 'localhost:8888';
 var request = require('supertest')(myApp);
+var querystring = require('querystring');
 
 
 /*function hasPreviousAndNextKeys(res) {
@@ -31,4 +32,11 @@ describe('some second test', function(){
       }).end(done);
     });
 
+});
+
+describe('Testing the user api', function (){
+  it("should return false for a user that doesn/'t exist"), function(done){
+    request.body();
+    done();
+  }
 });

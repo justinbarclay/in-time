@@ -1,25 +1,68 @@
 <html lang="en">
 <head>
     <title>Mountain View Industries Ltd.</title>
-
+    <link type="text/css" rel="stylesheet" href="css/reset.css"/>
+    <link type="text/css" rel="stylesheet" href="css/stylesheet.css"/>
 </head>
 
 
 <body>
-  <div class="header"></div>
-  <form id="loginForm" name="user" action="/login" method="post">
-    <div>
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" />
+  <div class="header">
+    <p>
+      Hello!
+    </p>
+  </div>
+
+<div id="main">
+    <div id="toggleButtons">
+      <input type="button" value="Login" onClick="return toggleDislplay('loginForm', 'toggleButtons')">
+      <input type="button" value="Sign-up" onClick="return toggleDislplay('signupForm', 'toggleButtons')">
     </div>
-    <div>
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" />
+    <div class="forms">
+      <form id="loginForm" name="user" action="/login" method="post">
+        <div>
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" />
+        </div>
+        <div>
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" />
+        </div>
+        <input type="submit" value="Submit">
+      </form>
+
+      <form id="signupForm" name="user" action="/register" method="post">
+        <div>
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" />
+        </div>
+        <div>
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" />
+        </div>
+        <div>
+          <label for="Confirm.password">Confrim Password</label>
+          <input type="password" id="Confirm.password" name="password" />
+        </div>
+        <input type="submit" value="Submit">
+      </form>
     </div>
-    <input type="submit" value="Submit">
-    <div class="footer"></div>
+</div>
+
+  <div class="footer"></div>
 </body>
 
+
+<script type="text/javascript">
+
+function toggleDislplay(show, hide) {
+    document.getElementById(show).style.display = 'block';
+    // hide the lorem ipsum text
+    document.getElementById(hide).style.display = 'none';
+    // hide the link
+    //btn.style.display = 'none';
+}
+</script>
 
 
 
