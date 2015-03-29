@@ -1,24 +1,40 @@
 <html lang="en">
 <head>
     <title>Mountain View Industries Ltd.</title>
-    <link type="text/css" rel="stylesheet" href="css/reset.css"/>
-    <link type="text/css" rel="stylesheet" href="css/stylesheet.css"/>
+    <!--
+    //Through node
+    -->
+    <link type="text/css" rel="stylesheet" href="/public/css/reset.css"/>
+    <link type="text/css" rel="stylesheet" href="/public/css/stylesheet.css"/>
+<!-- opening directly
+    <link type="text/css" rel="stylesheet" href="./css/reset.css"/>
+    <link type="text/css" rel="stylesheet" href="./css/stylesheet.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400' rel='stylesheet' type='text/css'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+-->
 </head>
 
 
 <body>
   <div class="header">
     <p>
-      Hello!
+      Mountain View Industries
     </p>
   </div>
 
 <div id="main">
-    <div id="toggleButtons">
-      <input type="button" value="Login" onClick="return toggleDislplay('loginForm', 'toggleButtons')">
-      <input type="button" value="Sign-up" onClick="return toggleDislplay('signupForm', 'toggleButtons')">
-    </div>
+
     <div class="forms">
+      <div class="toggleButtons" id="toggleButton">
+        <div class="button">
+          <input type="button" value="Login" onClick="return toggleDisplay('loginForm', 'toggleButton')">
+        </div>
+        <div class="button">
+          <input type="button" value="Sign-up" onClick="return toggleDisplay('signupForm', 'toggleButton')">
+        </div>
+      </div>
+
+
       <form id="loginForm" name="user" action="/login" method="post">
         <div>
           <label for="username">Username</label>
@@ -31,7 +47,7 @@
         <input type="submit" value="Submit">
       </form>
 
-      <form id="signupForm" name="user" action="/register" method="post">
+      <form id="signupForm" name="user" action="/signup" method="post">
         <div>
           <label for="username">Username</label>
           <input type="text" id="username" name="username" />
@@ -55,7 +71,7 @@
 
 <script type="text/javascript">
 
-function toggleDislplay(show, hide) {
+function toggleDisplay(show, hide) {
     document.getElementById(show).style.display = 'block';
     // hide the lorem ipsum text
     document.getElementById(hide).style.display = 'none';
