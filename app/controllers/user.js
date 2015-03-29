@@ -11,17 +11,16 @@ var bcrypt = require('bcrypt');
 function hashPassword(userPassword, callback){
   //this function will hash the password, useful for any interactions with our
   //user system
-  bcrypt.genSalt(12, function(err, salt) {
+  bcrypt.genSalt(10, function(err, salt) {
     bcrypt.hash(userPassword, salt, function(err, hash){
-
       callback(err, hash);
     });
   });
 }
 
-function createUser(userName, userPassword,  userEmail){
-  //this is an empty function that will eventually create a username and hashing
-  //a password then storin it in the database
+function signUpUser(userName, userPassword,  userEmail, callback){
+  //this function creates a username and hashes
+  //a password then stor it in the database
   pg.connect(conString, function(err, client, done) {
     if(err) {
       return console.error('error fetching client from pool', err);
@@ -46,10 +45,11 @@ function createUser(userName, userPassword,  userEmail){
               done();
 
               if (err) {
-                client.end();
-                return console.error('error running insert query', err);
+                console.error('error running insert query', err);
+                callback(err, false);
               } else {
-                return console.log("User created successfully");
+                callback(err, true);
+                console.log("User created successfully");
               }
               client.end();
             });
@@ -93,7 +93,7 @@ function deleteUser(userName){
 }
 
 function authenticateUser(userName, userPassword, callback){
-  //this function checks to see if the userName and userPassword match the
+  //this function checks to see if the userName and userPassword match
   //anything stored in the user database
   pg.connect(conString, function(err, client, done) {
     if(err) {
@@ -130,7 +130,7 @@ function authenticateUser(userName, userPassword, callback){
     });
   });
 }
-
+/**
 function helper(){
   function connect(callback)
   {
@@ -169,4 +169,6 @@ function helper(){
 //authenticateUser("new user", "bunny");
 
 //deleteUser("new user");
+**/
 module.exports.authenticate = authenticateUser;
+module.exports.signUpUser = signUpUser;
