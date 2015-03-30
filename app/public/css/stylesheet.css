@@ -51,13 +51,30 @@ img, embed, object, video {
 
 }
 .toggleButtons {
+  position: relative;
+  top: 35%;
   margin: 0 auto 0 auto;
-  padding: 0;
+  padding: 0.5% 0;
   width: 20%;
 }
+
 .button {
-  margin: 0 auto 0 auto;
-  width: 5%;
+  /*vertical-align: top;*/
+  width: 45%;
+  min-width: 80px;
+  margin: 0 2%;
+  height: 60px;
+  /*padding: 0;*/
+  font-size: 1.4rem;
+  color: white;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  background: #f39c12;
+  border: 0;
+  border-bottom: 2px solid #e8930c;
+  cursor: pointer;
+  /*-webkit-box-shadow: inset 0 -2px #e8930c;*/
+  /*box-shadow: inset 0 -2px #e8930c;*/
 }
 .forms {
   position: relative;
@@ -75,6 +92,7 @@ img, embed, object, video {
   padding: 1%;
   background-color: #C7EBF0;
   margin: 0 auto 0 auto;
+  /*@extend %vertical-align;*/
 }
 
 #signupForm{
@@ -83,4 +101,14 @@ img, embed, object, video {
   background-color: #C7EBF0;
   padding: 1%;
   margin: 0 auto 0 auto;
+  /*@extend %vertical-align;*/
  }
+/*
+Put this back in when you convert to SASS
+%vertical-align {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}*/
