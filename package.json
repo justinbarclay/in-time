@@ -6,11 +6,13 @@
     "pg": "*",
     "bcrypt": "*"
   },
-
   "devDependencies": {
     "chai": "*",
+    "gulp": "^3.8.11",
+    "gulp-sass-binaries": "^1.2.4-binaries",
+    "gulp-nodemon": "*",
     "mocha": "*",
-    "supertest":"*",
-    "mocha-jsdom":"*"
+    "mocha-jsdom": "*",
+    "supertest": "*"
   }
 }

@@ -52,19 +52,16 @@ img, embed, object, video {
 }
 .toggleButtons {
   position: relative;
-  top: 35%;
+  top: 0%;
   margin: 0 auto 0 auto;
   padding: 0.5% 0;
-  width: 20%;
 }
 
 .button {
-  /*vertical-align: top;*/
   width: 45%;
   min-width: 80px;
   margin: 0 2%;
   height: 60px;
-  /*padding: 0;*/
   font-size: 1.4rem;
   color: white;
   text-align: center;
@@ -83,6 +80,7 @@ img, embed, object, video {
   display: block;
   width: 80%;
   height: 30%;
+  min-height: 150px;
   margin: 0 auto 0 auto;
 }
 
@@ -90,6 +88,7 @@ img, embed, object, video {
   display: none;
   width: 20%;
   padding: 1%;
+  height: 130px;
   background-color: #C7EBF0;
   margin: 0 auto 0 auto;
   /*@extend %vertical-align;*/
@@ -98,6 +97,7 @@ img, embed, object, video {
 #signupForm{
   display: none;
   width: 20%;
+  height: 130px;
   background-color: #C7EBF0;
   padding: 1%;
   margin: 0 auto 0 auto;

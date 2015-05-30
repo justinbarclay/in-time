@@ -3,7 +3,10 @@ var querystring = require('querystring'),
     fs = require('fs'),
     url = require('url');
 
-
+//With this router, we only want to pass the necessary data into the controoller
+//and leave the res and req objects in the router context. This may mean that the
+//controllers pass back booleans or errors or messages or a new object to indicate
+//the state of the data. How a controller indicates this is currently up for debate
 
 function route(req, res){
     //A very basic router that will parse the pathname out of the request object
@@ -15,7 +18,8 @@ function route(req, res){
         // Load the home page
         console.log("Path: " + path);
         fs.readFile('app/public/index.html',function (err, data){
-          res.writeHead(200, {'Content-Type': 'text/html','Content-Length':data.length});
+          res.writeHead(200, {'Content-Type': 'text/html',
+          'Content-Length':data.length});
           res.write(data);
           res.end();
         });
@@ -55,17 +59,23 @@ function route(req, res){
         });
 
         req.on("end", function(){
-            currentUser = querystring.parse(data);
+            currentUser = querystring.parse(signUp);
             //hard coded email for testing
-            user.signUpUser(currentUser.username, currentUser.password, "test@email.com", function(err, bool){
+            user.signUpUser(currentUser.username, currentUser.password, "test2@email.com", function(err, bool, message){
             if (err){
+              res.write("There was an error talking to the server");
               console.error(err);
+              res.end();
             } else {
               console.log("Succesful signUp of " + currentUser.username + " = " + bool);
+              res.write("<p>"+message+"</p>");
+              res.end();
             }
+            console.log(message);
             });
-            res.write("You're userID has been created successfully!");
-            res.end();
+
+
+
         });
     } else if(path.slice(0,7) === "/public"){
       //server static content out. Including JS and CSS files
@@ -105,4 +115,4 @@ var helper = (function() {
 })();
 
 
-module.exports.route = route;
+module.exports= route;
