@@ -10,9 +10,9 @@ var conString = config.postgres;
 //each client of 30s (30000)
 pg.defaults.poolIdleTimeout = 10000;
 /** Timesheet Controller
-* This will handle creating and retrieving timesheets fromg
-*
-*/
+ * This will handle creating and retrieving timesheets from pg
+ *
+ */
 
 /* Data Structure
 {
@@ -27,7 +27,7 @@ pg.defaults.poolIdleTimeout = 10000;
 // as seen at https://github.com/brianc/node-postgres/wiki/Prepared-Statements
 
 
-function createTimesheet(data, callback){
+function createTimesheet(data, callback) {
     //connect to database
     //split up data
     //add data to database
@@ -36,26 +36,37 @@ function createTimesheet(data, callback){
     //client.end() should not be called from a connection pool
     var bool;
 
-    pg.connect(conString, function(err, client, done){
+    pg.connect(conString, function(err, client, done) {
         if (err) {
             done();
-            console.log('error fetching client from pool in Timesheet controller', err);
+            console.log(
+                'error fetching client from pool in Timesheet controller',
+                err);
             callback(err, false);
         } else {
-            data.forEach(function(row){
-                queryString = "INSERT INTO Timesheets(timesheet_id, user_foreignkey, service_duration, service_description, engagement_number) VALUES($1, $2, $3, $4, $5)";
+            data.forEach(function(row) {
+                queryString =
+                    "INSERT INTO Timesheets(timesheet_id, user_foreignkey, service_duration, service_description, engagement_number) VALUES($1, $2, $3, $4, $5)";
                 //Asynchronously insert data into the database
 
-                timesheet = [row.timesheet_id, row.user_foreinkeyid, row.service_duration, row.service_description, row.engagement_number];
-                client.query(queryString, timesheet, function(err, result){
+                timesheet = [row.timesheet_id, row.user_foreinkeyid,
+                    row.service_duration, row.service_description,
+                    row.engagement_number
+                ];
+                client.query(queryString, timesheet, function(
+                    err, result) {
                     done();
                     if (err) {
-                        console.error('error inserting query into timesheet', err);
+                        console.error(
+                            'error inserting query into timesheet',
+                            err);
                         bool = false;
                         callback(err, bool);
 
                     } else {
-                        console.log("Timesheet succesfully entered  ");
+                        console.log(
+                            "Timesheet succesfully entered  "
+                        );
                         bool = true;
                         callback(err, bool);
                     }
@@ -69,29 +80,34 @@ function createTimesheet(data, callback){
 
 }
 
-function getTimesheet(callback){
+function getTimesheet(callback) {
     //connect to database
     //find user that they are requesting for
     //put date and user information in json
     //return err, true, and the query object back
-    pg.connect(conString, function(err, client, done){
+    pg.connect(conString, function(err, client, done) {
         if (err) {
             //client.end();
             done();
-            return console.error('error fetching client from pool in Timesheet controller', err);
+            return console.error(
+                'error fetching client from pool in Timesheet controller',
+                err);
         } else {
             //currently grabs all the timesheets from the database, I should
             //eventually have this grab only one users set of Timesheets
             queryString = "SELECT * FROM Timesheets";
-            client.query(queryString, function(err, result){
+            client.query(queryString, function(err, result) {
                 done();
                 if (err) {
                     //client.end();
-                    console.error('error getting query from timesheet', err);
+                    console.error(
+                        'error getting query from timesheet',
+                        err);
                     callback(err, false);
                 } else {
                     //client.end();
-                    console.log("Timesheet succesfully selected");
+                    console.log(
+                        "Timesheet succesfully selected");
                     callback(err, true, result);
                 }
             });
@@ -99,40 +115,51 @@ function getTimesheet(callback){
     });
 }
 
-function deleteTimesheet(data, callback){
+function deleteTimesheet(data, callback) {
     //send in array or single int if not skip over all of this stuff
-    if (!Array.isArray(deleteArrays) && typeof deleteArrays !== "number"){
+    if (!Array.isArray(deleteArrays) && typeof deleteArrays !== "number") {
         console.log("expected an array or number and got " + typeof data);
         callback(null, false);
     } else {
 
-        pg.connect(conString, function(err, client, done){
+        pg.connect(conString, function(err, client, done) {
             if (err) {
                 //client.end();
                 done();
-                return console.error('error fetching client from pool in Timesheet controller', err);
+                return console.error(
+                    'error fetching client from pool in Timesheet controller',
+                    err);
             } else {
-                data.forEach(function(index){
+                data.forEach(function(index) {
                     queryString = "";
-                    client.query("DELETE FROM timesheets WHERE index=$1", [index], function(err, result){
-                        done();
-                        if (err) {
-                            console.error('error inserting query into timesheet', err);
-                            callback(err, false, result);
-                        } else {
-                            console.log("Timesheet succesfully entered  ");
-                            callback(err, true, result);
-                        }
-                    });
+                    client.query(
+                        "DELETE FROM timesheets WHERE index=$1", [
+                            index
+                        ],
+                        function(err, result) {
+                            done();
+                            if (err) {
+                                console.error(
+                                    'error inserting query into timesheet',
+                                    err);
+                                callback(err, false, result);
+                            } else {
+                                console.log(
+                                    "Timesheet succesfully entered  "
+                                );
+                                callback(err, true, result);
+                            }
+                        });
                 });
             }
         });
     }
 }
 
-function updateTimesheetRow(){
+function updateTimesheetRow() {
 
 }
+
 function databaseConnect() {
     //is it useful to abstract out this database connection?
     //I've thought about this several time, but it doesn't make sense to me,
@@ -142,12 +169,12 @@ function databaseConnect() {
     //code
 }
 
-var helper = function(){
+var helper = function() {
     return {
-        validateData: function(){
+        validateData: function() {
 
         },
-        someOther: function(){
+        someOther: function() {
 
         }
     };
