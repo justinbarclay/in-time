@@ -3,14 +3,18 @@
   "description": "A first attempt at writing a login and user system",
   "author": "Justin Barclay <justincbarclay@gmail.com>",
   "dependencies": {
-    "pg": "*",
-    "bcrypt": "*"
+    "bcrypt": "^0.8.3",
+    "pg": "^4.3.0",
+    "react": "^0.13.3",
+    "react-router": "^0.13.3"
   },
   "devDependencies": {
-    "chai": "*",
+    "chai": "^2.3.0",
+    "concat": "^1.0.0",
     "gulp": "^3.8.11",
+    "gulp-nodemon": "^2.0.3",
+    "gulp-react": "^3.0.1",
     "gulp-sass-binaries": "^1.2.4-binaries",
-    "gulp-nodemon": "*",
     "mocha": "*",
     "mocha-jsdom": "*",
     "supertest": "*"
