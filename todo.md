@@ -1,8 +1,8 @@
 # TO DO
 
-* Write a to do app to manage to do in the timesheet application
+* Write a to do app to manage to dos in the timesheet application
 
-* Set up build file to compile React and Stylesheets    
+* Set up build file to compile React and Stylesheets
 
 * Rewrite the homepage in React
 
