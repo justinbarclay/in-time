@@ -1,100 +1,24 @@
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>Mountain View Industries Ltd.</title>
-    <!--
-    //Through node
+    <head>
+        <title>Mountain View Industries Ltd.</title>
+        <!--
+        //Through node
+        -->
+        <link type="text/css" rel="stylesheet" href="/public/css/reset.css"/>
+        <link type="text/css" rel="stylesheet" href="/public/css/stylesheet.css"/>
+    <!-- opening directly
+        <link type="text/css" rel="stylesheet" href="./css/reset.css"/>
+        <link type="text/css" rel="stylesheet" href="./css/stylesheet.css"/>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400' rel='stylesheet' type='text/css'>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     -->
-    <link type="text/css" rel="stylesheet" href="/public/css/reset.css"/>
-    <link type="text/css" rel="stylesheet" href="/public/css/stylesheet.css"/>
-<!-- opening directly
-    <link type="text/css" rel="stylesheet" href="./css/reset.css"/>
-    <link type="text/css" rel="stylesheet" href="./css/stylesheet.css"/>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400' rel='stylesheet' type='text/css'>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
--->
-</head>
+    </head>
 
 
-<body>
-  <div class="header">
-    <p>
-      Mountain View Industries
-    </p>
-  </div>
-
-<div id="main" onLoad="return initiate()">
-
-    <div class="forms">
-      <div class="toggleButtons" id="toggleButton">
-        <button class="button" value="Login" onClick="return toggleDisplay('loginForm', 'toggleButton')">Login</button>
-        <button class="button" value="Sign-up" onClick="return toggleDisplay('signupForm', 'toggleButton')">Sign-up</button>
-      </div>
-
-
-      <form id="loginForm" name="user" action="/login" method="post">
-        <div>
-          <label for="username">Username</label>
-          <input type="text" id="username" name="username" />
+    <body>
+        <div id="js-content">
         </div>
-        <div>
-          <label for="password">Password</label>
-          <input type="password" id="signInPassword" name="password" />
-        </div>
-        <input type="submit" value="Submit">
-      </form>
-
-      <form id="signupForm" name="user" action="/signup" method="post"
-      onChange="return checkPasswords()">
-        <div>
-          <label for="username">Username</label>
-          <input type="text" id="username" name="username" />
-        </div>
-        <div>
-          <label for="password">Password</label>
-          <input type="password" id="signUpPassword" name="password" />
-        </div>
-        <div>
-          <label for="Confirm.password">Confrim Password</label>
-          <input type="password" id="Confirm.password" name="Confirm.password" />
-        </div>
-        <div id="signupSubmit">
-            <input type="submit" value="Submit" />
-        </div>
-      </form>
-    </div>
-</div>
-
-  <div class="footer"></div>
-</body>
-
-
-<script type="text/javascript">
-
-function toggleDisplay(show, hide) {
-    document.getElementById(show).style.display = 'block';
-    // hide the lorem ipsum text
-    document.getElementById(hide).style.display = 'none';
-    document.getElementById('signupSubmit').style.display = 'none';
-    // hide the link
-    //btn.style.display = 'none';
-}
-
-function checkPasswords() {
-    var password = document.getElementById('signUpPassword').value;
-    var confirm = document.getElementById('Confirm.password').value;
-    console.log("Password: " + password + "\n" + "Confirm: " + confirm);
-    if( (password.length > 1) && (password === confirm) ) {
-        document.getElementById('signupSubmit').style.display = 'block';
-        document.getElementById('signupForm').style.height = '140px'
-        document.getElementById('signupSubmit').disabled = false;
-    } else {
-        document.getElementById('signupSubmit').style.display = 'none'
-        document.getElementById('signupForm').style.height = '130px'
-        document.getElementById('signupSubmit').disabled = true;
-    }
-}
-</script>
-
-
-
+    </body>
+    <script src="/public/js/js-dist.js"></script>
 </html>
