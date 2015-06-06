@@ -1,4 +1,4 @@
-config = require("../../config.json");
+config = require("../../../config.json");
 /** User Controller
  * This will handle creating a user, removing a user, and authenticating a loging
  *

@@ -1,4 +1,4 @@
-config = require("../../config.json");
+config = require("../../../config.json");
 var pg = require('pg');
 var conString = config.postgres;
 
