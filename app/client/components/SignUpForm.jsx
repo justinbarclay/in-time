@@ -9,17 +9,17 @@ var SignUpForm = React.createClass({
 
     render: function () {
         return (
-            <form action="/signup" id="signupForm" method="post" name="user" onChange="return checkPasswords()">
+            <form action="/signup" className="signupForm" id="signupForm" method="post" name="user">
                 <div>
-                    <label for="username">Username</label>
+                    <label htmlFor="username">Username</label>
                     <input id="username" name="username" type="text"/>
                 </div>
                 <div>
-                    <label for="password">Password</label>
+                    <label htmlFor="password">Password</label>
                     <input id="signUpPassword" name="password" type="password"/>
                 </div>
                 <div>
-                    <label for="Confirm.password">Confrim Password</label>
+                    <label htmlFor="Confirm.password">Confrim Password</label>
                     <input id="Confirm.password" name="Confirm.password" type="password"/>
                 </div>
                 <div id="signupSubmit">

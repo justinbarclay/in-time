@@ -9,13 +9,13 @@ var SignInForm = React.createClass({
 
     render: function(){
         return (
-            <form id="signInForm" class="SignIn" name="user" action="/signin" method="post">
+            <form id="signInForm" className="signinForm" name="user" action="/signin" method="post">
               <div>
-                <label for="username">Username</label>
+                <label htmlFor="username">Username</label>
                 <input type="text" id="username" name="username" />
               </div>
               <div>
-                <label for="password">Password</label>
+                <label htmlFor="password">Password</label>
                 <input type="password" id="signInPassword" name="password" />
               </div>
               <input type="submit" value="Submit" />

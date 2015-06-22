@@ -13,11 +13,12 @@ var app = React.createClass({
 
     render: function(){
         return (
-            <div className="main">
+            <div className="app">
                 <TSHeader />
-                <RouteHandler />
+                <main>
+                    <RouteHandler />
+                </main>
                 <TSFooter />
-
             </div>
         );
     }

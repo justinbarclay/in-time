@@ -1,6 +1,7 @@
 //React
 var React = require("react");
-
+var Router = require("react-router");
+var Link = Router.Link;
 
 var TSHeader = React.createClass({
     displayName: "TS Header",
@@ -9,11 +10,13 @@ var TSHeader = React.createClass({
 
     render: function(){
         return (
-            <div class="header">
-                <button class="nav">Home</button>
-                <button class="nav">About</button>
-                <button class="nav">Sign in</button>
-                <button class="nav">Sign up</button>
+            <div className="TSHeader">
+                <div className="navigation">
+                    <Link to="home" className="nav"><label>Home</label></Link>
+                    <Link to="about" className="nav"><label>About</label></Link>
+                    <Link to="signin" className="nav"><label>Sign in</label></Link>
+                    <Link to="signup" className="nav"><label>Sign up</label></Link>
+                </div>
             </div>
         );
     }

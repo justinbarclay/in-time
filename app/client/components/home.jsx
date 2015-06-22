@@ -2,35 +2,38 @@
 var React = require("react");
 
 //Components
-var TSHeader = require("./TSHeader");
 var Signin = require("./SignInForm");
 var Signup = require("./SignUpForm");
-var TSFooter = require("./TSFooter");
 
 // Router
 var Router = require("react-router");
+var Link = Router.Link;
 var RouteHandler = Router.RouteHandler;
 
 // Component
 var Home = React.createClass({
-  displayName: "Home",
-  propTypes: {},
-  mixins: [],
+    displayName: "Home",
+    propTypes: {},
+    mixins: [],
 
-  getInitialState: function () { return null; },
+    getInitialState: function () {
+        return null;
+    },
 
-  componentWillMount: function () {},
+    componentWillMount: function () {},
 
-  componentWillUnmount: function () {},
+    componentWillUnmount: function () {},
 
-  render: function () {
-    return (
-      <div className="home">
-        <Signin />
-        <Signup />
-      </div>
-    );
-  }
+    render: function () {
+        return (
+            <div className="home">
+                <div className="authenticationButtons">
+                    <Link to="signup"><button className="signupButton">Signup</button></Link>
+                    <Link to="signin"><button className="signinButton">Signin</button></Link>
+                </div>
+            </div>
+        );
+    }
 });
 
 module.exports = Home;

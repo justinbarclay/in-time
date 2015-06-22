@@ -9,8 +9,8 @@ var TSFooter = React.createClass({
 
     render: function(){
         return (
-            <div class="footer">
-                Copyright 2015 New plagiarist Media
+            <div className="TSFooter">
+                <p className="copyright">Copyright 2015 New Plagiarist Media</p>
             </div>
         );
     }
