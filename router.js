@@ -1,5 +1,5 @@
 var querystring = require('querystring'),
-    user = require('./app/controllers/user'),
+    user = require('./app/server/controllers/user'),
     fs = require('fs'),
     url = require('url');
 

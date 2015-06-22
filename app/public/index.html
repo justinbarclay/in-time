@@ -1,24 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Mountain View Industries Ltd.</title>
-        <!--
-        //Through node
-        -->
-        <link type="text/css" rel="stylesheet" href="/public/css/reset.css"/>
-        <link type="text/css" rel="stylesheet" href="/public/css/stylesheet.css"/>
-    <!-- opening directly
-        <link type="text/css" rel="stylesheet" href="./css/reset.css"/>
-        <link type="text/css" rel="stylesheet" href="./css/stylesheet.css"/>
-        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400' rel='stylesheet' type='text/css'>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    -->
-    </head>
 
+<head>
+    <title>Mountain View Industries Ltd.</title>
+    <link type="text/css" rel="stylesheet" href="/public/css/styles.css" />
+    <meta charset="utf-8">
+</head>
 
-    <body>
-        <div id="js-content">
-        </div>
-    </body>
-    <script src="/public/js/bundle.js"></script>
+<body>
+    <div id="js-content">
+    </div>
+</body>
+<!-- Webpack hot server script -->
+<script src="http://localhost:8080/webpack-dev-server.js"></script>
+<script src="/public/js/app.bundle.js"></script>
+
 </html>
