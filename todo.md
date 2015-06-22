@@ -3,10 +3,14 @@
 * Write a to do app to manage to dos in the timesheet application
 
 * Set up build file to compile React and Stylesheets
-
+-- Done
 * Rewrite the homepage in React
-
+-- Done
+ 
 * Add a login system for the homepage
+
+* Create a style for the webpage using one of the CSS frameworks
+-- Done
 
 * Once logged in the system should open up a timesheet
 
