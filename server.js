@@ -10,5 +10,5 @@ var server = http.createServer(function(req, res){
   console.log(path.querystring);
   router(req, res);
 });
-
+console.log("Server listening on port:" + port);
 server.listen(port);
