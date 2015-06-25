@@ -10,17 +10,24 @@
     "superagent": "^1.2.0"
   },
   "devDependencies": {
+    "autoprefixer-loader": "^2.0.0",
+    "browserify": "^10.2.4",
     "chai": "^2.3.0",
-    "concat": "^1.0.0",
+    "foundation": "^4.2.1-1",
     "gulp": "^3.9.0",
     "gulp-nodemon": "^2.0.3",
+    "gulp-plumber": "^1.0.1",
     "gulp-react": "^3.0.1",
+    "gulp-sass": "^2.0.1",
     "gulp-sass-binaries": "^1.2.4-binaries",
     "jsx-loader": "^0.13.2",
+    "lodash": "^3.9.3",
     "mocha": "*",
     "mocha-jsdom": "*",
     "node-libs-browser": "^0.5.2",
+    "reactify": "^1.1.1",
     "supertest": "*",
-    "webpack": "^1.9.10"
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.2.3"
   }
 }

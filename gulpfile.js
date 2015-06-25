@@ -1,7 +1,13 @@
-var gulp = require('gulp'),
-    sass = require('gulp-sass-binaries'),
-    react = require('gulp-react'),
-    concat = require('concat');
+var gulp = require('gulp');
+var sass = require('gulp-sass');
+var react = require('gulp-react');
+var concat = require('gulp-concat');
+var plumber = require('gulp-plumber');
+var browserify = require('browserify');
+var reactify = require('reactify');
+var watchify = require('watchify');
+var browserSync = require('browser-sync');
+var source = require('vinyl-source-stream');
 
     var FRONTEND_FILES = [
       "client/**/*.{js,jsx}"
@@ -18,30 +24,68 @@ var gulp = require('gulp'),
 // SASS
 // ---------------------------------------------
 gulp.task('sass', function () {
-    gulp.src('./scss/*.scss')
-        .pipe(sass())
-        .pipe(gulp.dest('./css'));
+    gulp.src('./app/client/scss/*.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest('./app/public/css/'));
 });
 
 // ---------------------------------------------
 // REACT
 // ---------------------------------------------
 
-gulp.task('react', function() {
-    gulp.src('./app/client/**/*.jsx')
-    .pipe(react())
-    .pipe(concat())
-    .pipe(gulp.dest('./app/client/build/main.js'));
+/* This does too much and should be split to a percompile file and a watch file */
+gulp.task('browserify', function() {
+    var bundler = browserify({
+        entries: ['./app/client/main.js'], // Only need initial file, browserify finds the deps
+        transform: [reactify], // We want to convert JSX to normal javascript
+        debug: true, // Gives us sourcemapping
+        cache: {}, packageCache: {}, fullPaths: true, // Requirement of watchify
+        extensions: ['.jsx','.js']
+    });
+    var watcher  = watchify(bundler);
+
+    return watcher
+    .on('update', function () { // When any files update
+        var updateStart = Date.now();
+        console.log('Updating!');
+        watcher.bundle() // Create new bundle that uses the cache for high performance
+        .pipe(source('main.js'))
+    // This is where you add uglifying etc.
+        .pipe(gulp.dest('./app/public/js'));
+        console.log('Updated!', (Date.now() - updateStart) + 'ms');
+    })
+    .bundle() // Create the initial bundle when starting the task
+    .pipe(source('main.js'))
+    .pipe(gulp.dest('./app/public/js/'));
 });
 
-/*
-* WATCH
-*/
+// ---------------------------------------------
+// BrowserSync
+// ---------------------------------------------
+// Turned off because because it was placed in the server itself.
+// This helps ensure that, as nodemon reruns on changes that BrowserSync is always running
+//
+// gulp.task('browser-sync', function () {
+//   browserSync({
+//     proxy: 'localhost:8888',
+//     files: ['./app/public/**/*.{js,css}']
+//   });
+// });
 
+// ---------------------------------------------
+// Watch
+// ---------------------------------------------
+gulp.task('sass-watch', function (){
+    gulp.watch('./app/client/scss/**/*.scss', ['sass']);
+});
+gulp.task('js-watch', function (){
+    gulp.watch('./app/client/**/*.scss', ['']);
+});
 
 /*
 * DEFAULT
 */
-gulp.task('default', function() {
-  //place code for default task here
-});
+
+gulp.task('dev:watch', ['sass-watch', 'browserify']);
+gulp.task('dev', ['browserify', 'sass']);
+gulp.task('default', ['browserify', 'sass', ]);
