@@ -1,2 +1,5 @@
 node_modules/
 config.json
+app/public/js
+.gitignore
+stats.json
