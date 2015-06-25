@@ -1,0 +1,138 @@
+@import 'foundation/scss/normalize.scss';
+@import 'foundation/scss/foundation.scss';
+// Custom Settings
+$eggshell: #F0EAD6;
+body {
+    background-color: $eggshell;
+}
+body, #js-content {
+    height: 100%;
+    width: 100%;
+    margin: auto;
+
+}
+
+
+// Custom Mixins
+// Mixin that I pulled off the internet that allows elements to center
+// horizontally
+@mixin vertical-align-container {
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+@mixin vertical-align {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+////////////////////////////////////////////////////////////////////////////////
+//  HEADER
+////////////////////////////////////////////////////////////////////////////////
+.TSHeader {
+    width: 100%;
+    background-color: $oil;
+    text-align: center;
+}
+
+.navigation{
+    @include icon-bar(
+
+        // Set the background color of the icon bar. Default: $icon-bar-bg.
+        $bar-bg: $oil,
+        //  Set the font color of the icon bar. Default: $icon-bar-font-color.
+        $bar-font-color: $icon-bar-font-color,
+        // Set the hover background color for the icon bar. Default: $icon-bar-hover-color.
+        $bar-hover-color: $icon-bar-hover-color,
+        // Set the color of the icons for the icon bar. Default: $icon-bar-icon-color
+        $bar-icon-color: $icon-bar-icon-color,
+        // Set the background of the color when the icon bar is clicked or tapped on (or items within the icon bar). Default: $icon-bar-active-color.
+        // Assign whether or not base styles usually associated with the icon bar to appear the way it usually does should be included. Default: true.
+        $base-style: true,
+        // Allow disabled icons. Default: false.
+        // If enabled add class disabled.
+        $disabled: false
+    );
+    max-width: 1000px;
+
+    text-align: center;
+    height: 100%;
+}
+////////////////////////////////////////////////////////////////////////////////
+//  FOOTER
+////////////////////////////////////////////////////////////////////////////////
+
+.TSFooter {
+    // position: absolute;
+    height: 10%;
+    background-color: $oil;
+    color: $icon-bar-font-color;
+    // bottom: 0px;
+    @include grid-column(
+        $columns: 12
+    );
+
+}
+
+.copyright {
+    @include grid-column(
+    // Control the number of columns
+    $columns: 3,
+    // Specify whether or not this is the last column in the row
+    $last-column:true
+    );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// APP
+////////////////////////////////////////////////////////////////////////////////
+
+main {
+    @include grid-row();
+    height: 80%;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.app {
+    height: 100%;
+}
+
+.home {
+    @include vertical-align-container;
+    height: 80%;
+    @include grid-column(
+        $columns: 12
+    );
+    // background-color: red;
+}
+
+.authenticationButtons {
+    @include vertical-align;
+    //I have no clue why but this centers two divs in a container
+    text-align: center;
+    height: auto;
+}
+button {
+    margin-bottom: 0;
+}
+.about {
+    @include vertical-align-container;
+    height: 100%;
+    p {
+        @include vertical-align;
+        @include grid-column(
+        $columns: 6,
+        $center: true
+        );
+    }
+}
+
+.signupForm, .signinForm {
+    @include grid-column(
+        $columns: 4,
+        $center: true
+    );
+    @include vertical-align;
+}
