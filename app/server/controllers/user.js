@@ -141,11 +141,11 @@ function authenticateUser(userName, userPassword, callback) {
                                 // probably need to add a token to table somewhere as well
                                 done();
 
-                                callback(err, res);
+                                callback(err, false, res);
                             } else {
                                 done();
 
-                                callback(err, res);
+                                callback(err, true, res);
                             }
 
                         });
@@ -156,12 +156,12 @@ function authenticateUser(userName, userPassword, callback) {
     });
 }
 
-var validateUser = function(userName, userEmail) {
+var validateUser = function(userName, userPassword, userEmail) {
     if (validator.isLength(userName, 2, 32) && validator.isEmail(userEmail) &&
         !validator.isNull(userPassword)) {
         return true;
     } else
         return false;
 };
-exports.authenticate = authenticateUser;
+exports.authenticateUser = authenticateUser;
 exports.signUpUser = signUpUser;
