@@ -1,13 +1,11 @@
 config = require("../../../config.json");
+var validator = require('validator');
 /** User Controller
  * This will handle creating a user, removing a user, and authenticating a loging
- *
+ * This needs to be refactored to take in a user object
  */
 var pg = require('pg');
 var conString = config.postgres;
-
-//var client = new pg.Client(conString);
-
 var bcrypt = require('bcrypt');
 
 function hashPassword(userPassword, callback) {
@@ -22,7 +20,7 @@ function hashPassword(userPassword, callback) {
 
 function signUpUser(userName, userPassword, userEmail, callback) {
     //this function creates a username and hashes
-    //a password then stor it in the database
+    //a password then stored it in the database
     pg.connect(conString, function(err, client, done) {
         if (err) {
             return console.error(
@@ -38,7 +36,9 @@ function signUpUser(userName, userPassword, userEmail, callback) {
                 done();
                 return console.error(
                     'error running select query', err);
-            } else if (typeof result.rows[0] === 'undefined') {
+            } else if (typeof result.rows[0] === 'undefined' &&
+                validateUser(userName, userPassword, userEmail)
+            ) {
                 console.log(userPassword);
                 hashPassword(userPassword, function(err, hash) {
 
@@ -155,45 +155,13 @@ function authenticateUser(userName, userPassword, callback) {
             });
     });
 }
-/**
-function helper(){
-function connect(callback)
-{
-var conString = "pg://postgres:postgres@localhost:5432/employees";
-pg.connect(conString, function(err, client, done){
-    callback(err, client, done);
-  });
-}
-function databaseError(err, callback)
-{
-done();
 
-callback(err, false);
-}
-function generateToken (userName) {
-
-}
-function authenticateToken(userName)
-{
-
-}
-function validateEmail(userEmail){
-
-}
-function validateUsername(userName){
-
-}
-function validatePassword(userPassword){
-
-}
-}
-//createUser("test user", "1234567", "test@email.com");
-//some basic tests
-//createUser("new user", "testpassword", "newuser@email.com");
-//authenticateUser("new user", "testpassword");
-//authenticateUser("new user", "bunny");
-
-//deleteUser("new user");
-**/
+var validateUser = function(userName, userEmail) {
+    if (validator.isLength(userName, 2, 32) && validator.isEmail(userEmail) &&
+        !validator.isNull(userPassword)) {
+        return true;
+    } else
+        return false;
+};
 exports.authenticate = authenticateUser;
 exports.signUpUser = signUpUser;
