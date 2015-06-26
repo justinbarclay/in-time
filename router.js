@@ -73,10 +73,33 @@ function route(req, res){
             }
             console.log(message);
             });
-
-
-
         });
+    } else if (path === '/signin') {
+          //Attempt to login
+          //This doesn't go anywhere yet, but it does test the user controller
+            console.log("Succesful post to /signup!");
+            var signin = '';
+
+            req.on("data", function(chunk){
+                signin += chunk;
+            });
+
+            req.on("end", function(){
+                currentUser = querystring.parse(signin);
+                //hard coded email for testing
+                user.authenticateUser(currentUser.username, currentUser.password, function(err, bool, message){
+                if (err){
+                  res.write("There was an error talking to the server");
+                  console.error(err);
+                  res.end();
+                } else {
+                  console.log("Succesful signUp of " + currentUser.username + " = " + bool);
+                  res.write("<p>"+message+"</p>");
+                  res.end();
+                }
+                console.log(message);
+                });
+            });
     } else if(path.slice(0,7) === "/public"){
       //server static content out. Including JS and CSS files
       //Unsure of how this will handle image files
