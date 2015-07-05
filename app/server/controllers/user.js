@@ -163,5 +163,5 @@ var validateUser = function(userName, userPassword, userEmail) {
     } else
         return false;
 };
-exports.authenticate = authenticateUser;
+exports.authenticate = authenticate;
 exports.signUp = signUp;
