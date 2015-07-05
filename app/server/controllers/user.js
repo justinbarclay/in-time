@@ -18,7 +18,7 @@ function hashPassword(userPassword, callback) {
     });
 }
 
-function signUpUser(userName, userPassword, userEmail, callback) {
+function signUp(userName, userPassword, userEmail, callback) {
     //this function creates a username and hashes
     //a password then stored it in the database
     pg.connect(conString, function(err, client, done) {
@@ -114,7 +114,7 @@ function deleteUser(userName) {
     });
 }
 
-function authenticateUser(userName, userPassword, callback) {
+function authenticate(userName, userPassword, callback) {
     //this function checks to see if the userName and userPassword match
     //anything stored in the user database
     pg.connect(conString, function(err, client, done) {
@@ -163,5 +163,5 @@ var validateUser = function(userName, userPassword, userEmail) {
     } else
         return false;
 };
-exports.authenticateUser = authenticateUser;
-exports.signUpUser = signUpUser;
+exports.authenticate = authenticateUser;
+exports.signUp = signUp;
