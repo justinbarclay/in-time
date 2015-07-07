@@ -5,14 +5,14 @@ var Message = React.createClass({
     propTypes: {},
     mixins: [],
     componentDidMount: function(){
-        if (!this.props.hidden){
+        if (this.props.hidden){
             React.findDOMNode(this.refs.message).style.display = "none";
         } else {
             React.findDOMNode(this.refs.message).style.display = "inherit";
         }
     },
     componentWillUpdate: function(newProps, newState){
-        if (!newProps.hidden){
+        if (newProps.hidden){
             React.findDOMNode(this.refs.message).style.display = "none";
         } else {
             React.findDOMNode(this.refs.message).style.display = "inherit";

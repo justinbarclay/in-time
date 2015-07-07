@@ -6,7 +6,7 @@ var Message = require('./message');
 var SignInForm = React.createClass({
     displayName: "SignInForm",
     getInitialState: function(){
-        return { signInMessage: '', hidden: false };
+        return { signInMessage: '', hidden: true };
     },
     login: function(form){
         self = this;
@@ -25,7 +25,7 @@ var SignInForm = React.createClass({
                 //more debugging stuff
                 console.log(AJAXreq.readyState);
                 console.log(AJAXreq.responseText);
-                self.setState({signInMessage: AJAXreq.responseText, hidden: true});
+                self.setState({signInMessage: AJAXreq.responseText, hidden: false});
             } else {
                 //Debugging stuff
                 console.log(AJAXreq.readyState);
