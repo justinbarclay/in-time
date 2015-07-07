@@ -22,12 +22,13 @@ var SignInForm = React.createClass({
         AJAXreq.onreadystatechange = function () {
             console.log("state change");
             if (AJAXreq.readyState === 4)   {
-                console.log(4);
+                //more debugging stuff
+                console.log(AJAXreq.readyState);
                 console.log(AJAXreq.responseText);
                 self.setState({signInMessage: AJAXreq.responseText, hidden: true});
             } else {
-                alert(AJAXreq.readyState + "\n" +
-                    "What the fuck?");
+                //Debugging stuff
+                console.log(AJAXreq.readyState);
                 console.log(AJAXreq.responseTEXT);
             }
         };
@@ -45,7 +46,7 @@ var SignInForm = React.createClass({
                         <label htmlFor="signInPassword">Password</label>
                         <input type="password" id="signInPassword" ref="password" name="password" />
                     </div>
-                    <input type="submit" value="Submit" />
+                    <button type="submit"> Submit </button>
                 </form>
             </div>
 
