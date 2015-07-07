@@ -87,5 +87,5 @@ gulp.task('js-watch', function (){
 */
 
 gulp.task('dev:watch', ['sass-watch', 'browserify']);
-gulp.task('dev', ['browserify', 'sass']);
+gulp.task('dev', ['browserify', 'sass-watch']);
 gulp.task('default', ['browserify', 'sass', ]);
