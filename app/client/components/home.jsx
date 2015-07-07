@@ -27,7 +27,6 @@ var Home = React.createClass({
     render: function () {
         return (
             <div className="home">
-                <p> Something else</p>
                 <div className="authenticationButtons">
                     <Link to="signup"><button className="signupButton">Signup</button></Link>
                     <Link to="signin"><button className="signinButton">Signin</button></Link>
