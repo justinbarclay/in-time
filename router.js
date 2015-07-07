@@ -2,6 +2,7 @@ var querystring = require('querystring'),
     user = require('./app/server/controllers/user'),
     fs = require('fs'),
     url = require('url');
+    var util = require('util');
 
 //With this router, we only want to pass the necessary data into the controoller
 //and leave the res and req objects in the router context. This may mean that the
@@ -26,28 +27,30 @@ function route(req, res){
         console.log('Successful test');
 
 
-    } else if (path === '/login') {
-      //Attempt to login
-      //This doesn't go anywhere yet, but it does test the user controller
-        console.log("Succesful post to /login!");
-        var data = '';
-
-        req.on("data", function(chunk){
-            data += chunk;
-        });
-
-        req.on("end", function(){
-            currentUser = querystring.parse(data);
-            user.authenticate(currentUser.username, currentUser.password, function(err, bool){
-            if (err){
-              console.error(err);
-            } else {
-              console.log("Succesful login status of " + currentUser.username + " = " + bool);
-            }
-            });
-            res.write("Success!");
-            res.end();
-        });
+    //  not used anymore, use signin
+    //    } else if (path === '/login') {
+    //   //Attempt to login
+    //   //This doesn't go anywhere yet, but it does test the user controller
+    //     console.log("Succesful post to /login!");
+    //     var data = '';
+    //
+    //     req.on("data", function(chunk){
+    //         data += chunk;
+    //         console.log(chunk);
+    //     });
+    //
+    //     req.on("end", function(){
+    //         currentUser = JSON.stringify(data);
+    //         user.authenticate(currentUser.username, currentUser.password, function(err, bool){
+    //         if (err){
+    //           console.error(err);
+    //         } else {
+    //           console.log("Succesful login status of " + currentUser.username + " = " + bool);
+    //         }
+    //         });
+    //         res.write("Success!");
+    //         res.end();
+    //     });
     } else if (path === '/signup') {
       //Attempt to login
       //This doesn't go anywhere yet, but it does test the user controller
@@ -61,7 +64,7 @@ function route(req, res){
         req.on("end", function(){
             currentUser = querystring.parse(signUp);
             //hard coded email for testing
-            user.signUpUser(currentUser.username, currentUser.password, "test2@email.com", function(err, bool, message){
+            user.signUp(currentUser.username, currentUser.password, "test2@email.com", function(err, bool, message){
             if (err){
               res.write("There was an error talking to the server");
               console.error(err);
@@ -85,18 +88,24 @@ function route(req, res){
             });
 
             req.on("end", function(){
-                currentUser = querystring.parse(signin);
+                currentUser = JSON.parse(signin);
+                console.log(currentUser.username);
                 //hard coded email for testing
-                user.authenticateUser(currentUser.username, currentUser.password, function(err, bool, message){
-                if (err){
-                  res.write("There was an error talking to the server");
-                  console.error(err);
-                  res.end();
-                } else {
-                  console.log("Succesful signUp of " + currentUser.username + " = " + bool);
-                  res.write("<p>"+message+"</p>");
-                  res.end();
-                }
+                user.authenticate(currentUser.username, currentUser.password, function(err, bool, message){
+                    if (err){
+                      res.write("There was an error talking to the server");
+                      console.error(err);
+                      res.end();
+                    } else {
+                      console.log("Succesful signUp of " + currentUser.username + " = " + bool);
+                      console.log("Message:" + JSON.stringify(message) + "\n" + "message length: " + message.length);
+                      /* This header needs to reworked so that it reports the length properly, otherwise AJAX acts weird
+                      res.writeHead(200, {'Content-Type': 'application/json','Content-Length':message.length}); */
+                      res.writeHead(200, {'Content-Type': 'application/json'});
+                      res.write("Test");
+                      res.end();
+                      console.log('response sent');
+                    }
                 console.log(message);
                 });
             });
@@ -121,7 +130,7 @@ function route(req, res){
     } else  {
       //Base case, I don't have what you're looking
       res.writeHead(404);
-      console.log("fail");
+      console.log("route fail");
       console.log(req.headers);
       console.log(req.body);
       res.end();
