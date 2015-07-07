@@ -136,3 +136,10 @@ button {
     );
     @include vertical-align;
 }
+
+.message {
+    $alert-font-color: #B33A3A;
+    @include alert($bg: #E4252D);
+    text-align: center;
+    display: none;
+}
