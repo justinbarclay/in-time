@@ -6,9 +6,17 @@
 -- Done
 * Rewrite the homepage in React
 -- Done
- 
-* Add a login system for the homepage
 
+* Add a login system for the homepage
+--Done
+
+* Make Signup and Signin use AJAX
+-- SignIn is AJAXified, need to do some more proper error handling and pass messages for success
+--- Done
+-- Sing Up needs to AJAXified
+--- Done
+
+* Work on sending better messages to the client from the server, include an authentication/signup message and id token, maybe other things as necessary
 * Create a style for the webpage using one of the CSS frameworks
 -- Done
 
@@ -16,7 +24,7 @@
 
 * After timesheet entry has been fully tested and expanded upon test in chai and mocha should be written for the api
 
-* Begin to abstract out timesheets so that the dashboard that users see will show al the timesheets
+* Begin to abstract out timesheets so that the dashboard that users see will show all the timesheets
 
 * Then when they click on a timesheet they can edit the data in a particular timesheet
 
@@ -25,5 +33,6 @@
 * Learn how to and implement a sanitation process for inputting data to the database
 
 * Style the web app to look passable, maybe just use bootstrap styles and learn sass
-
+--Done
 * Set-up gulp preprocessing
+--Done
