@@ -132,20 +132,23 @@ function authenticate(userName, userPassword, callback) {
                     done();
 
                     console.log(res);
-                    callback(err, false);
+                    callback(err, false, "Username or password not found");
                 } else {
                     bcrypt.compare(userPassword, res.rows[0].password,
                         function(err, res) {
                             if (err) {
                                 // code to add token to browser to act logged in
                                 // probably need to add a token to table somewhere as well
-                                done();
+                                //done();
 
-                                callback(err, false, res);
+                                callback(err, false, "Username and password do not match");
                             } else {
                                 done();
-
-                                callback(err, true, res);
+                                if (res === false) {
+                                    callback(err, res, "Username and password do not match");
+                                } else {
+                                    callback(err, res, "Authentication successful");
+                                }
                             }
 
                         });
