@@ -138,6 +138,7 @@ button {
 }
 
 .message {
+    top: -10px;
     $alert-font-color: #B33A3A;
     @include alert($bg: #E4252D);
     text-align: center;
