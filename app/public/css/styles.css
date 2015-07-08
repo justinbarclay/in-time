@@ -6901,6 +6901,7 @@ button {
   transform: translateY(-50%); }
 
 .message {
+  top: -10px;
   border-style: solid;
   border-width: 1px;
   display: block;

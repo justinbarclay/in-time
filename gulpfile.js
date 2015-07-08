@@ -32,8 +32,7 @@ gulp.task('sass', function () {
 // ---------------------------------------------
 // REACT
 // ---------------------------------------------
-
-/* This does too much and should be split to a percompile file and a watch file */
+/* This does too much and should be split to a compile and a watch statement */
 gulp.task('browserify', function() {
     var bundler = browserify({
         entries: ['./app/client/main.js'], // Only need initial file, browserify finds the deps
