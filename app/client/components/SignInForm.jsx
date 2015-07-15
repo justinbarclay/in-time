@@ -1,10 +1,14 @@
 //React
 var React = require("react");
-//var Navigation = require('react-router').Navigation;
+var Navigation = require('react-router').Navigation;
+var authActions = require('../actions/authActions');
+
+//Components
 var Message = require('./message');
 
 var SignInForm = React.createClass({
     displayName: "SignInForm",
+    mixins:[Navigation],
     getInitialState: function(){
         return { signInMessage: '', hidden: true };
     },
@@ -21,15 +25,19 @@ var SignInForm = React.createClass({
         AJAXreq.send(user);
         AJAXreq.onreadystatechange = function () {
             console.log("state change");
+            var res = JSON.parse(AJAXreq.responseText);
             if (AJAXreq.readyState === 4)   {
                 //more debugging stuff
                 console.log(AJAXreq.readyState);
-                console.log(AJAXreq.responseText);
-                self.setState({signInMessage: AJAXreq.responseText, hidden: false});
+                console.log(res.message);
+                self.setState({signInMessage: res.message, hidden: false});
+                self.transitionTo('about');
+                user.token = res.JWT;
+                authActions.signinUser(user);
             } else {
                 //Debugging stuff
                 console.log(AJAXreq.readyState);
-                console.log(AJAXreq.responseTEXT);
+                console.log(res.message);
             }
         };
     },
