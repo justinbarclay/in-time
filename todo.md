@@ -17,12 +17,24 @@
 --- Done
 
 * Work on sending better messages to the client from the server, include an authentication/signup message and id token, maybe other things as necessary
+-- User controller sends a JSON message with the keys...
+
+* Refactor the user controller to pass JSON into callbacks
+-- Done
+* Refactor Router and Client side JS to expect JSON
+-- Mostly done, need to check signup
 * Create a style for the webpage using one of the CSS frameworks
 -- Done
 
 * Once logged in the system should open up a timesheet
 
 * After timesheet entry has been fully tested and expanded upon test in chai and mocha should be written for the api
+-- this normally should be done beforehand, but I want a product to play with first before I worry about TDD
+
+* Add ES6 support
+-- http://advantcomp.com/blog/ES6Modules/
+
+* Go from biff to redux for Flux implementation
 
 * Begin to abstract out timesheets so that the dashboard that users see will show all the timesheets
 
