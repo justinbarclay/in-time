@@ -8,11 +8,14 @@ var Message = require('./message');
 
 var SignInForm = React.createClass({
     displayName: "SignInForm",
-    mixins:[Navigation],
-    getInitialState: function(){
-        return { signInMessage: '', hidden: true };
+    mixins: [Navigation],
+    getInitialState: function() {
+        return {
+            signInMessage: '',
+            hidden: true
+        };
     },
-    login: function(form){
+    login: function(form) {
         self = this;
         form.preventDefault();
         user = JSON.stringify({
@@ -23,38 +26,43 @@ var SignInForm = React.createClass({
         AJAXreq.open("post", "/signin", true);
         AJAXreq.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         AJAXreq.send(user);
-        AJAXreq.onreadystatechange = function () {
+        AJAXreq.onreadystatechange = function() {
             console.log("state change");
             var res = JSON.parse(AJAXreq.responseText);
-            if (AJAXreq.readyState === 4)   {
-                //more debugging stuff
+            if (AJAXreq.readyState === 4) {
+//more debugging stuff
                 console.log(AJAXreq.readyState);
                 console.log(res.message);
-                self.setState({signInMessage: res.message, hidden: false});
+                self.setState({
+                    signInMessage: res.message,
+                    hidden: false
+                });
                 self.transitionTo('about');
                 user.token = res.JWT;
                 authActions.signinUser(user);
             } else {
-                //Debugging stuff
+//Debugging stuff
                 console.log(AJAXreq.readyState);
                 console.log(res.message);
             }
         };
     },
-    render: function(){
+    render: function() {
         return (
             <div className="signinForm">
-                <Message message={this.state.signInMessage} hidden={this.state.hidden} />
-                <form name="user" onSubmit={this.login} method="post">
+                <Message hidden={this.state.hidden} message={this.state.signInMessage}/>
+                <form method="post" name="user" onSubmit={this.login}>
                     <div>
                         <label htmlFor="username">Username</label>
-                        <input type="text" id="username" ref="username" name="username" />
+                        <input id="username" name="username" ref="username" type="text"/>
                     </div>
                     <div>
                         <label htmlFor="signInPassword">Password</label>
-                        <input type="password" id="signInPassword" ref="password" name="password" />
+                        <input id="signInPassword" name="password" ref="password" type="password"/>
                     </div>
-                    <button type="submit"> Submit </button>
+                    <button type="submit">
+                        Submit
+                    </button>
                 </form>
             </div>
 
