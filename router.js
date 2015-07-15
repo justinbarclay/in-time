@@ -70,22 +70,24 @@ function route(req, res){
                 currentUser = JSON.parse(signin);
                 console.log(currentUser.username);
                 //hard coded email for testing
-                user.authenticate(currentUser.username, currentUser.password, function(err, bool, message){
+                user.authenticate(currentUser.username, currentUser.password, function(err, auth){
                     if (err){
-                      res.write(message);
+                      res.write(auth.message);
                       console.error(err);
                       res.end();
                     } else {
-                      console.log("Succesful signUp of " + currentUser.username + " = " + bool);
-                      console.log("Message:" + JSON.stringify(message) + "\n" + "message length: " + message.length);
+                      console.log("Succesful signUp of " + currentUser.username + " = " + auth.success);
+                      console.log("Message:" + JSON.stringify(auth.message) + "\n" + "message length: " + auth.length);
                       /* This header needs to reworked so that it reports the length properly, otherwise AJAX acts weird
                       res.writeHead(200, {'Content-Type': 'application/json','Content-Length':message.length}); */
                       res.writeHead(200, {'Content-Type': 'application/json'});
-                      res.write(message);
+                      //res.setHeader('x-access-token', auth.JWT);
+                      res.write(JSON.stringify(auth));
                       res.end();
                       console.log('response sent');
+                      console.log(req.headers);
                     }
-                console.log(message);
+                console.log(auth.message);
                 });
             });
     } else if(path.slice(0,7) === "/public"){
