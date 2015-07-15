@@ -18,16 +18,17 @@ var SignInForm = React.createClass({
     login: function(form) {
         self = this;
         form.preventDefault();
-        user = JSON.stringify({
+        var user = {
             "username": React.findDOMNode(this.refs.username).value.trim(),
             "password": React.findDOMNode(this.refs.password).value.trim()
-        });
+        };
         var AJAXreq = new XMLHttpRequest();
         AJAXreq.open("post", "/signin", true);
         AJAXreq.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-        AJAXreq.send(user);
+        AJAXreq.send(JSON.stringify(user));
         AJAXreq.onreadystatechange = function() {
             console.log("state change");
+            //turn server response into JSON
             var res = JSON.parse(AJAXreq.responseText);
             if (AJAXreq.readyState === 4) {
 //more debugging stuff

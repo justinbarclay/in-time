@@ -19,7 +19,9 @@ var authStore = Flux.createStore({
         _user.username = user.username;
         _user.email = user.email;
         _user.token = user.token;
-        alert(JSON.stringify(_user));
+        console.log("_user: " + JSON.stringify(_user));
+        console.log("user: " + JSON.stringify(_user));
+
     },
     logoutUser: function() {
         _user = {};
@@ -32,15 +34,15 @@ var authStore = Flux.createStore({
     },
 }, function(payload) {
     if (payload.actionType === "SIGNIN_USER") {
-        addRecipes(payload.user);
+        this.signinUser(payload.user);
         this.emitChange();
     }
     if (payload.actionType === "LOGOUT_USER") {
-        logoutUser();
+        this.logoutUser();
         this.emitChange();
     }
     if (payload.actionType === "CHANGE_USER") {
-        deleteRecipe(payload.user);
+        this.updateUser(payload.user);
         this.emitChange();
     }
 });

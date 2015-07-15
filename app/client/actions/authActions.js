@@ -6,7 +6,7 @@ var Flux = require("../biff");
 var authActions = Flux.createActions({
     getUserInfo: function() {
         this.dispatch({
-            recipes: authStore.getUser()
+            user: authStore.getUser()
         });
     },
 
