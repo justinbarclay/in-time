@@ -1,22 +1,32 @@
 //React
 var React = require("react");
-var Router = require("react-router");
-var Link = Router.Link;
+var authStore = require('../stores/authStore');
+
+//subcomponents
+var NavSignedIn = require("./navSignedIn");
+var NavSignedOut = require("./navSignedOut");
 
 var TSHeader = React.createClass({
-    displayName: "TS Header",
+    displayName: "navController",
     propTypes: [],
-    mixins: [],
-
+    mixins: [authStore.mixin],
+    getInitialState: function(){
+        return({signedIn: authStore.getUserInfo().signedIn});
+    },
+    storeDidChange: function(){
+        console.log("store changed");
+        this.setState({signedIn: authStore.getUserInfo().signedIn});
+    },
     render: function(){
+        var nav;
+        if (this.state.signedIn === true){
+            nav = <NavSignedIn />;
+        } else {
+            nav = <NavSignedOut />;
+        }
         return (
-            <div className="TSHeader">
-                <div className="navigation">
-                    <Link to="home" className="nav"><label>Home</label></Link>
-                    <Link to="about" className="nav"><label>About</label></Link>
-                    <Link to="signin" className="nav"><label>Sign in</label></Link>
-                    <Link to="signup" className="nav"><label>Sign up</label></Link>
-                </div>
+            <div className="nav">
+                {nav}
             </div>
         );
     }

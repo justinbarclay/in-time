@@ -16,6 +16,7 @@ var SignInForm = React.createClass({
         };
     },
     login: function(form) {
+        // Most of this needs to be moved to authActions
         self = this;
         form.preventDefault();
         var user = {
@@ -30,19 +31,23 @@ var SignInForm = React.createClass({
             console.log("state change");
             //turn server response into JSON
             var res = JSON.parse(AJAXreq.responseText);
+            console.log(res);
             if (AJAXreq.readyState === 4) {
-//more debugging stuff
+                //more debugging stuff
                 console.log(AJAXreq.readyState);
                 console.log(res.message);
-                self.setState({
-                    signInMessage: res.message,
-                    hidden: false
-                });
-                self.transitionTo('about');
-                user.token = res.JWT;
-                authActions.signinUser(user);
+                if(res.success === true) {
+                    self.transitionTo('about');
+                    user.token = res.JWT;
+                    authActions.signIn(user);
+                } else {
+                    self.setState({
+                        signInMessage: res.message,
+                        hidden: false
+                    });
+                }
             } else {
-//Debugging stuff
+                //Debugging stuff
                 console.log(AJAXreq.readyState);
                 console.log(res.message);
             }

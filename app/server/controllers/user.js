@@ -1,12 +1,33 @@
-config = require("../../../config.json");
+/*
+*       CONVERT ALL FUNCTIONS TO THROW AN ERR AND JAVASCRIPT OBJECT
+*       THE OBJECT AT MINIMUM SHOULD CONTAIN A SUCCESS BOOLEAN AND A
+*       MESSAGE OPTIONALLY IT CAN CONTAIN THE ERROR MESSAGE A USER OBJECT
+*
+*/
+var config = require("../../../config.json");
 var validator = require('validator');
+var jwt = require("jsonwebtoken");
+var bcrypt = require('bcrypt');
+var pg = require('pg');
+
 /** User Controller
  * This will handle creating a user, removing a user, and authenticating a loging
  * This needs to be refactored to take in a user object
  */
-var pg = require('pg');
-var conString = config.postgres;
-var bcrypt = require('bcrypt');
+const conString = config.postgres;
+const secret = config.secret;
+const twoWeeks = 20160; // Two weeks in minutes
+
+/* Structure of JWT payload
+* It should have a username, time of creation(iat), and email address
+* When decrypting the payload we can confirm who is requestion infomation and
+* make sure they only have access to that user's information
+*/
+var payload = {
+    iat: '',
+    username:'',
+    email: ''
+};
 
 function hashPassword(userPassword, callback) {
     //this function will hash the password, useful for any interactions with our
@@ -117,6 +138,8 @@ function deleteUser(userName) {
 function authenticate(userName, userPassword, callback) {
     //this function checks to see if the userName and userPassword match
     //anything stored in the user database
+    // On a succesful authentication it should generate a JWT, and send it back in JSON with
+    var auth = {err: null, success: null, message: '', JWT: ''};
     pg.connect(conString, function(err, client, done) {
         if (err) {
             return console.error('error fetching client from pool', err);
@@ -124,30 +147,44 @@ function authenticate(userName, userPassword, callback) {
         client.query("SELECT * FROM UserLogin WHERE username =" + "'" +
             userName + "'",
             function(err, res) {
+                auth.err = err;
+                auth.success = false;
                 if (err) {
                     done();
-
-                    callback(err, false);
+                    auth.message = "Error connecting to the database";
+                    callback(err, auth);
                 } else if (typeof(res.rows[0]) === 'undefined') {
                     done();
-
+                    auth.message = "Username or password do not match";
                     console.log(res);
-                    callback(err, false, "Username or password not found");
+                    callback(err, auth);
                 } else {
                     bcrypt.compare(userPassword, res.rows[0].password,
-                        function(err, res) {
+                        function(err, success) {
+                            payload.username = res.rows[0].username;
+                            payload.email = res.rows[0].email;
+                            payload.iat = Date.now();
+                            //Set up the auth object to have error and response in them, and then decide how to respond
+                            auth.err = err;
+                            auth.success = success;
                             if (err) {
                                 // code to add token to browser to act logged in
                                 // probably need to add a token to table somewhere as well
-                                //done();
 
-                                callback(err, false, "Username and password do not match");
+                                 done();
+
+                                auth.success = false;
+                                auth.message = "Error connecting to database";
+                                callback(err, auth);
                             } else {
                                 done();
-                                if (res === false) {
-                                    callback(err, res, "Username and password do not match");
+                                if (success === false) {
+                                    auth.message = "Username or password do not match";
+                                    callback(err, auth);
                                 } else {
-                                    callback(err, res, "Authentication successful");
+                                    auth.message = "Authentication successful";
+                                    auth.JWT = jwt.sign(payload, secret,{expiresInMinutes: twoWeeks, issuer: "Mountain View Industries"});
+                                    callback(err, auth);
                                 }
                             }
 

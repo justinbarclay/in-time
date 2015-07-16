@@ -4,26 +4,26 @@ var Flux = require("../biff");
 
 // Set of allowed actions
 var authActions = Flux.createActions({
-    getUserInfo: function() {
-        this.dispatch({
-            user: authStore.getUser()
-        });
-    },
+    // getUserInfo: function() {
+    //     this.dispatch({
+    //         user: authStore.getUser()
+    //     });
+    // },
 
-    signinUser: function(user) {
+    signIn: function(user) {
         this.dispatch({
             actionType: "SIGNIN_USER",
             user: user
         });
     },
-    logoutUser: function() {
+    signOut: function() {
         this.dispatch({
-            actionType: "LOGOUT_USER"
+            actionType: "SIGNOUT_USER"
         });
     },
     changeUserInfo: function(user) {
         this.dispatch({
-            actionType: "SIGNOUT_USER",
+            actionType: "CHANGE_USER",
             user: user
         });
     }
