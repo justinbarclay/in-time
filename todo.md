@@ -26,6 +26,8 @@
 * Create a style for the webpage using one of the CSS frameworks
 -- Done
 
+* Rename components and all dependencies from TSHeader and FTSFooter to nav and footer
+
 * Once logged in the system should open up a timesheet
 
 * After timesheet entry has been fully tested and expanded upon test in chai and mocha should be written for the api
