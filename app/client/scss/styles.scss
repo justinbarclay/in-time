@@ -1,18 +1,8 @@
 @import 'foundation/scss/normalize.scss';
 @import 'foundation/scss/foundation.scss';
+@import 'foundation/scss/foundation/components/grid.scss';
 // Custom Settings
 $eggshell: #F0EAD6;
-body {
-    background-color: $eggshell;
-}
-body, #js-content {
-    height: 100%;
-    width: 100%;
-    margin: auto;
-
-}
-
-
 // Custom Mixins
 // Mixin that I pulled off the internet that allows elements to center
 // horizontally
@@ -29,15 +19,33 @@ body, #js-content {
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
+
+
+body {
+    background-color: $eggshell;
+}
+body, #js-content {
+    height: 100%;
+    width: 100%;
+    margin: auto;
+
+}
+
+
+
 ////////////////////////////////////////////////////////////////////////////////
 //  HEADER
 ////////////////////////////////////////////////////////////////////////////////
-.nav {
+// .nav {
+//     width: 100%;
+//     background-color: $oil;
+//     text-align: center;
+// }
+.header {
     width: 100%;
     background-color: $oil;
     text-align: center;
 }
-
 .navigation{
     @include icon-bar(
 
@@ -61,11 +69,14 @@ body, #js-content {
     text-align: center;
     height: 100%;
 }
+.nav{
+    margin-bottom: -5px;
+}
 ////////////////////////////////////////////////////////////////////////////////
 //  FOOTER
 ////////////////////////////////////////////////////////////////////////////////
 
-.TSFooter {
+.Footer {
     // position: absolute;
     height: 10%;
     background-color: $oil;
@@ -87,9 +98,15 @@ body, #js-content {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//
 // APP
+//
 ////////////////////////////////////////////////////////////////////////////////
 
+
+////////////////////////////////////////////////////////////////////////////////
+//  STATIC
+////////////////////////////////////////////////////////////////////////////////
 main {
     @include grid-row();
     height: 80%;
@@ -128,7 +145,9 @@ button {
         );
     }
 }
-
+////////////////////////////////////////////////////////////////////////////////
+//  SIGNUP/SIGNIN
+////////////////////////////////////////////////////////////////////////////////
 .signupForm, .signinForm {
     @include grid-column(
         $columns: 4,
@@ -143,4 +162,14 @@ button {
     @include alert($bg: #E4252D);
     text-align: center;
     display: none;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//  TIMESHEET
+////////////////////////////////////////////////////////////////////////////////
+.timesheetRow{
+    @include grid-row();
+    .timesheetInput{
+        @include grid-column(4)
+    }
 }
