@@ -4,6 +4,7 @@ var Router = require("react-router");
 var App = require("./components/app");
 var SignInForm = require("./components/SignInForm");
 var SignUpForm = require("./components/SignUpForm");
+var Timesheet = require("./components/timesheet");
 var Home = require("./components/home");
 var NotFound = require("./components/notfound");
 var About = require("./components/about");
@@ -13,6 +14,8 @@ var Route = Router.Route;
 var DefaultRoute = Router.DefaultRoute;
 var NotFoundRoute = Router.NotFoundRoute;
 
+
+// <Route name="timesheet" handler={timesheet} />
 // Declare routes
 var routes = (
   <Route handler={App} path="/">
@@ -20,6 +23,7 @@ var routes = (
     <Route name="about" handler={About} />
     <Route name="signin" handler={SignInForm} />
     <Route name="signup" handler={SignUpForm} />
+    <Route name="timesheet" handler={Timesheet} />
     <NotFoundRoute handler={NotFound} />
   </Route>
 );
