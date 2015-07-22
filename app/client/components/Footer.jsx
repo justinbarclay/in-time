@@ -2,14 +2,14 @@
 var React = require("react");
 
 
-var TSFooter = React.createClass({
+var Footer = React.createClass({
     displayName: "TS Footer",
     propTypes: [],
     mixins: [],
 
     render: function(){
         return (
-            <div className="TSFooter">
+            <div className="Footer">
                 <p className="copyright">Copyright 2015 New Plagiarist Media</p>
             </div>
         );
@@ -17,4 +17,4 @@ var TSFooter = React.createClass({
 
 });
 
-module.exports = TSFooter;
+module.exports = Footer;

@@ -28,8 +28,7 @@ var Home = React.createClass({
         return (
             <div className="home">
                 <div className="authenticationButtons">
-                    <Link to="signup"><button className="signupButton">Signup</button></Link>
-                    <Link to="signin"><button className="signinButton">Signin</button></Link>
+                    Welcome, please sign in!
                 </div>
             </div>
         );

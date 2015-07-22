@@ -3,8 +3,8 @@ var Router = require("react-router");
 var RouteHandler = Router.RouteHandler;
 
 //Components
-var TSHeader = require("./TSHeader");
-var TSFooter = require("./TSFooter");
+var Header = require("./Header");
+var Footer = require("./Footer");
 
 var app = React.createClass({
     displayName: "TimeClock App",
@@ -14,11 +14,11 @@ var app = React.createClass({
     render: function(){
         return (
             <div className="app">
-                <TSHeader />
+                <Header />
                 <main>
                     <RouteHandler />
                 </main>
-                <TSFooter />
+                <Footer />
             </div>
         );
     }

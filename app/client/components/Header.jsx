@@ -1,12 +1,14 @@
 //React
 var React = require("react");
+
+//Flux
 var authStore = require('../stores/authStore');
 
 //subcomponents
 var NavSignedIn = require("./navSignedIn");
 var NavSignedOut = require("./navSignedOut");
 
-var TSHeader = React.createClass({
+var nav = React.createClass({
     displayName: "navController",
     propTypes: [],
     mixins: [authStore.mixin],
@@ -25,7 +27,7 @@ var TSHeader = React.createClass({
             nav = <NavSignedOut />;
         }
         return (
-            <div className="nav">
+            <div className="header">
                 {nav}
             </div>
         );
@@ -33,4 +35,4 @@ var TSHeader = React.createClass({
 
 });
 
-module.exports = TSHeader;
+module.exports = nav;
