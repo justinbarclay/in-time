@@ -1,6 +1,8 @@
 // React
 var React = require("react");
 var Router = require("react-router");
+
+//Main components for Timesheet app
 var App = require("./components/app");
 var SignInForm = require("./components/SignInForm");
 var SignUpForm = require("./components/SignUpForm");

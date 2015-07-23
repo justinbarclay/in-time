@@ -25,6 +25,7 @@
 -- Mostly done, need to check signup
 * Create a style for the webpage using one of the CSS frameworks
 -- Done
+* Place all ajax controls into actions and not into the components themselves
 
 * Rename components and all dependencies from TSHeader and FTSFooter to nav and footer
 

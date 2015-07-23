@@ -16,7 +16,7 @@ var TextEntry = React.createClass({
         <input
         className={this.props.className}
         _id={this.props._id}
-        type="text"
+        type={this.props.type}
         ref="inputValue"
         value={this.props.value}
         defaultValue={this.props.defaultValue}

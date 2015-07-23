@@ -170,6 +170,22 @@ button {
 .timesheetRow{
     @include grid-row();
     .timesheetInput{
-        @include grid-column(4)
+        @include grid-column(4);
+        margin-bottom: 0;
+    }
+}
+
+.heading{
+    background-color: $white-smoke;
+    border: black solid 1px;
+}
+
+.newRowContainer{
+    @include grid-row();
+    .newRow{
+        @include grid-column(
+            $columns: 1,
+            $offset: 5.5
+        );
     }
 }
