@@ -1,7 +1,8 @@
 var React = require("react");
-
+var timesheetActions = require('../actions/timesheetActions');
 //Child Components
-var TextEntry = require("./textentry");
+var TimesheetInput = require('./timesheetInput');
+
 
 var TimesheetRow = React.createClass({
     displayName: "Timesheet",
@@ -10,36 +11,25 @@ var TimesheetRow = React.createClass({
     getInitialState: function() {
         return null;
     },
-    handleChange: function() {
-        var newValue = this.refs.input.getDOMNode().value;
-
-        timesheetActions.inputChanged({
-            _id: this.props._id,
-            accessor: this.props.accessor,
-            index: this.props.index,
-            value: newValue
-        });
-
-        this.setState({
-            value: newValue
-        });
-    },
     buildRow: function(field, index) {
         var type = (field.accessor === 'date') ? 'date' : 'text';
-        return <TextEntry
-                className="timesheetInput"
-                inputCallback={this.handleChange}
-                key={index}
-                type={type}
-                ref="input"
-                value={this.props.entry[field.accessor]} />;
+        return <TimesheetInput  accessor={field.accessor}
+                                className="timesheetInput"
+                                id={this.props.id}
+                                key={index}
+                                index={this.props.index}
+                                type={type}
+                                value={this.props.entry[field.accessor]} />;
+    },
+    deleteRow: function() {
+        timesheetActions.deleteRow(this.props.id, this.props.index);
     },
     render: function() {
         var row = this.props.fields.map(this.buildRow);
-        console.log(this.props.entry);
         return (
             <div className="timesheetRow">
                 {row}
+                <button className="small-3" onClick={this.deleteRow}>X</button>
             </div>
         );
     }

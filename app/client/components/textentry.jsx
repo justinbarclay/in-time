@@ -2,25 +2,31 @@ var React = require("react");
 
 var TextEntry = React.createClass({
     displayName: "TextEntry",
-    handleInputChange: function(event){
+    getInitialState: function(){
+        return {value: null};
+    },
+    handleInputChange: function(){
+        var newValue = this.refs.inputValue.getDOMNode().value;
+        console.log("Accessor: " + this.props.accessor);
         // Proxy to parent moving to generalize input
         this.props.inputCallback({
-            _id: this.props._id,
+            id: this.props.id,
             accessor: this.props.accessor,
             index: this.props.index,
-            value: this.refs.inputValue.getDOMNode().value
+            value: newValue
+        });
+        this.setState({
+            value: newValue
         });
     },
     render: function (){
+        value = this.state.value || this.props.value;
         return (
         <input
         className={this.props.className}
-        _id={this.props._id}
         type={this.props.type}
         ref="inputValue"
-        value={this.props.value}
-        defaultValue={this.props.defaultValue}
-        placeholder={this.props.placeholder}
+        value={value}
         onChange={this.handleInputChange} />
         );
     }
