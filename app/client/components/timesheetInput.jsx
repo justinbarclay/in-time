@@ -13,8 +13,7 @@ var TimesheetInput = React.createClass({
         };
     },
     handleChange: function(entry) {
-        timesheetActions.updateItem(entry);
-        console.log("handle change");
+        timesheetActions.updateEntry(entry);
     },
     render: function() {
         console.log(this.props.value);

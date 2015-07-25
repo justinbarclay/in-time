@@ -87,13 +87,22 @@ var timesheetStore = Flux.createStore({
             _timesheets[index].entries.splice(rowIndex,1);
         });
     },
-    updateItem: function(id, rowIndex, accessor, data){
+    updateEntry: function(id, rowIndex, accessor, data){
         console.log("id:" + id);
         console.log(rowIndex);
         findTimesheetIndex(id, function(index){
             console.log("index: " + index);
             console.log(_timesheets[index].entries[rowIndex][accessor]);
             _timesheets[index].entries[rowIndex][accessor] = data;
+        });
+    },
+    updateMeta: function(id, accessor, data){
+        console.log("id:" + id);
+        console.log(rowIndex);
+        findTimesheetIndex(id, function(index){
+            console.log("index: " + index);
+            console.log(_timesheets[index].entries[rowIndex][accessor]);
+            _timesheets[index][accessor] = data;
         });
     }
 }, function(payload) {
@@ -117,8 +126,12 @@ var timesheetStore = Flux.createStore({
         this.deleteRow(payload.id, payload.index);
         this.emitChange();
     }
-    if (payload.actionType === "UPDATE_ITEM") {
-        this.updateItem(payload.data.id, payload.data.index, payload.data.accessor, payload.data.value);
+    if (payload.actionType === "UPDATE_ENTRY") {
+        this.updateMeta(payload.data.id, payload.data.index, payload.data.accessor, payload.data.value);
+        this.emitChange();
+    }
+    if (payload.actionType === "UPDATE_META") {
+        this.updateEntry(payload.data.id, payload.data.accessor, payload.data.value);
         this.emitChange();
     }
 });

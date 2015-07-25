@@ -25,10 +25,10 @@ var timesheetActions = Flux.createActions({
             index: index
         });
     },
-    updateItem: function(entry){
+    updateEntry: function(entry){
         console.log("actions");
         this.dispatch({
-            actionType: "UPDATE_ITEM",
+            actionType: "UPDATE_ENTRY",
             data: entry
         });
     }
