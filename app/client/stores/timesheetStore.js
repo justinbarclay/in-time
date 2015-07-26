@@ -30,10 +30,31 @@ var Flux = require('../biff');
 // };
 var _timesheets = [{
     "timesheetID": "8d741119-9b92-4fea-b64c-3b7854e40665",
-    "dateRange": "01/01/2015 - 01/15/2015",
+    "startDate": "2015-01-01",
+    "endDate": "2015-01-15",
     "userID": "0000001",
-    "approved": "",
-    "engagement": "",
+    "approved": false,
+    "engagement": 86328,
+    "entries": [{
+        "date": "2015-03-02",
+        "duration": 4,
+        "type": "Access Drive"
+    }, {
+        "date": "2015-03-02",
+        "duration": 2,
+        "type": "Access Drive"
+    }, {
+        "date": "2015-03-02",
+        "duration": 6,
+        "type": "Access Drive"
+    }]
+}, {
+    "timesheetID": "6629c93e-9292-45e9-bfa2-e0c006ba1e40",
+    "startDate": "2015-02-01",
+    "endDate": "2015-02-15",
+    "userID": "0000001",
+    "approved": false,
+    "engagement": 86328,
     "entries": [{
         "date": "2015-03-02",
         "duration": 4,
@@ -53,7 +74,7 @@ var timesheetStore = Flux.createStore({
     getTimesheets: function() {
         return _timesheets;
     },
-    getTimesheet: function(id){
+    getTimesheet: function(id) {
         for (index = 0; index < _timesheets.length; index++) {
 
             if (_timesheets[index].timesheetID === id) {
@@ -67,41 +88,64 @@ var timesheetStore = Flux.createStore({
         _timesheets.push(timesheet);
     },
     deleteTimesheet: function(id) {
-        findTimesheet(id, function(index){
+        findTimesheet(id, function(index) {
             _timesheets.splice(index, 1);
         });
     },
+    deleteTimesheets: function() {
+        _timesheets = [{
+            "timesheetID": "8d741119-9b92-4fea-b64c-3b7854e40665",
+            "dateRange": "01/01/2015 - 01/15/2015",
+            "userID": "0000001",
+            "approved": "",
+            "engagement": "",
+            "entries": [{
+                "date": "2015-03-02",
+                "duration": 4,
+                "type": "Access Drive"
+            }, {
+                "date": "2015-03-02",
+                "duration": 2,
+                "type": "Access Drive"
+            }, {
+                "date": "2015-03-02",
+                "duration": 6,
+                "type": "Access Drive"
+            }]
+        }];
+    },
     updateTimesheet: function(timesheet) {
-        findTimesheetindex(timesheet.timeoutsheetID, function(index){
+        findTimesheetindex(timesheet.timeoutsheetID, function(index) {
             _timesheets[index] = timesheet;
         });
     },
-    addRow: function(id, entry){
+    addRow: function(id, entry) {
         console.log(id);
-        findTimesheetIndex(id, function(index){
+        findTimesheetIndex(id, function(index) {
             _timesheets[index].entries.push(entry);
         });
     },
-    deleteRow: function(id, rowIndex){
-        findTimesheetIndex(id, function(index){
-            _timesheets[index].entries.splice(rowIndex,1);
+    deleteRow: function(id, rowIndex) {
+        findTimesheetIndex(id, function(index) {
+            _timesheets[index].entries.splice(rowIndex, 1);
         });
     },
-    updateEntry: function(id, rowIndex, accessor, data){
+    updateEntry: function(id, rowIndex, accessor, data) {
         console.log("id:" + id);
         console.log(rowIndex);
-        findTimesheetIndex(id, function(index){
+        findTimesheetIndex(id, function(index) {
             console.log("index: " + index);
-            console.log(_timesheets[index].entries[rowIndex][accessor]);
-            _timesheets[index].entries[rowIndex][accessor] = data;
+            console.log(_timesheets[index].entries[rowIndex]
+                [accessor]);
+            _timesheets[index].entries[rowIndex][accessor] =
+                data;
         });
     },
-    updateMeta: function(id, accessor, data){
-        console.log("id:" + id);
-        console.log(rowIndex);
-        findTimesheetIndex(id, function(index){
+    updateMeta: function(id, accessor, data) {
+        findTimesheetIndex(id, function(index) {
             console.log("index: " + index);
-            console.log(_timesheets[index].entries[rowIndex][accessor]);
+            console.log(_timesheets[index].entries[rowIndex]
+                [accessor]);
             _timesheets[index][accessor] = data;
         });
     }
@@ -127,16 +171,22 @@ var timesheetStore = Flux.createStore({
         this.emitChange();
     }
     if (payload.actionType === "UPDATE_ENTRY") {
-        this.updateMeta(payload.data.id, payload.data.index, payload.data.accessor, payload.data.value);
+        this.updateEntry(payload.data.id, payload.data.index, payload.data
+            .accessor, payload.data.value);
         this.emitChange();
     }
     if (payload.actionType === "UPDATE_META") {
-        this.updateEntry(payload.data.id, payload.data.accessor, payload.data.value);
+        this.updateMeta(payload.data.id, payload.data.accessor, payload
+            .data.value);
+        this.emitChange();
+    }
+    if (payload.actionType === "DELETE_TIMESHEETS") {
+        this.deleteTimesheets();
         this.emitChange();
     }
 });
 
-var findTimesheetIndex = function(id, callback){
+var findTimesheetIndex = function(id, callback) {
     // returns the index of the timesheet if it exists and null otherwise
 
     for (index = 0; index < _timesheets.length; index++) {
@@ -147,4 +197,46 @@ var findTimesheetIndex = function(id, callback){
     }
     return callback(null);
 };
+
+var _resetTimesheets = [{
+    "timesheetID": "8d741119-9b92-4fea-b64c-3b7854e40665",
+    "startDate": "2015-01-01",
+    "endDate": "2015-01-15",
+    "userID": "0000001",
+    "approved": false,
+    "engagement": 86328,
+    "entries": [{
+        "date": "2015-03-02",
+        "duration": 4,
+        "type": "Access Drive"
+    }, {
+        "date": "2015-03-02",
+        "duration": 2,
+        "type": "Access Drive"
+    }, {
+        "date": "2015-03-02",
+        "duration": 6,
+        "type": "Access Drive"
+    }]
+}, {
+    "timesheetID": "6629c93e-9292-45e9-bfa2-e0c006ba1e40",
+    "startDate": "2015-02-01",
+    "endDate": "2015-02-15",
+    "userID": "0000001",
+    "approved": false,
+    "engagement": 86328,
+    "entries": [{
+        "date": "2015-03-02",
+        "duration": 4,
+        "type": "Access Drive"
+    }, {
+        "date": "2015-03-02",
+        "duration": 2,
+        "type": "Access Drive"
+    }, {
+        "date": "2015-03-02",
+        "duration": 6,
+        "type": "Access Drive"
+    }]
+}];
 module.exports = timesheetStore;

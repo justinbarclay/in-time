@@ -2,6 +2,7 @@ var authStore = require('../stores/authStore');
 
 var Flux = require("../biff");
 
+
 // Set of allowed actions
 var authActions = Flux.createActions({
     // getUserInfo: function() {
@@ -28,5 +29,6 @@ var authActions = Flux.createActions({
         });
     }
 });
+
 
 module.exports = authActions;

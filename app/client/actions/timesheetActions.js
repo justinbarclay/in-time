@@ -7,8 +7,12 @@ var timesheetActions = Flux.createActions({
         return timesheetStore.getTimesheets();
     },
     getTimesheet: function(id){
-        console.log(JSON.stringify(timesheetStore.getTimesheet(id)));
         return timesheetStore.getTimesheet(id);
+    },
+    deleteTimesheets: function(){
+        this.dispatch({
+            actionType: "DELETE_TIMESHEETS"
+        });
     },
     addRow: function(id, entry){
         console.log('action');

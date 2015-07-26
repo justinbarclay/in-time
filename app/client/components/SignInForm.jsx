@@ -37,7 +37,7 @@ var SignInForm = React.createClass({
                 console.log(AJAXreq.readyState);
                 console.log(res.message);
                 if(res.success === true) {
-                    self.transitionTo('about');
+                    self.transitionTo('timesheet');
                     user.token = res.JWT;
                     authActions.signIn(user);
                 } else {
