@@ -12,13 +12,12 @@ var TimesheetRow = React.createClass({
         return null;
     },
     buildRow: function(field, index) {
-        var type = (field.accessor === 'date') ? 'date' : 'text';
         return <TimesheetInput  accessor={field.accessor}
                                 className="timesheetInput"
                                 id={this.props.id}
                                 key={index}
                                 index={this.props.index}
-                                type={type}
+                                type={field.type}
                                 value={this.props.entry[field.accessor]} />;
     },
     deleteRow: function() {
@@ -26,10 +25,11 @@ var TimesheetRow = React.createClass({
     },
     render: function() {
         var row = this.props.fields.map(this.buildRow);
+        var del = <button className="delButton" onClick={this.deleteRow}>&times;</button>;
         return (
             <div className="timesheetRow">
                 {row}
-                <button className="small-3" onClick={this.deleteRow}>X</button>
+                {this.props.deletable ? del : null}
             </div>
         );
     }

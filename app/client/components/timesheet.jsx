@@ -2,9 +2,10 @@ var React = require("react");
 
 // Flux
 var timesheetActions = require("../actions/timesheetActions");
-var timesheetStore = require('../stores/timesheetStore');
+var timesheetStore = require("../stores/timesheetStore");
 //Sub component
 var TimesheetRow = require("./timesheetRow");
+var TimesheetMeta = require("./timesheetMeta");
 
 var Timesheet = React.createClass({
     displayName: "Timesheet",
@@ -19,33 +20,57 @@ var Timesheet = React.createClass({
     },
     newRow: function() {
         var newRow = {
-            'date': '',
-            'duration': 'duration of service',
-            'type': 'type of service'
+            "date": "",
+            "duration": "0",
+            "service": "type of service"
         };
         return timesheetActions.addRow(this.state.timesheetID, newRow);
     },
     render: function() {
         var self = this;
-        var fields = [
+        var entryFields = [
             {
                 "name": "Date",
-                "accessor": "date"
+                "accessor": "date",
+                "type": "date"
             }, {
                 "name": "Duration",
-                "accessor": "duration"
+                "accessor": "duration",
+                "type": "number"
             }, {
-                "name": "Type",
-                "accessor": "type"
+                "name": "Service",
+                "accessor": "service",
+                "type": "text"
+            }
+        ];
+        var metaFields = [
+            {
+                "name": "Start Date",
+                "accessor": "startDate",
+                "type": "date"
+            }, {
+                "name": "End Date",
+                "accessor": "endDate",
+                "type": "date"
+            }, {
+                "name": "Engagement Number",
+                "accessor": "engagement",
+                "type": "number"
             }
         ];
 
         var entries = this.state.entries.map(function(entry, index) {
-            return <TimesheetRow entry={entry} fields={fields} id={self.state.timesheetID} index={index} key={index}/>;
+            return <TimesheetRow deletable={true} entry={entry} fields={entryFields} id={self.state.timesheetID} index={index} key={index}/>;
         });
-        var headings = fields.map(function(field, index) {
-            return <label className="small-4 column heading" key={index}>{field.name}</label>;
+        var headings = entryFields.map(function(field, index) {
+            return <label className="heading" key={index}>{field.name}</label>;
         });
+        var metadata = <TimesheetMeta timesheet={this.state} fields={metaFields} />;
+
+        var metaHeadings = metaFields.map(function(field, index) {
+            return <label className="metaHeading" key={index}>{field.name}</label>;
+            });
+        // var metadata = null;
 // var headings = this.state.fields.map(function(field) {
 //     return (
 //         <span className="headings small-4 columns">
@@ -56,16 +81,15 @@ var Timesheet = React.createClass({
 
         return (
             <div>
-                <div>
+                <div className="meta">
+                    {metaHeadings}
                     {metadata}
                 </div>
-                <div className="row">
-                    {headings}
-                </div>
                 <div className="fields">
+                    {headings}
                     {entries}
                     <div className="newRowContainer">
-                        <button className="newRow" onClick={this.newRow}>
+                        <button className="addButton" onClick={this.newRow}>
                             +
                         </button>
                     </div>

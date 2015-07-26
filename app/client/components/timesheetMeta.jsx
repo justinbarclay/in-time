@@ -6,22 +6,28 @@ var TextEntry = require('./textentry');
 var TimesheetMeta = React.createClass({
     displayName: "timesheetMeta",
     propTypes: [],
-    getInitialState: function(){
+    getInitialState: function() {
         return null;
     },
-    handleInputChange: function(meta){
-
+    handleInputChange: function(meta) {},
+    buildMeta: function (field, index){
+        console.log(field);
+        return <TextEntry
+            className="metaInfo"
+            key={index}
+            id={this.props.timesheet.id}
+            type={field.type}
+            value={this.props.timesheet[field.accessor]} />;
     },
-    render: function(){
-        //Ooooh god what am I doing?
-        <TextEntry
-        ref="input"
-        id={this.props.id}
-        index={this.props.index}
-        inputCallback={this.handleChange}
-        accessor={this.props.accessor}
-        type={this.props.type}
-        className={this.props.className}
-        value={this.props.value}/>;
+    render: function() {
+        
+        var meta = this.props.fields.map(this.buildMeta);
+        return (
+            <div>
+                {meta}
+            </div>
+        );
     }
 });
+
+module.exports = TimesheetMeta;
