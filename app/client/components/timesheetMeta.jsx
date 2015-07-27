@@ -1,4 +1,5 @@
 var React = require('react');
+var timesheetActions = require('../actions/timesheetActions');
 
 //Sub Components
 var TextEntry = require('./textentry');
@@ -9,18 +10,22 @@ var TimesheetMeta = React.createClass({
     getInitialState: function() {
         return null;
     },
-    handleInputChange: function(meta) {},
+    handleChange: function(meta) {
+        delete meta.index;
+        timesheetActions.updateMeta(meta);
+    },
     buildMeta: function (field, index){
-        console.log(field);
         return <TextEntry
             className="metaInfo"
+            accessor={field.accessor}
             key={index}
-            id={this.props.timesheet.id}
+            id={this.props.timesheet.timesheetID}
             type={field.type}
+            inputCallback={this.handleChange}
             value={this.props.timesheet[field.accessor]} />;
     },
     render: function() {
-        
+
         var meta = this.props.fields.map(this.buildMeta);
         return (
             <div>

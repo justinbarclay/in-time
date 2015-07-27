@@ -149,7 +149,6 @@ var timesheetStore = Flux.createStore({
         console.log("id:" + id);
         console.log(rowIndex);
         findTimesheetIndex(id, function(index) {
-            console.log("index: " + index);
             console.log(_timesheets[index].entries[rowIndex]
                 [accessor]);
             _timesheets[index].entries[rowIndex][accessor] =
@@ -158,9 +157,9 @@ var timesheetStore = Flux.createStore({
     },
     updateMeta: function(id, accessor, data) {
         findTimesheetIndex(id, function(index) {
-            console.log("index: " + index);
-            console.log(_timesheets[index].entries[rowIndex]
-                [accessor]);
+            console.log("id: " + id);
+            console.log("index:" + index + " " + "accessor: " + accessor);
+            console.log(_timesheets[index][accessor]);
             _timesheets[index][accessor] = data;
         });
     }

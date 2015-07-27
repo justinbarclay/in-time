@@ -41,6 +41,13 @@ var timesheetActions = Flux.createActions({
             actionType: "UPDATE_ENTRY",
             data: entry
         });
+    },
+    updateMeta: function(meta){
+        console.log("actions");
+        this.dispatch({
+            actionType: "UPDATE_META",
+            data: meta
+        });
     }
 });
 
