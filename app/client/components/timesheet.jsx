@@ -1,5 +1,4 @@
 var React = require("react");
-
 // Flux
 var timesheetActions = require("../actions/timesheetActions");
 var timesheetStore = require("../stores/timesheetStore");
@@ -12,11 +11,17 @@ var Timesheet = React.createClass({
     mixins: [timesheetStore.mixin],
     propTypes: [],
     getInitialState: function() {
-        return timesheetActions.getTimesheet("8d741119-9b92-4fea-b64c-3b7854e40665");
+        //var timesheet = timesheetActions.getTimesheet(this.props.params.id) ? timesheetActions.getTimesheet(this.props.params.id) : _newTimesheet;
+        console.log(timesheetActions.getTimesheet(this.props.params.id));
+        return  timesheetActions.getTimesheet(this.props.params.id);
     },
+    // componentDidMount: function(){
+    //     if(!this.state.timesheetID){
+    //         setState({"timesheetID": this.props.params.id});
+    //     }
+    // },
     storeDidChange: function() {
-        console.log("store change");
-        this.setState(timesheetActions.getTimesheet("8d741119-9b92-4fea-b64c-3b7854e40665"));
+        this.setState(timesheetActions.getTimesheet(this.props.params.id));
     },
     newRow: function() {
         var newRow = {
@@ -27,6 +32,7 @@ var Timesheet = React.createClass({
         return timesheetActions.addRow(this.state.timesheetID, newRow);
     },
     render: function() {
+        console.log(this.state);
         var self = this;
         var entryFields = [
             {
@@ -58,7 +64,6 @@ var Timesheet = React.createClass({
                 "type": "number"
             }
         ];
-
         var entries = this.state.entries.map(function(entry, index) {
             return <TimesheetRow deletable={true} entry={entry} fields={entryFields} id={self.state.timesheetID} index={index} key={index}/>;
         });
@@ -78,7 +83,6 @@ var Timesheet = React.createClass({
 //         </span>
 //     );
 // });
-
         return (
             <div>
                 <div className="meta">
@@ -86,7 +90,7 @@ var Timesheet = React.createClass({
                     {metadata}
                 </div>
                 <div className="fields">
-                    {headings}
+                    <div className="row">{headings}</div>
                     {entries}
                     <div className="newRowContainer">
                         <button className="addButton" onClick={this.newRow}>

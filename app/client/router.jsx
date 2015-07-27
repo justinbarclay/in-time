@@ -7,6 +7,7 @@ var App = require("./components/app");
 var SignInForm = require("./components/SignInForm");
 var SignUpForm = require("./components/SignUpForm");
 var Timesheet = require("./components/timesheet");
+var Timesheets = require("./components/timesheets");
 var Home = require("./components/home");
 var NotFound = require("./components/notfound");
 var About = require("./components/about");
@@ -25,7 +26,8 @@ var routes = (
     <Route name="about" handler={About} />
     <Route name="signin" handler={SignInForm} />
     <Route name="signup" handler={SignUpForm} />
-    <Route name="timesheet" handler={Timesheet} />
+    <Route name="timesheets" handler={Timesheets} />
+    <Route name="timesheet" handler={Timesheet} path="/timesheet/:id" />
     <NotFoundRoute handler={NotFound} />
   </Route>
 );

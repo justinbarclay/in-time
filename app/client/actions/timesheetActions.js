@@ -14,6 +14,12 @@ var timesheetActions = Flux.createActions({
             actionType: "DELETE_TIMESHEETS"
         });
     },
+    newTimesheet: function(id){
+        this.dispatch({
+            actionType: "NEW_TIMESHEET",
+            id: id
+        });
+    },
     addRow: function(id, entry){
         console.log('action');
         this.dispatch({

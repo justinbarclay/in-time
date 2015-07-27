@@ -28,6 +28,20 @@ var Flux = require('../biff');
 //         "type": "Access Drive"
 //     }]
 // };
+var _templateTimesheet =
+    {"timesheetID": null,
+        "startDate": "",
+        "endDate": "",
+        "userID": "0000001",
+        "approved": false,
+        "engagement": "",
+        "entries": [{
+            "date":"",
+            "duration": "0",
+            "type": "type of service"
+        }]
+    };
+
 var _timesheets = [{
     "timesheetID": "8d741119-9b92-4fea-b64c-3b7854e40665",
     "startDate": "2015-01-01",
@@ -76,16 +90,17 @@ var timesheetStore = Flux.createStore({
     },
     getTimesheet: function(id) {
         for (index = 0; index < _timesheets.length; index++) {
-
             if (_timesheets[index].timesheetID === id) {
                 return _timesheets[index];
             }
         }
         return null;
     },
-    createTimesheet: function(timesheet) {
-        //append a timesheet to the timesheetStore
-        _timesheets.push(timesheet);
+    newTimesheet: function(id) {
+        //start a new timesheet
+        newTimesheet = cloneObject(_templateTimesheet);
+        newTimesheet.timesheetID = id;
+        _timesheets.push(newTimesheet);
     },
     deleteTimesheet: function(id) {
         findTimesheet(id, function(index) {
@@ -150,8 +165,8 @@ var timesheetStore = Flux.createStore({
         });
     }
 }, function(payload) {
-    if (payload.actionType === "CREATE_TIMESHEET") {
-        this.createTimesheet(payload.timesheet);
+    if (payload.actionType === "NEW_TIMESHEET") {
+        this.newTimesheet(payload.id);
         this.emitChange();
     }
     if (payload.actionType === "DELETE_TIMESHEET") {
@@ -239,4 +254,9 @@ var _resetTimesheets = [{
         "type": "Access Drive"
     }]
 }];
+
+var cloneObject = function(obj){
+    //a tricl to deep clone an object
+    return (JSON.parse(JSON.stringify(obj)));
+};
 module.exports = timesheetStore;
