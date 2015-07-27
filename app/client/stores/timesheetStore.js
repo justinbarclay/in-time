@@ -28,19 +28,6 @@ var Flux = require('../biff');
 //         "type": "Access Drive"
 //     }]
 // };
-var _templateTimesheet =
-    {"timesheetID": null,
-        "startDate": "",
-        "endDate": "",
-        "userID": "0000001",
-        "approved": false,
-        "engagement": "",
-        "entries": [{
-            "date":"",
-            "duration": "0",
-            "type": "type of service"
-        }]
-    };
 
 var _timesheets = [{
     "timesheetID": "8d741119-9b92-4fea-b64c-3b7854e40665",
@@ -158,7 +145,8 @@ var timesheetStore = Flux.createStore({
     updateMeta: function(id, accessor, data) {
         findTimesheetIndex(id, function(index) {
             console.log("id: " + id);
-            console.log("index:" + index + " " + "accessor: " + accessor);
+            console.log("index:" + index + " " +
+                "accessor: " + accessor);
             console.log(_timesheets[index][accessor]);
             _timesheets[index][accessor] = data;
         });
@@ -254,7 +242,21 @@ var _resetTimesheets = [{
     }]
 }];
 
-var cloneObject = function(obj){
+var _templateTimesheet = {
+    "timesheetID": null,
+    "startDate": "",
+    "endDate": "",
+    "userID": "0000001",
+    "approved": false,
+    "engagement": "",
+    "entries": [{
+        "date": "",
+        "duration": "0",
+        "type": "type of service"
+    }]
+};
+
+var cloneObject = function(obj) {
     //a tricl to deep clone an object
     return (JSON.parse(JSON.stringify(obj)));
 };
