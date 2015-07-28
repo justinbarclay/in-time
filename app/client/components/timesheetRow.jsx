@@ -7,7 +7,7 @@ var TimesheetInput = require('./timesheetInput');
 
 var TimesheetRow = React.createClass({
     displayName: "Timesheet",
-    mixins: [Navigation],
+    mixins: [],
     propTypes: [],
     getInitialState: function() {
         return null;
