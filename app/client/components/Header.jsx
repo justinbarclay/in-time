@@ -3,6 +3,7 @@ var React = require("react");
 
 //Flux
 var authStore = require('../stores/authStore');
+var authActions = require('../actions/authActions');
 
 //subcomponents
 var NavSignedIn = require("./navSignedIn");
@@ -13,11 +14,10 @@ var nav = React.createClass({
     propTypes: [],
     mixins: [authStore.mixin],
     getInitialState: function(){
-        return({signedIn: authStore.getUserInfo().signedIn});
+        return({signedIn: authActions.authenticated()});
     },
     storeDidChange: function(){
-        console.log("store changed");
-        this.setState({signedIn: authStore.getUserInfo().signedIn});
+        this.setState({signedIn: authActions.authenticated()});
     },
     render: function(){
         var nav;

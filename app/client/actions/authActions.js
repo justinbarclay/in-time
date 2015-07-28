@@ -24,12 +24,14 @@ var authActions = Flux.createActions({
                 //more debugging stuff
                 console.log(AJAXreq.readyState);
                 console.log(res.message);
-                if (res.success === true) {
+                user.success = res.success;
+                if (user.success) {
                     user.token = res.JWT;
                 } else {
                     user.message = res.message;
                     user.success = res.success;
                 }
+                console.log("user: " + JSON.stringify(user));
                 self.dispatch({
                     actionType: "SIGNIN_USER",
                     user: user

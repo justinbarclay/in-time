@@ -22,7 +22,7 @@ var authStore = Flux.createStore({
         _user.username = user.username;
         _user.email = user.email;
         _user.token = user.token;
-        _user.authenticated = true;
+        _user.authenticated = user.success;
         _user.message = user.message;
         console.log(_user);
     },

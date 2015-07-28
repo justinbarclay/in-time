@@ -1,9 +1,10 @@
 var React = require('react');
 var Navigation = require('react-router').Navigation;
 var uuid = require('uuid');
-//data
+//Flux
 var timesheetStore = require('../stores/timesheetStore');
 var timesheetActions = require('../actions/timesheetActions');
+var authActions = require('../actions/authActions');
 
 //Sub components
 var Timesheet = require('./timesheet');
@@ -18,6 +19,11 @@ var Timesheets = React.createClass({
     },
     goToTimesheet: function(){
         return null;
+    },
+    componentWillMount: function(){
+        if(!authActions.authenticated()){
+            this.transitionTo("home");
+        }
     },
     newTimesheet: function(){
         var newID =uuid.v4();

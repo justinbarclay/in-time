@@ -3,7 +3,7 @@ var React = require("react");
 
 
 var Footer = React.createClass({
-    displayName: "TS Footer",
+    displayName: "Footer",
     propTypes: [],
     mixins: [],
 

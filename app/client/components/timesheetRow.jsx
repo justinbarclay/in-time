@@ -1,4 +1,5 @@
 var React = require("react");
+var Navigation = require("react-router");
 var timesheetActions = require('../actions/timesheetActions');
 //Child Components
 var TimesheetInput = require('./timesheetInput');
@@ -6,7 +7,7 @@ var TimesheetInput = require('./timesheetInput');
 
 var TimesheetRow = React.createClass({
     displayName: "Timesheet",
-    mixins: [],
+    mixins: [Navigation],
     propTypes: [],
     getInitialState: function() {
         return null;
