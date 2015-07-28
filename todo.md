@@ -12,9 +12,9 @@
 
 * Make Signup and Signin use AJAX
 -- SignIn is AJAXified, need to do some more proper error handling and pass messages for success
----- Done
+--- Done
 -- Sing Up needs to AJAXified
------ Done
+--- Done
 
 * Work on sending better messages to the client from the server, include an authentication/signup message and id token, maybe other things as necessary
 -- User controller sends a JSON message with the keys...
@@ -61,6 +61,8 @@
 * Set-up app in Heroku
 
 * Reorganize my to do list
+
+* Fix Login system to send JWT in headers both ways and to store the JWT in local storage
 
 * Style the web app to look passable, maybe just use bootstrap styles and learn sass
 --- Done
