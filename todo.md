@@ -3,34 +3,34 @@
 * Write a to do app to manage to dos in the timesheet application
 
 * Set up build file to compile React and Stylesheets
--- Done
+--- Done
 * Rewrite the homepage in React
--- Done
+--- Done
 
 * Add a login system for the homepage
---Done
+--- Done
 
 * Make Signup and Signin use AJAX
 -- SignIn is AJAXified, need to do some more proper error handling and pass messages for success
---- Done
+---- Done
 -- Sing Up needs to AJAXified
---- Done
+----- Done
 
 * Work on sending better messages to the client from the server, include an authentication/signup message and id token, maybe other things as necessary
 -- User controller sends a JSON message with the keys...
 
 * Refactor the user controller to pass JSON into callbacks
--- Done
+--- Done
 * Refactor Router and Client side JS to expect JSON
 -- Mostly done, need to check signup
 * Create a style for the webpage using one of the CSS frameworks
--- Done
+--- Done
 * Place all ajax controls into actions and not into the components themselves
--- Done
+--- Done
 * Rename components and all dependencies from TSHeader and FTSFooter to nav and footer
--- Done
+--- Done
 * Once logged in the system should open up a timesheet
--- Done
+--- Done
 * Time sheet should post to database
 
 * Rework router so that it has authentication built in and so I don't need to check on each component, I should be able to check one route fo all logged in components
@@ -46,9 +46,9 @@
 * Go from biff to redux for Flux implementation
 
 * Begin to abstract out timesheets so that the dashboard that users see will show all the timesheets
--- Done
+--- Done
 * Then when they click on a timesheet they can edit the data in a particular timesheet
--- Done
+--- Done
 * Implement prepared queries for the controllers
 -- I am not sure what this means anymore, but I believe I mean set up queries in postgres and then just pass the variables into them. This has the benefit of less SQL i need to manage appside
 
@@ -63,6 +63,6 @@
 * Reorganize my to do list
 
 * Style the web app to look passable, maybe just use bootstrap styles and learn sass
---Done
+--- Done
 * Set-up gulp preprocessing
---Done
+--- Done
