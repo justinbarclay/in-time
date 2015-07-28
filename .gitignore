@@ -1,5 +1,5 @@
 node_modules/
 config.json
-app/public/js
+app/public/
 .gitignore
 stats.json

@@ -6653,7 +6653,7 @@ body, #js-content {
   width: 100%;
   margin: auto; }
 
-.nav {
+.header {
   width: 100%;
   background-color: #333333;
   text-align: center; }
@@ -6815,7 +6815,10 @@ body, #js-content {
     .navigation.eight-up.large-vertical .item {
       width: auto; } }
 
-.TSFooter {
+.nav {
+  margin-bottom: -5px; }
+
+.Footer {
   height: 10%;
   background-color: #333333;
   color: #FFFFFF;
@@ -6916,3 +6919,146 @@ button {
   color: #FFFFFF;
   text-align: center;
   display: none; }
+
+.timesheetRow {
+  margin: 0 auto;
+  max-width: 62.5rem;
+  width: 100%; }
+  .timesheetRow:before, .timesheetRow:after {
+    content: " ";
+    display: table; }
+  .timesheetRow:after {
+    clear: both; }
+  .timesheetRow .timesheetInput {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    width: 29.16667%;
+    float: left;
+    margin-bottom: 0; }
+
+.heading {
+  background-color: #F5F5F5;
+  border: black solid 1px;
+  padding-left: 0.9375rem;
+  padding-right: 0.9375rem;
+  width: 29.16667%;
+  float: left; }
+
+.newRowContainer {
+  margin: 0 auto;
+  max-width: 62.5rem;
+  width: 100%; }
+  .newRowContainer:before, .newRowContainer:after {
+    content: " ";
+    display: table; }
+  .newRowContainer:after {
+    clear: both; }
+  .newRowContainer .newRow {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    width: 8.33333%;
+    float: left;
+    margin-left: 45.83333% !important; }
+
+.delButton {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border-radius: 0;
+  border-style: solid;
+  border-width: 0;
+  cursor: pointer;
+  font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  font-weight: normal;
+  line-height: normal;
+  margin: 0 0 1.25rem;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  padding: 0.4rem 0.8rem 0.4625rem 0.8rem;
+  background-color: #f04124;
+  border-color: #cf2a0e;
+  color: #FFFFFF;
+  border-radius: 100px;
+  transition: background-color 300ms ease-out; }
+  .delButton:hover,
+  .delButton:focus {
+    background-color: #cf2a0e; }
+  .delButton:hover,
+  .delButton:focus {
+    color: #FFFFFF; }
+
+.addButton {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border-radius: 0;
+  border-style: solid;
+  border-width: 0;
+  cursor: pointer;
+  font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  font-weight: normal;
+  line-height: normal;
+  margin: 0 0 1.25rem;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  padding: 1rem 2rem 1.0625rem 2rem;
+  font-size: 1rem;
+  background-color: #008CBA;
+  border-color: #007095;
+  color: #FFFFFF;
+  border-radius: 100px;
+  transition: background-color 300ms ease-out;
+  padding-left: 0.9375rem;
+  padding-right: 0.9375rem;
+  width: 8.33333%;
+  float: left;
+  margin-left: 45.83333% !important; }
+  .addButton:hover,
+  .addButton:focus {
+    background-color: #007095; }
+  .addButton:hover,
+  .addButton:focus {
+    color: #FFFFFF; }
+
+.meta {
+  margin: 0 auto;
+  max-width: 62.5rem;
+  width: 100%; }
+  .meta:before, .meta:after {
+    content: " ";
+    display: table; }
+  .meta:after {
+    clear: both; }
+  .meta .metaInfo {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    width: 33.33333%;
+    float: left; }
+
+.metaHeading {
+  padding-left: 0.9375rem;
+  padding-right: 0.9375rem;
+  width: 33.33333%;
+  float: left;
+  background-color: #F5F5F5;
+  border: black solid 1px; }
+
+.timesheetsContainer {
+  margin: 0 auto;
+  max-width: 62.5rem;
+  width: 100%; }
+  .timesheetsContainer:before, .timesheetsContainer:after {
+    content: " ";
+    display: table; }
+  .timesheetsContainer:after {
+    clear: both; }
+  .timesheetsContainer .timesheet {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    width: 33.33333%;
+    float: left;
+    height: 100px;
+    border: white solid 1px;
+    background-color: #17A555; }
