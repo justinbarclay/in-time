@@ -12,13 +12,19 @@ var authStore = Flux.createStore({
     getUserInfo: function() {
         return _user;
     },
+    authenticated: function(){
+        console.log(_user);
+        return _user.authenticated;
+    },
     signinUser: function(user) {
         // this will take a user object with the properties of username, email and JWT token
         // I may eventually grow this information to first name, last name, and other user information
         _user.username = user.username;
         _user.email = user.email;
         _user.token = user.token;
-        _user.signedIn = true;
+        _user.authenticated = true;
+        _user.message = user.message;
+        console.log(_user);
     },
     signOut: function() {
         _user = {};

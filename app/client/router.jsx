@@ -27,7 +27,7 @@ var routes = (
     <Route name="signin" handler={SignInForm} />
     <Route name="signup" handler={SignUpForm} />
     <Route name="timesheets" handler={Timesheets} />
-    <Route name="timesheet" handler={Timesheet} path="/timesheet/:id" />
+    <Route name="timesheet" path="timesheet/:id" handler={Timesheet} />
     <NotFoundRoute handler={NotFound} />
   </Route>
 );

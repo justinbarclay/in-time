@@ -22,7 +22,7 @@ var Timesheets = React.createClass({
     newTimesheet: function(){
         var newID =uuid.v4();
         timesheetActions.newTimesheet(newID);
-        this.transitionTo("timesheet",{id: newID});
+        this.transitionTo("/timesheet/" + newID);
     },
     render: function() {
         console.log(this.state);

@@ -9,7 +9,8 @@ var ToTimesheet = React.createClass({
         return null;
     },
     goToTimesheet: function() {
-        this.transitionTo("timesheet",{id: this.props.timesheet.timesheetID});
+        id = this.props.timesheet.timesheetID ? this.props.timesheet.timesheetID: null;
+        this.transitionTo("/timesheet/" + id);
     },
     totalDuration: function() {
         entries = getTimesheet(this.props.timesheet.timesheetID).entries;

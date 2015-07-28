@@ -95,26 +95,7 @@ var timesheetStore = Flux.createStore({
         });
     },
     deleteTimesheets: function() {
-        _timesheets = [{
-            "timesheetID": "8d741119-9b92-4fea-b64c-3b7854e40665",
-            "dateRange": "01/01/2015 - 01/15/2015",
-            "userID": "0000001",
-            "approved": "",
-            "engagement": "",
-            "entries": [{
-                "date": "2015-03-02",
-                "duration": 4,
-                "type": "Access Drive"
-            }, {
-                "date": "2015-03-02",
-                "duration": 2,
-                "type": "Access Drive"
-            }, {
-                "date": "2015-03-02",
-                "duration": 6,
-                "type": "Access Drive"
-            }]
-        }];
+        _timesheets = _templateTimesheet;
     },
     updateTimesheet: function(timesheet) {
         findTimesheetindex(timesheet.timeoutsheetID, function(index) {
