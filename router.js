@@ -2,9 +2,20 @@ var querystring = require('querystring'),
     user = require('./app/server/controllers/user'),
     fs = require('fs'),
     url = require('url'),
-     util = require('util');
-//Util might not be used anymore
+    jwt = require("jsonwebtoken");
 
+var config = require("../../../config.json");
+
+const secret = config.secret;
+//Util might not be used anymore
+var verifyJWT = function(token){
+    jwt.verify(token, secret, function(err, state){
+        if(err){
+            console.log("JWT Error");
+        }
+        console.log("state");
+    });
+};
 
 //With this router, we only want to pass the necessary data into the controoller
 //and leave the res and req objects in the router context. This may mean that the
