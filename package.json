@@ -10,6 +10,7 @@
     "react": "^0.13.3",
     "react-router": "^0.13.3",
     "superagent": "^1.2.0",
+    "uuid": "^2.0.1",
     "validator": "^3.40.1"
   },
   "devDependencies": {
