@@ -3,15 +3,15 @@
   "description": "A first attempt at writing a login and user system",
   "author": "Justin Barclay <justincbarclay@gmail.com>",
   "dependencies": {
-    "bcrypt": "^0.8.3",
+    "bcrypt": "^0.8.4",
     "biff": "^0.2.0",
-    "jsonwebtoken": "^5.0.2",
-    "pg": "^4.3.0",
+    "jsonwebtoken": "^5.0.4",
+    "pg": "^4.4.0",
     "react": "^0.13.3",
     "react-router": "^0.13.3",
     "superagent": "^1.2.0",
     "uuid": "^2.0.1",
-    "validator": "^3.40.1"
+    "validator": "^3.41.3"
   },
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",
@@ -34,3 +34,4 @@
     "watchify": "^3.2.3"
   }
 }
+    
