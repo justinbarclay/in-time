@@ -22,12 +22,12 @@ var TextEntry = React.createClass({
     render: function (){
         value = this.state.value || this.props.value;
         return (
-        <input
-        className={this.props.className}
-        type={this.props.type}
-        ref="inputValue"
-        value={value}
-        onChange={this.handleInputChange} />
+            <input
+            className={this.props.className}
+            type={this.props.type}
+            ref="inputValue"
+            value={value}
+            onChange={this.handleInputChange} />
         );
     }
 });
