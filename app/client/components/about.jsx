@@ -1,5 +1,7 @@
 var React = require("react");
 
+var authActions = require('../actions/authActions');
+
 var About = React.createClass({
     displayName: "About",
     mixins: [],
@@ -9,14 +11,24 @@ var About = React.createClass({
         AJAXreq.open("post", "/JWT", true);
         AJAXreq.setRequestHeader('ContentType',
             'application/json; charset=UTF8');
-        AJAXreq.send(localStorage.getItem('JWT'));
+        currentJWT = localStorage.getItem('JWT');
+        AJAXreq.setRequestHeader('X-ACCESS-TOKEN', currentJWT);
+        AJAXreq.send("Testing headers");
         AJAXreq.onreadystatechange = function() {
             console.log("state change"); //turn server response into JSON
 
             var res = JSON.stringify(AJAXreq.responseText);
             console.log(res);
             if (AJAXreq.readyState === 4) {
-                //more debugging stuff
+                newJWT = AJAXreq.getResponseHeader("X-ACCESS-TOKEN");
+                console.log(newJWT);
+                if (newJWT){
+                    localStorage.setItem('JWT', newJWT);
+                } else {
+                    console.log("Made it into about");
+                    console.log("Signout");
+                    authActions.signOut();
+                }
                 console.log(AJAXreq.readyState);
                 console.log(res);
             } else {

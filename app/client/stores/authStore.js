@@ -29,6 +29,8 @@ var authStore = Flux.createStore({
         console.log(_user);
     },
     signOut: function() {
+        localStorage.removeItem('JWT');
+        localStorage.removeItem('USER_ID');
         _user = {};
     },
     updateUser: function(user) {
