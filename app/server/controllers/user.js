@@ -25,8 +25,7 @@ const twoWeeks = 20160; // Two weeks in minutes
 */
 var payload = {
     iat: '',
-    username:'',
-    email: ''
+    userid:'',
 };
 
 function hashPassword(userPassword, callback) {
@@ -161,8 +160,6 @@ function authenticate(userName, userPassword, callback) {
                 } else {
                     bcrypt.compare(userPassword, res.rows[0].password,
                         function(err, success) {
-                            payload.username = res.rows[0].username;
-                            payload.email = res.rows[0].email;
                             payload.iat = Date.now();
                             //Set up the auth object to have error and response in them, and then decide how to respond
                             auth.err = err;
@@ -182,9 +179,13 @@ function authenticate(userName, userPassword, callback) {
                                     auth.message = "Username or password do not match";
                                     callback(err, auth);
                                 } else {
+                                    auth.username = res.rows[0].username;
+                                    auth.email = res.rows[0].email;
+                                    auth.id = res.rows[0].user_id;
+                                    payload.userid = res.rows[0].user_id;
                                     auth.message = "Authentication successful";
-                                    auth.JWT = jwt.sign(payload, secret,{expiresInMinutes: twoWeeks, issuer: "Mountain View Industries"});
-                                    callback(err, auth);
+                                    var signedJWT = jwt.sign(payload, secret,{expiresInMinutes: twoWeeks, issuer: "Mountain View Industries"});
+                                    callback(err, auth, signedJWT);
                                 }
                             }
 
@@ -197,7 +198,7 @@ function authenticate(userName, userPassword, callback) {
 }
 
 var validateUser = function(userName, userPassword, userEmail) {
-    if (validator.isLength(userName, 2, 32) && validator.isEmail(userEmail) &&
+    if (validator.isLength(userName, 6, 32) && validator.isEmail(userEmail) &&
         !validator.isNull(userPassword)) {
         return true;
     } else
