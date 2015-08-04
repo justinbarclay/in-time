@@ -9,15 +9,20 @@ var config = require("./config.json");
 const secret = config.secret;
 //shorthand function for verifying JWT
 var verifyJWT = function(token) {
-    jwt.verify(token, secret  , function(err, state) {
-        console.log(secret);
-        if (err) {
-            console.log("JWT Error");
-        }
-        console.log("state");
+    //If JWT is verified return token, otherwise return null
+    var state;
+    try {
+        state = jwt.verify(token, secret);
+        console.log("JWT state");
         console.log(state);
-        return state;
-    });
+        console.log(token);
+        return token;
+    } catch(err) {
+        console.log("JWT err");
+        console.log(err);
+        console.log(token);
+        return null;
+    }
 };
 
 //With this router, we only want to pass the necessary data into the controoller
@@ -129,18 +134,27 @@ function route(req, res) {
                 });
         });
     } else if (path === '/JWT') {
-        var jwt = '';
+        var data = '';
         req.on("data", function(chunk) {
-            jwt += chunk;
+            data += chunk;
         });
 
         req.on("end", function() {
-            console.log(jwt);
-            var verify = verifyJWT(jwt);
+            headerJWT = req.headers["x-access-token"];
+            console.log("headerJWT: " + headerJWT);
+            var verify = verifyJWT(headerJWT);
             console.log("JWT");
-            console.log(verify);
-            res.write("FUCK YOU", 'utf8');
+            if (verify){
+                res.setHeader('X-ACCESS-TOKEN', verify);
+            }
+
+            res.writeHead(200, {
+                'Content-Type': 'application/text'
+            });
+            console.log("verify " + verify);
+            res.write(verify ? "Token verified" : "illegal token");
             res.end();
+            console.log("res sent");
         });
     } else if (path.slice(0, 7) === "/public") {
         //server static content out. Including JS and CSS files
