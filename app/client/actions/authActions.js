@@ -16,30 +16,20 @@ var authActions = Flux.createActions({
             'application/json; charset=UTF8');
         AJAXreq.send(JSON.stringify(user));
         AJAXreq.onreadystatechange = function() {
-            console.log("state change"); //turn server response into JSON
-
-            var res = JSON.parse(AJAXreq.responseText);
-            console.log(res);
             if (AJAXreq.readyState === 4) {
                 //more debugging stuff
-                console.log(AJAXreq.readyState);
-                console.log(res.message);
-                user.success = res.success;
+                var res = JSON.parse(AJAXreq.responseText);
+                console.log(res);
+                user = res;
                 if (user.success) {
-                    user.token = res.JWT;
-                } else {
-                    user.message = res.message;
-                    user.success = res.success;
+                    localStorage.setItem('JWT', AJAXreq.getResponseHeader("X-ACCESS-TOKEN"));
+                    localStorage.setItem('USER_ID', user.id);
                 }
                 console.log("user: " + JSON.stringify(user));
                 self.dispatch({
                     actionType: "SIGNIN_USER",
                     user: user
                 });
-            } else {
-                //Debugging stuff
-                console.log(AJAXreq.readyState);
-                console.log(res.message);
             }
         };
 

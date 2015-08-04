@@ -2,7 +2,7 @@
 // For ease of programming this should start using lowDash
 
 var Flux = require('../biff');
-
+var uuid = require('uuid');
 // initialize the store this will have an _timesheetsay of timesheets, it will probably have one timesheet to start
 // then as I build out the process it should support having multiple timesheets and be able to edit individual entries in
 // each one.
@@ -87,7 +87,7 @@ var timesheetStore = Flux.createStore({
         //start a new timesheet
         newTimesheet = cloneObject(_templateTimesheet);
         newTimesheet.timesheetID = id;
-        _timesheets.push(newTimesheet);
+        _timesheets = _timesheets.concat(newTimesheet);
     },
     deleteTimesheet: function(id) {
         findTimesheet(id, function(index) {
@@ -95,7 +95,9 @@ var timesheetStore = Flux.createStore({
         });
     },
     deleteTimesheets: function() {
-        _timesheets = _templateTimesheet;
+        newTimesheet = cloneObject(_templateTimesheet);
+        newTimesheet.timesheetID = uuid.v4();
+        _timesheets = [newTimesheet];
     },
     updateTimesheet: function(timesheet) {
         findTimesheetindex(timesheet.timeoutsheetID, function(index) {

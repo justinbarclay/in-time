@@ -49,5 +49,3 @@ var guardRouteAsync = function(fn, Component, { state, params = {} }) {
         displayName: `${Component.displayName}(Guarded)`
     });
 };
-
-module.exports =

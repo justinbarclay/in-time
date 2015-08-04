@@ -20,9 +20,11 @@ var authStore = Flux.createStore({
         // this will take a user object with the properties of username, email and JWT token
         // I may eventually grow this information to first name, last name, and other user information
         _user.username = user.username;
+        _user.id = user.id;
         _user.email = user.email;
-        _user.token = user.token;
         _user.authenticated = user.success;
+
+        //Maybe split _user.message off to a message store
         _user.message = user.message;
         console.log(_user);
     },

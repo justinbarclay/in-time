@@ -19,7 +19,7 @@ var SignInForm = React.createClass({
     },
     storeDidChange: function(){
         if(authActions.authenticated()){
-            this.transitionTo("timesheets");
+            this.transitionTo("home");
         } else {
             this.setState({
                 hidden: false,
