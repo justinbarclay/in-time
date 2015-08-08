@@ -1,6 +1,9 @@
-config = require("../../../config.json");
+"use strict";
+
+var config = require("../../../config.json");
 var pg = require('pg');
 var conString = config.postgres;
+var uuid = require('uuid').v4;
 
 //Lowers timeout time, to close client connection sooner, this may cause problems
 //in the long run as queries to the database take a longer time
@@ -26,136 +29,358 @@ pg.defaults.poolIdleTimeout = 10000;
 */
 //May want to look into implementing prepared queires
 // as seen at https://github.com/brianc/node-postgres/wiki/Prepared-Statements
+// function createTimesheet(data, callback) {
+//     //connect to database
+//     //split up data
+//     //add data to database
+//     //handle error and error like things
+//     //return a true or false if it succeeded
+//     //client.end() should not be called from a connection pool
+//     var bool;
+//
+//     pg.connect(conString, function(err, client, done) {
+//         if (err) {
+//             done();
+//             console.log(
+//                 'error fetching client from pool in Timesheet controller',
+//                 err);
+//             callback(err, false);
+//         } else {
+//             data.entries.forEach(function(row) {
+//                 queryString =
+//                     "INSERT INTO Timesheets(timesheet_id, user_foreignkey, service_duration, service_description, service_date, engagement_number) VALUES($1, $2, $3, $4, $5, $6)";
+//                 //Asynchronously insert data into the database
+//
+//                 timesheet = [
+//                     row.timesheet_id, row.user_foreinkeyid,
+//                     row.service_duration, row.service_description,
+//                     row.service_date, row.engagement_number
+//                 ];
+//                 client.query(queryString, timesheet, function(
+//                     err, result) {
+//                     done();
+//                     if (err) {
+//                         console.error(
+//                             'error inserting query into timesheet',
+//                             err);
+//                         bool = false;
+//                         callback(err, bool);
+//
+//                     } else {
+//                         console.log(
+//                             "Timesheet succesfully entered  "
+//                         );
+//                         bool = true;
+//                         callback(err, bool);
+//                     }
+//
+//                     ////client.end();
+//                 });
+//             });
+//         }
+//
+//     });
+//
+// }
 
-
-function createTimesheet(data, callback) {
-    //connect to database
-    //split up data
-    //add data to database
-    //handle error and error like things
-    //return a true or false if it succeeded
-    //client.end() should not be called from a connection pool
-    var bool;
-
-    pg.connect(conString, function(err, client, done) {
-        if (err) {
-            done();
-            console.log(
-                'error fetching client from pool in Timesheet controller',
-                err);
-            callback(err, false);
-        } else {
-            data.forEach(function(row) {
-                queryString =
-                    "INSERT INTO Timesheets(timesheet_id, user_foreignkey, service_duration, service_description, engagement_number) VALUES($1, $2, $3, $4, $5)";
-                //Asynchronously insert data into the database
-
-                timesheet = [row.timesheet_id, row.user_foreinkeyid,
-                    row.service_duration, row.service_description,
-                    row.engagement_number
-                ];
-                client.query(queryString, timesheet, function(
-                    err, result) {
-                    done();
-                    if (err) {
-                        console.error(
-                            'error inserting query into timesheet',
-                            err);
-                        bool = false;
-                        callback(err, bool);
-
-                    } else {
-                        console.log(
-                            "Timesheet succesfully entered  "
-                        );
-                        bool = true;
-                        callback(err, bool);
-                    }
-
-                    ////client.end();
-                });
-            });
-        }
-
-    });
-
-}
-
-function getTimesheet(callback) {
-    //connect to database
-    //find user that they are requesting for
-    //put date and user information in json
-    //return err, true, and the query object back
-    pg.connect(conString, function(err, client, done) {
-        if (err) {
-            //client.end();
-            done();
-            return console.error(
-                'error fetching client from pool in Timesheet controller',
-                err);
-        } else {
-            //currently grabs all the timesheets from the database, I should
-            //eventually have this grab only one users set of Timesheets
-            queryString = "SELECT * FROM Timesheets";
-            client.query(queryString, function(err, result) {
-                done();
-                if (err) {
-                    //client.end();
-                    console.error(
-                        'error getting query from timesheet',
-                        err);
-                    callback(err, false);
-                } else {
-                    //client.end();
-                    console.log(
-                        "Timesheet succesfully selected");
-                    callback(err, true, result);
-                }
-            });
-        }
-    });
-}
-
-function deleteTimesheet(data, callback) {
-    //send in array or single int if not skip over all of this stuff
-    if (!Array.isArray(deleteArrays) && typeof deleteArrays !== "number") {
-        console.log("expected an array or number and got " + typeof data);
-        callback(null, false);
-    } else {
-
+let connect = function(data) {
+    return new Promise(function(resolve, reject) {
         pg.connect(conString, function(err, client, done) {
             if (err) {
-                //client.end();
-                done();
-                return console.error(
-                    'error fetching client from pool in Timesheet controller',
-                    err);
+                //reject(new Error(err));
             } else {
-                data.forEach(function(index) {
-                    queryString = "";
-                    client.query(
-                        "DELETE FROM timesheets WHERE index=$1", [
-                            index
-                        ],
-                        function(err, result) {
-                            done();
-                            if (err) {
-                                console.error(
-                                    'error inserting query into timesheet',
-                                    err);
-                                callback(err, false, result);
-                            } else {
-                                console.log(
-                                    "Timesheet succesfully entered  "
-                                );
-                                callback(err, true, result);
-                            }
-                        });
-                });
+                data.client = client;
+                data.done = done;
+                resolve(data);
             }
         });
-    }
+    });
+};
+
+
+function error(err){
+    console.log(err);
 }
+function finish(timesheet){
+    timesheet.done();
+    timesheet.client.end();
+}
+let createMetaData = function(timesheet) {
+    console.log("here!", timesheet);
+    return new Promise(function(resolve, reject) {
+        var queryString =
+            "INSERT INTO Timesheets_Meta (timesheet_id, user_foreignkey, start_date, end_date, engagement) VALUES($1, $2, $3, $4, $5)";
+        //Asynchronously insert data into the database
+        var metaTimesheet = [timesheet.timesheetID, timesheet.userID,
+            timesheet.start_date,
+            timesheet.end_date, timesheet.engagement
+        ];
+        timesheet.client.query(queryString, metaTimesheet, function(
+            err, result) {
+            if (err) {
+                throw new Error(err);
+            } else {console.log(
+                    "Timesheet_Meta succesfully entered  "
+                );
+                console.log(result);
+                resolve(timesheet);
+            }
+        });
+
+    });
+};
+
+function addEntries(timesheet) {
+    return new Promise(function(resolve, reject) {
+        let entries = timesheet.entries;
+        entries.forEach(function(row) {
+            var queryString =
+                "INSERT INTO Timesheets (timesheet_foreignkey, service_duration, service_description, service_date) VALUES($1, $2, $3, $4)";
+            //Asynchronously insert data into the database
+            let total;
+            var entry = [
+                row.timesheet_foreignkey, row.service_duration,
+                row.service_description, row.service_date
+            ];
+            timesheet.client.query(queryString, entry, function(
+                err, result) {
+                total += 1;
+                if (err) {
+                    throw new Error(err);
+                } else {
+                    console.log(
+                        "Timesheet succesfully entered  "
+                    );
+                }
+                if (total === entries.length){
+                    resolve(timesheet);
+                }
+            });
+        });
+    });
+}
+function createTimesheet(data) {
+    connect(data)
+        .then(createMetaData)
+        .then(addEntries)
+        .then(finish)
+        .catch(error);
+
+}
+// function createTimesheet(data) {
+//     //connect to database
+//     //split up data
+//     //add data to database
+//     //handle error and error like things
+//     //return a true or false if it succeeded
+//     //client.end() should not be called from a connection pool
+//     createMetaData(data);
+//     addEntries(data.entries);
+//
+// }
+
+// function getUserTimesheetIDs(userID, callback) {
+//     //connect to database
+//     //find user that they are requesting for
+//     //put date and user information in json
+//     //return err, true, and the query object back
+//     pg.connect(conString, function(err, client, done) {
+//         if (err) {
+//             //client.end();
+//             done();
+//             return console.error(
+//                 'error fetching client from pool in Timesheet controller',
+//                 err);
+//         } else {
+//             //currently grabs all the timesheets from the database, I should
+//             //eventually have this grab only one users set of Timesheets
+//             queryString =
+//                 "SELECT timesheet_id, start_date, end_date, engagement FROM Timesheets_Meta WHERE user_foreignkey=" +
+//                 userID;
+//             client.query(queryString, function(err, result) {
+//                 done();
+//                 if (err) {
+//                     //client.end();
+//                     console.error(
+//                         'error getting query from timesheet',
+//                         err);
+//                     callback(err, false);
+//                 } else {
+//                     //client.end();
+//                     console.log(
+//                         "Timesheet succesfully selected");
+//                     callback(err, true, result);
+//                 }
+//             });
+//         }
+//     });
+// }
+//
+// function buildTimesheet (TimesheetMeta){
+//
+// }
+// // function createMetaData(timesheet) {
+// //     var bool;
+// //
+// //     pg.connect(conString, function(err, client, done) {
+// //         if (err) {
+// //             done();
+// //             console.log(
+// //                 'error fetching client from pool in Timesheet controller',
+// //                 err);
+// //             callback(err, false);
+// //         } else {
+// //             queryString =
+// //                 "INSERT INTO Timesheets_Meta (timesheet_id, user_foreignkey, start_date, end_date, engagement) VALUES($1, $2, $3, $4, $5)";
+// //             //Asynchronously insert data into the database
+// //             var metaTimesheet = [timesheet.timesheetID, timesheet.userID, timesheet.start_date, timesheet.end_date, timesheet.engagement];
+// //             client.query(queryString, metaTimesheet, function(
+// //                 err, result) {
+// //                 done();
+// //                 if (err) {
+// //                     console.error(
+// //                         'error inserting query into timesheet_meta',
+// //                         err);
+// //                     bool = false;
+// //                     // callback(err, bool);
+// //
+// //                 } else {
+// //                     console.log(
+// //                         "Timesheet_Meta succesfully entered  "
+// //                     );
+// //                     bool = true;
+// //                     // callback(err, bool);
+// //                 }
+// //
+// //                 ////client.end();
+// //             });
+// //         }
+// //
+// //     });
+// //
+// // }
+// //
+// // function addEntries(entries){
+// //     pg.connect(conString, function(err, client, done) {
+// //         if (err) {
+// //             done();
+// //             console.log(
+// //                 'error fetching client from pool in Timesheet controller',
+// //                 err);
+// //             callback(err, false);
+// //         } else {
+// //             entries.forEach(function(row) {
+// //                 queryString =
+// //                     "INSERT INTO Timesheets (timesheet_foreignkey, service_duration, service_description, service_date) VALUES($1, $2, $3, $4)";
+// //                 //Asynchronously insert data into the database
+// //
+// //                 timesheet = [
+// //                     row.timesheet_foreignkey, row.service_duration,
+// //                      row.service_description, row.service_date
+// //                 ];
+// //                 client.query(queryString, timesheet, function(
+// //                     err, result) {
+// //                     done();
+// //                     if (err) {
+// //                         console.error(
+// //                             'error inserting query into timesheet',
+// //                             err);
+// //                         bool = false;
+// //                         // callback(err, bool);
+// //
+// //                     } else {
+// //                         console.log(
+// //                             "Timesheet succesfully entered  "
+// //                         );
+// //                         bool = true;
+// //                         // callback(err, bool);
+// //                     }
+// //
+// //                     ////client.end();
+// //                 });
+// //             });
+// //         }
+// //
+// //     });
+// // }
+//
+// function getTimesheetIDs(userID, callback) {
+//     //grabs a list of user timesheets and passes it on in a callback
+//     if (userID === parseInt(userID, 10)) {
+//         pg.connect(conString, function(err, client, done) {
+//             if (err) {
+//                 //client.end();
+//                 done();
+//                 return console.error(
+//                     'error fetching client from pool in Timesheet controller',
+//                     err);
+//             } else {
+//                 //currently grabs all the timesheets from the database, I should
+//                 //eventually have this grab only one users set of Timesheets
+//                 queryString =
+//                     "SELECT * FROM Timesheets_Meta WHERE user_foreignkey=" +
+//                     userID;
+//                 client.query(queryString, function(err, result) {
+//                     done();
+//                     if (err) {
+//                         //client.end();
+//                         console.error(
+//                             'error getting query from timesheet',
+//                             err);
+//                         callback(err, false);
+//                     } else {
+//                         //client.end();
+//                         console.log(
+//                             "Meta information succesfully selected"
+//                         );
+//                         callback(err, true, result);
+//                     }
+//                 });
+//             }
+//         });
+//     }
+// }
+//
+// function deleteTimesheet(data, callback) {
+//     //send in array or single int if not skip over all of this stuff
+//     if (!Array.isArray(deleteArrays) && typeof deleteArrays !== "number") {
+//         console.log("expected an array or numbers and got " + typeof data);
+//         callback(null, false);
+//     } else {
+//
+//         pg.connect(conString, function(err, client, done) {
+//             if (err) {
+//                 //client.end();
+//                 done();
+//                 return console.error(
+//                     'error fetching client from pool in Timesheet controller',
+//                     err);
+//             } else {
+//                 data.forEach(function(index) {
+//                     queryString = "";
+//                     client.query(
+//                         "DELETE FROM timesheets WHERE index=$1", [
+//                             index
+//                         ],
+//                         function(err, result) {
+//                             done();
+//                             if (err) {
+//                                 console.error(
+//                                     'error inserting query into timesheet',
+//                                     err);
+//                                 callback(err, false, result);
+//                             } else {
+//                                 console.log(
+//                                     "Timesheet succesfully entered  "
+//                                 );
+//                                 callback(err, true, result);
+//                             }
+//                         });
+//                 });
+//             }
+//         });
+//     }
+// }
 
 function updateTimesheetRow() {
 
@@ -180,39 +405,65 @@ var helper = function() {
         }
     };
 };
+
+
 //
 // /* TEST IMPLEMENTATION */
 // //Running some tests
 // //these tests should be move to mocha as soon as possible
 // function createTimesheetData(rowsInTimesheets){
-//     var id = Math.floor(Math.random()*15000);
-//     var timesheetRow = function(){
-//         return {
-//             "timesheet_id": id,
-//             "user_foreignkey": 1,
-//             "service_duration": (Math.floor(Math.random()*12)),
-//             "service_description": "description of service",
-//             "engagement_number": (Math.floor(Math.random()*100000))
-//         };
-//     };
-//     var timesheet = [];
-//     for (i=0; i<rowsInTimesheets; i++){
-//         timesheet.push(timesheetRow());
+function generateMetaData(){
+    return {
+    "timesheetID" : uuid(),
+    "userID" : 1,
+    "start_date" : "01/01/2015",
+    "end_date" : "01/15/2015",
+    "engagement" : Math.floor(Math.random()*10000)
+    };
+}
+
+function generateEntry(id){
+    return {
+        "timesheet_foreignkey": id,
+        "service_duration": (Math.floor(Math.random()*12)),
+        "service_description": "description of service",
+        "service_date": "05/07/2015"
+    };
+
+}
+function generateTimesheet(numberOfEntries){
+    var timesheet = generateMetaData();
+    var entries = [];
+    var rows = numberOfEntries ? numberOfEntries : Math.floor(Math.random()*7+3);
+    for (let i=0; rows > i; i++){
+        entries.push(generateEntry(timesheet.timesheetID));
+    }
+    timesheet.entries = entries;
+    return timesheet;
+}
+
+// getUserTimesheetIDs(1, function(err, bool, result){
+//     console.log(result);
+// });
+let time = generateTimesheet();
+createTimesheet(time);
+
+// console.log("generateMetaData");
+// console.log(generateMetaData());
+// console.log("generateEntry");
+// console.log(generateEntry(1));
+// console.log("Generate Timesheet");
+// console.log(generateTimesheet());
+
+// createTimesheet(exampleTimesheet, function(err, bool){
+//     console.log("CREATE");
+//     if(err){
+//         console.error("Oh no!", err);
+//     } else {
+//         console.log("timesheet entered?: "+ bool);
 //     }
-//     return timesheet;
-// }
+// });
 //
-// var exampleTimesheet = createTimesheetData(10);
-//
-// // createTimesheet(exampleTimesheet, function(err, bool){
-// //     console.log("CREATE");
-// //     if(err){
-// //         console.error("Oh no!", err);
-// //     } else {
-// //         console.log("timesheet entered?: "+ bool);
-// //     }
-// // });
-// //
 // var baz = setTimeout(getTimesheet(function(err, bool, result){
 //     console.log("GET");
 //     if (err) {
@@ -233,4 +484,4 @@ var helper = function() {
 //     console.error("Error delete timesheet", err);
 //     console.log("Delete operation succeeded? " + bool);
 //     console.log(result);
-// });
+// })
