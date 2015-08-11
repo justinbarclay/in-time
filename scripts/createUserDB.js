@@ -11,7 +11,7 @@ client.query("DROP TABLE IF EXISTS UserLogin");
 
 try {
     client.query(
-        "CREATE TABLE IF NOT EXISTS UserLogin ( user_id serial PRIMARY KEY, username varchar(32) UNIQUE,  password varchar(64), email varchar(32) UNIQUE)"
+        "CREATE TABLE IF NOT EXISTS UserLogin ( user_id serial PRIMARY KEY, username varchar(32) UNIQUE,  password varchar(64), email varchar(32) UNIQUE, last_accessed timestamptz )"
     );
 } catch (error) {
     console.log(error);
