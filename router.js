@@ -156,6 +156,21 @@ function route(req, res) {
             res.end();
             console.log("res sent");
         });
+    } else if (path === '/TIMESHEET' && req.method === "GET") {
+        // Should handle both get and post? or just one...
+        req.on("data", function(chunk) {
+            data += chunk;
+        });
+        req.on("end", function(){
+            console.log("TIMESHEET GET");
+        });
+    }else if (path === '/TIMESHEET' && req.method === "GET") {
+        req.on("data", function(chunk) {
+            data += chunk;
+        });
+        req.on("end", function(){
+            console.log("TIMESHEET GET");
+        });
     } else if (path.slice(0, 7) === "/public") {
         //server static content out. Including JS and CSS files
         //Unsure of how this will handle image files
