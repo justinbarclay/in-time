@@ -1,9 +1,9 @@
 "use strict";
 
-var config = require("../../../config.json");
-var pg = require('pg');
-var conString = config.postgres;
-var uuid = require('uuid').v4;
+let config = require("../../../config.json");
+let pg = require('pg');
+let conString = config.postgres;
+let uuid = require('uuid').v4;
 
 //Lowers timeout time, to close client connection sooner, this may cause problems
 //in the long run as queries to the database take a longer time
@@ -52,9 +52,11 @@ let connect = function(data) {
             if (err) {
                 throw new Error(err, 37);
             } else {
-                data.client = client;
-                data.done = done;
-                resolve(data);
+                resolve({
+                    setup: data,
+                    done: done,
+                    client: client
+                });
             }
         });
     });
@@ -65,7 +67,7 @@ function error(err) {
 }
 
 function finish(data) {
-    console.log(data.entries);
+    console.log(data.entries); //Debug
     data.done();
     data.client.end();
     return data;
@@ -82,31 +84,27 @@ function finish(data) {
 ////////////////////////////////////////////////////////////////////////////////
 //Insert Queries
 ////////////////////////////////////////////////////////////////////////////////
-let createMetaData = function(timesheet) {
-
+let createMetaData = function(data) {
+    let meta = data.setup;
     return new Promise(function(resolve, reject) {
         let queryString =
             "INSERT INTO Timesheets_Meta (timesheet_id, user_foreignkey, start_date, end_date, engagement) VALUES($1, $2, $3, $4, $5)";
         //Asynchronously insert data into the database
-        let metaTimesheet = [timesheet.timesheetID, timesheet.userID,
-            timesheet.start_date,
-            timesheet.end_date, timesheet.engagement
-        ];
-        timesheet.client.query(queryString, metaTimesheet, function(
-            err, result) {
+        let metaTimesheet = [meta.timesheetID, meta.userID,
+            meta.start_date, meta.end_date, meta.engagement];
+        timesheet.client.query(queryString, metaTimesheet, function(err, result) {
             if (err) {
-                console.log("error line 68");
-                throw new Error(err);
+                throw new Error(err, 100);
             } else {
-                resolve(timesheet);
+                resolve(data);
             }
         });
     });
 };
 
-function addEntries(timesheet) {
+function addEntries(data) {
     return new Promise(function(resolve, reject) {
-        let entries = timesheet.entries;
+        let entries = data.entries;
         let total = 0;
         entries.forEach(function(row) {
             var queryString =
@@ -116,13 +114,17 @@ function addEntries(timesheet) {
                 row.timesheet_foreignkey, row.service_duration,
                 row.service_description, row.service_date
             ];
-            timesheet.client.query(queryString, entry, function(
-                err, result) {
+
+            timesheet.client.query(queryString, entry, function(err, result) {
                 total += 1;
                 if (err) {
-                    console.log("error line 93");
-                    throw new Error(err);
+                    throw new Error(err, 124);
                 } else {
+
+                    // I definitely agree it needs a rewrite and I'm considering more of
+                    // a rewrite for functions where I am adding multiple lines
+                    // Promise all would be an interesting solution... I will definitely
+                    // think of how to implement that
                     if (total === entries.length) {
                         resolve(timesheet);
                     }
@@ -135,7 +137,7 @@ function addEntries(timesheet) {
 ////////////////////////////////////////////////////////////////////////////////
 //Read Data Queries
 ////////////////////////////////////////////////////////////////////////////////
-//Evovling how I think about inputs, moving form timesheets to data
+//Evovling how I think about inputs, moving from timesheets to data
 //I am not qure if I like having to access the data I am querying about through
 //a property in the function. However, I am not sure of a better way to do this
 //while still being able to access client and done properties throughout the
@@ -143,20 +145,21 @@ function addEntries(timesheet) {
 function getTimesheetIDs(data) {
     //grabs a list of user timesheets and passes it on in a callback
     let userID = data.userID;
+
+    //Add check in router code for data.UserID
     if (userID !== parseInt(userID, 10)) {
         throw new Error("UserID is not an Int");
     }
     return new Promise(function(resolve, reject) {
         let queryString =
-            "SELECT timesheet_id, start_date, end_date, engagement FROM Timesheets_Meta WHERE user_foreignkey=" +
-            userID;
-        data.client.query(queryString, function(err, result) {
+            "SELECT timesheet_id, engagement, start_date, end_date FROM Timesheets_Meta WHERE user_foreignkey= $1";
+        data.client.query(queryString, [userID] function(err, result) {
             if (err) {
-                throw new Error(err, 157);
+                throw new Error(err, 162);
             } else {
                 console.log(
                     "Meta information succesfully selected"
-                );
+                ); //Debug
                 data.meta = result.rows;
                 resolve(data);
             }
@@ -164,58 +167,30 @@ function getTimesheetIDs(data) {
     });
 }
 
-function getEntries(data) {
-    let timesheetIDs = data.meta.map(function(meta) {
-        return meta.timesheet_id;
-    });
-    let total = 0;
-    data.entries = [];
+function getAllEntries(data) {
     return new Promise(function(resolve, reject) {
-        timesheetIDs.forEach(function(timesheetID) {
-            let queryString =
-                "SELECT * FROM Timesheets WHERE timesheet_foreignkey ='" +
-                timesheetID + "'";
-            data.client.query(queryString, function(err, result) {
-                total++;
-                if (err) {
-                    console.error(err);
-                    throw new Error(err, 146);
-                } else if (result.rows.length > 0) {
-                    data.entries.push(result.rows);
-                    if (total === timesheetIDs.length) {
-                        console.log("getEntries 181");
-                        resolve(data);
-                    }
-                }
-            });
+        Promise.all(data.meta.map(function(meta){
+            return getEntries(meta, data.client);
+        }))
+        .then(function(entries){
+            data.entries = entries;
+            resolve(data);
         });
     });
 }
-
-////////////////////////////////////////////////////////////////////////////////
-//Return Data Queries
-////////////////////////////////////////////////////////////////////////////////
-
-// I am unsure if this is the proper way to do this.
-// It may be better to have a singular query with a join in it so that
-function buildTimesheets(data) {
-    let meta_info = data.meta;
-    let entries = data.entries;
-
-    let timesheets = meta_info.map(function(meta) {
-        let timesheet = {};
-        timesheet = meta.timesheetID;
-        timesheet.entries = [];
-        entries.forEach(function(entry, index) {
-            if (entry.timesheetID === timesheet.timesheetID) {
-                timesheet.entries.push(entry);
-                entries.slice(index, 1);
+function getEntries(data, client){
+    let queryString = "SELECT timesheets_meta.timesheet_id, timesheets_meta.user_foreignkey, timesheets_meta.start_date, timesheets_meta.end_date, timesheets_meta.engagement, timesheets.service_description, timesheets.service_duration, timesheets.service_date FROM employees.public.timesheets_meta, employees.public.timesheets WHERE timesheets_meta.timesheet_id = timesheets.timesheet_foreignkey AND timesheets_meta.timesheet_id = $1";
+    return new Promise(function(resolve, reject){
+        client.query(queryString, [data.timesheet_id], function(err, result){
+            if (err) {
+                throw new Error(err, 204);
+            } else {
+                resolve(result.rows);
             }
         });
     });
-    console.log(timesheets);
-    return timesheets;
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 //Delete Data
 ////////////////////////////////////////////////////////////////////////////////
@@ -230,12 +205,12 @@ function deleteTimesheetEntries(data) {
                     if (err) {
                         console.error(
                             'error deleting query into timesheet',
-                            err);
+                            err); //Debug
                         throw new Error(err, 209);
                     } else {
                         console.log(
                             "Timesheet succesfully deleted  "
-                        );
+                        ); //Debug
                         resolve(data);
                     }
                 });
@@ -254,12 +229,12 @@ function deleteTimesheetMeta(data) {
                     if (err) {
                         console.error(
                             'error deleting query into timesheet',
-                            err);
+                            err); //Debug
                         throw new Error(err, 209);
                     } else {
                         console.log(
                             "Timesheet succesfully deleted  "
-                        );
+                        ); //Debug
                         resolve(data);
                     }
                 });
@@ -286,12 +261,15 @@ function createTimesheet(data) {
 
 function getTimesheets(request, res, callback) {
     connect(request)
-        .then(getTimesheetIDs)
-        .then(getEntries)
-        .then(Promise.resolve(buildTimesheets))
+        // .then(getTimesheetIDs)
+        .then(getAllEntries)
+        .then(function(data){
+            console.log("data", data);
+            return data;
+        })
         .catch(error)
         .then(finish)
-        .then(callback);
+        // .then(callback);
 
 }
 
@@ -303,6 +281,31 @@ function deleteTimesheets(request, res, callback) {
         .then(finish)
         .then(callback);
 }
+////////////////////////////////////////////////////////////////////////////////
+//Helper Functions
+////////////////////////////////////////////////////////////////////////////////
+
+// I am unsure if this is the proper way to do this.
+// It may be better to have a singular query with a join in it so that I change
+// build up the timesheet later
+function buildTimesheets(data) {
+    let meta_info = data.meta;
+    let entries = data.entries;
+
+    let timesheets = meta_info.map(function(meta) {
+        let timesheet = {};
+        timesheet = meta.timesheetID;
+        timesheet.entries = [];
+        entries.forEach(function(entry, index) {
+            if (entry.timesheetID === timesheet.timesheetID) {
+                timesheet.entries.push(entry);
+            }
+        });
+    });
+    console.log(timesheets);
+    return timesheets;
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -357,13 +360,13 @@ function generateTimesheet(numberOfEntries) {
 //     };
 // };
 //
-// getTimesheets({
-//     "userID": 1
-// }, null, function(data) {
-//     console.log(data);
-// });
+getTimesheets({
+    "userID": 1
+}, null, function(data) {
+    console.log(data);
+});
 
-deleteTimesheets({"delete": ['c54f5c44-247b-452e-8c0c-d5ef3d3ed356']}, null, function(data){console.log(data)});
+// deleteTimesheets({"delete": ['c54f5c44-247b-452e-8c0c-d5ef3d3ed356']}, null, function(data){console.log(data)});
 // let myTimesheet = timesheet();
 // //     myTimesheet.setTimethingy(10);
 //     console.log(myTimesheet.getTimethingy());
