@@ -29,47 +29,48 @@ var uuid = require('uuid');
 //     }]
 // };
 
-var _timesheets = [{
-    "timesheetID": "8d741119-9b92-4fea-b64c-3b7854e40665",
-    "startDate": "2015-01-01",
-    "endDate": "2015-01-15",
-    "userID": "0000001",
-    "approved": false,
-    "engagement": 86328,
-    "entries": [{
-        "date": "2015-03-02",
-        "duration": 4,
-        "type": "Access Drive"
-    }, {
-        "date": "2015-03-02",
-        "duration": 2,
-        "type": "Access Drive"
-    }, {
-        "date": "2015-03-02",
-        "duration": 6,
-        "type": "Access Drive"
-    }]
-}, {
-    "timesheetID": "6629c93e-9292-45e9-bfa2-e0c006ba1e40",
-    "startDate": "2015-02-01",
-    "endDate": "2015-02-15",
-    "userID": "0000001",
-    "approved": false,
-    "engagement": 86328,
-    "entries": [{
-        "date": "2015-03-02",
-        "duration": 4,
-        "type": "Access Drive"
-    }, {
-        "date": "2015-03-02",
-        "duration": 2,
-        "type": "Access Drive"
-    }, {
-        "date": "2015-03-02",
-        "duration": 6,
-        "type": "Access Drive"
-    }]
-}];
+// var _timesheets = [{
+//     "timesheetID": "8d741119-9b92-4fea-b64c-3b7854e40665",
+//     "startDate": "2015-01-01",
+//     "endDate": "2015-01-15",
+//     "userID": "0000001",
+//     "approved": false,
+//     "engagement": 86328,
+//     "entries": [{
+//         "date": "2015-03-02",
+//         "duration": 4,
+//         "type": "Access Drive"
+//     }, {
+//         "date": "2015-03-02",
+//         "duration": 2,
+//         "type": "Access Drive"
+//     }, {
+//         "date": "2015-03-02",
+//         "duration": 6,
+//         "type": "Access Drive"
+//     }]
+// }, {
+//     "timesheetID": "6629c93e-9292-45e9-bfa2-e0c006ba1e40",
+//     "startDate": "2015-02-01",
+//     "endDate": "2015-02-15",
+//     "userID": "0000001",
+//     "approved": false,
+//     "engagement": 86328,
+//     "entries": [{
+//         "date": "2015-03-02",
+//         "duration": 4,
+//         "type": "Access Drive"
+//     }, {
+//         "date": "2015-03-02",
+//         "duration": 2,
+//         "type": "Access Drive"
+//     }, {
+//         "date": "2015-03-02",
+//         "duration": 6,
+//         "type": "Access Drive"
+//     }]
+// }];
+var _timesheets = [];
 
 var timesheetStore = Flux.createStore({
     getTimesheets: function() {
@@ -95,9 +96,7 @@ var timesheetStore = Flux.createStore({
         });
     },
     deleteTimesheets: function() {
-        newTimesheet = cloneObject(_templateTimesheet);
-        newTimesheet.timesheetID = uuid.v4();
-        _timesheets = [newTimesheet];
+        _timesheets = [];
     },
     updateTimesheet: function(timesheet) {
         findTimesheetindex(timesheet.timeoutsheetID, function(index) {
@@ -134,9 +133,8 @@ var timesheetStore = Flux.createStore({
             _timesheets[index][accessor] = data;
         });
     },
-    addTimesheet: function(timesheet){
-        console.log("timesheet store 138", timesheet);
-        _timesheets.push(timesheet);
+    syncTimesheets: function(timesheets){
+        _timesheets = timesheets;
     }
 }, function(payload) {
     if (payload.actionType === "NEW_TIMESHEET") {
@@ -173,8 +171,8 @@ var timesheetStore = Flux.createStore({
         this.deleteTimesheets();
         this.emitChange();
     }
-    if (payload.actionType === "ADD_TIMESHEET") {
-        this.addTimesheet(payload.timesheet);
+    if (payload.actionType === "SYNC_TIMESHEET") {
+        this.syncTimesheets(payload.timesheets);
         this.emitChange();
     }
 });

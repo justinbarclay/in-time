@@ -28,20 +28,13 @@ var timesheetActions = Flux.createActions({
                 console.log(newJWT);
                 if (newJWT) {
                     localStorage.setItem('JWT', newJWT);
-                } else {
-                    console.log("Made it into about");
-                    console.log("Signout");
-
                 }
-                res.forEach(function(timesheet) {
-                    console.log(timesheet);
-                    self.dispatch({
-                        actionType: "ADD_TIMESHEET",
-                        timesheet: timesheet
-                    });
+                self.dispatch({
+                    actionType: "SYNC_TIMESHEET",
+                    timesheets: res
                 });
             }
-        }
+        };
     },
     getTimesheets: function(){
         return timesheetStore.getTimesheets();
