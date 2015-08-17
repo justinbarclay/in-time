@@ -1,0 +1,42 @@
+// @import '../../foundation/scss/normalize.scss';
+// @import '../../foundation/scss/foundation.scss';
+// @import '../../foundation/scss/foundation/components/grid.scss';
+
+main {
+    @include grid-row();
+    height: 80%;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.app {
+    height: 100%;
+}
+
+.home {
+    @include vertical-align-container;
+    height: 80%;
+    @include grid-column(
+        $columns: 12
+    );
+    // background-color: red;
+}
+
+.authenticationButtons {
+    @include vertical-align;
+    //I have no clue why but this centers two divs in a container
+    text-align: center;
+    height: auto;
+}
+button {
+    margin-bottom: 0;
+}
+.about {
+    @include vertical-align-container;
+    height: 100%;
+    p {
+        @include vertical-align;
+        @include grid-column(
+        $columns: 6,
+        $center: true
+        );
+    }
+}

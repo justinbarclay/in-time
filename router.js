@@ -1,5 +1,6 @@
 var querystring = require('querystring'),
     user = require('./app/server/controllers/user'),
+    timesheet = require('./app/server/controllers/timesheet'),
     fs = require('fs'),
     url = require('url'),
     jwt = require("jsonwebtoken");
@@ -25,7 +26,7 @@ var verifyJWT = function(token) {
     }
 };
 
-//With this router, we only want to pass the necessary data into the controoller
+//With this router, we only want to pass the necessary data into the controller
 //and leave the res and req objects in the router context. This may mean that the
 //controllers pass back booleans or errors or messages or a new object to indicate
 //the state of the data. How a controller indicates this is currently up for debate
@@ -129,8 +130,7 @@ function route(req, res) {
                         console.log(res.headers);
                         res.end();
                     }
-                    console.log("Auth message");
-                    console.log(auth.message);
+                    console.log("Auth message", auth.message);
                 });
         });
     } else if (path === '/JWT') {
@@ -156,21 +156,98 @@ function route(req, res) {
             res.end();
             console.log("res sent");
         });
-    } else if (path === '/TIMESHEET' && req.method === "GET") {
+} else if (path === '/timesheets' && req.method === "POST") {
         // Should handle both get and post? or just one...
+        var data = '';
         req.on("data", function(chunk) {
+            console.log("chunk", data);
             data += chunk;
         });
         req.on("end", function(){
-            console.log("TIMESHEET GET");
+            var verify = verifyJWT(req.headers["x-access-token"]);
+            if (!verify){
+                res.writeHead(401, {
+                    'Content-Type': 'application/json'
+                });
+                console.log("not verified");
+                res.write(JSON.stringify({"message": "invalid security token"}));
+                return;
+            }
+
+            try{
+                request = JSON.parse(data);
+            }
+            catch (err){
+                console.err(err); //Debug
+            }
+            if (request.userID !== parseInt(request.userID, 10)) {
+                res.writeHead(400, {
+                    'Content-Type': 'application/json'
+                });
+                res.write(JSON.stringify({"message": "Invalid user ID"}));
+                return;
+            } else {
+
+                console.log("line 191");
+                timesheet.getTimesheets(request, function(data){
+                    // if (data) {
+                    console.log("line 194");
+                    // console.log("res", res);
+                    // res.writeHead(200, {
+                    //     'Content-Type': 'application/json'
+                    // });
+                    res.setHeader('X-ACCESS-TOKEN', verify);
+                    // console.log("res", res);
+                    console.log("line 195", data); //Debug
+                    res.write(JSON.stringify(data));
+                    res.end();
+                    // }
+                });
+            }
         });
-    }else if (path === '/TIMESHEET' && req.method === "GET") {
-        req.on("data", function(chunk) {
-            data += chunk;
-        });
-        req.on("end", function(){
-            console.log("TIMESHEET GET");
-        });
+    // }else if (path === '/timesheet' && req.method === "POST") {
+    //     var data = '';
+    //     req.on("data", function(chunk) {
+    //         console.log("chunk", data);
+    //         data += chunk;
+    //     });
+    //     req.on("end", function(){
+    //         var verify = verifyJWT(req.headers["x-access-token"]);
+    //         if (!verify){
+    //             res.writeHead(401, {
+    //                 'Content-Type': 'application/json'
+    //             });
+    //             res.write(JSON.stringify({"message": "invalid security token"}));
+    //             return;
+    //         }
+    //         res.setHeader('X-ACCESS-TOKEN', verify);
+    //         try{
+    //             request = JSON.parse(data);
+    //         }
+    //         catch (err){
+    //             console.err(err); //Debug
+    //         }
+    //         if (request.userID !== parseInt(request.userID, 10)) {
+    //             res.writeHead(400, {
+    //                 'Content-Type': 'application/json'
+    //             });
+    //             res.write(JSON.stringify({"message": "Invalid user ID"}));
+    //         } else {
+    //             res.writeHead(200, {
+    //                 'Content-Type': 'application/json'
+    //             });
+    //             timesheet.getTimesheets(request, function(data){
+    //                 if (data) {
+    //                     res.writeHead(200, {
+    //                         'Content-Type': 'application/json'
+    //                     });
+    //                     console.log("line 195", data); //Debug
+    //                     res.write(JSON.stringify(data));
+    //                     res.end();
+    //                 }
+    //             });
+    //         }
+    //     });
     } else if (path.slice(0, 7) === "/public") {
         //server static content out. Including JS and CSS files
         //Unsure of how this will handle image files

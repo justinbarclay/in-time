@@ -13,9 +13,10 @@ var ToTimesheet = require('./ToTimesheet');
 var Timesheets = React.createClass({
     displayName: "Timesheets",
     propTypes: [],
-    mixins: [Navigation],
+    mixins: [Navigation, timesheetStore.mixin],
     getInitialState: function() {
-        return {timesheets: timesheetActions.getTimesheets()};
+        return {user: authActions.getUserInfo(),
+            timesheets: timesheetActions.getTimesheets()};
     },
     goToTimesheet: function(){
         return null;
@@ -29,6 +30,9 @@ var Timesheets = React.createClass({
         var newID =uuid.v4();
         timesheetActions.newTimesheet(newID);
         this.transitionTo("/timesheet/" + newID);
+    },
+    storeDidChange: function() {
+        this.setState(timesheetActions.getTimesheets());
     },
     render: function() {
         console.log(this.state);

@@ -133,6 +133,10 @@ var timesheetStore = Flux.createStore({
             console.log(_timesheets[index][accessor]);
             _timesheets[index][accessor] = data;
         });
+    },
+    addTimesheet: function(timesheet){
+        console.log("timesheet store 138", timesheet);
+        _timesheets.push(timesheet);
     }
 }, function(payload) {
     if (payload.actionType === "NEW_TIMESHEET") {
@@ -167,6 +171,10 @@ var timesheetStore = Flux.createStore({
     }
     if (payload.actionType === "DELETE_TIMESHEETS") {
         this.deleteTimesheets();
+        this.emitChange();
+    }
+    if (payload.actionType === "ADD_TIMESHEET") {
+        this.addTimesheet(payload.timesheet);
         this.emitChange();
     }
 });

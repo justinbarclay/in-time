@@ -9,7 +9,7 @@ var Footer = React.createClass({
 
     render: function(){
         return (
-            <div className="Footer">
+            <div className="footer">
                 <p className="copyright">Copyright 2015 New Plagiarist Media</p>
             </div>
         );

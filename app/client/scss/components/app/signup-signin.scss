@@ -1,0 +1,19 @@
+// @import '../../foundation/scss/normalize.scss';
+// @import '../../foundation/scss/foundation.scss';
+// @import '../../foundation/scss/foundation/components/grid.scss';
+
+.signupForm, .signinForm {
+    @include grid-column(
+        $columns: 4,
+        $center: true
+    );
+    @include vertical-align;
+}
+
+.message {
+    top: -10px;
+    $alert-font-color: #B33A3A;
+    @include alert($bg: #E4252D);
+    text-align: center;
+    display: none;
+}

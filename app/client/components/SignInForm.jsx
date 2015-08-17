@@ -28,7 +28,6 @@ var SignInForm = React.createClass({
         }
     },
     login: function(form) {
-        // Most of this needs to be moved to authActions
         form.preventDefault();
 
         var user = {
@@ -54,9 +53,6 @@ var SignInForm = React.createClass({
                         Submit
                     </button>
                 </form>
-                <button onClick={this.transitions}>
-                    Timesheets
-                </button>
             </div>
 
         );

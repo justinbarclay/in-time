@@ -1,0 +1,15 @@
+// @import '../foundation/scss/normalize.scss';
+// @import '../foundation/scss/foundation.scss';
+// @import '../foundation/scss/foundation/components/grid.scss';
+
+.footer {
+    height: 10%;
+    background-color: $oil;
+    color: $icon-bar-font-color;
+}
+
+.copyright {
+    text-align: right;
+    padding: 1em;
+    margin: 0;
+}

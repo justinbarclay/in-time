@@ -1,0 +1,13 @@
+$eggshell: #F0EAD6;
+// Custom Mixins
+// Mixin that I pulled off the internet that allows elements to center
+// horizontally
+@mixin vertical-align-container {
+    transform-style: preserve-3d;
+}
+
+@mixin vertical-align {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}

@@ -7,13 +7,17 @@ var About = React.createClass({
     mixins: [],
     propTypes: [],
     componentDidMount: function(){
+        user = JSON.stringify({userID: 1});
         var AJAXreq = new XMLHttpRequest();
-        AJAXreq.open("post", "/JWT", true);
+        AJAXreq.open("POST", "/timesheets", true);
         AJAXreq.setRequestHeader('ContentType',
             'application/json; charset=UTF8');
         currentJWT = localStorage.getItem('JWT');
         AJAXreq.setRequestHeader('X-ACCESS-TOKEN', currentJWT);
-        AJAXreq.send("Testing headers");
+        AJAXreq.setRequestHeader('ContentType',
+            'application/json; charset=UTF8');
+
+        AJAXreq.send(user);
         AJAXreq.onreadystatechange = function() {
             console.log("state change"); //turn server response into JSON
 
@@ -27,10 +31,10 @@ var About = React.createClass({
                 } else {
                     console.log("Made it into about");
                     console.log("Signout");
-                    authActions.signOut();
+                    // authActions.signOut();
                 }
                 console.log(AJAXreq.readyState);
-                console.log(res);
+                console.log(JSON.parse(res));
             } else {
                 //Debugging stuff
                 console.log(AJAXreq.readyState);

@@ -4,7 +4,7 @@ var RouteHandler = Router.RouteHandler;
 
 //Components
 var Header = require("./Header");
-var Footer = require("./Footer");
+var Footer = require("./footer");
 
 var app = React.createClass({
     displayName: "TimeClock App",

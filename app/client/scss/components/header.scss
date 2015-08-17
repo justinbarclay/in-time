@@ -1,0 +1,34 @@
+// @import '../foundation/scss/normalize.scss';
+// @import '../foundation/scss/foundation.scss';
+// @import '../foundation/scss/foundation/components/grid.scss';
+
+.header {
+    background-color: $oil;
+    text-align: center;
+}
+.navigation{
+    @include icon-bar(
+
+        // Set the background color of the icon bar. Default: $icon-bar-bg.
+        $bar-bg: $oil,
+        //  Set the font color of the icon bar. Default: $icon-bar-font-color.
+        $bar-font-color: $icon-bar-font-color,
+        // Set the hover background color for the icon bar. Default: $icon-bar-hover-color.
+        $bar-hover-color: $icon-bar-hover-color,
+        // Set the color of the icons for the icon bar. Default: $icon-bar-icon-color
+        $bar-icon-color: $icon-bar-icon-color,
+        // Set the background of the color when the icon bar is clicked or tapped on (or items within the icon bar). Default: $icon-bar-active-color.
+        // Assign whether or not base styles usually associated with the icon bar to appear the way it usually does should be included. Default: true.
+        $base-style: true,
+        // Allow disabled icons. Default: false.
+        // If enabled add class disabled.
+        $disabled: false
+    );
+    max-width: 1000px;
+
+    text-align: center;
+    height: 100%;
+}
+.nav{
+    margin-bottom: -5px;
+}
