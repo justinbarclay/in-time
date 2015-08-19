@@ -4,7 +4,7 @@
 *       MESSAGE OPTIONALLY IT CAN CONTAIN THE ERROR MESSAGE A USER OBJECT
 *
 */
-var config = require("../../../config.json");
+var config = require("../../../config.js");
 var validator = require('validator');
 var jwt = require("jsonwebtoken");
 var bcrypt = require('bcrypt');

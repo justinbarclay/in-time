@@ -10,7 +10,7 @@
 
 "use strict";
 
-var config = require("../../../config.json");
+var config = require("../../../config.js");
 var pg = require('pg');
 var conString = config.postgres;
 var uuid = require('uuid').v4;

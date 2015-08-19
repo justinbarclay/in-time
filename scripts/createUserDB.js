@@ -1,6 +1,6 @@
 //this is an iojs script to recreate the user database in postgresvar conString = "pg://postgres:postgres@localhost:5432/employees";
 var pg = require('pg');
-var config = require('../config.json');
+var config = require('../config.js');
 var conString = "pg://postgres:postgres@localhost:5432/employees";
 
 var client = new pg.Client(conString);

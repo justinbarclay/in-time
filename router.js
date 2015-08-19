@@ -5,7 +5,7 @@ var querystring = require('querystring'),
     url = require('url'),
     jwt = require("jsonwebtoken");
 
-var config = require("./config.json");
+var config = require("./config.js");
 
 const secret = config.secret;
 //shorthand function for verifying JWT

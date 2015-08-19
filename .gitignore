@@ -1,6 +1,5 @@
 node_modules/
 config.json
-app/public/
 .gitignore
 stats.json
 .tern-project

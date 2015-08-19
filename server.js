@@ -2,7 +2,7 @@ var http = require('http'),
     querystring = require('querystring'),
     router = require('./router'),
     url = require('url'),
-    port = require('./config.json').port,
+    port = require('./config.js').port,
     browserSync = require('browser-sync');
 
 
