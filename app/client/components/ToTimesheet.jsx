@@ -1,5 +1,6 @@
 var React = require('react');
 var Navigation = require('react-router').Navigation;
+var timesheetStore = require("../stores/timesheetStore");
 
 var ToTimesheet = React.createClass({
     displayName: "ToTimesheet",
@@ -13,19 +14,21 @@ var ToTimesheet = React.createClass({
         this.transitionTo("/timesheet/" + id);
     },
     totalDuration: function() {
-        entries = getTimesheet(this.props.timesheet.timesheetID).entries;
-        var duration;
-        for(var entry in entries) {
+        console.log("total Duration");
+        entries = this.props.timesheet.entries;
+        var duration = 0;
+        console.log("entries", entries);
+        entries.forEach(function(entry){
             duration += entry.duration;
-        }
+        });
+        return duration;
     },
     render: function() {
         return (
             <div className="timesheet" onClick={this.goToTimesheet}>
-                <p>Time Period:
-                    {this.props.timesheetstartDate}-{this.props.timesheet.endDate}</p>
-                <p>Total Duration:
-                    {this.totalDuration}</p>
+                <p>{this.props.timesheet.startDate} - {this.props.timesheet.endDate}</p>
+                <p>{this.props.timesheet.engagement}</p>
+                <p>Total Time:  {this.totalDuration()}</p>
             </div>
         );
     }

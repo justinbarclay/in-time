@@ -84,10 +84,11 @@ var timesheetStore = Flux.createStore({
         }
         return null;
     },
-    newTimesheet: function(id) {
+    newTimesheet: function(timesheetID, userID) {
         //start a new timesheet
         newTimesheet = cloneObject(_templateTimesheet);
-        newTimesheet.timesheetID = id;
+        newTimesheet.timesheetID = timesheetID;
+        newTimesheet.userID = userID;
         _timesheets = _timesheets.concat(newTimesheet);
     },
     deleteTimesheet: function(id) {
@@ -134,11 +135,14 @@ var timesheetStore = Flux.createStore({
         });
     },
     syncTimesheets: function(timesheets){
+        // formattedTimesheet = timesheets.map(formatTimesheet);
+        console.log(timesheets);
         _timesheets = timesheets;
+        console.log(_timesheets);
     }
 }, function(payload) {
     if (payload.actionType === "NEW_TIMESHEET") {
-        this.newTimesheet(payload.id);
+        this.newTimesheet(payload.timesheetID, payload.userID);
         this.emitChange();
     }
     if (payload.actionType === "DELETE_TIMESHEET") {
@@ -235,7 +239,7 @@ var _templateTimesheet = {
     "timesheetID": null,
     "startDate": "",
     "endDate": "",
-    "userID": "0000001",
+    "userID": null,
     "approved": false,
     "engagement": "",
     "entries": [{
@@ -250,3 +254,24 @@ var cloneObject = function(obj) {
     return (JSON.parse(JSON.stringify(obj)));
 };
 module.exports = timesheetStore;
+
+// function formatTimesheet(timesheet){
+//     console.log(timesheet);
+//     var formattedTimesheet = {
+//         timesheetID: timesheet.timesheetID,
+//         engagement: timesheet.engagement,
+//         startDate: new Date(timesheet.startDate),
+//         endDate: new Date(timesheet.endDate),
+//         userID: timesheet.userID,
+//         entries: []
+//     };
+//     console.log(timesheet.entries);
+//     formattedTimesheet.entries = timesheet.entries.map(function(entry){
+//         return {
+//             service: entry.service,
+//             date: new Date(entry.date),
+//             duration: entry.duration
+//         };
+//     });
+//     return formattedTimesheet;
+// }

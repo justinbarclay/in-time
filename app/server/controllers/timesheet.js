@@ -87,19 +87,23 @@ function finish(data) {
 ////////////////////////////////////////////////////////////////////////////////
 //Insert Queries
 ////////////////////////////////////////////////////////////////////////////////
-let createMetaData = function(data) {
+let addMetaData = function(data) {
     let meta = data.setup;
     return new Promise(function(resolve, reject) {
         let queryString =
             "INSERT INTO Timesheets_Meta (timesheet_id, user_foreignkey, start_date, end_date, engagement) VALUES($1, $2, $3, $4, $5)";
         //Asynchronously insert data into the database
         let metaTimesheet = [meta.timesheetID, meta.userID,
-            meta.start_date, meta.end_date, meta.engagement];
+            meta.startDate, meta.endDate, meta.engagement];
         data.client.query(queryString, metaTimesheet, function(err, result) {
             if (err) {
-                throw new Error(err, 100);
+                throw new Error(err);
             } else {
-                resolve(data);
+                resolve({
+                setup: data.setup,
+                client: data.client,
+                done: data.done
+                });
             }
         });
     });
@@ -108,31 +112,48 @@ let createMetaData = function(data) {
 function addEntries(data) {
     return new Promise(function(resolve, reject) {
         let entries = data.setup.entries;
-        let total = 0;
-        entries.forEach(function(row) {
-            var queryString =
-                "INSERT INTO Timesheets (timesheet_foreignkey, service_duration, service_description, service_date) VALUES($1, $2, $3, $4)";
-            //Asynchronously insert data into the database
-            var entry = [
-                row.timesheet_foreignkey, row.service_duration,
-                row.service_description, row.service_date
-            ];
-
-            data.client.query(queryString, entry, function(err, result) {
-                total += 1;
-                if (err) {
-                    throw new Error(err, 124);
-                } else {
-
-                    // I definitely agree it needs a rewrite and I'm considering more of
-                    // a rewrite for functions where I am adding multiple lines
-                    // Promise all would be an interesting solution... I will definitely
-                    // think of how to implement that
-                    if (total === entries.length) {
-                        resolve(data);
-                    }
-                }
+        Promise.all(entries.map(function(entry){
+            console.log("entry", entry);
+            return addEntry({
+                timesheetID: data.setup.timesheetID,
+                date: entry.date,
+                duration: entry.duration,
+                service: entry.service
+            }, data.client);
+        }))
+        .then(function(result){
+            console.log("add entries");
+            resolve({
+                data: data.setup,
+                result: result,
+                client: data.client,
+                done: data.done
             });
+        });
+    });
+}
+function addEntry(data, client){
+    var queryString =
+        "INSERT INTO Timesheets (timesheet_foreignkey, service_duration, service_description, service_date) VALUES($1, $2, $3, $4)";
+    //Asynchronously insert data into the database
+    var entry = [
+        data.timesheetID, data.duration,
+        data.service, data.date
+    ];
+    console.log(entry);
+    console.log("made it into here");
+    return new Promise(function(resolve, reject){
+        console.log("and here");
+        console.log(entry);
+        client.query(queryString, entry, function(err, result) {
+            console.log("but not here");
+            if (err) {
+                throw new Error(err);
+            } else {
+                console.log(result);
+                console.log(result.rows);
+                resolve(result.rows);
+            }
         });
     });
 }
@@ -155,7 +176,7 @@ function getTimesheetIDs(data) {
     }
     return new Promise(function(resolve, reject) {
         let queryString =
-            "SELECT timesheet_id, engagement, start_date, end_date FROM Timesheets_Meta WHERE user_foreignkey= $1";
+            "SELECT timesheet_id, engagement, date_part('epoch', start_date)*1000 AS start_date, date_part('epoch', end_date)*1000 AS end_date FROM Timesheets_Meta WHERE user_foreignkey= $1";
         data.client.query(queryString, [userID], function(err, result) {
             if (err) {
                 throw new Error(err, 162);
@@ -182,7 +203,7 @@ function getAllEntries(data) {
     });
 }
 function getEntries(data, client){
-    let queryString = "SELECT timesheet_foreignkey, service_description, service_duration, service_date FROM timesheets WHERE timesheet_foreignkey = $1";
+    let queryString = "SELECT timesheet_foreignkey, service_description, service_duration, EXTRACT('epoch' from service_date)*1000 AS service_date FROM timesheets WHERE timesheet_foreignkey = $1";
     return new Promise(function(resolve, reject){
         client.query(queryString, [data.timesheet_id], function(err, result){
             if (err) {
@@ -250,7 +271,7 @@ function deleteTimesheetMeta(data) {
 ////////////////////////////////////////////////////////////////////////////////
 function createTimesheet(data, callback) {
     connect(data)
-        .then(createMetaData)
+        .then(addMetaData)
         .then(addEntries)
         .then(finish)
         .catch(error)
@@ -288,11 +309,24 @@ function buildTimesheets(data){
         let meta_info= data.meta;
         let entries = data.entries;
         let timesheets = meta_info.map(function(meta) {
-            let timesheet = meta;
-            // console.log(entries);
+            let timesheet = {
+                timesheetID: meta.timesheet_id,
+                startDate: buildYearMonthDay(new Date(meta.start_date)),
+                endDate: buildYearMonthDay(new Date(meta.end_date)),
+                engagement: meta.engagement,
+                entries: []
+            };
+            console.log(entries);
             entries.forEach(function(entry, index) {
+                console.log(new Date (entry.service_date));
                 if (entry.timesheet_foreignkey === timesheet.timesheetID) {
-                    timesheet.entries.push(entry);
+                    console.log(entry.service_date);
+                    console.log("Date", new Date (entry.service_date));
+                    timesheet.entries.push({
+                        date: buildYearMonthDay(new Date (entry.service_date)),
+                        service: entry.service_description,
+                        duration: entry.service_duration
+                    });
                 }
             });
             return timesheet;
@@ -302,6 +336,14 @@ function buildTimesheets(data){
     });
 }
 
+function buildYearMonthDay(date) {
+    let day = date.getDate() < 10 ? '0' + date.getDate(): date.getDate();
+    console.log('day', day);
+    let month = date.getMonth() < 10 ? '0' + (date.getMonth() + 1): date.getMonth();
+    let year = date.getFullYear();
+    return (year + "/" + month + "/" + day);
+
+}
 function flatten(array){
     return array.reduce(function(a, b){
         return a.concat(b);
@@ -320,8 +362,8 @@ function generateMetaData(id) {
     return {
         "timesheetID": uuid(),
         "userID": 1,
-        "start_date": "01/01/2015",
-        "end_date": "01/15/2015",
+        "start_date": "2015/01/01",
+        "end_date": "2015/01/15",
         "engagement": Math.floor(Math.random() * 10000)
     };
 }

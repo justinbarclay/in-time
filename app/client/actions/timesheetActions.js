@@ -47,10 +47,11 @@ var timesheetActions = Flux.createActions({
             actionType: "DELETE_TIMESHEETS"
         });
     },
-    newTimesheet: function(id) {
+    newTimesheet: function(timesheetID, userID) {
         this.dispatch({
             actionType: "NEW_TIMESHEET",
-            id: id
+            timesheetID: timesheetID,
+            userID: userID
         });
     },
     addRow: function(id, entry) {
@@ -69,19 +70,65 @@ var timesheetActions = Flux.createActions({
         });
     },
     updateEntry: function(entry) {
-        console.log("actions");
+        console.log("updateEntry");
         this.dispatch({
             actionType: "UPDATE_ENTRY",
             data: entry
         });
     },
     updateMeta: function(meta) {
-        console.log("actions");
+        console.log("updateMeta");
         this.dispatch({
             actionType: "UPDATE_META",
             data: meta
         });
+    },
+    saveTimesheet: function(id){
+        console.log("saveTimesheet");
+        var timesheet = formatTimesheet(timesheetStore.getTimesheet(id));
+        var AJAXreq = new XMLHttpRequest();
+        AJAXreq.open("POST", "/timesheet", true);
+        AJAXreq.setRequestHeader('ContentType', 'application/json; charset=UTF8');
+        currentJWT = localStorage.getItem('JWT');
+        AJAXreq.setRequestHeader('X-ACCESS-TOKEN', currentJWT);
+        AJAXreq.setRequestHeader('ContentType',
+            'application/json; charset=UTF8');
+        AJAXreq.send(JSON.stringify(timesheet));
+        AJAXreq.onreadystatechange = function() {
+            var res = JSON.parse(AJAXreq.responseText);
+            console.log(res);
+            if (AJAXreq.readyState === 4) {
+                newJWT = AJAXreq.getResponseHeader(
+                    "X-ACCESS-TOKEN");
+                console.log(newJWT);
+                if (newJWT) {
+                    localStorage.setItem('JWT', newJWT);
+                }
+                return res;
+            }
+        };
+
     }
 });
 
 module.exports = timesheetActions;
+
+function formatTimesheet(timesheet){
+    console.log(timesheet);
+    formattedTimesheet = {
+        timesheetID: timesheet.timesheetID,
+        engagement: timesheet.engagement,
+        startDate: new Date(timesheet.startDate),
+        endDate: new Date(timesheet.endDate),
+        userID: timesheet.userID,
+        entries: []
+    };
+    formattedTimesheet.entries = timesheet.entries.map(function(entry){
+        return {
+            service: entry.service,
+            date: new Date(entry.date),
+            duration: entry.duration
+        };
+    });
+    return formattedTimesheet;
+}

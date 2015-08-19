@@ -28,7 +28,7 @@ var Timesheets = React.createClass({
     },
     newTimesheet: function(){
         var newID =uuid.v4();
-        timesheetActions.newTimesheet(newID);
+        timesheetActions.newTimesheet(newID, this.state.user.id);
         this.transitionTo("/timesheet/" + newID);
     },
     storeDidChange: function() {
@@ -37,7 +37,7 @@ var Timesheets = React.createClass({
     render: function() {
         console.log(this.state);
         var timesheets = this.state.timesheets.map(function(timesheet, index){
-            return <ToTimesheet timesheet={timesheet} key={index} />;
+            return <ToTimesheet timesheet={timesheet} key={index}/>;
         });
         return (
             <div>
