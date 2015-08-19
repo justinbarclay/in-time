@@ -34,7 +34,7 @@ var verifyJWT = function(token) {
 function route(req, res) {
     //A very basic router that will parse the pathname out of the request object
     //and then send back a response object with some information
-
+    var data = '';
     var path = url.parse(req.url, true)
         .pathname;
     console.log(path);
@@ -54,14 +54,13 @@ function route(req, res) {
         //Attempt to login
         //This doesn't go anywhere yet, but it does test the user controller
         console.log("Succesful post to /signup!");
-        var signUp = '';
 
         req.on("data", function(chunk) {
-            signUp += chunk;
+            data += chunk;
         });
 
         req.on("end", function() {
-            currentUser = JSON.parse(signUp);
+            currentUser = JSON.parse(data);
             //hard coded email for testing
             console.log(currentUser);
             user.signUp(currentUser.username, currentUser.password,
@@ -92,15 +91,12 @@ function route(req, res) {
     } else if (path === '/signin') {
         //Attempt to login
         //This doesn't go anywhere yet, but it does test the user controller
-        console.log("Succesful post to /signup!");
-        var signin = '';
-
         req.on("data", function(chunk) {
-            signin += chunk;
+            data += chunk;
         });
 
         req.on("end", function() {
-            currentUser = JSON.parse(signin);
+            currentUser = JSON.parse(data);
             console.log(currentUser.username);
             //hard coded email for testing
             user.authenticate(currentUser.username, currentUser.password,
@@ -134,7 +130,6 @@ function route(req, res) {
                 });
         });
     } else if (path === '/JWT') {
-        var data = '';
         req.on("data", function(chunk) {
             data += chunk;
         });
@@ -156,9 +151,8 @@ function route(req, res) {
             res.end();
             console.log("res sent");
         });
-} else if (path === '/timesheets' && req.method === "POST") {
+    } else if (path === '/timesheets' && req.method === "POST") {
         // Should handle both get and post? or just one...
-        var data = '';
         req.on("data", function(chunk) {
             console.log("chunk", data);
             data += chunk;
@@ -188,9 +182,7 @@ function route(req, res) {
                 return;
             } else {
 
-                console.log("line 191");
-                timesheet.getTimesheets(request, function(data){
-                    // if (data) {
+                timesheet.getTimesheets(request, function(timesheets){
                     console.log("line 194");
                     // console.log("res", res);
                     // res.writeHead(200, {
@@ -198,56 +190,56 @@ function route(req, res) {
                     // });
                     res.setHeader('X-ACCESS-TOKEN', verify);
                     // console.log("res", res);
-                    console.log("line 195", data); //Debug
-                    res.write(JSON.stringify(data));
+                    console.log("line 195", timesheets); //Debug
+                    res.write(JSON.stringify(timesheets));
                     res.end();
                     // }
                 });
             }
         });
-    // }else if (path === '/timesheet' && req.method === "POST") {
-    //     var data = '';
-    //     req.on("data", function(chunk) {
-    //         console.log("chunk", data);
-    //         data += chunk;
-    //     });
-    //     req.on("end", function(){
-    //         var verify = verifyJWT(req.headers["x-access-token"]);
-    //         if (!verify){
-    //             res.writeHead(401, {
-    //                 'Content-Type': 'application/json'
-    //             });
-    //             res.write(JSON.stringify({"message": "invalid security token"}));
-    //             return;
-    //         }
-    //         res.setHeader('X-ACCESS-TOKEN', verify);
-    //         try{
-    //             request = JSON.parse(data);
-    //         }
-    //         catch (err){
-    //             console.err(err); //Debug
-    //         }
-    //         if (request.userID !== parseInt(request.userID, 10)) {
-    //             res.writeHead(400, {
-    //                 'Content-Type': 'application/json'
-    //             });
-    //             res.write(JSON.stringify({"message": "Invalid user ID"}));
-    //         } else {
-    //             res.writeHead(200, {
-    //                 'Content-Type': 'application/json'
-    //             });
-    //             timesheet.getTimesheets(request, function(data){
-    //                 if (data) {
-    //                     res.writeHead(200, {
-    //                         'Content-Type': 'application/json'
-    //                     });
-    //                     console.log("line 195", data); //Debug
-    //                     res.write(JSON.stringify(data));
-    //                     res.end();
-    //                 }
-    //             });
-    //         }
-    //     });
+    }else if (path === '/timesheet' && req.method === "POST") {
+        req.on("data", function(chunk) {
+            console.log("chunk", chunk);
+            data += chunk;
+        });
+
+        req.on("end", function(){
+            var verify = verifyJWT(req.headers["x-access-token"]);
+            res.setHeader('X-ACCESS-TOKEN', verify);
+            if (!verify){
+                res.writeHead(401, {
+                    'Content-Type': 'application/json'
+                });
+                res.write(JSON.stringify({"message": "invalid security token"}));
+                return;
+            }
+            try {
+                timesheetObj = JSON.parse(data);
+            } catch (err){
+                console.err(err); //Debug
+            }
+            console.log("timesheetObj", timesheetObj);
+            if (timesheetObj.userID !== parseInt(timesheetObj.userID, 10)) {
+                res.writeHead(400, {
+                    'Content-Type': 'application/json'
+                });
+                res.write(JSON.stringify({"message": "Invalid user ID"}));
+            } else {
+                res.writeHead(200, {
+                    'Content-Type': 'application/json'
+                });
+                timesheet.createTimesheet(timesheetObj, function(message){
+                    if (data) {
+                        res.writeHead(200, {
+                            'Content-Type': 'application/json'
+                        });
+                        console.log("line 235", message); //Debug
+                        res.write(JSON.stringify(message));
+                        res.end();
+                    }
+                });
+            }
+        });
     } else if (path.slice(0, 7) === "/public") {
         //server static content out. Including JS and CSS files
         //Unsure of how this will handle image files

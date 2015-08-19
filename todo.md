@@ -2,6 +2,8 @@
 
 * Write a to do app to manage to dos in the timesheet application
 
+* Find a Javascript date picker
+
 * Hookup timesheets to server api
 
 * Fix "about" component so it does not send AJAX unnecessarily
