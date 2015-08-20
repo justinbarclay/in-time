@@ -48,7 +48,7 @@ function signUp(userName, userPassword, userEmail, callback) {
                 'error fetching client from pool in user controller',
                 err);
         }
-        queryString = "SELECT * FROM userlogin WHERE username=" + "'" +
+        let queryString = "SELECT * FROM userlogin WHERE username=" + "'" +
             userName + "'";
         client.query(queryString, function(err, result) {
             //call `done()` to release the client back to the pool
