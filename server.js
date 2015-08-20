@@ -12,13 +12,14 @@ var server = http.createServer(function(req, res){
   router(req, res);
 });
 console.log("Server listening on port:" + port);
-server.listen(port, listening());
-
-function listening () {
-  browserSync({
-    proxy: 'localhost:' + port,
-    files: ['./app/public/**/*.{js,css}'],
-    logLevel: 'debug',
-    open: false
-  });
-}
+server.listen(port);
+// server.listen(port, listening());
+//
+// function listening () {
+//   browserSync({
+//     proxy: 'localhost:' + port,
+//     files: ['./app/public/**/*.{js,css}'],
+//     logLevel: 'debug',
+//     open: false
+//   });
+// }
