@@ -1,6 +1,6 @@
 "use strict";
 
-let config = require("../../../config.json");
+let config = require("../../../config.js");
 let pg = require('pg');
 let conString = config.postgres;
 let uuid = require('uuid').v4;
