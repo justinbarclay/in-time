@@ -12,7 +12,7 @@ let fs = require('fs');
 
 //without this being set pg.defaults to 30 clients running and a timeout time for
 //each client of 30s (30000)
-pg.defaults.poolIdleTimeout = 10000;
+pg.defaults.poolIdleTimeout = 10*1000;
 ////////////////////////////////////////////////////////////////////////////////
 //
 //Timesheet Controller
@@ -51,7 +51,7 @@ let connect = function(data) {
     return new Promise(function(resolve, reject) {
         pg.connect(conString, function(err, client, done) {
             if (err) {
-                throw new Error(err, 37);
+                throw err;
             } else {
                 resolve({
                     setup: data,
@@ -97,7 +97,7 @@ let addMetaData = function(data) {
             meta.startDate, meta.endDate, meta.engagement];
         data.client.query(queryString, metaTimesheet, function(err, result) {
             if (err) {
-                throw new Error(err);
+                throw err;
             } else {
                 resolve({
                 setup: data.setup,
@@ -148,7 +148,7 @@ function addEntry(data, client){
         client.query(queryString, entry, function(err, result) {
             console.log("but not here");
             if (err) {
-                throw new Error(err);
+                throw err;
             } else {
                 console.log(result);
                 console.log(result.rows);
@@ -169,17 +169,12 @@ function addEntry(data, client){
 function getTimesheetIDs(data) {
     //grabs a list of user timesheets and passes it on in a callback
     let userID = data.setup.userID;
-
-    //Add check in router code for data.UserID
-    if (userID !== parseInt(userID, 10)) {
-        throw new Error("UserID is not an Int");
-    }
     return new Promise(function(resolve, reject) {
         let queryString =
             "SELECT timesheet_id, engagement, date_part('epoch', start_date)*1000 AS start_date, date_part('epoch', end_date)*1000 AS end_date FROM Timesheets_Meta WHERE user_foreignkey= $1";
         data.client.query(queryString, [userID], function(err, result) {
             if (err) {
-                throw new Error(err, 162);
+                throw err;
             } else {
                 console.log(
                     "Meta information succesfully selected"
@@ -207,7 +202,7 @@ function getEntries(data, client){
     return new Promise(function(resolve, reject){
         client.query(queryString, [data.timesheet_id], function(err, result){
             if (err) {
-                throw new Error(err, 204);
+                throw err;
             } else {
                 resolve(result.rows);
             }
@@ -230,7 +225,7 @@ function deleteTimesheetEntries(data) {
                         console.error(
                             'error deleting query into timesheet',
                             err); //Debug
-                        throw new Error(err, 209);
+                        throw err;
                     } else {
                         console.log(
                             "Timesheet succesfully deleted  "
@@ -254,7 +249,7 @@ function deleteTimesheetMeta(data) {
                         console.error(
                             'error deleting query into timesheet',
                             err); //Debug
-                        throw new Error(err, 209);
+                        throw err;
                     } else {
                         console.log(
                             "Timesheet succesfully deleted  "
@@ -316,12 +311,9 @@ function buildTimesheets(data){
                 engagement: meta.engagement,
                 entries: []
             };
-            console.log(entries);
             entries.forEach(function(entry, index) {
                 console.log(new Date (entry.service_date));
                 if (entry.timesheet_foreignkey === timesheet.timesheetID) {
-                    console.log(entry.service_date);
-                    console.log("Date", new Date (entry.service_date));
                     timesheet.entries.push({
                         date: buildYearMonthDay(new Date (entry.service_date)),
                         service: entry.service_description,
@@ -331,7 +323,6 @@ function buildTimesheets(data){
             });
             return timesheet;
         });
-        console.log("timesheets", timesheets);
         resolve(timesheets);
     });
 }
@@ -349,82 +340,6 @@ function flatten(array){
         return a.concat(b);
     });
 }
-
-
-////////////////////////////////////////////////////////////////////////////////
-//
-//TESTS
-//
-////////////////////////////////////////////////////////////////////////////////
-// //Running some tests
-// //these tests should be moved to mocha as soon as possible
-function generateMetaData(id) {
-    return {
-        "timesheetID": uuid(),
-        "userID": 1,
-        "start_date": "2015/01/01",
-        "end_date": "2015/01/15",
-        "engagement": Math.floor(Math.random() * 10000)
-    };
-}
-
-function generateEntry(id) {
-    return {
-        "timesheet_foreignkey": id,
-        "service_duration": (Math.floor(Math.random() * 12)),
-        "service_description": "description of service",
-        "service_date": "05/07/2015"
-    };
-
-}
-
-function generateTimesheet(numberOfEntries) {
-    var timesheet = generateMetaData();
-    var entries = [];
-    var rows = numberOfEntries ? numberOfEntries : Math.floor(Math.random() * 7 +
-        3);
-    for (let i = 0; rows > i; i++) {
-        entries.push(generateEntry(timesheet.timesheetID));
-    }
-    timesheet.entries = entries;
-    return timesheet;
-}
-
-// let time = generateTimesheet();
-// createTimesheet(time);
-// let timesheet = function() {
-//     let timethingy = {};
-//     return {
-//         set: function(obj) {
-//             timethingy = obj;
-//         },
-//         get: function() {
-//             return timethingy;
-//         }
-//     };
-// };
-//
-// getTimesheets({
-//     "userID": 1
-// });
-
-
-
-// let queryString = "SELECT timesheets_meta.timesheet_id, timesheets_meta.user_foreignkey, timesheets_meta.start_date, timesheets_meta.end_date, timesheets_meta.engagement, timesheets.service_description, timesheets.service_duration, timesheets.service_date FROM employees.public.timesheets_meta, employees.public.timesheets WHERE timesheets_meta.timesheet_id = timesheets.timesheet_foreignkey AND timesheets_meta.timesheet_id = $1";
-// deleteTimesheets({"delete": ['c54f5c44-247b-452e-8c0c-d5ef3d3ed356']}, null, function(data){console.log(data)});
-// let myTimesheet = timesheet();
-// //     myTimesheet.setTimethingy(10);
-//     console.log(myTimesheet.getTimethingy());
-// connect({"userID": 1}).then(getTimesheetIDs).then(function(data){
-//     myTimesheet.set(data)
-//     return data;
-// }).catch(error).then(finish);
-// console.log("generateMetaData");
-// console.log(generateMetaData());
-// console.log("generateEntry");
-// console.log(generateEntry(1));
-// console.log("Generate Timesheet");
-// console.log(generateTimesheet());
 
 exports.getTimesheets = getTimesheets;
 exports.createTimesheet = createTimesheet;
