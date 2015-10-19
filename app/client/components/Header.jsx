@@ -1,5 +1,7 @@
 //React
 var React = require("react");
+var Router = require("react-router");
+var Link = Router.Link;
 
 //Flux
 var authStore = require('../stores/authStore');
@@ -28,6 +30,9 @@ var nav = React.createClass({
         }
         return (
             <div className="header">
+                <Link className="nav homeButton" to="home">
+                    <label>Home</label>
+                </Link>
                 {nav}
             </div>
         );

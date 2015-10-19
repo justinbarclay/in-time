@@ -9,9 +9,6 @@ var NavSignedOut = React.createClass({
     render: function() {
         return (
             <div className="navigation">
-                <Link className="nav" to="about">
-                    <label>About</label>
-                </Link>
                 <Link className="nav" to="signup">
                     <label>Sign Up</label>
                 </Link>
@@ -22,5 +19,9 @@ var NavSignedOut = React.createClass({
         );
     }
 });
+
+// <Link className="nav" to="about">
+// <label>About</label>
+// </Link>
 
 module.exports = NavSignedOut;

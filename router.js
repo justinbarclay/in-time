@@ -1,13 +1,14 @@
-var querystring = require('querystring'),
-    user = require('./app/server/controllers/user'),
-    timesheet = require('./app/server/controllers/timesheet'),
-    fs = require('fs'),
-    url = require('url'),
-    jwt = require("jsonwebtoken");
+var querystring = require('querystring');
+var    user = require('./app/server/controllers/user');
+var    timesheet = require('./app/server/controllers/timesheet');
+var    fs = require('fs');
+var    url = require('url');
+var    jwt = require("jsonwebtoken");
 
 var config = require("./config.js");
 
 const secret = config.secret;
+
 //shorthand function for verifying JWT
 var verifyJWT = function(token) {
     //If JWT is verified return token, otherwise return null
@@ -18,7 +19,7 @@ var verifyJWT = function(token) {
         console.log(state);
         console.log(token);
         return token;
-    } catch(err) {
+    } catch (err) {
         console.log("JWT err");
         console.log(err);
         console.log(token);
@@ -27,9 +28,10 @@ var verifyJWT = function(token) {
 };
 
 //With this router, we only want to pass the necessary data into the controller
-//and leave the res and req objects in the router context. This may mean that the
-//controllers pass back booleans or errors or messages or a new object to indicate
-//the state of the data. How a controller indicates this is currently up for debate
+//and leave the res and req objects in the router context. This may mean that 
+//the controllers pass back booleans or errors or messages or a new object to
+//indicate the state of the data. How a controller indicates this is currently 
+//up for debate
 
 function route(req, res) {
     //A very basic router that will parse the pathname out of the request object
@@ -37,6 +39,7 @@ function route(req, res) {
     var data = '';
     var path = url.parse(req.url, true)
         .pathname;
+    var request;
     console.log(path);
     if (path === '/') {
         // Load the home page
@@ -139,7 +142,7 @@ function route(req, res) {
             console.log("headerJWT: " + headerJWT);
             var verify = verifyJWT(headerJWT);
             console.log("JWT");
-            if (verify){
+            if (verify) {
                 res.setHeader('X-ACCESS-TOKEN', verify);
             }
 
@@ -157,32 +160,35 @@ function route(req, res) {
             console.log("chunk", data);
             data += chunk;
         });
-        req.on("end", function(){
+        req.on("end", function() {
             var verify = verifyJWT(req.headers["x-access-token"]);
-            if (!verify){
+            if (!verify) {
                 res.writeHead(401, {
                     'Content-Type': 'application/json'
                 });
                 console.log("not verified");
-                res.write(JSON.stringify({"message": "invalid security token"}));
+                res.write(JSON.stringify({
+                    "message": "invalid security token"
+                }));
                 return;
             }
 
-            try{
+            try {
                 request = JSON.parse(data);
-            }
-            catch (err){
+            } catch (err) {
                 console.err(err); //Debug
             }
             if (request.userID !== parseInt(request.userID, 10)) {
                 res.writeHead(400, {
                     'Content-Type': 'application/json'
                 });
-                res.write(JSON.stringify({"message": "Invalid user ID"}));
+                res.write(JSON.stringify({
+                    "message": "Invalid user ID"
+                }));
                 return;
             } else {
 
-                timesheet.getTimesheets(request, function(timesheets){
+                timesheet.getTimesheets(request, function(timesheets) {
                     console.log("line 194");
                     // console.log("res", res);
                     // res.writeHead(200, {
@@ -197,25 +203,27 @@ function route(req, res) {
                 });
             }
         });
-    }else if (path === '/timesheet' && req.method === "POST") {
+    } else if (path === '/timesheet' && req.method === "POST") {
         req.on("data", function(chunk) {
             console.log("chunk", chunk);
             data += chunk;
         });
 
-        req.on("end", function(){
+        req.on("end", function() {
             var verify = verifyJWT(req.headers["x-access-token"]);
             res.setHeader('X-ACCESS-TOKEN', verify);
-            if (!verify){
+            if (!verify) {
                 res.writeHead(401, {
                     'Content-Type': 'application/json'
                 });
-                res.write(JSON.stringify({"message": "invalid security token"}));
+                res.write(JSON.stringify({
+                    "message": "invalid security token"
+                }));
                 return;
             }
             try {
                 timesheetObj = JSON.parse(data);
-            } catch (err){
+            } catch (err) {
                 console.err(err); //Debug
             }
             console.log("timesheetObj", timesheetObj);
@@ -223,12 +231,14 @@ function route(req, res) {
                 res.writeHead(400, {
                     'Content-Type': 'application/json'
                 });
-                res.write(JSON.stringify({"message": "Invalid user ID"}));
+                res.write(JSON.stringify({
+                    "message": "Invalid user ID"
+                }));
             } else {
                 res.writeHead(200, {
                     'Content-Type': 'application/json'
                 });
-                timesheet.createTimesheet(timesheetObj, function(message){
+                timesheet.createTimesheet(timesheetObj, function(message) {
                     if (data) {
                         res.writeHead(200, {
                             'Content-Type': 'application/json'
@@ -271,7 +281,9 @@ function route(req, res) {
     }
 
 }
-// A group of helper functions that either make the code in router simpler or more readable
+// A group of helper functions that either make the code in router simpler or more 
+//readable
+
 var helper = (function() {
     return {
         filetype: function(paths) {

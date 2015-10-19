@@ -6,7 +6,7 @@ var gutil = require('gulp-util');
 var browserify = require('browserify');
 var reactify = require('reactify');
 var watchify = require('watchify');
-var browserSync = require('browser-sync');
+// var browserSync = require('browser-sync');
 var source = require('vinyl-source-stream');
 
     var FRONTEND_FILES = [
@@ -96,16 +96,21 @@ gulp.task('browserify', function() {
 // Watch
 // ---------------------------------------------
 gulp.task('sass-watch', function (){
-    gulp.watch('./app/client/scss/**/*.scss', ['sass']);
+   gulp.watch('./app/client/scss/**/*.scss', ['sass']);
 });
-gulp.task('js-watch', function (){
-    gulp.watch('./app/client/**/*.scss', ['']);
-});
+// watcher = gulp.watch('./app/client/scss/**/*.scss', ['sass']);
+// gulp.task('js-watch', function (){
+//     gulp.watch('./app/client/**/*.js', ['']);
+// });
 
 /*
 * DEFAULT
 */
 
-gulp.task('dev:watch', ['sass-watch', 'browserify']);
-gulp.task('dev', ['browserify','sass', 'sass-watch']);
-gulp.task('default', ['browserify', 'sass', ]);
+// watcher.on('change', function(event){
+//     console.log("SCSS change");
+// });
+
+// gulp.task('dev:watch', ['sass-watch', 'browserify']);
+// gulp.task('dev', ['sass-watch', 'browserify','sass']);
+gulp.task('default', ['browserify', 'sass', 'sass-watch']);
