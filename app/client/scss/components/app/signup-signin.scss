@@ -23,7 +23,7 @@
 
 
 @media screen and (min-width: 480px) {
-    signupForm, .signinForm {
+    .signupForm, .signinForm {
         @include grid-column(
             $columns: 5,
             $center: true

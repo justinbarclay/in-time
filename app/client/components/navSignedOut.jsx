@@ -13,7 +13,7 @@ var NavSignedOut = React.createClass({
                     <label>Sign Up</label>
                 </Link>
                 <Link className="nav" to="signin">
-                    <label>Log In</label>
+                    <label>Sign In</label>
                 </Link>
             </div>
         );
