@@ -6729,7 +6729,7 @@ main {
           transform: translateY(-50%);
   font-size: 1.5em;
   margin: 0 auto 0 auto;
-  background-color: red;
+  /* background-color: red; */
   display: block; }
 
 button {
