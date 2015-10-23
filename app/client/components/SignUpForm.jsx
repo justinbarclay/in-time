@@ -61,10 +61,10 @@ var SignUpForm = React.createClass({
             this.setState({signUpMessage: "E-mail address is not valid", alertHidden: false});
             return false;
         } else if(password.length < 5){
-            this.setState({signUpMessage: "Password must be greater than 4 characters", alertHidden: false});
+            this.setState({signUpMessage: "Password must be at least 5 characters long", alertHidden: false});
             return false;
         } else if(username.length < 6){
-            this.setState({signUpMessage: "Username must be greater than 5 characters", alertHidden: false});
+            this.setState({signUpMessage: "Username must be at least 6 characters long", alertHidden: false});
             return false;
         } else if (password !== confirm) {
             this.setState({signUpMessage: "Passwords do not match", alertHidden: false});
