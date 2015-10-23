@@ -13,7 +13,7 @@ var authStore = Flux.createStore({
         return _user;
     },
     authenticated: function(){
-        console.log(_user);
+        // console.log(_user);
         return _user.authenticated;
     },
     signinUser: function(user) {
@@ -26,7 +26,7 @@ var authStore = Flux.createStore({
 
         //Maybe split _user.message off to a message store
         _user.message = user.message;
-        console.log(_user);
+        // console.log(_user);
     },
     signOut: function() {
         localStorage.removeItem('JWT');

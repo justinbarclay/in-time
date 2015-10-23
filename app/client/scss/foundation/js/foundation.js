@@ -2472,7 +2472,7 @@
           //
           // This allows you to bind a callback like so:
           // $('#interchangeContainer').on('replace', function (e, a, b, c) {
-          //   console.log($(this).html(), a, b, c);
+          //   // console.log($(this).html(), a, b, c);
           // });
 
           if (el !== null && /IMG/.test(el[0].nodeName)) {

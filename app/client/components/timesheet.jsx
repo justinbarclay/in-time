@@ -12,7 +12,7 @@ var Timesheet = React.createClass({
     mixins: [timesheetStore.mixin],
     propTypes: [],
     getInitialState: function() {
-        console.log(timesheetActions.getTimesheet(this.props.params.id));
+        // console.log(timesheetActions.getTimesheet(this.props.params.id));
         return  timesheetActions.getTimesheet(this.props.params.id);
     },
     storeDidChange: function() {
@@ -30,7 +30,7 @@ var Timesheet = React.createClass({
         timesheetActions.saveTimesheet(this.state.timesheetID);
     },
     render: function() {
-        console.log(this.state);
+        // console.log(this.state);
         var self = this;
         var entryFields = [
             {

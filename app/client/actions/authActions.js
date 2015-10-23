@@ -19,13 +19,13 @@ var authActions = Flux.createActions({
             if (AJAXreq.readyState === 4) {
                 //more debugging stuff
                 var res = JSON.parse(AJAXreq.responseText);
-                console.log(res);
+                // console.log(res);
                 user = res;
                 if (user.success) {
                     localStorage.setItem('JWT', AJAXreq.getResponseHeader("X-ACCESS-TOKEN"));
                     localStorage.setItem('USER_ID', user.id);
                 }
-                console.log("user: " + JSON.stringify(user));
+                // console.log("user: " + JSON.stringify(user));
                 self.dispatch({
                     actionType: "SIGNIN_USER",
                     user: user

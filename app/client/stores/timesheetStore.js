@@ -105,7 +105,7 @@ var timesheetStore = Flux.createStore({
         });
     },
     addRow: function(id, entry) {
-        console.log(id);
+        // console.log(id);
         findTimesheetIndex(id, function(index) {
             _timesheets[index].entries.push(entry);
         });
@@ -116,10 +116,10 @@ var timesheetStore = Flux.createStore({
         });
     },
     updateEntry: function(id, rowIndex, accessor, data) {
-        console.log("id:" + id);
-        console.log(rowIndex);
+        // console.log("id:" + id);
+        // console.log(rowIndex);
         findTimesheetIndex(id, function(index) {
-            console.log(_timesheets[index].entries[rowIndex]
+            // console.log(_timesheets[index].entries[rowIndex]
                 [accessor]);
             _timesheets[index].entries[rowIndex][accessor] =
                 data;
@@ -127,18 +127,18 @@ var timesheetStore = Flux.createStore({
     },
     updateMeta: function(id, accessor, data) {
         findTimesheetIndex(id, function(index) {
-            console.log("id: " + id);
-            console.log("index:" + index + " " +
+            // console.log("id: " + id);
+            // console.log("index:" + index + " " +
                 "accessor: " + accessor);
-            console.log(_timesheets[index][accessor]);
+            // console.log(_timesheets[index][accessor]);
             _timesheets[index][accessor] = data;
         });
     },
     syncTimesheets: function(timesheets){
         // formattedTimesheet = timesheets.map(formatTimesheet);
-        console.log(timesheets);
+        // console.log(timesheets);
         _timesheets = timesheets;
-        console.log(_timesheets);
+        // console.log(_timesheets);
     }
 }, function(payload) {
     if (payload.actionType === "NEW_TIMESHEET") {
@@ -256,7 +256,7 @@ var cloneObject = function(obj) {
 module.exports = timesheetStore;
 
 // function formatTimesheet(timesheet){
-//     console.log(timesheet);
+//     // console.log(timesheet);
 //     var formattedTimesheet = {
 //         timesheetID: timesheet.timesheetID,
 //         engagement: timesheet.engagement,
@@ -265,7 +265,7 @@ module.exports = timesheetStore;
 //         userID: timesheet.userID,
 //         entries: []
 //     };
-//     console.log(timesheet.entries);
+//     // console.log(timesheet.entries);
 //     formattedTimesheet.entries = timesheet.entries.map(function(entry){
 //         return {
 //             service: entry.service,

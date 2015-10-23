@@ -5,27 +5,27 @@ var timesheetActions = Flux.createActions({
     syncTimesheets: function(userID) {
         self = this;
         user = JSON.stringify({userID: userID});
-        console.log("user", user);
+        // console.log("user", user);
         var AJAXreq = new XMLHttpRequest();
         AJAXreq.open("POST", "/timesheets", true);
         AJAXreq.setRequestHeader('ContentType', 'application/json; charset=UTF8');
-        console.log("timesheet actions", 12);
+        // console.log("timesheet actions", 12);
         currentJWT = localStorage.getItem('JWT');
         AJAXreq.setRequestHeader('X-ACCESS-TOKEN', currentJWT);
         AJAXreq.setRequestHeader('ContentType',
             'application/json; charset=UTF8');
         AJAXreq.send(user);
-        console.log("timesheet actions", 18);
+        // console.log("timesheet actions", 18);
         AJAXreq.onreadystatechange = function() {
-            console.log("timesheet actions", 20);
-            console.log("state change");
+            // console.log("timesheet actions", 20);
+            // console.log("state change");
             var res = JSON.parse(AJAXreq.responseText);
-            console.log(res);
+            // console.log(res);
 
             if (AJAXreq.readyState === 4) {
                 newJWT = AJAXreq.getResponseHeader(
                     "X-ACCESS-TOKEN");
-                console.log(newJWT);
+                // console.log(newJWT);
                 if (newJWT) {
                     localStorage.setItem('JWT', newJWT);
                 }
@@ -55,7 +55,7 @@ var timesheetActions = Flux.createActions({
         });
     },
     addRow: function(id, entry) {
-        console.log('action');
+        // console.log('action');
         this.dispatch({
             actionType: "ADD_ROW",
             id: id,
@@ -70,21 +70,21 @@ var timesheetActions = Flux.createActions({
         });
     },
     updateEntry: function(entry) {
-        console.log("updateEntry");
+        // console.log("updateEntry");
         this.dispatch({
             actionType: "UPDATE_ENTRY",
             data: entry
         });
     },
     updateMeta: function(meta) {
-        console.log("updateMeta");
+        // console.log("updateMeta");
         this.dispatch({
             actionType: "UPDATE_META",
             data: meta
         });
     },
     saveTimesheet: function(id){
-        console.log("saveTimesheet");
+        // console.log("saveTimesheet");
         var timesheet = formatTimesheet(timesheetStore.getTimesheet(id));
         var AJAXreq = new XMLHttpRequest();
         AJAXreq.open("POST", "/timesheet", true);
@@ -96,11 +96,11 @@ var timesheetActions = Flux.createActions({
         AJAXreq.send(JSON.stringify(timesheet));
         AJAXreq.onreadystatechange = function() {
             var res = JSON.parse(AJAXreq.responseText);
-            console.log(res);
+            // console.log(res);
             if (AJAXreq.readyState === 4) {
                 newJWT = AJAXreq.getResponseHeader(
                     "X-ACCESS-TOKEN");
-                console.log(newJWT);
+                // console.log(newJWT);
                 if (newJWT) {
                     localStorage.setItem('JWT', newJWT);
                 }
@@ -114,7 +114,7 @@ var timesheetActions = Flux.createActions({
 module.exports = timesheetActions;
 
 function formatTimesheet(timesheet){
-    console.log(timesheet);
+    // console.log(timesheet);
     formattedTimesheet = {
         timesheetID: timesheet.timesheetID,
         engagement: timesheet.engagement,

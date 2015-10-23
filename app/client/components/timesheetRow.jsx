@@ -49,7 +49,7 @@ module.exports = TimesheetRow;
 // },
 // render: function() {
 //     var row = this.props.fields.map(this.buildRow);
-//     console.log(this.props.entry);
+//     // console.log(this.props.entry);
 //     return (
 //         <tr className="timesheetRow">
 //             {row}

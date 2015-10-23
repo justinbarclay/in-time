@@ -16,7 +16,7 @@ var TimesheetInput = React.createClass({
         timesheetActions.updateEntry(entry);
     },
     render: function() {
-        console.log(this.props.value);
+        // console.log(this.props.value);
         return (
             <TextEntry
                 ref="input"
@@ -44,7 +44,7 @@ module.exports = TimesheetInput;
 // },
 // render: function() {
 //     var row = this.props.fields.map(this.buildRow);
-//     console.log(this.props.entry);
+//     // console.log(this.props.entry);
 //     return (
 //         <tr className="timesheetRow">
 //             {row}
