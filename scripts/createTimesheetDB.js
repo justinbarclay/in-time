@@ -1,7 +1,7 @@
 //this is an iojs script to recreate the timesheet table in the database in postgres
 var pg = require('pg');
-var config = require('../config.json');
-var conString = "pg://postgres:postgres@localhost:5432/employees";
+var config = require('../config.js');
+var conString = "postgres://postgres:postgres@localhost:5432/postgres";
 
 var client = new pg.Client(conString);
 client.connect();

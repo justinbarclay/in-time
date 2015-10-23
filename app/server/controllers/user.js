@@ -18,7 +18,6 @@ var pg = require('pg');
 const conString = config.postgres;
 const secret = config.secret;
 const twoWeeks = 20160; // Two weeks in minutes
-
 /* Structure of JWT payload
 * It should have a username, time of creation(iat), and email address
 * When decrypting the payload we can confirm who is requestion infomation and
@@ -42,6 +41,7 @@ function hashPassword(userPassword, callback) {
 function signUp(userName, userPassword, userEmail, callback) {
     //this function creates a username and hashes
     //a password then stored it in the database
+    console.log(conString);
     pg.connect(conString, function(err, client, done) {
         if (err) {
             return console.error(
@@ -139,6 +139,7 @@ function authenticate(userName, userPassword, callback) {
     //this function checks to see if the userName and userPassword match
     //anything stored in the user database
     // On a succesful authentication it should generate a JWT, and send it back in JSON with
+    console.log(conString);
     var auth = {err: null, success: null, message: '', JWT: ''};
     pg.connect(conString, function(err, client, done) {
         if (err) {

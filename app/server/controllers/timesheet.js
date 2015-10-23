@@ -6,6 +6,8 @@ let conString = config.postgres;
 let uuid = require('uuid').v4;
 let fs = require('fs');
 
+console.log(conString);
+
 //Lowers timeout time, to close client connection sooner, this may cause problems
 //in the long run as queries to the database take a longer time
 //but for now, while running tests this needs to be short
