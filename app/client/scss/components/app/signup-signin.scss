@@ -6,9 +6,10 @@
     //@include vertical-align;
    position: relative;
    top: 100px;
+   max-width: 360px;
    input {
        height: 37px;
-       max-width: 360px;
+
        padding: 0 5px;
    }
 }

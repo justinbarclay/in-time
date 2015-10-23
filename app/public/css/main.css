@@ -6665,10 +6665,10 @@ body {
   margin-right: auto;
   float: none;
   position: relative;
-  top: 100px; }
+  top: 100px;
+  max-width: 360px; }
   .signupForm input, .signinForm input {
     height: 37px;
-    max-width: 360px;
     padding: 0 5px; }
 
 .message {
