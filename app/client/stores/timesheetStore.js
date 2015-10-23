@@ -120,7 +120,7 @@ var timesheetStore = Flux.createStore({
         // console.log(rowIndex);
         findTimesheetIndex(id, function(index) {
             // console.log(_timesheets[index].entries[rowIndex]
-                [accessor]);
+            //    [accessor]);
             _timesheets[index].entries[rowIndex][accessor] =
                 data;
         });
@@ -129,7 +129,7 @@ var timesheetStore = Flux.createStore({
         findTimesheetIndex(id, function(index) {
             // console.log("id: " + id);
             // console.log("index:" + index + " " +
-                "accessor: " + accessor);
+            //    "accessor: " + accessor);
             // console.log(_timesheets[index][accessor]);
             _timesheets[index][accessor] = data;
         });
