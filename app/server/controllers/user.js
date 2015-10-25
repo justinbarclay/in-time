@@ -187,7 +187,7 @@ function authenticate(userName, userPassword, callback) {
                                     auth.id = res.rows[0].user_id;
                                     payload.userid = res.rows[0].user_id;
                                     auth.message = "Authentication successful";
-                                    var signedJWT = jwt.sign(payload, secret,{expiresInMinutes: twoWeeks, issuer: "Mountain View Industries"});
+                                    var signedJWT = jwt.sign(payload, secret,{expiresIn: twoWeeks, issuer: "Mountain View Industries"});
                                     callback(err, auth, signedJWT);
                                 }
                             }
