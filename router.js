@@ -15,9 +15,6 @@ var verifyJWT = function(token) {
     var state;
     try {
         state = jwt.verify(token, secret);
-        console.log("JWT state");
-        console.log(state);
-        console.log(token);
         return token;
     } catch (err) {
         console.log("JWT err");
@@ -26,6 +23,19 @@ var verifyJWT = function(token) {
         return null;
     }
 };
+
+var getuserID = function(token) {
+    var state;
+    try {
+        state = jwt.verify(token, secret);
+        return state.userid;
+    } catch (err) {
+        console.log(err);
+        return null;
+    }
+    
+
+}
 
 //With this router, we only want to pass the necessary data into the controller
 //and leave the res and req objects in the router context. This may mean that 
@@ -40,6 +50,8 @@ function route(req, res) {
     var path = url.parse(req.url, true)
         .pathname;
     var request;
+    var token;
+
     console.log(path);
     if (path === '/') {
         // Load the home page
@@ -210,7 +222,11 @@ function route(req, res) {
         });
 
         req.on("end", function() {
+            token = req.headers["x-access-token"];
             var verify = verifyJWT(req.headers["x-access-token"]);
+            var timesheetObj;
+            var userID = getuserID(req.headers["x-access-token"]);
+            
             res.setHeader('X-ACCESS-TOKEN', verify);
             if (!verify) {
                 res.writeHead(401, {
@@ -227,7 +243,7 @@ function route(req, res) {
                 console.err(err); //Debug
             }
             console.log("timesheetObj", timesheetObj);
-            if (timesheetObj.userID !== parseInt(timesheetObj.userID, 10)) {
+            if (userID !== parseInt(userID, 10)) {
                 res.writeHead(400, {
                     'Content-Type': 'application/json'
                 });
@@ -238,6 +254,8 @@ function route(req, res) {
                 res.writeHead(200, {
                     'Content-Type': 'application/json'
                 });
+                timesheet.userID = userID;
+                
                 timesheet.createTimesheet(timesheetObj, function(message) {
                     if (data) {
                         res.writeHead(200, {

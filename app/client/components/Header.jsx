@@ -11,7 +11,7 @@ var authActions = require('../actions/authActions');
 var NavSignedIn = require("./navSignedIn");
 var NavSignedOut = require("./navSignedOut");
 
-var nav = React.createClass({
+var header = React.createClass({
     displayName: "navController",
     propTypes: [],
     mixins: [authStore.mixin],
@@ -26,7 +26,7 @@ var nav = React.createClass({
         if (this.state.signedIn === true){
             nav = <NavSignedIn />;
         } else {
-            nav = <NavSignedOut />;
+            nav = <NavSignedOut />
         }
         return (
             <div className="header">
@@ -40,4 +40,4 @@ var nav = React.createClass({
 
 });
 
-module.exports = nav;
+module.exports = header;

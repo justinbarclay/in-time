@@ -239,12 +239,11 @@ var _templateTimesheet = {
     "timesheetID": null,
     "startDate": "",
     "endDate": "",
-    "userID": null,
     "approved": false,
     "engagement": "",
     "entries": [{
         "date": "",
-        "duration": "0",
+        "duration": 0,
         "type": "type of service"
     }]
 };

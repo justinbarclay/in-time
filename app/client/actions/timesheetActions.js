@@ -1,5 +1,6 @@
 var Flux = require("../biff");
 var timesheetStore = require('../stores/timesheetStore');
+var _ = require("underscore");
 
 var timesheetActions = Flux.createActions({
     syncTimesheets: function(userID) {
@@ -17,15 +18,10 @@ var timesheetActions = Flux.createActions({
         AJAXreq.send(user);
         // console.log("timesheet actions", 18);
         AJAXreq.onreadystatechange = function() {
-            // console.log("timesheet actions", 20);
-            // console.log("state change");
             var res = JSON.parse(AJAXreq.responseText);
-            // console.log(res);
-
             if (AJAXreq.readyState === 4) {
                 newJWT = AJAXreq.getResponseHeader(
                     "X-ACCESS-TOKEN");
-                // console.log(newJWT);
                 if (newJWT) {
                     localStorage.setItem('JWT', newJWT);
                 }
@@ -84,23 +80,31 @@ var timesheetActions = Flux.createActions({
         });
     },
     saveTimesheet: function(id){
-        // console.log("saveTimesheet");
         var timesheet = formatTimesheet(timesheetStore.getTimesheet(id));
+        var verify = verifyTimesheet(timesheet);
+        console.log(verify);
+        if(verify !== []){
+            for(var message in verify){
+                console.log("error");
+                console.log(verify[message]);
+            }
+            return;
+        }
+
         var AJAXreq = new XMLHttpRequest();
         AJAXreq.open("POST", "/timesheet", true);
         AJAXreq.setRequestHeader('ContentType', 'application/json; charset=UTF8');
-        currentJWT = localStorage.getItem('JWT');
+        var currentJWT = localStorage.getItem('JWT');
         AJAXreq.setRequestHeader('X-ACCESS-TOKEN', currentJWT);
         AJAXreq.setRequestHeader('ContentType',
             'application/json; charset=UTF8');
         AJAXreq.send(JSON.stringify(timesheet));
         AJAXreq.onreadystatechange = function() {
             var res = JSON.parse(AJAXreq.responseText);
-            // console.log(res);
+            console.log(res);
             if (AJAXreq.readyState === 4) {
                 newJWT = AJAXreq.getResponseHeader(
                     "X-ACCESS-TOKEN");
-                // console.log(newJWT);
                 if (newJWT) {
                     localStorage.setItem('JWT', newJWT);
                 }
@@ -114,8 +118,7 @@ var timesheetActions = Flux.createActions({
 module.exports = timesheetActions;
 
 function formatTimesheet(timesheet){
-    // console.log(timesheet);
-    formattedTimesheet = {
+    var formattedTimesheet = {
         timesheetID: timesheet.timesheetID,
         engagement: timesheet.engagement,
         startDate: new Date(timesheet.startDate),
@@ -131,4 +134,61 @@ function formatTimesheet(timesheet){
         };
     });
     return formattedTimesheet;
+}
+
+function verifyTimesheet(timesheet){
+    var messages = [];
+    
+    messages.push(verifyMeta(timesheet));
+    
+    for(var entry in timesheet.entries){
+        messages = messages.concat( verifyEntry(entry));
+    }
+
+   return _.flatten(messages);
+
+}
+
+function verifyMeta(timesheet){
+    var messages = [];
+    if(!checkInt(timesheet.timesheetID)) {
+        messages.push("TimesheetID needs to be not blank");
+    }
+    if(!checkStr(timesheet.startDate)) {
+           messages.push("Please enter a start date");
+    }
+    if(!checkStr(timesheet.endDate)) {
+        messages.push("Please enter an end date");
+    }
+    return messages;
+   
+}
+
+function verifyEntry(entry){
+    var messages = [];
+ 
+    if(!checkStr(entry.date)) {
+        messages.push("Please enter an end date");
+    }
+    if(!checkInt(entry.duration)) {
+        messages.push("Please enter a duration for your entry");
+    }
+    if(!checkStr(entry.type)){
+        messages.push("Please select a service type");
+    }
+    return messages;
+}
+
+function checkInt(data){
+    if(data === null || data !== parseInt(data, 10)){
+        return false;
+    }
+    return true;
+}
+
+function checkStr(data){
+    if(data === "" || typeof data !== "string"){
+        return false;
+    }
+    return true;
 }

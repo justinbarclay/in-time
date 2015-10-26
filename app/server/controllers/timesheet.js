@@ -159,6 +159,30 @@ function addEntry(data, client){
     });
 }
 
+function updateEntry(data, client){ var queryString =
+        "INSERT INTO Timesheets (timesheet_foreignkey, service_duration, service_description, service_date) VALUES($1, $2, $3, $4)";
+    //Asynchronously insert data into the database
+    var entry = [
+        data.timesheetID, data.duration,
+        data.service, data.date
+    ];
+    console.log(entry);
+    console.log("made it into here");
+    return new Promise(function(resolve, reject){
+        console.log("and here");
+        console.log(entry);
+        client.query(queryString, entry, function(err, result) {
+            console.log("but not here");
+            if (err) {
+                throw err;
+            } else {
+                console.log(result);
+                console.log(result.rows);
+                resolve(result.rows);
+            }
+        });
+    });
+}
 ////////////////////////////////////////////////////////////////////////////////
 //Read Data Queries
 ////////////////////////////////////////////////////////////////////////////////
