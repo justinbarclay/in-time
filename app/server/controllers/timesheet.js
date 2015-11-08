@@ -105,11 +105,11 @@ function rollback(data){
                 client: data.client,
                 done: data.done
                 });
+            }
         });
+    });
 }
 function begin(data){
-    client.query('BEGIN', function(err) {
-    if(err) return rollback(client, done);
     //as long as we do not call the `done` callback we can do 
     //whatever we want...the client is ours until we call `done`
     //on the flip side, if you do call `done` before either COMMIT or ROLLBACK
@@ -117,7 +117,19 @@ function begin(data){
     //is in the middle of a transaction.  
     //Returning a client while its in the middle of a transaction
     //will lead to weird & hard to diagnose errors.
-
+    return new Promise(function(resolve, reject) {
+        data.client.query('BEGIN', function(err) {
+            if (err) {
+                throw err;
+            } else {
+                resolve({
+                    setup: data.setup,
+                    client: data.client,
+                    done: data.done
+                });
+            }
+        });
+    });
 }
 
 ////////////////////////////////////////////////////////////////////////////////
