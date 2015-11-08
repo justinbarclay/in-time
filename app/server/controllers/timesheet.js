@@ -70,6 +70,7 @@ function error(err) {
 
 function finish(data) {
     return new Promise(function(resolve, reject){
+        data.client.query('COMMIT', done);
         data.done();
         data.client.end();
         // console.log("data", data);
@@ -84,6 +85,40 @@ function finish(data) {
 
 //I may want to switch, or add streams to this data flow as well. Stream would be
 //really useful for the queries that have a for each loop
+
+////////////////////////////////////////////////////////////////////////////////
+//Transactional Queries
+////////////////////////////////////////////////////////////////////////////////
+function rollback(data){
+    //if there was a problem rolling back the query
+    //something is seriously messed up.  Return the error
+    //to the done function to close & remove this client from
+    //the pool.  If you leave a client in the pool with an unaborted
+    //transaction weird, hard to diagnose problems might happen.
+    return new Promise(function(resolve, reject) {
+        data.client.query('ROLLBACK', function(err) {
+            if (err) {
+                throw err;
+            } else {
+                resolve({
+                setup: data.setup,
+                client: data.client,
+                done: data.done
+                });
+        });
+}
+function begin(data){
+    client.query('BEGIN', function(err) {
+    if(err) return rollback(client, done);
+    //as long as we do not call the `done` callback we can do 
+    //whatever we want...the client is ours until we call `done`
+    //on the flip side, if you do call `done` before either COMMIT or ROLLBACK
+    //what you are doing is returning a client back to the pool while it 
+    //is in the middle of a transaction.  
+    //Returning a client while its in the middle of a transaction
+    //will lead to weird & hard to diagnose errors.
+
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 //Insert Queries
@@ -133,6 +168,7 @@ function addEntries(data) {
         });
     });
 }
+
 function addEntry(data, client){
     var queryString =
         "INSERT INTO Timesheets (timesheet_foreignkey, service_duration, service_description, service_date) VALUES($1, $2, $3, $4)";
