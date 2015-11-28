@@ -36,6 +36,7 @@ pg.defaults.poolIdleTimeout = 10*1000;
     "start_date": "dd/mm/yyyy",
     "end_date": "dd/mm/yyyy",
     "engagement_number": "foreign key ID of customer"
+    "row_id": "serial_id"
 
 }
 */
@@ -183,7 +184,7 @@ function addEntries(data) {
 
 function addEntry(data, client){
     var queryString =
-        "INSERT INTO Timesheets (timesheet_foreignkey, service_duration, service_description, service_date) VALUES($1, $2, $3, $4)";
+        "INSERT INTO Timesheets (timesheet_foreignkey, row_id, service_duration, service_description, service_date) VALUES($1, $2, $3, $4, $5)";
     //Asynchronously insert data into the database
     var entry = [
         data.timesheetID, data.duration,
@@ -208,10 +209,10 @@ function addEntry(data, client){
 }
 
 function updateEntry(data, client){ var queryString =
-        "INSERT INTO Timesheets (timesheet_foreignkey, service_duration, service_description, service_date) VALUES($1, $2, $3, $4)";
+        "UPSERT INTO Timesheets (timesheet_foreignkey, row_id, service_duration, service_description, service_date) VALUES($1, $2, $3, $4, $5)";
     //Asynchronously insert data into the database
     var entry = [
-        data.timesheetID, data.duration,
+        data.timesheetID, date.rowID,  data.duration,
         data.service, data.date
     ];
     console.log(entry);
@@ -271,7 +272,7 @@ function getAllEntries(data) {
     });
 }
 function getEntries(data, client){
-    let queryString = "SELECT timesheet_foreignkey, service_description, service_duration, EXTRACT('epoch' from service_date)*1000 AS service_date FROM timesheets WHERE timesheet_foreignkey = $1";
+    let queryString = "SELECT timesheet_foreignkey, row_id, service_description, service_duration, EXTRACT('epoch' from service_date)*1000 AS service_date FROM timesheets WHERE timesheet_foreignkey = $1";
     return new Promise(function(resolve, reject){
         client.query(queryString, [data.timesheet_id], function(err, result){
             if (err) {
@@ -352,7 +353,7 @@ function getTimesheets(request, callback) {
         .then(getTimesheetIDs)
         .then(getAllEntries)
         .then(finish)
-        .catch(error)
+        .catch(rollback)
         .then(buildTimesheets)
         .then(callback);
 }
