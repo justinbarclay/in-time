@@ -1,5 +1,12 @@
 # TO DO
 
+* Permission system
+-- Each user has a permission attribute with an array of numbers
+-- Have a permission table that is a list of permission numbers that map to actions
+-- This system allows for expandability and modularity
+-- one problem is how to codify this in business logic
+-- so far all I can think is that we will need to hardcode an action/permission in each route
+
 * Write a to do app to manage to dos in the timesheet application
 
 * Find a Javascript date picker
@@ -15,7 +22,7 @@
 -- What needs to happen now is that the authentication header is passed to the server and if it is valid it needs to send back the original token
 --- Else if it is not valid it sets the authentication JWT header to false
 
-* There should be a timesheet/new route that will hadle the creation of a new timesheet including the submit button
+* There should be a timesheet/new route that will handle the creation of a new timesheet including the submit button
 -- this might lead to the creation of a newTimesheet component
 -- if so this component needs to handle users abandoning new timesheets
 * Time sheet should post to database
