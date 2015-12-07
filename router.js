@@ -33,14 +33,14 @@ var getuserID = function(token) {
         console.log(err);
         return null;
     }
-    
+
 
 }
 
 //With this router, we only want to pass the necessary data into the controller
-//and leave the res and req objects in the router context. This may mean that 
+//and leave the res and req objects in the router context. This may mean that
 //the controllers pass back booleans or errors or messages or a new object to
-//indicate the state of the data. How a controller indicates this is currently 
+//indicate the state of the data. How a controller indicates this is currently
 //up for debate
 
 function route(req, res) {
@@ -173,6 +173,7 @@ function route(req, res) {
             data += chunk;
         });
         req.on("end", function() {
+            console.log("made it into callback");
             var verify = verifyJWT(req.headers["x-access-token"]);
             if (!verify) {
                 res.writeHead(401, {
@@ -226,7 +227,7 @@ function route(req, res) {
             var verify = verifyJWT(req.headers["x-access-token"]);
             var timesheetObj;
             var userID = getuserID(req.headers["x-access-token"]);
-            
+
             res.setHeader('X-ACCESS-TOKEN', verify);
             if (!verify) {
                 res.writeHead(401, {
@@ -255,7 +256,7 @@ function route(req, res) {
                     'Content-Type': 'application/json'
                 });
                 timesheet.userID = userID;
-                
+
                 timesheet.createTimesheet(timesheetObj, function(message) {
                     if (data) {
                         res.writeHead(200, {
@@ -299,7 +300,7 @@ function route(req, res) {
     }
 
 }
-// A group of helper functions that either make the code in router simpler or more 
+// A group of helper functions that either make the code in router simpler or more
 //readable
 
 var helper = (function() {

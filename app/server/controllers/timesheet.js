@@ -71,7 +71,7 @@ function error(err) {
 
 function finish(data) {
     return new Promise(function(resolve, reject){
-        data.client.query('COMMIT', done);
+        data.client.query('COMMIT', data.done);
         data.done();
         data.client.end();
         // console.log("data", data);
@@ -111,11 +111,11 @@ function rollback(data){
     });
 }
 function begin(data){
-    //as long as we do not call the `done` callback we can do 
+    //as long as we do not call the `done` callback we can do
     //whatever we want...the client is ours until we call `done`
     //on the flip side, if you do call `done` before either COMMIT or ROLLBACK
-    //what you are doing is returning a client back to the pool while it 
-    //is in the middle of a transaction.  
+    //what you are doing is returning a client back to the pool while it
+    //is in the middle of a transaction.
     //Returning a client while its in the middle of a transaction
     //will lead to weird & hard to diagnose errors.
     return new Promise(function(resolve, reject) {
@@ -250,9 +250,6 @@ function getTimesheetIDs(data) {
             if (err) {
                 throw err;
             } else {
-                console.log(
-                    "Meta information succesfully selected"
-                ); //Debug
                 data.meta = result.rows;
                 resolve(data);
             }
@@ -272,7 +269,7 @@ function getAllEntries(data) {
     });
 }
 function getEntries(data, client){
-    let queryString = "SELECT timesheet_foreignkey, row_id, service_description, service_duration, EXTRACT('epoch' from service_date)*1000 AS service_date FROM timesheets WHERE timesheet_foreignkey = $1";
+    let queryString = "SELECT timesheet_foreignkey, index, service_description, service_duration, EXTRACT('epoch' from service_date)*1000 AS service_date FROM timesheets WHERE timesheet_foreignkey = $1";
     return new Promise(function(resolve, reject){
         client.query(queryString, [data.timesheet_id], function(err, result){
             if (err) {
@@ -298,11 +295,11 @@ function deleteTimesheetEntries(data) {
                     if (err) {
                         console.error(
                             'error deleting query into timesheet',
-                            err); //Debug
+                            err);
                         throw err;
                     } else {
                         console.log(
-                            "Timesheet succesfully deleted  "
+                            "Timesheet succesfully deleted"
                         ); //Debug
                         resolve(data);
                     }
@@ -356,6 +353,7 @@ function getTimesheets(request, callback) {
         .catch(rollback)
         .then(buildTimesheets)
         .then(callback);
+    console.log("done");
 }
 
 function deleteTimesheets(request, callback) {
@@ -375,6 +373,7 @@ function deleteTimesheets(request, callback) {
 // build up the timesheet later
 function buildTimesheets(data){
     return new Promise(function(resolve, reject){
+      console.log("building timesheet");
         let meta_info= data.meta;
         let entries = data.entries;
         let timesheets = meta_info.map(function(meta) {

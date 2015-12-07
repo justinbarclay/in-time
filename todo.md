@@ -6,12 +6,14 @@
 -- This system allows for expandability and modularity
 -- one problem is how to codify this in business logic
 -- so far all I can think is that we will need to hardcode an action/permission in each route
+-- Why do we need a permission system though?
+--- This is a question I do not have an answer for yet.
 
 * Write a to do app to manage to dos in the timesheet application
 
 * Find a Javascript date picker
 
-* Hookup timesheets to server api
+* Add a delete entry/timesheet system
 
 * Fix "about" component so it does not send AJAX unnecessarily
 -- Right now it is used to test sending heads as auth method, should split this out to a function in auth
@@ -101,3 +103,6 @@
 
 * Refactor Router and Client side JS to expect JSON
 --- Done
+
+* Hookup timesheets to server api
+-- done
