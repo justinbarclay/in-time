@@ -14,6 +14,7 @@ var uuid = require('uuid');
 //     "userId": "jbarclay",
 //     "clientId": "",
 //     "supervisorApproved": "",
+//     "delete": false
 //     "entries": [{
 //         "date": "02/03/2015",
 //         "hours": 4,
@@ -29,47 +30,6 @@ var uuid = require('uuid');
 //     }]
 // };
 
-// var _timesheets = [{
-//     "timesheetID": "8d741119-9b92-4fea-b64c-3b7854e40665",
-//     "startDate": "2015-01-01",
-//     "endDate": "2015-01-15",
-//     "userID": "0000001",
-//     "approved": false,
-//     "engagement": 86328,
-//     "entries": [{
-//         "date": "2015-03-02",
-//         "duration": 4,
-//         "type": "Access Drive"
-//     }, {
-//         "date": "2015-03-02",
-//         "duration": 2,
-//         "type": "Access Drive"
-//     }, {
-//         "date": "2015-03-02",
-//         "duration": 6,
-//         "type": "Access Drive"
-//     }]
-// }, {
-//     "timesheetID": "6629c93e-9292-45e9-bfa2-e0c006ba1e40",
-//     "startDate": "2015-02-01",
-//     "endDate": "2015-02-15",
-//     "userID": "0000001",
-//     "approved": false,
-//     "engagement": 86328,
-//     "entries": [{
-//         "date": "2015-03-02",
-//         "duration": 4,
-//         "type": "Access Drive"
-//     }, {
-//         "date": "2015-03-02",
-//         "duration": 2,
-//         "type": "Access Drive"
-//     }, {
-//         "date": "2015-03-02",
-//         "duration": 6,
-//         "type": "Access Drive"
-//     }]
-// }];
 var _timesheets = [];
 
 var timesheetStore = Flux.createStore({
@@ -112,7 +72,7 @@ var timesheetStore = Flux.createStore({
     },
     deleteRow: function(id, rowIndex) {
         findTimesheetIndex(id, function(index) {
-            _timesheets[index].entries.splice(rowIndex, 1);
+            _timesheets[index].entries[rowIndex].delete = true;
         });
     },
     updateEntry: function(id, rowIndex, accessor, data) {
@@ -203,15 +163,18 @@ var _resetTimesheets = [{
     "entries": [{
         "date": "2015-03-02",
         "duration": 4,
-        "type": "Access Drive"
+        "type": "Access Drive",
+        "delete": false
     }, {
         "date": "2015-03-02",
         "duration": 2,
-        "type": "Access Drive"
+        "type": "Access Drive",
+        "delete": false
     }, {
         "date": "2015-03-02",
         "duration": 6,
-        "type": "Access Drive"
+        "type": "Access Drive",
+        "delete": false
     }]
 }, {
     "timesheetID": "6629c93e-9292-45e9-bfa2-e0c006ba1e40",
@@ -223,15 +186,18 @@ var _resetTimesheets = [{
     "entries": [{
         "date": "2015-03-02",
         "duration": 4,
-        "type": "Access Drive"
+        "type": "Access Drive",
+        "delete": false
     }, {
         "date": "2015-03-02",
         "duration": 2,
-        "type": "Access Drive"
+        "type": "Access Drive",
+        "delete": false
     }, {
         "date": "2015-03-02",
         "duration": 6,
-        "type": "Access Drive"
+        "type": "Access Drive",
+        "delete": false
     }]
 }];
 
@@ -244,7 +210,8 @@ var _templateTimesheet = {
     "entries": [{
         "date": "",
         "duration": 0,
-        "type": "type of service"
+        "type": "type of service",
+        "delete": false
     }]
 };
 

@@ -138,9 +138,9 @@ function formatTimesheet(timesheet){
 
 function verifyTimesheet(timesheet){
     var messages = [];
-    
+
     messages.push(verifyMeta(timesheet));
-    
+
     for(var entry in timesheet.entries){
         messages = messages.concat( verifyEntry(entry));
     }
@@ -161,12 +161,12 @@ function verifyMeta(timesheet){
         messages.push("Please enter an end date");
     }
     return messages;
-   
+
 }
 
 function verifyEntry(entry){
     var messages = [];
- 
+
     if(!checkStr(entry.date)) {
         messages.push("Please enter an end date");
     }
