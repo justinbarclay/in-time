@@ -25,6 +25,7 @@ var timesheetActions = Flux.createActions({
                 if (newJWT) {
                     localStorage.setItem('JWT', newJWT);
                 }
+                console.log(res);
                 self.dispatch({
                     actionType: "SYNC_TIMESHEET",
                     timesheets: res

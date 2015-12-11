@@ -25,11 +25,11 @@ var TimesheetRow = React.createClass({
         timesheetActions.deleteRow(this.props.id, this.props.index);
     },
     render: function() {
-        var row = this.props.fields.map(this.buildRow);
+        var rows = this.props.fields.map(this.buildRow);
         var del = <button className="delButton" onClick={this.deleteRow}>&times;</button>;
         return (
             <div className="timesheetRow">
-                {row}
+                {rows}
                 {this.props.deletable ? del : null}
             </div>
         );

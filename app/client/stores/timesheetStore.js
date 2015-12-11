@@ -38,7 +38,7 @@ var timesheetStore = Flux.createStore({
     },
     getTimesheet: function(id) {
         for (index = 0; index < _timesheets.length; index++) {
-            if (_timesheets[index].timesheetID === id) {
+            if (_timesheets[index].timesheetID === id && _timesheets[index].delete !== true) {
                 return _timesheets[index];
             }
         }

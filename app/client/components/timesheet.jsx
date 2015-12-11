@@ -22,7 +22,8 @@ var Timesheet = React.createClass({
         var newRow = {
             "date": "",
             "duration": "0",
-            "service": "type of service"
+            "service": "type of service",
+            "delete": false
         };
         return timesheetActions.addRow(this.state.timesheetID, newRow);
     },
@@ -63,7 +64,10 @@ var Timesheet = React.createClass({
             }
         ];
         var entries = this.state.entries.map(function(entry, index) {
-            return <TimesheetRow deletable={false} entry={entry} fields={entryFields} id={self.state.timesheetID} index={index} key={index}/>;
+            console.log(entry.delete);
+            if(entry.delete === false){
+                return <TimesheetRow deletable={true} entry={entry} fields={entryFields} id={self.state.timesheetID} index={index} key={index}/>;
+            }
         });
         var headings = entryFields.map(function(field, index) {
             return <label className="heading" key={index}>{field.name}</label>;
