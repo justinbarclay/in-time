@@ -207,6 +207,7 @@ var _templateTimesheet = {
     "endDate": "",
     "approved": false,
     "engagement": "",
+    "delete": false,
     "entries": [{
         "date": "",
         "duration": 0,
