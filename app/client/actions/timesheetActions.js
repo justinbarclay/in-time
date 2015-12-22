@@ -6,17 +6,14 @@ var timesheetActions = Flux.createActions({
     syncTimesheets: function(userID) {
         self = this;
         user = JSON.stringify({userID: userID});
-        // console.log("user", user);
         var AJAXreq = new XMLHttpRequest();
         AJAXreq.open("POST", "/timesheets", true);
         AJAXreq.setRequestHeader('ContentType', 'application/json; charset=UTF8');
-        // console.log("timesheet actions", 12);
         currentJWT = localStorage.getItem('JWT');
         AJAXreq.setRequestHeader('X-ACCESS-TOKEN', currentJWT);
         AJAXreq.setRequestHeader('ContentType',
             'application/json; charset=UTF8');
         AJAXreq.send(user);
-        // console.log("timesheet actions", 18);
         AJAXreq.onreadystatechange = function() {
             var res = JSON.parse(AJAXreq.responseText);
             if (AJAXreq.readyState === 4) {
@@ -52,7 +49,6 @@ var timesheetActions = Flux.createActions({
         });
     },
     addRow: function(id, entry) {
-        // console.log('action');
         this.dispatch({
             actionType: "ADD_ROW",
             id: id,
@@ -89,7 +85,6 @@ var timesheetActions = Flux.createActions({
                 console.log("error");
                 console.log(verify[message]);
             }
-            return;
         }
 
         var AJAXreq = new XMLHttpRequest();
@@ -122,28 +117,31 @@ function formatTimesheet(timesheet){
     var formattedTimesheet = {
         timesheetID: timesheet.timesheetID,
         engagement: timesheet.engagement,
-        startDate: new Date(timesheet.startDate),
-        endDate: new Date(timesheet.endDate),
-        userID: timesheet.userID,
+        startDate: timesheet.startDate,
+        endDate: timesheet.endDate,
+        delete: timesheet.delete,
+        userID: localStorage.getItem('USER_ID', user.id),
         entries: []
     };
     formattedTimesheet.entries = timesheet.entries.map(function(entry){
         return {
             service: entry.service,
-            date: new Date(entry.date),
-            duration: entry.duration
+            date: entry.date,
+            duration: entry.duration,
+            delete: entry.delete
         };
     });
+    console.log(formattedTimesheet);
     return formattedTimesheet;
 }
 
 function verifyTimesheet(timesheet){
     var messages = [];
-
     messages.push(verifyMeta(timesheet));
 
-    for(var entry in timesheet.entries){
-        messages = messages.concat( verifyEntry(entry));
+    entries = timesheet.entries;
+    for(i=0; i < entries.length; i++){
+        messages = messages.concat(verifyEntry(entries[i]));
     }
 
    return _.flatten(messages);
@@ -152,11 +150,14 @@ function verifyTimesheet(timesheet){
 
 function verifyMeta(timesheet){
     var messages = [];
-    if(!checkInt(timesheet.timesheetID)) {
+    if(!checkStr(timesheet.timesheetID)) {
         messages.push("TimesheetID needs to be not blank");
     }
+    if(!checkStr(timesheet.engagement)) {
+        messages.push("Engagement needs to be not blank");
+    }
     if(!checkStr(timesheet.startDate)) {
-           messages.push("Please enter a start date");
+        messages.push("Please enter a start date");
     }
     if(!checkStr(timesheet.endDate)) {
         messages.push("Please enter an end date");
@@ -167,14 +168,13 @@ function verifyMeta(timesheet){
 
 function verifyEntry(entry){
     var messages = [];
-
     if(!checkStr(entry.date)) {
-        messages.push("Please enter an end date");
+        messages.push("Please a date for the entry");
     }
-    if(!checkInt(entry.duration)) {
+    if(!checkStr(entry.duration)) {
         messages.push("Please enter a duration for your entry");
     }
-    if(!checkStr(entry.type)){
+    if(!checkStr(entry.service)){
         messages.push("Please select a service type");
     }
     return messages;
@@ -189,6 +189,13 @@ function checkInt(data){
 
 function checkStr(data){
     if(data === "" || typeof data !== "string"){
+        return false;
+    }
+    return true;
+}
+
+function checkDate(data){
+    if (!(data instanceof Date) || Object.prototype.toString.call(data) !== '[object Date]'){
         return false;
     }
     return true;

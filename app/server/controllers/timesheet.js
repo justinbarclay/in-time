@@ -142,12 +142,14 @@ let addMetaData = function(data) {
     let meta = data.setup;
     return new Promise(function(resolve, reject) {
         let queryString =
-            "INSERT INTO Timesheets_Meta (timesheet_id, user_foreignkey, start_date, end_date, engagement) VALUES($1, $2, $3, $4, $5)";
+            "INSERT INTO Timesheets_Meta (timesheet_id, user_foreignkey, start_date, end_date, engagement, delete) VALUES($1, $2, $3, $4, $5, $6)";
         //Asynchronously insert data into the database
+        let upsert = `SELECT * FROM upsert_meta('${meta.timesheetID}', ${meta.userID}, '${meta.startDate}', '${meta.endDate}', ${meta.engagement}, ${meta.delete})`;
+        console.log(upsert);
         let metaTimesheet = [meta.timesheetID, meta.userID,
-            meta.startDate, meta.endDate, meta.engagement
+            meta.startDate, meta.endDate, meta.engagement, meta.delete
         ];
-        data.client.query(queryString, metaTimesheet, function(err,
+        data.client.query(upsert, function(err,
             result) {
             if (err) {
                 throw err;
@@ -217,7 +219,7 @@ function updateEntry(data, client) {
         "UPSERT INTO Timesheets (timesheet_foreignkey, row_id, service_duration, service_description, service_date) VALUES($1, $2, $3, $4, $5)";
     //Asynchronously insert data into the database
     var entry = [
-        data.timesheetID, date.rowID, data.duration,
+        data.timesheetID, data.rowID, data.duration,
         data.service, data.date
     ];
     console.log(entry);
@@ -381,9 +383,11 @@ function deleteTimesheets(request, callback) {
 // I am unsure if this is the proper way to do this.
 // It may be better to have a singular query with a join in it so that I change
 // build up the timesheet later
+// This is an area for easy optimization
 function buildTimesheets(data) {
     return new Promise(function(resolve, reject) {
         console.log("building timesheet");
+        console.log(data);
         let meta_info = data.meta;
         let entries = data.entries;
         let timesheets = meta_info.map(function(meta) {
@@ -391,22 +395,21 @@ function buildTimesheets(data) {
                 timesheetID: meta.timesheet_id,
                 startDate: buildYearMonthDay(new Date(meta.start_date)),
                 endDate: buildYearMonthDay(new Date(meta.end_date)),
-                engagement: meta.engagement,
-                delete: meta.delete,
+                engagement: String(meta.engagement),
+                delete: String(meta.delete),
                 entries: []
             };
             entries.forEach(function(entry, index) {
-                console.log(new Date(entry.service_date));
-                if (entry.timesheet_foreignkey ===
-                    timesheet.timesheetID) {
+                if (entry.timesheet_foreignkey === timesheet.timesheetID) {
                     timesheet.entries.push({
-                        date: buildYearMonthDay(
-                            new Date(entry.service_date)
-                        ),
+                        date: buildYearMonthDay(new Date(entry.service_date)),
                         service: entry.service_description,
-                        duration: entry.service_duration,
+                        duration: String(entry.service_duration),
                         delete: entry.delete
                     });
+                    console.log("entry date", entry.date);
+                } else {
+                    console.log("Some error");
                 }
             });
             return timesheet;
@@ -416,9 +419,10 @@ function buildTimesheets(data) {
 }
 
 function buildYearMonthDay(date) {
+    console.log("build date", date.getDate());
     let day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
     console.log('day', day);
-    let month = date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : date.getMonth();
+    let month = date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth();
     let year = date.getFullYear();
     return (year + "/" + month + "/" + day);
 
