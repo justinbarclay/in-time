@@ -22,7 +22,7 @@ var authActions = Flux.createActions({
                 // console.log(res);
                 user = res;
                 if (user.success) {
-                    localStorage.setItem('JWT', AJAXreq.getResponseHeader("X-ACCESS-TOKEN"));
+                    authActions.setJWT(AJAXreq.getResponseHeader("X-ACCESS-TOKEN"));
                     localStorage.setItem('USER_ID', user.id);
                 }
                 // console.log("user: " + JSON.stringify(user));
@@ -47,6 +47,17 @@ var authActions = Flux.createActions({
     },
     authenticated: function() {
         return authStore.authenticated();
+    },
+    getJWT: function(){
+        return localStorage.getItem('JWT');
+    },
+    setJWT: function(jwt) {
+        if(jwt){
+            return localStorage.setItem('JWT', jwt);
+        } else {
+            this.signOut();
+        }
+
     }
 });
 
