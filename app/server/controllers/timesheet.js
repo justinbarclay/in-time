@@ -245,6 +245,7 @@ function upsertEntry(data, client) {
 function getTimesheetIDs(data) {
     //grabs a list of user timesheets and passes it on in a callback
     let userID = data.setup.userID;
+    console.log("userID: ", userID);
     return new Promise(function(resolve, reject) {
         let queryString =
             "SELECT timesheet_id, engagement, date_part('epoch', start_date)*1000 AS start_date, date_part('epoch', end_date)*1000 AS end_date, delete FROM Timesheets_Meta WHERE delete = 'FALSE' AND user_foreignkey= $1";

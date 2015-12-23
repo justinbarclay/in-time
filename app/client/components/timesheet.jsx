@@ -15,8 +15,12 @@ var Timesheet = React.createClass({
     displayName: "Timesheet",
     mixins: [Navigation, timesheetStore.mixin],
     propTypes: [],
+    componentWillMount: function () {
+        setTimeout(1000);
+        console.log("before time out");
+        this.setState(timesheetActions.getTimesheet(this.props.params.id));
+    },
     getInitialState: function() {
-        // console.log(timesheetActions.getTimesheet(this.props.params.id));
         return  timesheetActions.getTimesheet(this.props.params.id);
     },
     storeDidChange: function() {
@@ -37,9 +41,9 @@ var Timesheet = React.createClass({
     },
     render: function() {
         // console.log(this.state);
-        if (!this.state){
-            this.transitionTo("#/timesheets");
-        }
+        // if (!this.state){
+        //     this.transitionTo("/timesheets");
+        // }
         var self = this;
         var entryFields = [
             {

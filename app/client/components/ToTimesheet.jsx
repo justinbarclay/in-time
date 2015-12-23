@@ -19,7 +19,7 @@ var ToTimesheet = React.createClass({
         var duration = 0;
         // console.log("entries", entries);
         entries.forEach(function(entry){
-            duration += entry.duration;
+            duration += parseInt(entry.duration);
         });
         return duration;
     },

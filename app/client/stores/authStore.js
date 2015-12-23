@@ -13,7 +13,9 @@ var authStore = Flux.createStore({
         return _user;
     },
     authenticated: function(){
-        if (!_user.authenticated && localStorage.getItem("USER_ID")){
+        var userID = parseInt(localStorage.getItem("USER_ID"));
+        if (!_user.authenticated && userID){
+            _user.id = userID;
             return true;
         }
         return _user.authenticated;
@@ -39,7 +41,6 @@ var authStore = Flux.createStore({
         // functionally the same thing as signinUser, but different names to indicate different purposes.
         _user.username = user.username;
         _user.email = user.email;
-        _user.token = user.token;
     },
 }, function(payload) {
     if (payload.actionType === "SIGNIN_USER") {

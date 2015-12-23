@@ -9,10 +9,11 @@ var timesheetActions = Flux.createActions({
         var AJAXreq = new XMLHttpRequest();
         AJAXreq.open("POST", "/timesheets", true);
         AJAXreq.setRequestHeader('ContentType', 'application/json; charset=UTF8');
-        currentJWT = localStorage.getItem('JWT');
-        AJAXreq.setRequestHeader('X-ACCESS-TOKEN', currentJWT);
+        AJAXreq.setRequestHeader('X-ACCESS-TOKEN', localStorage.getItem('JWT'));
         AJAXreq.setRequestHeader('ContentType',
             'application/json; charset=UTF8');
+        console.log(user);
+        console.log(localStorage.getItem('JWT'));
         AJAXreq.send(user);
         AJAXreq.onreadystatechange = function() {
             var res = JSON.parse(AJAXreq.responseText);

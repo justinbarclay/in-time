@@ -203,10 +203,6 @@ function route(req, res) {
 
                 timesheet.getTimesheets(request, function(timesheets) {
                     console.log("line 194");
-                    // console.log("res", res);
-                    // res.writeHead(200, {
-                    //     'Content-Type': 'application/json'
-                    // });
                     res.setHeader('X-ACCESS-TOKEN', verify);
                     // console.log("res", res);
                     console.log("line 195", timesheets); //Debug
@@ -236,6 +232,7 @@ function route(req, res) {
                 res.write(JSON.stringify({
                     "message": "invalid security token"
                 }));
+                res.end();
                 return;
             }
             try {
