@@ -125,6 +125,7 @@ function formatTimesheet(timesheet){
     };
     formattedTimesheet.entries = timesheet.entries.map(function(entry){
         return {
+            rowID: entry.rowID,
             service: entry.service,
             date: entry.date,
             duration: entry.duration,

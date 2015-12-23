@@ -65,7 +65,6 @@ var timesheetStore = Flux.createStore({
         });
     },
     addRow: function(id, entry) {
-        // console.log(id);
         findTimesheetIndex(id, function(index) {
             _timesheets[index].entries.push(entry);
         });
@@ -87,18 +86,11 @@ var timesheetStore = Flux.createStore({
     },
     updateMeta: function(id, accessor, data) {
         findTimesheetIndex(id, function(index) {
-            // console.log("id: " + id);
-            // console.log("index:" + index + " " +
-            //    "accessor: " + accessor);
-            // console.log(_timesheets[index][accessor]);
             _timesheets[index][accessor] = data;
         });
     },
     syncTimesheets: function(timesheets){
-        // formattedTimesheet = timesheets.map(formatTimesheet);
-        // console.log(timesheets);
         _timesheets = timesheets;
-        // console.log(_timesheets);
     }
 }, function(payload) {
     if (payload.actionType === "NEW_TIMESHEET") {
@@ -209,6 +201,7 @@ var _templateTimesheet = {
     "engagement": "",
     "delete": false,
     "entries": [{
+        "rowID": 1,
         "date": "",
         "duration": 0,
         "type": "type of service",
@@ -217,28 +210,7 @@ var _templateTimesheet = {
 };
 
 var cloneObject = function(obj) {
-    //a tricl to deep clone an object
+    //a trick to deep clone an object
     return (JSON.parse(JSON.stringify(obj)));
 };
 module.exports = timesheetStore;
-
-// function formatTimesheet(timesheet){
-//     // console.log(timesheet);
-//     var formattedTimesheet = {
-//         timesheetID: timesheet.timesheetID,
-//         engagement: timesheet.engagement,
-//         startDate: new Date(timesheet.startDate),
-//         endDate: new Date(timesheet.endDate),
-//         userID: timesheet.userID,
-//         entries: []
-//     };
-//     // console.log(timesheet.entries);
-//     formattedTimesheet.entries = timesheet.entries.map(function(entry){
-//         return {
-//             service: entry.service,
-//             date: new Date(entry.date),
-//             duration: entry.duration
-//         };
-//     });
-//     return formattedTimesheet;
-// }

@@ -217,6 +217,7 @@ function addEntry(data, client) {
 function updateEntry(data, client) {
     var queryString =
         "UPSERT INTO Timesheets (timesheet_foreignkey, row_id, service_duration, service_description, service_date) VALUES($1, $2, $3, $4, $5)";
+    let upsert = `SELECT * FROM upsert_meta('${meta.timesheetID}', ${meta.userID}, '${meta.startDate}', '${meta.endDate}', ${meta.engagement}, ${meta.delete})`;
     //Asynchronously insert data into the database
     var entry = [
         data.timesheetID, data.rowID, data.duration,

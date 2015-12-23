@@ -7,6 +7,9 @@ var authActions = require('../actions/authActions');
 var TimesheetRow = require("./timesheetRow");
 var TimesheetMeta = require("./timesheetMeta");
 
+// other
+var uuid = require('uuid');
+
 var Timesheet = React.createClass({
     displayName: "Timesheet",
     mixins: [timesheetStore.mixin],
@@ -20,6 +23,7 @@ var Timesheet = React.createClass({
     },
     newRow: function() {
         var newRow = {
+            "rowID": uuid.v4(),
             "date": "",
             "duration": "0",
             "service": "type of service",
@@ -77,7 +81,7 @@ var Timesheet = React.createClass({
         var metaHeadings = metaFields.map(function(field, index) {
             return <label className="metaHeading" key={index}>{field.name}</label>;
             });
-
+        console.log(this.state);
         return (
             <div>
                 <div className="meta">
