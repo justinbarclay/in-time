@@ -1,34 +1,29 @@
 var Flux = require("../biff");
 var timesheetStore = require('../stores/timesheetStore');
+var _ = require("underscore");
 
 var timesheetActions = Flux.createActions({
     syncTimesheets: function(userID) {
         self = this;
         user = JSON.stringify({userID: userID});
-        console.log("user", user);
         var AJAXreq = new XMLHttpRequest();
         AJAXreq.open("POST", "/timesheets", true);
         AJAXreq.setRequestHeader('ContentType', 'application/json; charset=UTF8');
-        console.log("timesheet actions", 12);
-        currentJWT = localStorage.getItem('JWT');
-        AJAXreq.setRequestHeader('X-ACCESS-TOKEN', currentJWT);
+        AJAXreq.setRequestHeader('X-ACCESS-TOKEN', localStorage.getItem('JWT'));
         AJAXreq.setRequestHeader('ContentType',
             'application/json; charset=UTF8');
+        console.log(user);
+        console.log(localStorage.getItem('JWT'));
         AJAXreq.send(user);
-        console.log("timesheet actions", 18);
         AJAXreq.onreadystatechange = function() {
-            console.log("timesheet actions", 20);
-            console.log("state change");
             var res = JSON.parse(AJAXreq.responseText);
-            console.log(res);
-
             if (AJAXreq.readyState === 4) {
                 newJWT = AJAXreq.getResponseHeader(
                     "X-ACCESS-TOKEN");
-                console.log(newJWT);
                 if (newJWT) {
                     localStorage.setItem('JWT', newJWT);
                 }
+                console.log(res);
                 self.dispatch({
                     actionType: "SYNC_TIMESHEET",
                     timesheets: res
@@ -55,7 +50,6 @@ var timesheetActions = Flux.createActions({
         });
     },
     addRow: function(id, entry) {
-        console.log('action');
         this.dispatch({
             actionType: "ADD_ROW",
             id: id,
@@ -70,26 +64,34 @@ var timesheetActions = Flux.createActions({
         });
     },
     updateEntry: function(entry) {
-        console.log("updateEntry");
+        // console.log("updateEntry");
         this.dispatch({
             actionType: "UPDATE_ENTRY",
             data: entry
         });
     },
     updateMeta: function(meta) {
-        console.log("updateMeta");
+        // console.log("updateMeta");
         this.dispatch({
             actionType: "UPDATE_META",
             data: meta
         });
     },
     saveTimesheet: function(id){
-        console.log("saveTimesheet");
         var timesheet = formatTimesheet(timesheetStore.getTimesheet(id));
+        var verify = verifyTimesheet(timesheet);
+        console.log(verify);
+        if(verify !== []){
+            for(var message in verify){
+                console.log("error");
+                console.log(verify[message]);
+            }
+        }
+
         var AJAXreq = new XMLHttpRequest();
         AJAXreq.open("POST", "/timesheet", true);
         AJAXreq.setRequestHeader('ContentType', 'application/json; charset=UTF8');
-        currentJWT = localStorage.getItem('JWT');
+        var currentJWT = localStorage.getItem('JWT');
         AJAXreq.setRequestHeader('X-ACCESS-TOKEN', currentJWT);
         AJAXreq.setRequestHeader('ContentType',
             'application/json; charset=UTF8');
@@ -100,7 +102,6 @@ var timesheetActions = Flux.createActions({
             if (AJAXreq.readyState === 4) {
                 newJWT = AJAXreq.getResponseHeader(
                     "X-ACCESS-TOKEN");
-                console.log(newJWT);
                 if (newJWT) {
                     localStorage.setItem('JWT', newJWT);
                 }
@@ -114,21 +115,90 @@ var timesheetActions = Flux.createActions({
 module.exports = timesheetActions;
 
 function formatTimesheet(timesheet){
-    console.log(timesheet);
-    formattedTimesheet = {
+    var formattedTimesheet = {
         timesheetID: timesheet.timesheetID,
         engagement: timesheet.engagement,
-        startDate: new Date(timesheet.startDate),
-        endDate: new Date(timesheet.endDate),
-        userID: timesheet.userID,
+        startDate: timesheet.startDate,
+        endDate: timesheet.endDate,
+        delete: timesheet.delete,
+        userID: localStorage.getItem('USER_ID', user.id),
         entries: []
     };
     formattedTimesheet.entries = timesheet.entries.map(function(entry){
         return {
+            rowID: entry.rowID,
             service: entry.service,
-            date: new Date(entry.date),
-            duration: entry.duration
+            date: entry.date,
+            duration: entry.duration,
+            delete: entry.delete
         };
     });
+    console.log(formattedTimesheet);
     return formattedTimesheet;
+}
+
+function verifyTimesheet(timesheet){
+    var messages = [];
+    messages.push(verifyMeta(timesheet));
+
+    entries = timesheet.entries;
+    for(i=0; i < entries.length; i++){
+        messages = messages.concat(verifyEntry(entries[i]));
+    }
+
+   return _.flatten(messages);
+
+}
+
+function verifyMeta(timesheet){
+    var messages = [];
+    if(!checkStr(timesheet.timesheetID)) {
+        messages.push("TimesheetID needs to be not blank");
+    }
+    if(!checkStr(timesheet.engagement)) {
+        messages.push("Engagement needs to be not blank");
+    }
+    if(!checkStr(timesheet.startDate)) {
+        messages.push("Please enter a start date");
+    }
+    if(!checkStr(timesheet.endDate)) {
+        messages.push("Please enter an end date");
+    }
+    return messages;
+
+}
+
+function verifyEntry(entry){
+    var messages = [];
+    if(!checkStr(entry.date)) {
+        messages.push("Please a date for the entry");
+    }
+    if(!checkStr(entry.duration)) {
+        messages.push("Please enter a duration for your entry");
+    }
+    if(!checkStr(entry.service)){
+        messages.push("Please select a service type");
+    }
+    return messages;
+}
+
+function checkInt(data){
+    if(data === null || data !== parseInt(data, 10)){
+        return false;
+    }
+    return true;
+}
+
+function checkStr(data){
+    if(data === "" || typeof data !== "string"){
+        return false;
+    }
+    return true;
+}
+
+function checkDate(data){
+    if (!(data instanceof Date) || Object.prototype.toString.call(data) !== '[object Date]'){
+        return false;
+    }
+    return true;
 }

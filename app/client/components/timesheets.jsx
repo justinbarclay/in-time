@@ -35,7 +35,7 @@ var Timesheets = React.createClass({
         this.setState(timesheetActions.getTimesheets());
     },
     render: function() {
-        console.log(this.state);
+        // console.log(this.state);
         var timesheets = this.state.timesheets.map(function(timesheet, index){
             return <ToTimesheet timesheet={timesheet} key={index}/>;
         });

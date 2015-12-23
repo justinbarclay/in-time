@@ -1,5 +1,7 @@
 //React
 var React = require("react");
+var Router = require("react-router");
+var Link = Router.Link;
 
 //Flux
 var authStore = require('../stores/authStore');
@@ -9,7 +11,7 @@ var authActions = require('../actions/authActions');
 var NavSignedIn = require("./navSignedIn");
 var NavSignedOut = require("./navSignedOut");
 
-var nav = React.createClass({
+var header = React.createClass({
     displayName: "navController",
     propTypes: [],
     mixins: [authStore.mixin],
@@ -28,6 +30,9 @@ var nav = React.createClass({
         }
         return (
             <div className="header">
+                <Link className="nav homeButton" to="home">
+                    <label>Home</label>
+                </Link>
                 {nav}
             </div>
         );
@@ -35,4 +40,4 @@ var nav = React.createClass({
 
 });
 
-module.exports = nav;
+module.exports = header;

@@ -13,7 +13,11 @@ var authStore = Flux.createStore({
         return _user;
     },
     authenticated: function(){
-        console.log(_user);
+        var userID = parseInt(localStorage.getItem("USER_ID"));
+        if (!_user.authenticated && userID){
+            _user.id = userID;
+            return true;
+        }
         return _user.authenticated;
     },
     signinUser: function(user) {
@@ -26,7 +30,7 @@ var authStore = Flux.createStore({
 
         //Maybe split _user.message off to a message store
         _user.message = user.message;
-        console.log(_user);
+        // console.log(_user);
     },
     signOut: function() {
         localStorage.removeItem('JWT');
@@ -37,7 +41,6 @@ var authStore = Flux.createStore({
         // functionally the same thing as signinUser, but different names to indicate different purposes.
         _user.username = user.username;
         _user.email = user.email;
-        _user.token = user.token;
     },
 }, function(payload) {
     if (payload.actionType === "SIGNIN_USER") {

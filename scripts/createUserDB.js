@@ -1,7 +1,7 @@
 //this is an iojs script to recreate the user database in postgresvar conString = "pg://postgres:postgres@localhost:5432/employees";
 var pg = require('pg');
 var config = require('../config.js');
-var conString = "pg://postgres:postgres@localhost:5432/employees";
+var conString = "postgres://postgres:postgres@localhost:5432/postgres";
 
 var client = new pg.Client(conString);
 client.connect();
@@ -11,7 +11,7 @@ client.query("DROP TABLE IF EXISTS UserLogin");
 
 try {
     client.query(
-        "CREATE TABLE IF NOT EXISTS UserLogin ( user_id serial PRIMARY KEY, username varchar(32) UNIQUE,  password varchar(64), email varchar(32) UNIQUE, last_accessed timestamptz )"
+        "CREATE TABLE IF NOT EXISTS UserLogin ( user_id serial PRIMARY KEY, username varchar(32) UNIQUE,  password varchar(64), email varchar(32) UNIQUE, permissions integer ARRAY, last_accessed timestamptz )"
     );
 } catch (error) {
     console.log(error);

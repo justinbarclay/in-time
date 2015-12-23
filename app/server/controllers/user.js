@@ -18,7 +18,6 @@ var pg = require('pg');
 const conString = config.postgres;
 const secret = config.secret;
 const twoWeeks = 20160; // Two weeks in minutes
-
 /* Structure of JWT payload
 * It should have a username, time of creation(iat), and email address
 * When decrypting the payload we can confirm who is requestion infomation and
@@ -42,6 +41,7 @@ function hashPassword(userPassword, callback) {
 function signUp(userName, userPassword, userEmail, callback) {
     //this function creates a username and hashes
     //a password then stored it in the database
+    console.log(conString);
     pg.connect(conString, function(err, client, done) {
         if (err) {
             return console.error(
@@ -100,6 +100,7 @@ function signUp(userName, userPassword, userEmail, callback) {
 
             } else {
                 console.log("Username all ready taken");
+                console.log(err)
                 done();
                 callback(err, false,
                     "Username or e-mail is unavailable");
@@ -139,6 +140,7 @@ function authenticate(userName, userPassword, callback) {
     //this function checks to see if the userName and userPassword match
     //anything stored in the user database
     // On a succesful authentication it should generate a JWT, and send it back in JSON with
+    console.log(conString);
     var auth = {err: null, success: null, message: '', JWT: ''};
     pg.connect(conString, function(err, client, done) {
         if (err) {
@@ -185,7 +187,7 @@ function authenticate(userName, userPassword, callback) {
                                     auth.id = res.rows[0].user_id;
                                     payload.userid = res.rows[0].user_id;
                                     auth.message = "Authentication successful";
-                                    var signedJWT = jwt.sign(payload, secret,{expiresInMinutes: twoWeeks, issuer: "Mountain View Industries"});
+                                    var signedJWT = jwt.sign(payload, secret,{expiresIn: twoWeeks, issuer: "Mountain View Industries"});
                                     callback(err, auth, signedJWT);
                                 }
                             }

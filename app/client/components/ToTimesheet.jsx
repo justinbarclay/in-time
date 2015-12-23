@@ -14,12 +14,12 @@ var ToTimesheet = React.createClass({
         this.transitionTo("/timesheet/" + id);
     },
     totalDuration: function() {
-        console.log("total Duration");
+        // console.log("total Duration");
         entries = this.props.timesheet.entries;
         var duration = 0;
-        console.log("entries", entries);
+        // console.log("entries", entries);
         entries.forEach(function(entry){
-            duration += entry.duration;
+            duration += parseInt(entry.duration);
         });
         return duration;
     },

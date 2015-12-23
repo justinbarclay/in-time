@@ -1,5 +1,6 @@
 // React
 var React = require("react");
+var Link = require("react").link
 
 //Components
 var Signin = require("./SignInForm");
@@ -28,7 +29,7 @@ var Home = React.createClass({
         return (
             <div className="home">
                 <div className="authenticationButtons">
-                    Welcome, please sign in!
+                    <Link to="signin"> Sign In </Link>
                 </div>
             </div>
         );

@@ -1,4 +1,5 @@
 var React = require("react");
+var Navigation = require('react-router').Navigation;
 // Flux
 var timesheetActions = require("../actions/timesheetActions");
 var timesheetStore = require("../stores/timesheetStore");
@@ -7,22 +8,31 @@ var authActions = require('../actions/authActions');
 var TimesheetRow = require("./timesheetRow");
 var TimesheetMeta = require("./timesheetMeta");
 
+// other
+var uuid = require('uuid');
+
 var Timesheet = React.createClass({
     displayName: "Timesheet",
-    mixins: [timesheetStore.mixin],
+    mixins: [Navigation, timesheetStore.mixin],
     propTypes: [],
+    componentWillMount: function () {
+        if (!this.state){
+            this.transitionTo("/timesheets");
+        }
+    },
     getInitialState: function() {
-        console.log(timesheetActions.getTimesheet(this.props.params.id));
-        return  timesheetActions.getTimesheet(this.props.params.id);
+        return timesheetActions.getTimesheet(this.props.params.id);
     },
     storeDidChange: function() {
         this.setState(timesheetActions.getTimesheet(this.props.params.id));
     },
     newRow: function() {
         var newRow = {
+            "rowID": uuid.v4(),
             "date": "",
             "duration": "0",
-            "service": "type of service"
+            "service": "type of service",
+            "delete": false
         };
         return timesheetActions.addRow(this.state.timesheetID, newRow);
     },
@@ -30,7 +40,7 @@ var Timesheet = React.createClass({
         timesheetActions.saveTimesheet(this.state.timesheetID);
     },
     render: function() {
-        console.log(this.state);
+        // console.log(this.state);
         var self = this;
         var entryFields = [
             {
@@ -63,7 +73,10 @@ var Timesheet = React.createClass({
             }
         ];
         var entries = this.state.entries.map(function(entry, index) {
-            return <TimesheetRow deletable={true} entry={entry} fields={entryFields} id={self.state.timesheetID} index={index} key={index}/>;
+            console.log(entry.delete);
+            if(entry.delete === false){
+                return <TimesheetRow deletable={true} entry={entry} fields={entryFields} id={self.state.timesheetID} index={index} key={index}/>;
+            }
         });
         var headings = entryFields.map(function(field, index) {
             return <label className="heading" key={index}>{field.name}</label>;
@@ -72,8 +85,7 @@ var Timesheet = React.createClass({
 
         var metaHeadings = metaFields.map(function(field, index) {
             return <label className="metaHeading" key={index}>{field.name}</label>;
-            });
-
+        });
         return (
             <div>
                 <div className="meta">
