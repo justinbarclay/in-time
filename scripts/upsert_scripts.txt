@@ -21,12 +21,12 @@ END;
 $$
 LANGUAGE plpgsql;
 
-CREATE FUNCTION upsert_entry(key TEXT, row INTEGER, description TEXT, duration REAL, sDate DATA, remove BOOLEAN ) RETURNS VOID AS
+CREATE FUNCTION upsert_timesheet(key TEXT, id TEXT, description TEXT, duration REAL, sDate DATE, remove BOOLEAN ) RETURNS VOID AS
 $$
 BEGIN
     LOOP
         -- first try to update the key
-        UPDATE timesheets SET service_description = description, service_date = sDate, service_duratio = duration, delete = remove WHERE timesheet_foreignkey = key and row_id = row;
+        UPDATE timesheets SET service_description = description, service_date = sDate, service_duration = duration, delete = remove WHERE timesheet_foreignkey = key and row_id = id;
         IF found THEN
             RETURN;
         END IF;
@@ -34,7 +34,7 @@ BEGIN
         -- if someone else inserts the same key concurrently,
         -- we could get a unique-key failure
         BEGIN
-            INSERT INTO timesheets(timesheet_foreignkey, row_id, service_description, service_date, service_duration, delete) VALUES (key, row, description, sDate,  duration, remove);
+            INSERT INTO timesheets(timesheet_foreignkey, row_id, service_description, service_date, service_duration, delete) VALUES (key, id, description, sDate,  duration, remove);
             RETURN;
         EXCEPTION WHEN unique_violation THEN
             -- do nothing, and loop to try the UPDATE again

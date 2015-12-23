@@ -164,16 +164,18 @@ let addMetaData = function(data) {
     });
 };
 
-function addEntries(data) {
+function upsertEntries(data) {
     return new Promise(function(resolve, reject) {
         let entries = data.setup.entries;
         Promise.all(entries.map(function(entry) {
                 console.log("entry", entry);
-                return addEntry({
+                return upsertEntry({
                     timesheetID: data.setup.timesheetID,
+                    rowID: entry.rowID,
                     date: entry.date,
                     duration: entry.duration,
-                    service: entry.service
+                    service: entry.service,
+                    delete: entry.delete
                 }, data.client);
             }))
             .then(function(result) {
@@ -214,21 +216,13 @@ function addEntry(data, client) {
     });
 }
 
-function updateEntry(data, client) {
-    var queryString =
-        "UPSERT INTO Timesheets (timesheet_foreignkey, row_id, service_duration, service_description, service_date) VALUES($1, $2, $3, $4, $5)";
-    let upsert = `SELECT * FROM upsert_meta('${meta.timesheetID}', ${meta.userID}, '${meta.startDate}', '${meta.endDate}', ${meta.engagement}, ${meta.delete})`;
+function upsertEntry(data, client) {
+    let upsert = `SELECT * FROM upsert_timesheet('${data.timesheetID}', '${data.rowID}', '${data.service}', ${data.duration}, '${data.date}', ${data.delete})`;
     //Asynchronously insert data into the database
-    var entry = [
-        data.timesheetID, data.rowID, data.duration,
-        data.service, data.date
-    ];
-    console.log(entry);
     console.log("made it into here");
     return new Promise(function(resolve, reject) {
         console.log("and here");
-        console.log(entry);
-        client.query(queryString, entry, function(err, result) {
+        client.query(upsert, function(err, result) {
             console.log("but not here");
             if (err) {
                 throw err;
@@ -351,7 +345,7 @@ function deleteTimesheetMeta(data) {
 function createTimesheet(data, callback) {
     connect(data)
         .then(addMetaData)
-        .then(addEntries)
+        .then(upsertEntries)
         .then(finish)
         .catch(error)
         .then(callback);
