@@ -1,4 +1,5 @@
 var React = require("react");
+var Navigation = require('react-router').Navigation;
 // Flux
 var timesheetActions = require("../actions/timesheetActions");
 var timesheetStore = require("../stores/timesheetStore");
@@ -12,7 +13,7 @@ var uuid = require('uuid');
 
 var Timesheet = React.createClass({
     displayName: "Timesheet",
-    mixins: [timesheetStore.mixin],
+    mixins: [Navigation, timesheetStore.mixin],
     propTypes: [],
     getInitialState: function() {
         // console.log(timesheetActions.getTimesheet(this.props.params.id));
@@ -36,6 +37,9 @@ var Timesheet = React.createClass({
     },
     render: function() {
         // console.log(this.state);
+        if (!this.state){
+            this.transitionTo("#/timesheets");
+        }
         var self = this;
         var entryFields = [
             {
@@ -80,8 +84,7 @@ var Timesheet = React.createClass({
 
         var metaHeadings = metaFields.map(function(field, index) {
             return <label className="metaHeading" key={index}>{field.name}</label>;
-            });
-        console.log(this.state);
+        });
         return (
             <div>
                 <div className="meta">

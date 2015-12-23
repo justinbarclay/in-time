@@ -13,7 +13,9 @@ var authStore = Flux.createStore({
         return _user;
     },
     authenticated: function(){
-        // console.log(_user);
+        if (!_user.authenticated && localStorage.getItem("USER_ID")){
+            return true;
+        }
         return _user.authenticated;
     },
     signinUser: function(user) {

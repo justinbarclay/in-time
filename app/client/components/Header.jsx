@@ -26,7 +26,7 @@ var header = React.createClass({
         if (this.state.signedIn === true){
             nav = <NavSignedIn />;
         } else {
-            nav = <NavSignedOut />
+            nav = <NavSignedOut />;
         }
         return (
             <div className="header">
