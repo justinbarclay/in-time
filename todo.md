@@ -1,6 +1,8 @@
 # TO DO
 
+* Fix timesheet/:id bug where when it redirects to timesheets, timesheets does not update to show all timesheets
 * Rework layout with Ivan
+
 * rewrite database creation scripts, they need to include new columns and default values
 
 * relook at JWT, need to know what user is requesting access to whose files
