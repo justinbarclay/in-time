@@ -32,7 +32,7 @@ var Timesheets = React.createClass({
         this.transitionTo("/timesheet/" + newID);
     },
     storeDidChange: function() {
-        this.setState(timesheetActions.getTimesheets());
+        this.setState({timesheets:timesheetActions.getTimesheets()});
     },
     render: function() {
         // console.log(this.state);

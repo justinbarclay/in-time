@@ -1,5 +1,7 @@
 # TO DO
 
+* Fix "VM3076:1 Uncaught SyntaxError: Unexpected end of input"
+--http://stackoverflow.com/questions/14700314/unexpected-end-of-input-message-on-response-from-simple-post-request-to-node-j
 * Fix timesheet/:id bug where when it redirects to timesheets, timesheets does not update to show all timesheets
 * Rework layout with Ivan
 
@@ -7,6 +9,7 @@
 
 * relook at JWT, need to know what user is requesting access to whose files
 -- Meaning can a JWT reliably store in it the user who is looking for the data
+
 * Permission system
 -- Each user has a permission attribute with an array of numbers
 -- Have a permission table that is a list of permission numbers that map to actions

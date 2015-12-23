@@ -30,7 +30,7 @@ var Timesheet = React.createClass({
         var newRow = {
             "rowID": uuid.v4(),
             "date": "",
-            "duration": "0",
+            "duration": 0,
             "service": "type of service",
             "delete": false
         };

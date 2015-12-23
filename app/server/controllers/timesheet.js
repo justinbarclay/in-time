@@ -14,7 +14,7 @@ let fs = require('fs');
 
 //without this being set pg.defaults to 30 clients running and a timeout time for
 //each client of 30s (30000)
-pg.defaults.poolIdleTimeout = 10 * 1000;
+pg.defaults.poolIdleTimeout = 30 * 1000;
 ////////////////////////////////////////////////////////////////////////////////
 //
 //Timesheet Controller
@@ -251,7 +251,7 @@ function getTimesheetIDs(data) {
             "SELECT timesheet_id, engagement, date_part('epoch', start_date)*1000 AS start_date, date_part('epoch', end_date)*1000 AS end_date, delete FROM Timesheets_Meta WHERE delete = 'FALSE' AND user_foreignkey= $1";
         data.client.query(queryString, [userID], function(err, result) {
             if (err) {
-                throw err;
+                console.error(err);
             } else {
                 data.meta = result.rows;
                 resolve(data);
@@ -420,7 +420,7 @@ function buildYearMonthDay(date) {
     console.log('day', day);
     let month = date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth();
     let year = date.getFullYear();
-    return (year + "/" + month + "/" + day);
+    return (year + "-" + month + "-" + day);
 
 }
 

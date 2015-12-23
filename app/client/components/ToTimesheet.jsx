@@ -26,7 +26,7 @@ var ToTimesheet = React.createClass({
     render: function() {
         return (
             <div className="timesheet" onClick={this.goToTimesheet}>
-                <p>{this.props.timesheet.startDate} - {this.props.timesheet.endDate}</p>
+                <p>{this.props.timesheet.startDate} to {this.props.timesheet.endDate}</p>
                 <p>{this.props.timesheet.engagement}</p>
                 <p>Total Time:  {this.totalDuration()}</p>
             </div>

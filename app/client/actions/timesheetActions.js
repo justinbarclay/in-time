@@ -12,7 +12,6 @@ var timesheetActions = Flux.createActions({
         AJAXreq.setRequestHeader('X-ACCESS-TOKEN', localStorage.getItem('JWT'));
         AJAXreq.setRequestHeader('ContentType',
             'application/json; charset=UTF8');
-        console.log(user);
         console.log(localStorage.getItem('JWT'));
         AJAXreq.send(user);
         AJAXreq.onreadystatechange = function() {

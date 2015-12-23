@@ -8,7 +8,6 @@ var    jwt = require("jsonwebtoken");
 var config = require("./config.js");
 
 const secret = config.secret;
-
 //shorthand function for verifying JWT
 var verifyJWT = function(token) {
     //If JWT is verified return token, otherwise return null
@@ -33,9 +32,7 @@ var getuserID = function(token) {
         console.log(err);
         return null;
     }
-
-
-}
+};
 
 //With this router, we only want to pass the necessary data into the controller
 //and leave the res and req objects in the router context. This may mean that
@@ -59,7 +56,7 @@ function route(req, res) {
         fs.readFile('app/public/index.html', function(err, data) {
             res.writeHead(200, {
                 'Content-Type': 'text/html',
-                'Content-Length': data.length
+                'Content-Length': Buffer.byteLength(data)
             });
             res.write(data);
             res.end();
@@ -157,12 +154,14 @@ function route(req, res) {
             if (verify) {
                 res.setHeader('X-ACCESS-TOKEN', verify);
             }
-
+            var message = verify ? "Token verified" : "illegal token";
             res.writeHead(200, {
-                'Content-Type': 'application/text'
+                'Content-Type': 'application/text',
+                'Content-Length': Buffer.byteLength(message)
+
             });
             console.log("verify " + verify);
-            res.write(verify ? "Token verified" : "illegal token");
+            res.write(message);
             res.end();
             console.log("res sent");
         });
@@ -204,6 +203,7 @@ function route(req, res) {
                 timesheet.getTimesheets(request, function(timesheets) {
                     console.log("line 194");
                     res.setHeader('X-ACCESS-TOKEN', verify);
+                    res.setHeader('Content-Length', Buffer.byteLength(JSON.stringify(timesheets)));
                     // console.log("res", res);
                     console.log("line 195", timesheets); //Debug
                     res.write(JSON.stringify(timesheets));
@@ -278,7 +278,7 @@ function route(req, res) {
             } else {
                 res.writeHead(200, {
                     'Content-Type': 'text/' + type,
-                    'Content-Length': data.length
+                    'Content-Length': Buffer.byteLength(data)
                 });
                 res.write(data);
                 res.end();
