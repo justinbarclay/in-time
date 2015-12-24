@@ -4,4 +4,4 @@ upsert = require("./upsertFunctions");
 
 console.log(upsert());
 console.log(timesheetDB());
-//console.log(userDB());
+console.log(userDB());
