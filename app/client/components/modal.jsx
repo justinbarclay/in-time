@@ -5,7 +5,7 @@ var modal = React.createClass({
     propTypes: [],
     mixins: [authStore.mixin],
     getInitialState: function(){
-        return{this.props.messages}
+        return {this.props.messages}
     },
     storeDidChange: function(){
     },
