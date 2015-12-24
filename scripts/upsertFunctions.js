@@ -1,6 +1,6 @@
 var pg = require('pg');
 var config = require('../config.js');
-var conString = "postgres://postgres:postgres@localhost:5432/postgres";
+var conString = config.postgres;
 
 var client = new pg.Client(conString);
 

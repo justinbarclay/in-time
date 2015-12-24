@@ -1,11 +1,10 @@
 var pg = require('pg');
 var config = require('../config.js');
-var conString = "postgres://postgres:postgres@localhost:5432/postgres";
-
-var client = new pg.Client(conString);
+var conString = config.postgres;
 
 
 function createUserDB() {
+    var client = new pg.Client(conString);
     client.connect();
     client.query("DROP TABLE IF EXISTS UserLogin");
     // Creat table and insert 2 records into it
