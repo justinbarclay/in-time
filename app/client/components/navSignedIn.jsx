@@ -22,9 +22,6 @@ var NavSignedIn = React.createClass({
     render: function() {
         return (
             <div className="navigation">
-                <Link className="nav" to="home">
-                    <label>Home</label>
-                </Link>
                 <Link className="nav" to="about">
                     <label>About</label>
                 </Link>
