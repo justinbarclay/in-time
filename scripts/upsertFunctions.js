@@ -8,7 +8,7 @@ var client = new pg.Client(conString);
 function createFunctions() {
     client.connect();
     var upsertMeta =
-        `CREATE FUNCTION upsert_meta(key TEXT, user_id INTEGER, sDate DATE, eDate DATE, engagement_num INTEGER, remove BOOLEAN ) RETURNS VOID AS
+        `CREATE OR REPLACE FUNCTION upsert_meta(key TEXT, user_id INTEGER, sDate DATE, eDate DATE, engagement_num INTEGER, remove BOOLEAN ) RETURNS VOID AS
         $$
         BEGIN
             LOOP
@@ -32,7 +32,7 @@ function createFunctions() {
         LANGUAGE plpgsql;`;
 
     var upsertTimesheet =
-    `CREATE FUNCTION upsert_timesheet(key TEXT, id TEXT, description TEXT, duration REAL, sDate DATE, remove BOOLEAN ) RETURNS VOID AS
+    `CREATE or REPLACE FUNCTION upsert_timesheet(key TEXT, id TEXT, description TEXT, duration REAL, sDate DATE, remove BOOLEAN ) RETURNS VOID AS
     $$
     BEGIN
         LOOP

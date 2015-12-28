@@ -41,11 +41,11 @@ var Timesheets = React.createClass({
         });
         return (
             <div>
+                <div className="row">
+                    <button onClick={this.newTimesheet}>Create New Timesheet</button>
+                </div>
                 <div className="timesheetsContainer">
                     {timesheets}
-                </div>
-                <div className="row">
-                    <button onClick={this.newTimesheet}>+</button>
                 </div>
             </div>
         );
