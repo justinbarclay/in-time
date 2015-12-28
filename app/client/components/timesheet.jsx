@@ -73,7 +73,6 @@ var Timesheet = React.createClass({
             }
         ];
         var entries = this.state.entries.map(function(entry, index) {
-            console.log(entry.delete);
             if(entry.delete === false){
                 return <TimesheetRow deletable={true} entry={entry} fields={entryFields} id={self.state.timesheetID} index={index} key={index}/>;
             }

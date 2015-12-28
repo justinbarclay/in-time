@@ -13,7 +13,6 @@ var timesheetActions = Flux.createActions({
         AJAXreq.setRequestHeader('X-ACCESS-TOKEN', authActions.getJWT());
         AJAXreq.setRequestHeader('ContentType',
             'application/json; charset=UTF8');
-        console.log(authActions.getJWT());
         AJAXreq.send(user);
         AJAXreq.onreadystatechange = function() {
             var res = JSON.parse(AJAXreq.responseText);
@@ -21,7 +20,6 @@ var timesheetActions = Flux.createActions({
                 newJWT = AJAXreq.getResponseHeader(
                     "X-ACCESS-TOKEN");
                 authActions.setJWT(newJWT);
-                console.log(res);
                 self.dispatch({
                     actionType: "SYNC_TIMESHEET",
                     timesheets: res
