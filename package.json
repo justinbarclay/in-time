@@ -37,7 +37,7 @@
     "watchify": "^3.2.3"
   },
   "engines": {
-    "node": "4.2.1"
+    "node": "5.3.0"
   },
   "jshintConfig": {
     "esnext": true,
