@@ -141,16 +141,13 @@ function begin(data) {
 let addMetaData = function(data) {
     let meta = data.setup;
     return new Promise(function(resolve, reject) {
-        let queryString =
-            "INSERT INTO Timesheets_Meta (timesheet_id, user_foreignkey, start_date, end_date, engagement, delete) VALUES($1, $2, $3, $4, $5, $6)";
         //Asynchronously insert data into the database
         let upsert = `SELECT * FROM upsert_meta('${meta.timesheetID}', ${meta.userID}, '${meta.startDate}', '${meta.endDate}', ${meta.engagement}, ${meta.delete})`;
         console.log(upsert);
         let metaTimesheet = [meta.timesheetID, meta.userID,
             meta.startDate, meta.endDate, meta.engagement, meta.delete
         ];
-        data.client.query(upsert, function(err,
-            result) {
+        data.client.query(upsert, function(err, result) {
             if (err) {
                 throw err;
             } else {
