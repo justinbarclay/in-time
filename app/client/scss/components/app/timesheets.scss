@@ -5,10 +5,32 @@
 .timesheetsContainer{
     @include grid-row();
     .timesheet{
-        @include grid-column(4);
-        height: 100px;
-        border: white solid 1px;
-        background-color: #17A555
+        // @include grid-column(4);
+        // height: 100px;
+        display: inline-block;
+        border: #008CBA solid 2px;
+        background-color: rgba(#008CBA,0.75);
+        cursor: pointer;
+        padding: 1em;
+        color: $white-smoke;
+        margin: 1em 1em 0 0;
+        min-width: 15em;
+        transition: .5s background-color;
+        &:hover{
+            background-color: #008CBA;
+        }
+        .engagement{
+            font-size: 4em;
+            line-height: 1;
+        }
+        .info{
+            div{
+                display: inline-block;
+            }
+            & > :last-child{
+                padding-left: 1em;
+            }
+        }
     }
 }
 
@@ -17,11 +39,4 @@
         $columns: 1,
         $offset: 5.5
     );
-}
-
-.timesheet {
-    text-align: center;
-    p {
-        margin: 0;
-    }
 }
