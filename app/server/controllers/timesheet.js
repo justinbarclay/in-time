@@ -14,7 +14,7 @@ let fs = require('fs');
 
 //without this being set pg.defaults to 30 clients running and a timeout time for
 //each client of 30s (30000)
-pg.defaults.poolIdleTimeout = 30 * 1000;
+pg.defaults.poolIdleTimeout = 10 * 1000;
 ////////////////////////////////////////////////////////////////////////////////
 //
 //Timesheet Controller
@@ -71,6 +71,7 @@ function error(err) {
 }
 
 function finish(data) {
+    console.log("finish");
     return new Promise(function(resolve, reject) {
         data.client.query('COMMIT', data.done);
         data.done();
@@ -278,8 +279,10 @@ function getEntries(data, client) {
         client.query(queryString, [data.timesheet_id], function(err,
             result) {
             if (err) {
+                console.log("this is an err: ", err);
                 throw err;
             } else {
+                console.log(result.rows);
                 resolve(result.rows);
             }
         });
@@ -358,7 +361,7 @@ function getTimesheets(request, callback) {
         .catch(rollback)
         .then(buildTimesheets)
         .then(callback);
-    console.log("done");
+    console.log("done getting timesheets");
 }
 
 function deleteTimesheets(request, callback) {

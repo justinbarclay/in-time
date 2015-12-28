@@ -25,7 +25,7 @@ function createTimesheetDB() {
     setTimeout(function() {
         client.end();
         console.log("Success");
-    }, 1000);
+    }, 5000);
     return "Success";
 }
 

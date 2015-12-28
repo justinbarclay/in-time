@@ -167,6 +167,7 @@ function route(req, res) {
         });
     } else if (path === '/timesheets' && req.method === "POST") {
         // Should handle both get and post? or just one...
+        console.log("Retrieving timesheets");
         req.on("data", function(chunk) {
             console.log("chunk", data);
             data += chunk;
@@ -188,8 +189,9 @@ function route(req, res) {
             try {
                 request = JSON.parse(data);
             } catch (err) {
-                console.err(err); //Debug
+                console.error(err); //Debug
             }
+            console.log(request.userID);
             if (request.userID !== parseInt(request.userID, 10)) {
                 res.writeHead(400, {
                     'Content-Type': 'application/json'
