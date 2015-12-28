@@ -1,20 +1,22 @@
 main {
     // @include grid-row();
-    height: 800px;
-    background-color: rgba(0, 0, 0, 0.1);
+    // height: 800px;
+    // background-color: rgba(0, 0, 0, 0.1);
     max-width: 100%;
     margin: 0 auto;
+    padding: 50px 0;
 }
 .app {
+    min-height: 100%;
     position: relative;
-    margin: 60px 0 0 0;
-    background-color: $white-smoke;
+    padding: 60px 0 80px 0;
+    background-color: #DDD;
 }
 
 .home {
     position: inherit;
-    @include vertical-align-container;
-    height: 500px;
+    // @include vertical-align-container;
+    // height: 500px;
     text-align: center;
     margin: 0 auto 0 auto;
     display: block;
@@ -23,7 +25,7 @@ main {
 }
 
 .authenticationButtons {
-    @include vertical-align;
+    // @include vertical-align;
     font-size: 1.5em;
     margin: 0 auto 0 auto;
     /* background-color: red; */
@@ -34,10 +36,8 @@ button {
     margin-bottom: 0;
 }
 .about {
-    @include vertical-align-container;
-    height: 100%;
+
     p {
-        @include vertical-align;
         @include grid-column(
         $columns: 6,
         $center: true

@@ -6439,6 +6439,9 @@ body {
   width: 100%; }
 
 .footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
   height: 80px;
   background-color: #333333;
   color: #FFFFFF; }
@@ -6497,7 +6500,6 @@ body {
   margin-right: auto;
   float: none;
   position: relative;
-  top: 100px;
   max-width: 360px; }
   .signupForm input, .signinForm input {
     height: 37px;
@@ -6533,32 +6535,24 @@ body {
       min-width: 250px; } }
 
 main {
-  height: 800px;
-  background-color: rgba(0, 0, 0, 0.1);
   max-width: 100%;
-  margin: 0 auto; }
+  margin: 0 auto;
+  padding: 50px 0; }
 
 .app {
+  min-height: 100%;
   position: relative;
-  margin: 60px 0 0 0;
-  background-color: #F5F5F5; }
+  padding: 60px 0 80px 0;
+  background-color: #DDD; }
 
 .home {
   position: inherit;
-  -webkit-transform-style: preserve-3d;
-          transform-style: preserve-3d;
-  height: 500px;
   text-align: center;
   margin: 0 auto 0 auto;
   display: block;
   font-size: 1.5em; }
 
 .authenticationButtons {
-  position: relative;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-          transform: translateY(-50%);
   font-size: 1.5em;
   margin: 0 auto 0 auto;
   /* background-color: red; */
@@ -6567,23 +6561,14 @@ main {
 button {
   margin-bottom: 0; }
 
-.about {
-  -webkit-transform-style: preserve-3d;
-          transform-style: preserve-3d;
-  height: 100%; }
-  .about p {
-    position: relative;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-        -ms-transform: translateY(-50%);
-            transform: translateY(-50%);
-    padding-left: 0.9375rem;
-    padding-right: 0.9375rem;
-    width: 50%;
-    float: left;
-    margin-left: auto;
-    margin-right: auto;
-    float: none; }
+.about p {
+  padding-left: 0.9375rem;
+  padding-right: 0.9375rem;
+  width: 50%;
+  float: left;
+  margin-left: auto;
+  margin-right: auto;
+  float: none; }
 
 .timesheetRow {
   margin: 0 auto;
