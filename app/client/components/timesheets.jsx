@@ -36,9 +36,7 @@ var Timesheets = React.createClass({
     },
     render: function() {
         var timesheets = this.state.timesheets.map(function(timesheet, index){
-            console.log(Boolean(timesheet.delete));
             timesheetInfo = !timesheet.delete ? <ToTimesheet timesheet={timesheet} key={index}/> : null;
-            console.log(timesheetInfo);
             return timesheetInfo;
         });
         return (

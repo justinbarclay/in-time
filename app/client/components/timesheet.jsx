@@ -21,8 +21,10 @@ var Timesheet = React.createClass({
         }
     },
     getInitialState: function() {
-        return timesheetActions.getTimesheet(this.props.params.id);
-    },
+        pageState = timesheetActions.getTimesheet(this.props.params.id);
+            pageState ? pageState['deleteMessage'] = "Delete" : null;
+        return pageState;
+        },
     storeDidChange: function() {
         this.setState(timesheetActions.getTimesheet(this.props.params.id));
     },
@@ -50,6 +52,9 @@ var Timesheet = React.createClass({
     clearTimeout: function(){
         console.log("cleared");
         window.clearTimeout(this.state.timer);
+    },
+    hoverDelete:function(event){
+        this.state.deleteMessage === "Delete" ? this.setState({deleteMessage:"Hold To Delete"}): this.setState({deleteMessage:"Delete"});
     },
     render: function() {
         var self = this;
@@ -112,8 +117,8 @@ var Timesheet = React.createClass({
                         <div className="save button" onClick={this.saveTimesheet}>
                             Save
                         </div>
-                        <div className="delete button" onMouseDown={this.deleteTimesheet} onMouseUp={this.clearTimeout}>
-                            Delete
+                        <div className="delete button" onMouseDown={this.deleteTimesheet} onMouseUp={this.clearTimeout} onMouseEnter={this.hoverDelete} onMouseLeave={this.hoverDelete}>
+                            {this.state.deleteMessage}
                         </div>
                     </div>
                 </div>
