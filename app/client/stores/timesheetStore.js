@@ -37,6 +37,7 @@ var _timesheets = [
     "userID": "0000001",
     "approved": false,
     "engagement": 86328,
+    "delete": false,
     "entries": [{
         "date": "2015-03-02",
         "duration": 4,
@@ -60,6 +61,7 @@ var _timesheets = [
     "userID": "0000001",
     "approved": false,
     "engagement": 86328,
+    "delete": false,
     "entries": [{
         "date": "2015-03-02",
         "duration": 4,
@@ -83,6 +85,7 @@ var _timesheets = [
 "userID": "0000001",
 "approved": false,
 "engagement": 86328,
+"delete": false,
 "entries": [{
     "date": "2015-03-02",
     "duration": 4,
@@ -106,6 +109,7 @@ var _timesheets = [
 "userID": "0000001",
 "approved": false,
 "engagement": 86328,
+"delete": false,
 "entries": [{
     "date": "2015-03-02",
     "duration": 4,
@@ -144,15 +148,16 @@ var timesheetStore = Flux.createStore({
         _timesheets = _timesheets.concat(newTimesheet);
     },
     deleteTimesheet: function(id) {
-        findTimesheet(id, function(index) {
-            _timesheets.splice(index, 1);
+        findTimesheetIndex(id, function(index) {
+            _timesheets[index].delete = true;
+            console.log(_timesheets[index]);
         });
     },
     deleteTimesheets: function() {
         _timesheets = [];
     },
     updateTimesheet: function(timesheet) {
-        findTimesheetindex(timesheet.timeoutsheetID, function(index) {
+        findTimesheetIndex(timesheet.timeoutsheetID, function(index) {
             _timesheets[index] = timesheet;
         });
     },

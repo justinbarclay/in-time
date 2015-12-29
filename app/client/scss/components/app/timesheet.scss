@@ -8,6 +8,13 @@ $pad: .8rem;
         margin: 0;
         vertical-align: middle;
     }
+    .delete{
+        transition: 0.2s opacity;
+        &:active{
+            opacity: 0;
+            transition: 2s opacity;
+        }
+    }
 
 }
 .meta{

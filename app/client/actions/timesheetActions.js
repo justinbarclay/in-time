@@ -35,9 +35,15 @@ var timesheetActions = Flux.createActions({
     getTimesheet: function(id) {
         return timesheetStore.getTimesheet(id);
     },
+    deleteTimesheet: function(id) {
+        this.dispatch({
+            actionType: "DELETE_TIMESHEET",
+            timesheetID: id
+        });
+    },
     deleteTimesheets: function() {
         this.dispatch({
-            actionType: "DELETE_TIMESHEETS"
+            actionType: "DELETE_TIMESHEETS",
         });
     },
     newTimesheet: function(timesheetID, userID) {

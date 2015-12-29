@@ -39,8 +39,19 @@ var Timesheet = React.createClass({
     saveTimesheet: function() {
         timesheetActions.saveTimesheet(this.state.timesheetID);
     },
+    deleteTimesheet: function() {
+        self = this;
+        console.log("Hold for 2 seconds");
+        this.setState({timer: window.setTimeout(function(){
+            timesheetActions.deleteTimesheet(self.state.timesheetID);
+            self.transitionTo('timesheets');
+        }, 2000)});
+    },
+    clearTimeout: function(){
+        console.log("cleared");
+        window.clearTimeout(this.state.timer);
+    },
     render: function() {
-        // console.log(this.state);
         var self = this;
         var entryFields = [
             {
@@ -101,7 +112,7 @@ var Timesheet = React.createClass({
                         <div className="save button" onClick={this.saveTimesheet}>
                             Save
                         </div>
-                        <div className="delete button" onClick={this.deleteTimesheet}>
+                        <div className="delete button" onMouseDown={this.deleteTimesheet} onMouseUp={this.clearTimeout}>
                             Delete
                         </div>
                     </div>
