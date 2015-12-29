@@ -26,7 +26,7 @@ $$
 BEGIN
     LOOP
         -- first try to update the key
-        UPDATE timesheets SET service_description = description, service_date = sDate, service_duration = duration, delete = remove WHERE timesheet_foreignkey = key and row_id = id;
+        UPDATE timesheets SET service_description = description, service_date = sDate, service_duration = duration, delete = remove WHERE row_id = id;
         IF found THEN
             RETURN;
         END IF;
