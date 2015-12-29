@@ -298,7 +298,7 @@ var _templateTimesheet = {
     "engagement": "",
     "delete": false,
     "entries": [{
-        "rowID": 1,
+        "rowID": uuid.v4(),
         "date": "",
         "duration": 0,
         "type": "type of service",

@@ -82,38 +82,36 @@ var timesheetActions = Flux.createActions({
         });
     },
     saveTimesheet: function(id){
-    //     var timesheet = formatTimesheet(timesheetStore.getTimesheet(id));
-    //     var verify = verifyTimesheet(timesheet);
-    //     console.log(verify);
-    //     if(verify !== []){
-    //         for(var message in verify){
-    //             console.log("error");
-    //             console.log(verify[message]);
-    //         }
-    //     }
-    //
-    //     var AJAXreq = new XMLHttpRequest();
-    //     AJAXreq.open("POST", "/timesheet", true);
-    //     AJAXreq.setRequestHeader('ContentType', 'application/json; charset=UTF8');
-    //     var currentJWT = localStorage.getItem('JWT');
-    //     AJAXreq.setRequestHeader('X-ACCESS-TOKEN', currentJWT);
-    //     AJAXreq.setRequestHeader('ContentType',
-    //         'application/json; charset=UTF8');
-    //     AJAXreq.send(JSON.stringify(timesheet));
-    //     AJAXreq.onreadystatechange = function() {
-    //         var res = JSON.parse(AJAXreq.responseText);
-    //         console.log(res);
-    //         if (AJAXreq.readyState === 4) {
-    //             newJWT = AJAXreq.getResponseHeader(
-    //                 "X-ACCESS-TOKEN");
-    //             if (newJWT) {
-    //                 localStorage.setItem('JWT', newJWT);
-    //             }
-    //             return res;
-    //         }
-    //     };
-    //
-    return;
+        var timesheet = formatTimesheet(timesheetStore.getTimesheet(id));
+        var verify = verifyTimesheet(timesheet);
+        console.log(verify);
+        if(verify !== []){
+            for(var message in verify){
+                console.log("error");
+                console.log(verify[message]);
+            }
+        }
+
+        var AJAXreq = new XMLHttpRequest();
+        AJAXreq.open("POST", "/timesheet", true);
+        AJAXreq.setRequestHeader('ContentType', 'application/json; charset=UTF8');
+        var currentJWT = localStorage.getItem('JWT');
+        AJAXreq.setRequestHeader('X-ACCESS-TOKEN', currentJWT);
+        AJAXreq.setRequestHeader('ContentType',
+            'application/json; charset=UTF8');
+        AJAXreq.send(JSON.stringify(timesheet));
+        AJAXreq.onreadystatechange = function() {
+            var res = JSON.parse(AJAXreq.responseText);
+            console.log(res);
+            if (AJAXreq.readyState === 4) {
+                newJWT = AJAXreq.getResponseHeader(
+                    "X-ACCESS-TOKEN");
+                if (newJWT) {
+                    localStorage.setItem('JWT', newJWT);
+                }
+                return res;
+            }
+        };
     }
 });
 
@@ -126,7 +124,7 @@ function formatTimesheet(timesheet){
         startDate: timesheet.startDate,
         endDate: timesheet.endDate,
         delete: timesheet.delete,
-        userID: localStorage.getItem('USER_ID', user.id),
+        userID: localStorage.getItem('USER_ID'),
         entries: []
     };
     formattedTimesheet.entries = timesheet.entries.map(function(entry){
