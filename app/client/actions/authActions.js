@@ -17,15 +17,12 @@ var authActions = Flux.createActions({
         AJAXreq.send(JSON.stringify(user));
         AJAXreq.onreadystatechange = function() {
             if (AJAXreq.readyState === 4) {
-                //more debugging stuff
                 var res = JSON.parse(AJAXreq.responseText);
-                // console.log(res);
                 user = res;
                 if (user.success) {
                     authActions.setJWT(AJAXreq.getResponseHeader("X-ACCESS-TOKEN"));
                     localStorage.setItem('USER_ID', user.id);
                 }
-                // console.log("user: " + JSON.stringify(user));
                 self.dispatch({
                     actionType: "SIGNIN_USER",
                     user: user
@@ -52,14 +49,16 @@ var authActions = Flux.createActions({
         return localStorage.getItem('JWT');
     },
     setJWT: function(jwt) {
+        jwt = jwt !== "null" ? jwt : null;
         if(jwt){
             return localStorage.setItem('JWT', jwt);
         } else {
-            this.signOut();
+            this.dispatch({
+                actionType: "SIGNOUT_USER"
+            });
         }
 
     }
 });
-
 
 module.exports = authActions;

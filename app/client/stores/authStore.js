@@ -14,6 +14,7 @@ var authStore = Flux.createStore({
     },
     authenticated: function(){
         var userID = parseInt(localStorage.getItem("USER_ID"));
+        console.log(_user);
         if (!_user.authenticated && userID){
             _user.id = userID;
             return true;

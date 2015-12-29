@@ -18,9 +18,11 @@ var timesheetActions = Flux.createActions({
         AJAXreq.onreadystatechange = function() {
             var res = JSON.parse(AJAXreq.responseText);
             console.log(res);
+            console.log(AJAXreq.readyState);
             if (AJAXreq.readyState === 4) {
                 newJWT = AJAXreq.getResponseHeader(
                     "X-ACCESS-TOKEN");
+                    console.log("newJWT: ", newJWT);
                 authActions.setJWT(newJWT);
                 self.dispatch({
                     actionType: "SYNC_TIMESHEET",

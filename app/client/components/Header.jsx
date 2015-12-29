@@ -23,7 +23,7 @@ var header = React.createClass({
     },
     render: function(){
         var nav;
-        if (this.state.signedIn === true){
+        if (this.state.signedIn){
             nav = <NavSignedIn />;
         } else {
             nav = <NavSignedOut />;

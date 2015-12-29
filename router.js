@@ -23,7 +23,7 @@ var verifyJWT = function(token) {
     }
 };
 
-var getuserID = function(token) {
+var getUserID = function(token) {
     var state;
     try {
         state = jwt.verify(token, secret);
@@ -150,11 +150,12 @@ function route(req, res) {
             headerJWT = req.headers["x-access-token"];
             console.log("headerJWT: " + headerJWT);
             var verify = verifyJWT(headerJWT);
-            console.log("JWT");
-            if (verify) {
-                res.setHeader('X-ACCESS-TOKEN', verify);
+            if(verify){
+                userID = getuserID(JWT);
             }
-            var message = verify ? "Token verified" : "illegal token";
+            var message = {verify: verify ? "Token verified" : "illegal token"};
+            res.setHeader('X-ACCESS-TOKEN', verify);
+            message.userID = userID;
             res.writeHead(200, {
                 'Content-Type': 'application/text',
                 'Content-Length': Buffer.byteLength(message)
@@ -176,6 +177,7 @@ function route(req, res) {
             console.log("made it into callback");
             var verify = verifyJWT(req.headers["x-access-token"]);
             if (!verify) {
+                res.setHeader('X-ACCESS-TOKEN', verify);
                 res.writeHead(401, {
                     'Content-Type': 'application/json'
                 });
@@ -183,6 +185,7 @@ function route(req, res) {
                 res.write(JSON.stringify({
                     "message": "invalid security token"
                 }));
+                res.end();
                 return;
             }
 
