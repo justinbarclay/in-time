@@ -24,16 +24,8 @@ var SignUpForm = React.createClass({
             AJAXreq.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
             AJAXreq.send(user);
             AJAXreq.onreadystatechange = function () {
-                // console.log("state change");
                 if (AJAXreq.readyState === 4)   {
-                    //more debugging stuff
-                    // console.log(AJAXreq.readyState);
-                    // console.log(AJAXreq.responseText);
                     self.setState({signUpMessage: AJAXreq.responseText, alertHidden: false});
-                } else {
-                    //Debugging stuff
-                    // console.log(AJAXreq.readyState);
-                    // console.log(AJAXreq.responseTEXT);
                 }
             };
 

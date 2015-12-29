@@ -92,6 +92,7 @@ var timesheetStore = Flux.createStore({
     },
     syncTimesheets: function(timesheets){
         _timesheets = timesheets;
+        console.log("sync timesheets: ", timesheets);
     }
 }, function(payload) {
     if (payload.actionType === "NEW_TIMESHEET") {

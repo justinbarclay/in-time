@@ -20,8 +20,4 @@ var NavSignedOut = React.createClass({
     }
 });
 
-// <Link className="nav" to="about">
-// <label>About</label>
-// </Link>
-
 module.exports = NavSignedOut;

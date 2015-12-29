@@ -15,14 +15,15 @@ var ToTimesheet = React.createClass({
         this.transitionTo("/timesheet/" + id);
     },
     totalDuration: function() {
-        // console.log("total Duration");
         entries = this.props.timesheet.entries;
         var duration = 0;
-        // console.log("entries", entries);
         entries.forEach(function(entry) {
             duration += parseInt(entry.duration);
         });
         return duration;
+    },
+    entriesCount: function(){
+        return this.props.timesheet.entries.length;
     },
     render: function() {
         return (
@@ -31,7 +32,7 @@ var ToTimesheet = React.createClass({
                 <div>{(new Date(this.props.timesheet.startDate).toDateString()).slice(0, -4)}
                     to {(new Date(this.props.timesheet.endDate).toDateString()).slice(0, -4)}</div>
                 <div className="info"><div>Total Time:
-                    {this.totalDuration()}</div><div>Entries</div></div>
+                    {this.totalDuration()}</div><div>Entries: {this.entriesCount()}</div></div>
             </div>
         );
     }
