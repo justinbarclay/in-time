@@ -22,7 +22,7 @@ var Timesheet = React.createClass({
     },
     getInitialState: function() {
         pageState = timesheetActions.getTimesheet(this.props.params.id);
-            pageState ? pageState['deleteMessage'] = "Delete" : null;
+        pageState ? (pageState['deleteMessage'] = "Delete") : (pageState = null);
         return pageState;
         },
     storeDidChange: function() {
@@ -45,8 +45,8 @@ var Timesheet = React.createClass({
         self = this;
         console.log("Hold for 2 seconds");
         this.setState({timer: window.setTimeout(function(){
+            self.transitionTo('/timesheets');
             timesheetActions.deleteTimesheet(self.state.timesheetID);
-            self.transitionTo('timesheets');
         }, 2000)});
     },
     clearTimeout: function(){

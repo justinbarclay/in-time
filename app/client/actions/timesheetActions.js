@@ -40,6 +40,8 @@ var timesheetActions = Flux.createActions({
             actionType: "DELETE_TIMESHEET",
             timesheetID: id
         });
+        save(id);
+
     },
     deleteTimesheets: function() {
         this.dispatch({
@@ -116,7 +118,10 @@ var timesheetActions = Flux.createActions({
 });
 
 module.exports = timesheetActions;
-
+function save(id){
+    console.log(id);
+    timesheetActions.saveTimesheet(id);
+}
 function formatTimesheet(timesheet){
     var formattedTimesheet = {
         timesheetID: timesheet.timesheetID,
