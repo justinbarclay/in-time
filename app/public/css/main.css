@@ -6572,19 +6572,20 @@ button {
 
 .timesheetPage {
   max-width: 60em;
-  margin: 0 auto; }
+  margin: 0 auto;
+  padding-left: 1em; }
   .timesheetPage input {
     margin: 0;
     vertical-align: middle; }
 
 .meta .metaInfo {
-  width: calc(33% - 0.5rem);
+  width: calc(33% - 0.8rem);
   font-size: 1.1em;
   display: inline-block; }
 
 .metaHeading {
   font-size: 1.5em;
-  width: calc(33% - 0.5rem);
+  width: calc(33% - 0.8rem);
   display: inline-block; }
 
 .fields {
@@ -6594,13 +6595,13 @@ button {
 
 .heading {
   font-size: 1.5em;
-  width: calc(33% - 0.5rem);
+  width: calc(33% - 0.8rem);
   display: inline-block; }
 
 .timesheetRow {
   vertical-align: middle; }
   .timesheetRow .timesheetInput {
-    width: calc(33% - 0.5rem);
+    width: calc(33% - 0.8rem);
     margin-bottom: 0;
     display: inline-block; }
 
@@ -6620,15 +6621,11 @@ button {
   margin-left: .1em;
   color: #F5F5F5; }
 
+.timesheetsPage .row {
+  text-align: center; }
+
 .timesheetsContainer {
-  margin: 0 auto;
-  max-width: 62.5rem;
-  width: 100%; }
-  .timesheetsContainer:before, .timesheetsContainer:after {
-    content: " ";
-    display: table; }
-  .timesheetsContainer:after {
-    clear: both; }
+  text-align: center; }
   .timesheetsContainer .timesheet {
     display: inline-block;
     border: #008CBA solid 2px;
@@ -6636,7 +6633,7 @@ button {
     cursor: pointer;
     padding: 1em;
     color: #F5F5F5;
-    margin: 1em 1em 0 0;
+    margin: 1em .5em 0;
     min-width: 15em;
     transition: .5s background-color; }
     .timesheetsContainer .timesheet:hover {
@@ -6650,11 +6647,7 @@ button {
       padding-left: 1em; }
 
 .newTimesheet {
-  padding-left: 0.9375rem;
-  padding-right: 0.9375rem;
-  width: 8.33333%;
-  float: left;
-  margin-left: 45.83333% !important; }
+  margin: 0 auto; }
 
 .modalDialog {
   position: fixed;

@@ -1,19 +1,23 @@
 // @import '../../foundation/scss/normalize.scss';
 // @import '../../foundation/scss/foundation.scss';
 // @import '../../foundation/scss/foundation/components/grid.scss';
+.timesheetsPage{
+    .row{
+        text-align: center;
+    }
+}
+
 
 .timesheetsContainer{
-    @include grid-row();
+    text-align: center;
     .timesheet{
-        // @include grid-column(4);
-        // height: 100px;
         display: inline-block;
         border: #008CBA solid 2px;
         background-color: rgba(#008CBA,0.75);
         cursor: pointer;
         padding: 1em;
         color: $white-smoke;
-        margin: 1em 1em 0 0;
+        margin: 1em .5em 0;
         min-width: 15em;
         transition: .5s background-color;
         &:hover{
@@ -33,10 +37,6 @@
         }
     }
 }
-
 .newTimesheet{
-    @include grid-column(
-        $columns: 1,
-        $offset: 5.5
-    );
+    margin: 0 auto;
 }

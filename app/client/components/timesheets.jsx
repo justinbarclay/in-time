@@ -40,9 +40,9 @@ var Timesheets = React.createClass({
             return <ToTimesheet timesheet={timesheet} key={index}/>;
         });
         return (
-            <div>
+            <div className="timesheetsPage">
                 <div className="row">
-                    <button onClick={this.newTimesheet}>Create New Timesheet</button>
+                    <div className="button createTimesheet" onClick={this.newTimesheet}>Create New Timesheet</div>
                 </div>
                 <div className="timesheetsContainer">
                     {timesheets}

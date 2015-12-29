@@ -101,6 +101,9 @@ var Timesheet = React.createClass({
                         <div className="save button" onClick={this.saveTimesheet}>
                             Save
                         </div>
+                        <div className="delete button" onClick={this.deleteTimesheet}>
+                            Delete
+                        </div>
                     </div>
                 </div>
             </div>
