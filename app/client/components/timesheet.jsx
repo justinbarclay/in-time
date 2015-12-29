@@ -86,21 +86,21 @@ var Timesheet = React.createClass({
             return <label className="metaHeading" key={index}>{field.name}</label>;
         });
         return (
-            <div>
+            <div className="timesheetPage">
                 <div className="meta">
                     {metaHeadings}
                     {metadata}
                 </div>
                 <div className="fields">
-                    <div className="row">{headings}</div>
+                    <div className="headings row">{headings}</div>
                     {entries}
                     <div className="newRowContainer">
-                        <button className="addButton" onClick={this.newRow}>
+                        <div className="add button" onClick={this.newRow}>
                             +
-                        </button>
-                        <button className="saveButton" onClick={this.saveTimesheet}>
+                        </div>
+                        <div className="save button" onClick={this.saveTimesheet}>
                             Save
-                        </button>
+                        </div>
                     </div>
                 </div>
             </div>

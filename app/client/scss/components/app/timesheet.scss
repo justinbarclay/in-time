@@ -1,57 +1,71 @@
-// @import '../../foundation/scss/normalize.scss';
-// @import '../../foundation/scss/foundation.scss';
-// @import '../../foundation/scss/foundation/components/grid.scss';
+$pad: .5rem;
 
-.timesheetRow{
-    @include grid-row();
-    .timesheetInput{
-        @include grid-column(3.5);
-        margin-bottom: 0;
+.timesheetPage{
+    max-width: 60em;
+    margin: 0 auto;
+    input{
+        margin: 0;
+        vertical-align: middle;
     }
-}
 
-.heading{
-    background-color: $white-smoke;
-    border: black solid 1px;
-    @include grid-column(3.5);
 }
-
-.newRowContainer{
-    @include grid-row();
-}
-
-.delButton{
-    @include button(
-        $padding: .4rem,
-        // Background color. We can set $bg:false for a transparent background. Default: $primary-color.
-        $bg: #f04124,
-        // If true, set to button radius which is $global-radius or explicitly set radius amount in px (ex. $radius:10px). Default:false.
-        $radius: 100px
-    );
-}
-
-.addButton{
-    @include button(
-        $padding: 1rem,
-        // Background color. We can set $bg:false for a transparent background. Default: $primary-color.
-        // If true, set to button radius which is $global-radius or explicitly set radius amount in px (ex. $radius:10px). Default:false.
-        $radius: 100px
-    );
-    @include grid-column(
-        $columns: 1,
-        $offset: 5.5
-    );
-}
-
 .meta{
-    @include grid-row();
     .metaInfo {
-        @include grid-column(4);
+        width: calc(33% - #{$pad});
+        font-size: 1.1em;
+        display: inline-block;
     }
 }
 
 .metaHeading{
-    @include grid-column(4);
-    background-color: $white-smoke;
-    border: black solid 1px;
+    font-size: 1.5em;
+    width: calc(33% - #{$pad});
+    display: inline-block;
+
+
+}
+
+.fields{
+    margin: 5vh 0;
+    .headings{
+        line-height: 1;
+    }
+}
+
+.heading{
+    font-size: 1.5em;
+    width: calc(33% - #{$pad});
+    display: inline-block;
+}
+
+.timesheetRow{
+    vertical-align: middle;
+
+    .timesheetInput{
+        width: calc(33% - #{$pad});
+        margin-bottom: 0;
+        display: inline-block;
+    }
+}
+
+.newRowContainer{
+    text-align: center;
+    .button {
+        margin: 1em .5em;
+    }
+}
+
+.delButton{
+    background-color: #f04124;
+    margin: 0;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    padding: .25em .7em;
+    border-radius: 10%;
+    margin-left: .1em;
+    color: $white-smoke;
+}
+
+.addButton{
 }

@@ -26,7 +26,7 @@ var TimesheetRow = React.createClass({
     },
     render: function() {
         var rows = this.props.fields.map(this.buildRow);
-        var del = <button className="delButton" onClick={this.deleteRow}>&times;</button>;
+        var del = <div className="delButton" onClick={this.deleteRow}>&times;</div>;
         return (
             <div className="timesheetRow">
                 {rows}
