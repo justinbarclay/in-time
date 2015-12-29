@@ -6577,11 +6577,9 @@ button {
   .timesheetPage input {
     margin: 0;
     vertical-align: middle; }
-  .timesheetPage .delete {
-    transition: 0.2s opacity; }
-    .timesheetPage .delete:active {
-      opacity: 0;
-      transition: 2s opacity; }
+  .timesheetPage .delete:active {
+    background-color: #F04124;
+    transition: 2s 0.5s background-color; }
 
 .meta .metaInfo {
   width: calc(33% - 0.8rem);

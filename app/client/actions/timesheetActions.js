@@ -123,7 +123,7 @@ function formatTimesheet(timesheet){
         engagement: timesheet.engagement,
         startDate: timesheet.startDate,
         endDate: timesheet.endDate,
-        delete: timesheet.delete,
+        delete: Boolean(timesheet.delete),
         userID: localStorage.getItem('USER_ID'),
         entries: []
     };
@@ -133,7 +133,7 @@ function formatTimesheet(timesheet){
             service: entry.service,
             date: entry.date,
             duration: entry.duration,
-            delete: entry.delete
+            delete: Boolean(entry.delete)
         };
     });
     console.log(formattedTimesheet);

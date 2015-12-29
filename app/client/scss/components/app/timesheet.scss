@@ -9,10 +9,10 @@ $pad: .8rem;
         vertical-align: middle;
     }
     .delete{
-        transition: 0.2s opacity;
+        // transition: 0.5s backgound-color;
         &:active{
-            opacity: 0;
-            transition: 2s opacity;
+            background-color: #F04124;
+            transition: 2s 0.5s background-color;
         }
     }
 
@@ -73,7 +73,4 @@ $pad: .8rem;
     border-radius: 10%;
     margin-left: .1em;
     color: $white-smoke;
-}
-
-.addButton{
 }

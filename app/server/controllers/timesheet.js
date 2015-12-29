@@ -392,7 +392,7 @@ function buildTimesheets(data) {
                 startDate: buildYearMonthDay(new Date(meta.start_date)),
                 endDate: buildYearMonthDay(new Date(meta.end_date)),
                 engagement: String(meta.engagement),
-                delete: String(meta.delete),
+                delete: meta.delete,
                 entries: []
             };
             entries.forEach(function(entry, index) {
