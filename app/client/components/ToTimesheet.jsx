@@ -29,7 +29,7 @@ var ToTimesheet = React.createClass({
         return (
             <div className="timesheet" onClick={this.goToTimesheet}>
                 <div className="engagement">{this.props.timesheet.engagement}</div>
-                <div>{(new Date(this.props.timesheet.startDate).toDateString()).slice(0, -4)}
+                <div className="date">{(new Date(this.props.timesheet.startDate).toDateString()).slice(0, -4)}
                     to {(new Date(this.props.timesheet.endDate).toDateString()).slice(0, -4)}</div>
                 <div className="info"><div>Total Time:
                     {this.totalDuration()}</div><div>Entries: {this.entriesCount()}</div></div>
