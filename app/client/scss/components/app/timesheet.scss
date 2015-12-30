@@ -9,10 +9,10 @@ $pad: .8rem;
         vertical-align: middle;
     }
     .delete{
-        // transition: 0.5s backgound-color;
+        transition-duration: 1s;
         &:active{
             background-color: #F04124;
-            transition: 2s 0.5s background-color;
+            transition: 2s background-color;
         }
     }
 

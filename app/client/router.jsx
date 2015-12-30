@@ -8,6 +8,7 @@ var SignInForm = require("./components/SignInForm");
 var SignUpForm = require("./components/SignUpForm");
 var Timesheet = require("./components/timesheet");
 var Timesheets = require("./components/timesheets");
+var StaffTracker = require("./components/staffTracker");
 var Home = require("./components/home");
 var NotFound = require("./components/notfound");
 var About = require("./components/about");
@@ -28,6 +29,7 @@ var routes = (
     <Route name="signup" handler={SignUpForm} />
     <Route name="timesheets" handler={Timesheets} />
     <Route name="timesheet" path="timesheet/:id" handler={Timesheet} />
+    <Route name="staff" handler={StaffTracker} />
     <NotFoundRoute handler={NotFound} />
   </Route>
 );
