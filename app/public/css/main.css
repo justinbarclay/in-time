@@ -6698,3 +6698,22 @@ button {
 
 .close:hover {
   background: #00d9ff; }
+
+.staffContainer {
+  text-align: center; }
+  .staffContainer .staffInfo {
+    display: inline-block;
+    border: #008CBA solid 2px;
+    background-color: #008CBA;
+    opacity: 0.75;
+    cursor: pointer;
+    padding: 1em;
+    color: #F5F5F5;
+    margin: 1em .5em 0;
+    min-width: 10em;
+    text-align: center;
+    transition: 0.5s opacity;
+    font-size: 1.2em; }
+    .staffContainer .staffInfo:hover {
+      transition: 1s opacity;
+      opacity: 1; }

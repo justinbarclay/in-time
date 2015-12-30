@@ -10,12 +10,10 @@ var StaffInfo = React.createClass({
         return({staff: this.props.staff, hours: this.props.hours});
     },
     render: function(){
-        console.log(this.state);
         return (
-            <div>
-                hello
-                {this.state.staff}
-                {this.state.hours}
+            <div className="staffInfo">
+                <div>{this.state.staff}</div>
+                <div>{this.state.hours} </div>
             </div>
         );
     }

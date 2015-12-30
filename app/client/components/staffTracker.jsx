@@ -12,12 +12,12 @@ var StaffTracker = React.createClass({
         return({staff: staffActions.getStaff()});
     },
     render: function(){
-        staff = this.state.staff.map(function(staff){
+        staff = this.state.staff.map(function(staff, index){
             console.log(staff);
-            return <StaffInfo staff={staff.name} hours={staff.hours}/>;
+            return <StaffInfo staff={staff.name} hours={staff.hours} key={index}/>;
         });
         return(
-            <div>{staff}</div>
+            <div className="staffContainer">{staff}</div>
         );
     }
 });
