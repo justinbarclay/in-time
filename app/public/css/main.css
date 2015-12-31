@@ -6712,8 +6712,11 @@ button {
     margin: 1em .5em 0;
     min-width: 10em;
     text-align: center;
-    transition: 0.5s opacity;
-    font-size: 1.2em; }
+    transition: 0.5s opacity; }
+    .staffContainer .staffInfo :first-child {
+      font-size: 1.3em; }
+    .staffContainer .staffInfo :last-child {
+      font-size: 1em; }
     .staffContainer .staffInfo:hover {
       transition: 1s opacity;
       opacity: 1; }

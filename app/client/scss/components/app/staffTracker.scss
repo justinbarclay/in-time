@@ -12,7 +12,12 @@
         min-width: 10em;
         text-align: center;
         transition: 0.5s opacity;
-        font-size: 1.2em;
+        :first-child{
+            font-size: 1.3em;
+        }
+        :last-child{
+            font-size: 1em;
+        }
         &:hover{
             transition: 1s opacity;
             opacity: (1);
