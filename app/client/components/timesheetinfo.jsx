@@ -2,8 +2,8 @@ var React = require('react');
 var Navigation = require('react-router').Navigation;
 var timesheetStore = require("../stores/timesheetStore");
 
-var ToTimesheet = React.createClass({
-    displayName: "ToTimesheet",
+var TimesheetInfo = React.createClass({
+    displayName: "TimesheetInfo",
     propTypes: [],
     mixins: [Navigation],
     getInitialState: function() {

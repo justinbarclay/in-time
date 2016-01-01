@@ -8,7 +8,7 @@ var authActions = require('../actions/authActions');
 
 //Sub components
 var Timesheet = require('./timesheet');
-var ToTimesheet = require('./ToTimesheet');
+var TimesheetInfo = require('./TimesheetInfo');
 
 var Timesheets = React.createClass({
     displayName: "Timesheets",
@@ -36,7 +36,7 @@ var Timesheets = React.createClass({
     },
     render: function() {
         var timesheets = this.state.timesheets.map(function(timesheet, index){
-            timesheetInfo = !timesheet.delete ? <ToTimesheet timesheet={timesheet} key={index}/> : null;
+            timesheetInfo = !timesheet.delete ? <TimesheetInfo timesheet={timesheet} key={index}/> : null;
             return timesheetInfo;
         });
         return (
