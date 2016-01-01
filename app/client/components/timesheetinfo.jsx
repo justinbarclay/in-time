@@ -38,4 +38,4 @@ var TimesheetInfo = React.createClass({
     }
 });
 
-module.exports = ToTimesheet;
+module.exports = TimesheetInfo;
