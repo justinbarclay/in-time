@@ -24,6 +24,7 @@ var timesheetActions = Flux.createActions({
                     "X-ACCESS-TOKEN");
                     console.log("newJWT: ", newJWT);
                 authActions.setJWT(newJWT);
+                console.log(res);
                 self.dispatch({
                     actionType: "SYNC_TIMESHEET",
                     timesheets: res
@@ -86,44 +87,44 @@ var timesheetActions = Flux.createActions({
         });
     },
     saveTimesheet: function(id){
-        var timesheet = formatTimesheet(timesheetStore.getTimesheet(id));
-        var verify = verifyTimesheet(timesheet);
-        console.log(verify);
-        if(verify !== []){
-            for(var message in verify){
-                console.log("error");
-                console.log(verify[message]);
-            }
-        }
-
-        var AJAXreq = new XMLHttpRequest();
-        AJAXreq.open("POST", "/timesheet", true);
-        AJAXreq.setRequestHeader('ContentType', 'application/json; charset=UTF8');
-        var currentJWT = localStorage.getItem('JWT');
-        AJAXreq.setRequestHeader('X-ACCESS-TOKEN', currentJWT);
-        AJAXreq.setRequestHeader('ContentType',
-            'application/json; charset=UTF8');
-        AJAXreq.send(JSON.stringify(timesheet));
-        AJAXreq.onreadystatechange = function() {
-            var res = JSON.parse(AJAXreq.responseText);
-            console.log(res);
-            if (AJAXreq.readyState === 4) {
-                newJWT = AJAXreq.getResponseHeader(
-                    "X-ACCESS-TOKEN");
-                if (newJWT) {
-                    localStorage.setItem('JWT', newJWT);
-                }
-                return res;
-            }
-        };
+        save(id);
     }
 });
 
 module.exports = timesheetActions;
 function save(id){
-    console.log(id);
-    timesheetActions.saveTimesheet(id);
+    var timesheet = formatTimesheet(timesheetStore.getTimesheet(id));
+    var verify = verifyTimesheet(timesheet);
+    console.log(verify);
+    if(verify !== []){
+        for(var message in verify){
+            console.log("error");
+            console.log(verify[message]);
+        }
+    }
+
+    var AJAXreq = new XMLHttpRequest();
+    AJAXreq.open("POST", "/timesheet", true);
+    AJAXreq.setRequestHeader('ContentType', 'application/json; charset=UTF8');
+    var currentJWT = localStorage.getItem('JWT');
+    AJAXreq.setRequestHeader('X-ACCESS-TOKEN', currentJWT);
+    AJAXreq.setRequestHeader('ContentType',
+        'application/json; charset=UTF8');
+    AJAXreq.send(JSON.stringify(timesheet));
+    AJAXreq.onreadystatechange = function() {
+        var res = JSON.parse(AJAXreq.responseText);
+        console.log(res);
+        if (AJAXreq.readyState === 4) {
+            newJWT = AJAXreq.getResponseHeader(
+                "X-ACCESS-TOKEN");
+            if (newJWT) {
+                localStorage.setItem('JWT', newJWT);
+            }
+            return res;
+        }
+    };
 }
+
 function formatTimesheet(timesheet){
     var formattedTimesheet = {
         timesheetID: timesheet.timesheetID,

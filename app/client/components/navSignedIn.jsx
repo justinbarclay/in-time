@@ -13,7 +13,8 @@ var NavSignedIn = React.createClass({
         authActions.signOut();
     },
     componentDidMount: function(){
-        timesheetActions.syncTimesheets(authActions.getUserInfo().id);
+        id = authActions.getUserInfo().id;
+        timesheetActions.syncTimesheets(id);
     },
     componentWillUnmount: function(){
         timesheetActions.deleteTimesheets();

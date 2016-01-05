@@ -4,7 +4,7 @@
   "author": "Justin Barclay <justincbarclay@gmail.com>",
   "dependencies": {
     "bcrypt": "^0.8.4",
-    "biff": "^0.2.0",
+    "biff": "^1.0.0",
     "jsdom": "^7.2.2",
     "jsonwebtoken": "^5.0.4",
     "pg": "^4.4.2",

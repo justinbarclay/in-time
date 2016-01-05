@@ -1,3 +1,3 @@
 genData = require("./generateData");
 
-console.log(genData(10));
+console.log(JSON.stringify(genData(10)));

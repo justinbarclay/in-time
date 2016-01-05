@@ -9,7 +9,7 @@ var StaffTracker = React.createClass({
     propTypes: [],
     mixins: [],
     getInitialState: function(){
-        return({staff: staffActions.getStaff()});
+        return({staff: staffActions.getAllStaff()});
     },
     render: function(){
         staff = this.state.staff.map(function(staff, index){
