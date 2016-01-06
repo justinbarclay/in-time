@@ -55,9 +55,19 @@ function createFunctions() {
     $$
     LANGUAGE plpgsql;`;
 
+    var upsertLockedTimesheet =
+    `CREATE or REPLACE FUNCTION upsert_timesheet(key TEXT, id TEXT, description TEXT, duration REAL, sDate DATE, remove BOOLEAN ) RETURNS VOID AS
+    $$
+    BEGIN
+        LOCK TABLE timesheets IN SHARE ROW EXCLUSIVE MODE;
+	    WITH upsert AS (UPDATE timesheets SET service_description = description, service_date = sDate, service_duration = duration, delete = remove WHERE timesheet_foreignkey = key and row_id = id RETURNING *)
+	    INSERT INTO timesheets(timesheet_foreignkey, row_id, service_description, service_date, service_duration, delete) SELECT key, id, description, sDate,  duration, remove WHERE NOT EXISTS (SELECT * FROM upsert);
+    END;
+    $$
+    LANGUAGE plpgsql;`;
     try {
         client.query(upsertMeta);
-        client.query(upsertTimesheet);
+        client.query(upsertLockedTimesheet);
     } catch (error) {
         console.error("this is an error", error);
         return error;
@@ -66,7 +76,7 @@ function createFunctions() {
     setTimeout(function() {
         client.end();
         console.log("Success");
-    }, 1000);
+    }, 3000);
     return "Success";
 }
 module.exports = createFunctions;

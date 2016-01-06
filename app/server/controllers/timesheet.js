@@ -271,7 +271,7 @@ function getAllEntries(data) {
 }
 
 function getEntries(data, client) {
-    let queryString = "SELECT timesheet_foreignkey, index, service_description" +
+    let queryString = "SELECT timesheet_foreignkey, row_id, service_description" +
         ", service_duration, EXTRACT('epoch' from service_date)*1000 AS service_date," +
         " delete FROM timesheets WHERE delete = 'FALSE' AND timesheet_foreignkey" +
         " = $1";
@@ -418,7 +418,9 @@ function buildYearMonthDay(date) {
     console.log("build date", date.getDate());
     let day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
     console.log('day', day);
-    let month = date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth();
+    let month = date.getMonth()+1 < 10 ? '0' + (date.getMonth()+1) : date.getMonth()+1;
+    console.log('date', date.getMonth());
+    console.log('month ', month);
     let year = date.getFullYear();
     return (year + "-" + month + "-" + day);
 

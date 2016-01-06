@@ -151,7 +151,7 @@ function route(req, res) {
             console.log("headerJWT: " + headerJWT);
             var verify = verifyJWT(headerJWT);
             if(verify){
-                userID = getuserID(JWT);
+                userID = getUserID(JWT);
             }
             var message = {verify: verify ? "Token verified" : "illegal token"};
             res.setHeader('X-ACCESS-TOKEN', verify);
@@ -225,9 +225,9 @@ function route(req, res) {
 
         req.on("end", function() {
             token = req.headers["x-access-token"];
-            var verify = verifyJWT(req.headers["x-access-token"]);
+            var verify = verifyJWT(token);
             var timesheetObj;
-            var userID = getuserID(req.headers["x-access-token"]);
+            var userID = getUserID(token);
 
             res.setHeader('X-ACCESS-TOKEN', verify);
             if (!verify) {

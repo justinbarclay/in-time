@@ -92,6 +92,7 @@ var timesheetActions = Flux.createActions({
 });
 
 module.exports = timesheetActions;
+
 function save(id){
     var timesheet = formatTimesheet(timesheetStore.getTimesheet(id));
     var verify = verifyTimesheet(timesheet);
