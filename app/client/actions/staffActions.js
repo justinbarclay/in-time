@@ -10,7 +10,7 @@ var staffActions = Flux.createActions({
         return staffStore.getAllStaff();
     },
     getStaff: function(id){
-        return staffStore.getAllStaff(id);
+        return staffStore.getStaff(id);
     },
     setStaff: function(staff){
         this.dispatch({
@@ -19,6 +19,7 @@ var staffActions = Flux.createActions({
         });
     },
     setTimesheets: function(timesheets){
+        console.log(timesheets);
         timesheetStore.syncTimesheets(timesheets);
     }
 });

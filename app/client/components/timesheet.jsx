@@ -54,7 +54,7 @@ var Timesheet = React.createClass({
         window.clearTimeout(this.state.timer);
     },
     hoverDelete:function(event){
-        this.state.deleteMessage === "Delete" ? this.setState({deleteMessage:"Hold To Delete"}): this.setState({deleteMessage:"Delete"});
+        this.state.deleteMessage === "Delete" ? this.setState({deleteMessage:"Hold To Delete"}) : this.setState({deleteMessage:"Delete"});
     },
     render: function() {
         var self = this;

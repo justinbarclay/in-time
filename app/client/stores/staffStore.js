@@ -934,28 +934,31 @@ var staffStore = Flux.createStore({
     getAllStaff: function() {
         return _staff;
     },
-    getStaff: function(){
-        return this.findStaff();
+    getStaff: function(name){
+        return findStaff(name);
     },
     setStaff: function(staff) {
         return;
-    },
-    findStaff: function(name){
-        for(i = 0; i< _staff.index; i++){
-            if(staff[i].name === name){
-                return staff[i];
-            }
-        }
     }
 },
     function(payload) {
         if (payload.actionType === "SET_STAFF") {
-            // this.setStaff(payload.data);
+            this.setStaff(payload.data);
             this.emitChange();
         }
         if (payload.actionType === "OTHER") {
             this.emitChange();
         }
-    });
+});
 
+
+findStaff = function(name){
+    console.log(name);
+    for(i = 0; i < _staff.length; i++){
+        if(_staff[i].name === name){
+            console.log(_staff[i]);
+            return _staff[i];
+        }
+    }
+};
 module.exports = staffStore;
