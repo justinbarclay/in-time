@@ -22,12 +22,15 @@ var TimesheetInfo = React.createClass({
         });
         return duration;
     },
+    log: function(){
+        console.log("props", this.props);
+    },
     entriesCount: function(){
         return this.props.timesheet.entries.length;
     },
-    render: function() {
+    render: function(){
         return (
-            <div className="timesheet" onClick={this.goToTimesheet}>
+            <div className="timesheet" onClick={this.goToTimesheet} onMouseEnter={this.log}>
                 <div className="engagement">{this.props.timesheet.engagement}</div>
                 <div className="date">{(new Date(this.props.timesheet.startDate).toDateString()).slice(0, -4)}
                     to {(new Date(this.props.timesheet.endDate).toDateString()).slice(0, -4)}</div>

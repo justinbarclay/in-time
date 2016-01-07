@@ -423,7 +423,6 @@ function buildYearMonthDay(date) {
     console.log('month ', month);
     let year = date.getFullYear();
     return (year + "-" + month + "-" + day);
-
 }
 
 function flatten(array) {

@@ -19,8 +19,10 @@ var staffActions = Flux.createActions({
         });
     },
     setTimesheets: function(timesheets){
-        console.log(timesheets);
-        timesheetStore.syncTimesheets(timesheets);
+        this.dispatch({
+            actionType: "SYNC_TIMESHEET",
+            timesheets: timesheets
+        });
     }
 });
 

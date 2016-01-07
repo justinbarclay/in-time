@@ -8,7 +8,7 @@ var authActions = require('../actions/authActions');
 
 //Sub components
 var Timesheet = require('./timesheet');
-var TimesheetInfo = require('./TimesheetInfo');
+var TimesheetInfo = require('./timesheetinfo');
 
 var Timesheets = React.createClass({
     displayName: "Timesheets",
@@ -17,9 +17,6 @@ var Timesheets = React.createClass({
     getInitialState: function() {
         return {user: authActions.getUserInfo(),
             timesheets: timesheetActions.getTimesheets()};
-    },
-    goToTimesheet: function(){
-        return null;
     },
     componentWillMount: function(){
         if(!authActions.authenticated()){

@@ -23,10 +23,10 @@ generateTimesheet = function() {
     var start = randomDate(new Date(2015, 01, 01), new Date());
     var end = new Date(start.getTime() + 1209600*1000);
     return {
-        timesheet_id: uuid.v4(),
+        timesheetID: uuid.v4(),
         engagement: generateEngagement(),
-        startDate: start,
-        endDate: end,
+        startDate: buildYearMonthDay(start),
+        endDate: buildYearMonthDay(end),
         entries: generateEntries(start, end)
     };
 };
@@ -45,10 +45,11 @@ generateEngagement = function(){
 
 generateRow = function(start, end) {
     return ({
-        row_id: uuid.v4(),
+        rowID: uuid.v4(),
         service: service[randomInt(service.length)],
         duration: time[randomInt(time.length)],
-        date: randomDate(start, end)
+        date: buildYearMonthDay(randomDate(start, end)),
+        delete: false
     });
 };
 
@@ -59,4 +60,11 @@ generateTimesheets = function(num){
     }
     return timesheets;
 };
+
+function buildYearMonthDay(date) {
+    var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+    var month = date.getMonth()+1 < 10 ? '0' + (date.getMonth()+1) : date.getMonth()+1;
+    var year = date.getFullYear();
+    return (year + "-" + month + "-" + day);
+}
  module.exports = generateTimesheets;
