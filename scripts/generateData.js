@@ -1,6 +1,6 @@
 var uuid = require("uuid");
 var service = [
-    "Pick up", "Administrative", "timesheets", "Critical Incidence",
+    "Pick up", "Administrative", "Timesheets", "Critical Incidence",
     "Phone Call", "Case Consult"
 ];
 var time = [
