@@ -1,6 +1,6 @@
 var uuid = require('uuid');
 
-var RowEditButtons = React.createClass({
+var TimesheetEditButtons = React.createClass({
     displayName: "row edit",
     propTypes: {},
     mixins: [],
@@ -50,3 +50,5 @@ var RowEditButtons = React.createClass({
         );
     }
 });
+
+module.exports = RowEditButtons;
