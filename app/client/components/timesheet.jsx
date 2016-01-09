@@ -19,6 +19,14 @@ var Timesheet = React.createClass({
         if (!this.state){
             this.transitionTo("/timesheets");
         }
+        currentUser = authActions.getUserInfo().role;
+        if (authActions.getUserInfo().role === "Supervisor") {
+            if (this.state.userID !== currentUser.userID){
+                this.setState({owner: "staff"});
+            } else {
+                this.setState({owner: "Supervisor"});
+            }
+        }
     },
     getInitialState: function() {
         pageState = timesheetActions.getTimesheet(this.props.params.id);
@@ -93,14 +101,17 @@ var Timesheet = React.createClass({
                 return <TimesheetRow deletable={true} entry={entry} fields={entryFields} id={self.state.timesheetID} index={index} key={index}/>;
             }
         });
+
         var headings = entryFields.map(function(field, index) {
             return <label className="heading" key={index}>{field.name}</label>;
         });
+
         var metadata = <TimesheetMeta timesheet={this.state} fields={metaFields} />;
 
         var metaHeadings = metaFields.map(function(field, index) {
             return <label className="metaHeading" key={index}>{field.name}</label>;
         });
+        var approve = authActions.getUserInfo().supervisor !== this.state.userID ? <div className="button approve">Approve</div> : null;
         return (
             <div className="timesheetPage">
                 <div className="meta">
@@ -120,6 +131,7 @@ var Timesheet = React.createClass({
                         <div className="delete button" onMouseDown={this.deleteTimesheet} onMouseUp={this.clearTimeout} onMouseEnter={this.hoverDelete} onMouseLeave={this.hoverDelete}>
                             {this.state.deleteMessage}
                         </div>
+                        {approve}
                     </div>
                 </div>
             </div>

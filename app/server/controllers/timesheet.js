@@ -246,7 +246,7 @@ function getTimesheetIDs(data) {
     console.log("userID: ", userID);
     return new Promise(function(resolve, reject) {
         let queryString =
-            "SELECT timesheet_id, engagement, date_part('epoch', start_date)*1000 AS start_date, date_part('epoch', end_date)*1000 AS end_date, delete FROM Timesheets_Meta WHERE delete = 'FALSE' AND user_foreignkey= $1";
+            "SELECT timesheet_id, user_foreignkey, engagement, date_part('epoch', start_date)*1000 AS start_date, date_part('epoch', end_date)*1000 AS end_date, delete FROM Timesheets_Meta WHERE delete = 'FALSE' AND user_foreignkey= $1";
         data.client.query(queryString, [userID], function(err, result) {
             if (err) {
                 console.error(err);
@@ -389,6 +389,7 @@ function buildTimesheets(data) {
         let timesheets = meta_info.map(function(meta) {
             let timesheet = {
                 timesheetID: meta.timesheet_id,
+                userID: meta.user,
                 startDate: buildYearMonthDay(new Date(meta.start_date)),
                 endDate: buildYearMonthDay(new Date(meta.end_date)),
                 engagement: String(meta.engagement),
