@@ -7,6 +7,7 @@ var authActions = require('../actions/authActions');
 //Sub component
 var TimesheetRow = require("./timesheetRow");
 var TimesheetMeta = require("./timesheetMeta");
+var Approve = require("./approve");
 
 // other
 var uuid = require('uuid');
@@ -131,7 +132,7 @@ var Timesheet = React.createClass({
                         <div className="delete button" onMouseDown={this.deleteTimesheet} onMouseUp={this.clearTimeout} onMouseEnter={this.hoverDelete} onMouseLeave={this.hoverDelete}>
                             {this.state.deleteMessage}
                         </div>
-                        {approve}
+                        <Approve timesheetID={this.state.timesheetID}/>
                     </div>
                 </div>
             </div>
