@@ -4,13 +4,24 @@ var Link = Router.Link;
 var Navigation = Router.Navigation;
 var authActions = require("../actions/authActions");
 var timesheetActions = require("../actions/timesheetActions");
+var authStore = require('../stores/authStore.js');
 
 var NavSignedIn = React.createClass({
     displayName: "nav2",
     propTypes: {},
-    mixins: [Navigation],
+    mixins: [Navigation, authStore.mixin],
+    getInitialState: function(){
+        return({
+            role: authActions.getUserInfo().role
+        });
+    },
     signOut: function(){
         authActions.signOut();
+    },
+    storeDidChange: function(){
+        this.setState({
+            role: authActions.getUserInfo().role
+        });
     },
     componentDidMount: function(){
         id = authActions.getUserInfo().id;
@@ -20,9 +31,14 @@ var NavSignedIn = React.createClass({
         timesheetActions.deleteTimesheets();
         this.transitionTo("home");
     },
+    changeRole: function(){
+        newRole = this.state.role === "Supervisor" ? "Staff" : "Supervisor";
+        authActions.changeRole(newRole);
+    },
     render: function() {
         return (
             <div className="navigation">
+                <span><label onClick={this.changeRole}>{this.state.role}</label></span>
                 <Link className="nav" to="about">
                     <label>About</label>
                 </Link>
@@ -32,6 +48,7 @@ var NavSignedIn = React.createClass({
                 <a className="nav" onClick={this.signOut}>
                     <label>Sign Out</label>
                 </a>
+
             </div>
         );
     }

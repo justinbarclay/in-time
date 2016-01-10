@@ -43,6 +43,9 @@ var authStore = Flux.createStore({
         _user.username = user.username;
         _user.email = user.email;
     },
+    changeRole: function(role){
+        _user.role = role;
+    }
 }, function(payload) {
     if (payload.actionType === "SIGNIN_USER") {
         this.signinUser(payload.user);
@@ -54,6 +57,10 @@ var authStore = Flux.createStore({
     }
     if (payload.actionType === "CHANGE_USER") {
         this.updateUser(payload.user);
+        this.emitChange();
+    }
+    if (payload.actionType === "CHANGE_ROLE"){
+        this.changeRole(payload.role);
         this.emitChange();
     }
 });

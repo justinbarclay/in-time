@@ -57,7 +57,12 @@ var authActions = Flux.createActions({
                 actionType: "SIGNOUT_USER"
             });
         }
-
+    },
+    changeRole: function(role){
+        this.dispatch({
+            actionType: "CHANGE_ROLE",
+            role: role
+        });
     }
 });
 
