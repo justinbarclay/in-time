@@ -1,5 +1,6 @@
-var React = require('react');
 var uuid = require('uuid');
+var React = require('react');
+
 var timesheetActions = require("../actions/timesheetActions");
 var Navigation = require("react-router").Navigation;
 
