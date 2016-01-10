@@ -29,7 +29,7 @@ var TimesheetEditButtons = React.createClass({
     },
     deleteTimesheet: function() {
         self = this;
-        console.log("Ho`ld for 2 seconds");
+        console.log("Hold for 2 seconds");
         this.setState({timer: window.setTimeout(function(){
             self.transitionTo('/timesheets');
             timesheetActions.deleteTimesheet(self.state.timesheetID);
@@ -37,6 +37,10 @@ var TimesheetEditButtons = React.createClass({
     },
     hoverDelete:function(event){
         (this.state.deleteMessage === "Delete") ? this.setState({deleteMessage:"Hold To Delete"}) : this.setState({deleteMessage:"Delete"});
+    },
+    clearTimeout: function(){
+        console.log("cleared");
+        window.clearTimeout(this.state.timer);
     },
     render: function (){
         return (

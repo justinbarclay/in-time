@@ -57,10 +57,6 @@ var Timesheet = React.createClass({
             timesheetActions.deleteTimesheet(self.state.timesheetID);
         }, 2000)});
     },
-    clearTimeout: function(){
-        console.log("cleared");
-        window.clearTimeout(this.state.timer);
-    },
     hoverDelete:function(event){
         this.state.deleteMessage === "Delete" ? this.setState({deleteMessage:"Hold To Delete"}) : this.setState({deleteMessage:"Delete"});
     },
@@ -111,7 +107,7 @@ var Timesheet = React.createClass({
         var metaHeadings = metaFields.map(function(field, index) {
             return <label className="metaHeading" key={index}>{field.name}</label>;
         });
-        var editButtons = this.state.owner === "Bob" ? <Approve timesheetID={this.state.timesheetID}/> : <TimesheetEditButtons timesheetID={this.state.timesheetID}/>;
+        var editButtons = this.state.owner === "Supervisor" ? <Approve timesheetID={this.state.timesheetID}/> : <TimesheetEditButtons timesheetID={this.state.timesheetID}/>;
         return (
             <div className="timesheetPage">
                 <div className="meta">
