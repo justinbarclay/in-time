@@ -1,12 +1,15 @@
+var React = require('react');
 var uuid = require('uuid');
 var timesheetActions = require("../actions/timesheetActions");
+var Navigation = require("react-router").Navigation;
 
 var TimesheetEditButtons = React.createClass({
     displayName: "row edit",
     propTypes: {},
-    mixins: [],
+    mixins: [Navigation],
     getInitialState: function(){
         return({
+            deleteMessage: "Delete",
             timesheetID: this.props.timesheetID
         });
     },
@@ -46,10 +49,9 @@ var TimesheetEditButtons = React.createClass({
                 <div className="delete button" onMouseDown={this.deleteTimesheet} onMouseUp={this.clearTimeout} onMouseEnter={this.hoverDelete} onMouseLeave={this.hoverDelete}>
                     {this.state.deleteMessage}
                 </div>
-                {approve}
             </div>
         );
     }
 });
 
-module.exports = RowEditButtons;
+module.exports = TimesheetEditButtons;

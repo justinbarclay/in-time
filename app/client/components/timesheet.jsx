@@ -7,6 +7,7 @@ var authActions = require('../actions/authActions');
 //Sub component
 var TimesheetRow = require("./timesheetRow");
 var TimesheetMeta = require("./timesheetMeta");
+var TimesheetEditButtons = require("./timesheeteditbuttons");
 var Approve = require("./approve");
 
 // other
@@ -112,7 +113,7 @@ var Timesheet = React.createClass({
         var metaHeadings = metaFields.map(function(field, index) {
             return <label className="metaHeading" key={index}>{field.name}</label>;
         });
-        var approve = authActions.getUserInfo().supervisor !== this.state.userID ? <div className="button approve">Approve</div> : null;
+        var editButtons = this.state.owner === "Bob" ? <Approve timesheetID={this.state.timesheetID}/> : <TimesheetEditButtons timesheetID={this.state.timesheetID}/>;
         return (
             <div className="timesheetPage">
                 <div className="meta">
@@ -122,18 +123,7 @@ var Timesheet = React.createClass({
                 <div className="fields">
                     <div className="headings row">{headings}</div>
                     {entries}
-                    <div className="newRowContainer">
-                        <div className="add button" onClick={this.newRow}>
-                            +
-                        </div>
-                        <div className="save button" onClick={this.saveTimesheet}>
-                            Save
-                        </div>
-                        <div className="delete button" onMouseDown={this.deleteTimesheet} onMouseUp={this.clearTimeout} onMouseEnter={this.hoverDelete} onMouseLeave={this.hoverDelete}>
-                            {this.state.deleteMessage}
-                        </div>
-                        <Approve timesheetID={this.state.timesheetID}/>
-                    </div>
+                    {editButtons}
                 </div>
             </div>
         );
