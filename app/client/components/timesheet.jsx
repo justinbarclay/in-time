@@ -22,17 +22,15 @@ var Timesheet = React.createClass({
             this.transitionTo("/timesheets");
         }
         currentUser = authActions.getUserInfo().role;
+        this.setState({owner: "Staff"});
         if (authActions.getUserInfo().role === "Supervisor") {
-            if (this.state.userID !== currentUser.userID){
-                this.setState({owner: "staff"});
-            } else {
+            if (this.state.userID === currentUser.userID){
                 this.setState({owner: "Supervisor"});
             }
         }
     },
     getInitialState: function() {
         pageState = timesheetActions.getTimesheet(this.props.params.id);
-        pageState ? (pageState['deleteMessage'] = "Delete") : (pageState = null);
         return pageState;
         },
     storeDidChange: function() {

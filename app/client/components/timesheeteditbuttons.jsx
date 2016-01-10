@@ -29,7 +29,7 @@ var TimesheetEditButtons = React.createClass({
     },
     deleteTimesheet: function() {
         self = this;
-        console.log("Hold for 2 seconds");
+        console.log("Ho`ld for 2 seconds");
         this.setState({timer: window.setTimeout(function(){
             self.transitionTo('/timesheets');
             timesheetActions.deleteTimesheet(self.state.timesheetID);
