@@ -389,7 +389,7 @@ function buildTimesheets(data) {
         let timesheets = meta_info.map(function(meta) {
             let timesheet = {
                 timesheetID: meta.timesheet_id,
-                userID: meta.user,
+                userID: meta.user_foreignkey,
                 startDate: buildYearMonthDay(new Date(meta.start_date)),
                 endDate: buildYearMonthDay(new Date(meta.end_date)),
                 engagement: String(meta.engagement),
