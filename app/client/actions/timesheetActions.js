@@ -88,6 +88,9 @@ var timesheetActions = Flux.createActions({
     },
     saveTimesheet: function(id){
         save(id);
+    },
+    approveTimesheet: function(id){
+
     }
 });
 
@@ -103,15 +106,17 @@ function save(id){
             console.log(verify[message]);
         }
     }
-
+    post("/timesheet", timesheet);
+}
+function post(location, data){
     var AJAXreq = new XMLHttpRequest();
-    AJAXreq.open("POST", "/timesheet", true);
+    AJAXreq.open("POST", location, true);
     AJAXreq.setRequestHeader('ContentType', 'application/json; charset=UTF8');
     var currentJWT = localStorage.getItem('JWT');
     AJAXreq.setRequestHeader('X-ACCESS-TOKEN', currentJWT);
     AJAXreq.setRequestHeader('ContentType',
         'application/json; charset=UTF8');
-    AJAXreq.send(JSON.stringify(timesheet));
+    AJAXreq.send(JSON.stringify(data));
     AJAXreq.onreadystatechange = function() {
         var res = JSON.parse(AJAXreq.responseText);
         console.log(res);
@@ -125,13 +130,13 @@ function save(id){
         }
     };
 }
-
 function formatTimesheet(timesheet){
     var formattedTimesheet = {
         timesheetID: timesheet.timesheetID,
         engagement: timesheet.engagement,
         startDate: timesheet.startDate,
         endDate: timesheet.endDate,
+        approved: timesheet.approved,
         delete: Boolean(timesheet.delete),
         userID: localStorage.getItem('USER_ID'),
         entries: []

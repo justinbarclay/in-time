@@ -38,7 +38,15 @@
                 padding-left: 1em;
             }
         }
+        &.approved{
+            background-color: rgba(17, 119, 45, 0.75);
+            transition: .5s background-color;
+            &:hover{
+                background-color: rgb(17, 119, 45);
+            }
+        }
     }
+
 }
 .newTimesheet{
     margin: 0 auto;

@@ -6652,6 +6652,11 @@ button {
       display: inline-block; }
     .timesheetsContainer .timesheet .info > :last-child {
       padding-left: 1em; }
+    .timesheetsContainer .timesheet.approved {
+      background-color: rgba(17, 119, 45, 0.75);
+      transition: .5s background-color; }
+      .timesheetsContainer .timesheet.approved:hover {
+        background-color: #11772d; }
 
 .newTimesheet {
   margin: 0 auto; }
