@@ -21,12 +21,13 @@ var Timesheet = React.createClass({
         if (!this.state){
             this.transitionTo("/timesheets");
         }
-        currentUser = authActions.getUserInfo().role;
-        this.setState({owner: "Staff"});
-        if (authActions.getUserInfo().role === "Supervisor") {
-            if (this.state.userID === currentUser.userID){
-                this.setState({owner: "Supervisor"});
-            }
+    },
+    displayApprove: function(){
+        currentUser = authActions.getUserInfo();
+        if(currentUser.role === "Supervisor" && currentUser.id !== this.state.userID){
+            return true;
+        } else {
+            return false;
         }
     },
     getInitialState: function() {
@@ -35,30 +36,6 @@ var Timesheet = React.createClass({
         },
     storeDidChange: function() {
         this.setState(timesheetActions.getTimesheet(this.props.params.id));
-    },
-    newRow: function() {
-        var newRow = {
-            "rowID": uuid.v4(),
-            "date": "",
-            "duration": 0,
-            "service": "type of service",
-            "delete": false
-        };
-        return timesheetActions.addRow(this.state.timesheetID, newRow);
-    },
-    saveTimesheet: function() {
-        timesheetActions.saveTimesheet(this.state.timesheetID);
-    },
-    deleteTimesheet: function() {
-        self = this;
-        console.log("Hold for 2 seconds");
-        this.setState({timer: window.setTimeout(function(){
-            self.transitionTo('/timesheets');
-            timesheetActions.deleteTimesheet(self.state.timesheetID);
-        }, 2000)});
-    },
-    hoverDelete:function(event){
-        this.state.deleteMessage === "Delete" ? this.setState({deleteMessage:"Hold To Delete"}) : this.setState({deleteMessage:"Delete"});
     },
     render: function() {
         var self = this;
@@ -107,7 +84,7 @@ var Timesheet = React.createClass({
         var metaHeadings = metaFields.map(function(field, index) {
             return <label className="metaHeading" key={index}>{field.name}</label>;
         });
-        var editButtons = this.state.owner === "Supervisor" ? <Approve timesheetID={this.state.timesheetID}/> : <TimesheetEditButtons timesheetID={this.state.timesheetID}/>;
+        var editButtons = this.displayApprove() ? <Approve timesheetID={this.state.timesheetID}/> : <TimesheetEditButtons timesheetID={this.state.timesheetID}/>;
         return (
             <div className="timesheetPage">
                 <div className="meta">

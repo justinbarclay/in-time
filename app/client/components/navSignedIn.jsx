@@ -7,7 +7,7 @@ var timesheetActions = require("../actions/timesheetActions");
 var authStore = require('../stores/authStore.js');
 
 var NavSignedIn = React.createClass({
-    displayName: "nav2",
+    displayName: "signed in",
     propTypes: {},
     mixins: [Navigation, authStore.mixin],
     getInitialState: function(){
@@ -38,7 +38,7 @@ var NavSignedIn = React.createClass({
     render: function() {
         return (
             <div className="navigation">
-                <span><label onClick={this.changeRole}>{this.state.role}</label></span>
+                <label className="role" onClick={this.changeRole}>{this.state.role}</label>
                 <Link className="nav" to="about">
                     <label>About</label>
                 </Link>

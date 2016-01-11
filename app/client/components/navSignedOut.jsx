@@ -3,7 +3,7 @@ var Router = require("react-router");
 var Link = Router.Link;
 
 var NavSignedOut = React.createClass({
-    displayName: "nav",
+    displayName: "signed out",
     propTypes: {},
     mixins: [],
     render: function() {
