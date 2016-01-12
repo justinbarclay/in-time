@@ -89,8 +89,11 @@ function verify(data) {
             if (err){
                 throw err;
             } else {
-                if(matchPermissions(data.action, result.rows))
-                resolve(data);
+                if(matchPermissions(data.action, result.rows)){
+                    resolve(data);
+                } else {
+                    throw `Permissions do not match for user: {data.userID}`;
+                }
             }
         });
     });
@@ -407,7 +410,6 @@ function approveTimesheet(request, callback) {
     connect(request)
     .then(verify)
     .then(approve)
-    .then()
     .catch(error)
     .then(finish)
     .then(callback);

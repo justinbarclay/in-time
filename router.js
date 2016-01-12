@@ -270,7 +270,7 @@ function route(req, res) {
                 });
             }
         });
-    } else if (path === '/timesheet' && req.method === "POST") {
+    } else if (path === '/approve' && req.method === "POST") {
         req.on("data", function(chunk) {
             console.log("chunk", chunk);
             data += chunk;
@@ -294,7 +294,7 @@ function route(req, res) {
                 return;
             }
             try {
-                timesheetID = JSON.parse(data);
+                approve = JSON.parse(data);
             } catch (err) {
                 console.err(err); //Debug
             }
@@ -310,8 +310,9 @@ function route(req, res) {
                 res.writeHead(200, {
                     'Content-Type': 'application/json'
                 });
-                timesheetID.action = approve;
-                timesheet.approveTimesheet(timesheetID, function(message) {
+                approve.action = "approve";
+                approve.userID = userID;
+                timesheet.approveTimesheet(approve, function(message) {
                     if (data) {
                         res.writeHead(200, {
                             'Content-Type': 'application/json'
@@ -341,9 +342,6 @@ function route(req, res) {
                 res.end();
             }
         });
-
-
-
     } else {
         //Base case, I don't have what you're looking
         res.writeHead(404);
