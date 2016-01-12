@@ -1,6 +1,23 @@
 # TO DO
+
+* Create router system to differentiate between user types
+
+* Learn how to and implement a sanitation process for inputting data to the database
+
+* Implement a better form of authentication throughout the app, possibly a Mixin like was shown in the react-router demos
+
+* Create script to add staff and timesheets to database.
+
+* Create Staff Page/Supervisor Page
+
+* Find a Javascript date picker
+
+* Add ability for supervisor to view their own timesheets as well as others
+-- On clicking of timesheets it might need to load from database
+
 * Pass the owner of the timesheet into the timesheet and record it as state
--- this is a relatively clean way to track who's timesheet it is and to be able to decide on the approve button or new row buttons
+-- Did not do, will not do.
+
 * Fix "VM3076:1 Uncaught SyntaxError: Unexpected end of input"
 --http://stackoverflow.com/questions/14700314/unexpected-end-of-input-message-on-response-from-simple-post-request-to-node-j
 * Fix timesheet/:id bug where when it redirects to timesheets, timesheets does not update to show all timesheets
@@ -11,7 +28,7 @@
 -Done
 * relook at JWT, need to know what user is requesting access to whose files
 -- Meaning can a JWT reliably store in it the user who is looking for the data
-
+--yes
 * Permission system
 -- Each user has a permission attribute with an array of numbers
 -- Have a permission table that is a list of permission numbers that map to actions
@@ -21,12 +38,8 @@
 -- Why do we need a permission system though?
 --- This is a question I do not have an answer for yet.
 
-* Write a to do app to manage to dos in the timesheet application
-
-* Find a Javascript date picker
-
 * Add a delete entry/timesheet system
--- Need to be able to delete meta timesheets
+--Done
 
 
 * Work on sending better messages to the client from the server, include an authentication/signup message and id token, maybe other things as necessary
@@ -54,12 +67,6 @@
 
 * Go from biff to redux for Flux implementation
 
-
-
-* Learn how to and implement a sanitation process for inputting data to the database
-
-* Implement a better form of authentication throughout the app, possibly a Mixin like was shown in the react-router demos
-
 * Implement prepared queries for the controllers
 -- Done
 
@@ -86,6 +93,7 @@
 * Figure out how TimesheetID should work
 -- it needs to be gauranteed unique per staff
 -- Will have to handle calling to the server and verifying it's unique and rejecting it if not
+-- Done
 
 * Begin to abstract out timesheets so that the dashboard that users see will show all the timesheets
 --- Done
