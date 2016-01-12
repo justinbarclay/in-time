@@ -246,12 +246,12 @@ function upsertEntry(data, client) {
 }
 
 function approve(data){
-    let upsert = `UPDATE timesheets_meta SET approved = true WHERE timesheet_id = '{data.timesheetID}'`;
+    let update = `UPDATE timesheets_meta SET approved = true WHERE timesheet_id = '{data.timesheetID}'`;
     //Asynchronously insert data into the database
     console.log("made it into approve");
     return new Promise(function(resolve, reject) {
         console.log("and here");
-        data.client.query(upsert, function(err, result) {
+        data.client.query(update, function(err, result) {
             console.log("but not here");
             if (err) {
                 throw err;
@@ -405,7 +405,7 @@ function deleteTimesheets(request, callback) {
 }
 function approveTimesheet(request, callback) {
     connect(request)
-    .then(permissions)
+    .then(verify)
     .then(approve)
     .then()
     .catch(error)
