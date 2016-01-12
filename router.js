@@ -313,14 +313,14 @@ function route(req, res) {
                 approve.action = "approve";
                 approve.userID = userID;
                 timesheet.approveTimesheet(approve, function(message) {
-                    if (data) {
+                    if (message) {
                         res.writeHead(200, {
                             'Content-Type': 'application/json'
                         });
+                    }
                         console.log("line 235", message); //Debug
                         res.write(JSON.stringify(message));
                         res.end();
-                    }
                 });
             }
         });

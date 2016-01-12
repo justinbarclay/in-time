@@ -13,7 +13,7 @@ var Approve = React.createClass({
         });
     },
     approve: function(){
-        timesheetActions.approve(this.state.timesheetID);
+        timesheetActions.approveTimesheet(this.state.timesheetID);
     },
     render: function(){
         return (

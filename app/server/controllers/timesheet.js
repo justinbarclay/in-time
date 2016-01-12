@@ -56,6 +56,7 @@ let connect = function(data) {
             if (err) {
                 throw err;
             } else {
+                console.log(data);
                 resolve({
                     setup: data,
                     done: done,
@@ -84,15 +85,18 @@ function finish(data) {
 function verify(data) {
     console.log("grabbing user permissions");
     return new Promise(function(resolve, reject) {
-        let permissionQuery = `SELECT permission FROM Permissions WHERE role = (SELECT role FROM UserLogin WHERE user_id ={data.userID})`;
+        console.log("Data :", data.setup);
+        var permissionQuery = `SELECT permission FROM Permissions WHERE role = (SELECT role FROM UserLogin WHERE user_id =${data.setup.userID})`;
         data.client.query(permissionQuery, function(err, result){
             if (err){
                 throw err;
             } else {
-                if(matchPermissions(data.action, result.rows)){
+                console.log("Permissions: ", result.rows);
+                console.log(matchPermissions(data.setup.action, result.rows));
+                if(matchPermissions(data.setup.action, result.rows)){
                     resolve(data);
                 } else {
-                    throw `Permissions do not match for user: {data.userID}`;
+                    throw `Permissions do not match for user: ${data.userID}`;
                 }
             }
         });
@@ -249,18 +253,14 @@ function upsertEntry(data, client) {
 }
 
 function approve(data){
-    let update = `UPDATE timesheets_meta SET approved = true WHERE timesheet_id = '{data.timesheetID}'`;
+    let update = `UPDATE timesheets_meta SET approved = TRUE WHERE timesheet_id = '${data.setup.timesheetID}'`;
     //Asynchronously insert data into the database
-    console.log("made it into approve");
     return new Promise(function(resolve, reject) {
-        console.log("and here");
         data.client.query(update, function(err, result) {
-            console.log("but not here");
             if (err) {
                 throw err;
             } else {
-                console.log(result);
-                console.log(result.rows);
+                console.log("Approve timesheet: ", data.setup.timesheetID);
                 resolve(result.rows);
             }
         });
@@ -410,8 +410,8 @@ function approveTimesheet(request, callback) {
     connect(request)
     .then(verify)
     .then(approve)
-    .catch(error)
     .then(finish)
+    .catch(error)
     .then(callback);
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -459,7 +459,16 @@ function buildTimesheets(data) {
 }
 
 function matchPermissions(action, permissions){
-    return permissions.indexOf(action) > -1;
+    console.log("Action: ", action);
+    console.log("permissions", permissions);
+    for(var i=0; i<permissions.length; i++){
+        if(permissions[i].permission === action){
+            console.log(permissions[i].permissions);
+            console.log(action);
+            return true;
+        }
+    }
+    return false;
 }
 function buildYearMonthDay(date) {
     console.log("build date", date.getDate());
