@@ -257,9 +257,61 @@ function route(req, res) {
                 res.writeHead(200, {
                     'Content-Type': 'application/json'
                 });
-                timesheet.userID = userID;
 
                 timesheet.createTimesheet(timesheetObj, function(message) {
+                    if (data) {
+                        res.writeHead(200, {
+                            'Content-Type': 'application/json'
+                        });
+                        console.log("line 235", message); //Debug
+                        res.write(JSON.stringify(message));
+                        res.end();
+                    }
+                });
+            }
+        });
+    } else if (path === '/timesheet' && req.method === "POST") {
+        req.on("data", function(chunk) {
+            console.log("chunk", chunk);
+            data += chunk;
+        });
+
+        req.on("end", function() {
+            token = req.headers["x-access-token"];
+            var verify = verifyJWT(token);
+            var timesheetID;
+            var userID = getUserID(token);
+
+            res.setHeader('X-ACCESS-TOKEN', verify);
+            if (!verify) {
+                res.writeHead(401, {
+                    'Content-Type': 'application/json'
+                });
+                res.write(JSON.stringify({
+                    "message": "invalid security token"
+                }));
+                res.end();
+                return;
+            }
+            try {
+                timesheetID = JSON.parse(data);
+            } catch (err) {
+                console.err(err); //Debug
+            }
+            console.log("timesheetID", timesheetID);
+            if (userID !== parseInt(userID, 10)) {
+                res.writeHead(400, {
+                    'Content-Type': 'application/json'
+                });
+                res.write(JSON.stringify({
+                    "message": "Invalid user ID"
+                }));
+            } else {
+                res.writeHead(200, {
+                    'Content-Type': 'application/json'
+                });
+                timesheetID.action = approve;
+                timesheet.approveTimesheet(timesheetID, function(message) {
                     if (data) {
                         res.writeHead(200, {
                             'Content-Type': 'application/json'

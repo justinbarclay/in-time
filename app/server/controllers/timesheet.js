@@ -80,6 +80,21 @@ function finish(data) {
         resolve(data);
     });
 }
+
+function verify(data) {
+    console.log("grabbing user permissions");
+    return new Promise(function(resolve, reject) {
+        let permissionQuery = `SELECT permission FROM Permissions WHERE role = (SELECT role FROM UserLogin WHERE user_id ={data.userID})`;
+        data.client.query(permissionQuery, function(err, result){
+            if (err){
+                throw err;
+            } else {
+                if(matchPermissions(data.action, result.rows))
+                resolve(data);
+            }
+        });
+    });
+}
 ////////////////////////////////////////////////////////////////////////////////
 //
 //Promises
@@ -145,9 +160,6 @@ let addMetaData = function(data) {
         //Asynchronously insert data into the database
         let upsert = `SELECT * FROM upsert_meta('${meta.timesheetID}', ${meta.userID}, '${meta.startDate}', '${meta.endDate}', ${meta.engagement}, ${meta.delete})`;
         console.log(upsert);
-        let metaTimesheet = [meta.timesheetID, meta.userID,
-            meta.startDate, meta.endDate, meta.engagement, meta.delete
-        ];
         data.client.query(upsert, function(err, result) {
             if (err) {
                 throw err;
@@ -231,6 +243,10 @@ function upsertEntry(data, client) {
             }
         });
     });
+}
+
+function approve(data){
+
 }
 ////////////////////////////////////////////////////////////////////////////////
 //Read Data Queries
@@ -372,6 +388,15 @@ function deleteTimesheets(request, callback) {
         .then(finish)
         .then(callback);
 }
+function approveTimesheet(request, callback) {
+    connect(request)
+    .then(permissions)
+    .then(approve)
+    .then()
+    .catch(error)
+    .then(finish)
+    .then(callback);
+}
 ////////////////////////////////////////////////////////////////////////////////
 //Helper Functions
 ////////////////////////////////////////////////////////////////////////////////
@@ -416,6 +441,9 @@ function buildTimesheets(data) {
     });
 }
 
+function matchPermissions(action, permissions){
+    return permissions.indexOf(action) > -1;
+}
 function buildYearMonthDay(date) {
     console.log("build date", date.getDate());
     let day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
@@ -435,3 +463,4 @@ function flatten(array) {
 
 exports.getTimesheets = getTimesheets;
 exports.createTimesheet = createTimesheet;
+exports.approveTimesheet = approveTimesheet;

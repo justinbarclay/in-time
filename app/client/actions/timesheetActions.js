@@ -90,7 +90,7 @@ var timesheetActions = Flux.createActions({
         save(id);
     },
     approveTimesheet: function(id){
-
+        post("/approve", {timesheetID: id});
     }
 });
 
