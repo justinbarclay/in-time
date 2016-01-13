@@ -8,8 +8,8 @@ var authStore = require('../stores/authStore');
 var authActions = require('../actions/authActions');
 
 //subcomponents
-var NavSignedIn = require("./navSignedIn");
-var NavSignedOut = require("./navSignedOut");
+var SignedIn = require("./nav/signedIn");
+var SignedOut = require("./nav/signedOut");
 
 var header = React.createClass({
     displayName: "navController",
@@ -22,12 +22,7 @@ var header = React.createClass({
         this.setState({signedIn: authActions.authenticated()});
     },
     render: function(){
-        var nav;
-        if (this.state.signedIn){
-            nav = <NavSignedIn />;
-        } else {
-            nav = <NavSignedOut />;
-        }
+        nav = this.state.signedIn ? <SignedIn/> : <SignedOut/>;
         return (
             <div className="header">
                 <Link className="nav homeButton" to="home">
