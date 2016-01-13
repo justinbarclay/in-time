@@ -42,7 +42,7 @@ var NavSignedIn = React.createClass({
             </Link> );
     },
     render: function() {
-        var staff = this.state.role === "Supervisor" ? this.staffButton : null;
+        var staff = this.state.role === "Supervisor" ? this.staffButton() : null;
         return (
             <div className="navigation">
                 <label className="nav role" onClick={this.changeRole}>{this.state.role}</label>
