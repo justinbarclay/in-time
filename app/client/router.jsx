@@ -18,6 +18,8 @@ var Route = Router.Route;
 var DefaultRoute = Router.DefaultRoute;
 var NotFoundRoute = Router.NotFoundRoute;
 
+// On Enter
+confirmAuth = require('./router/protected.js').confirmAuth;
 
 // <Route name="timesheet" handler={timesheet} />
 // Declare routes
@@ -27,9 +29,9 @@ var routes = (
     <Route name="about" handler={About} />
     <Route name="signin" handler={SignInForm} />
     <Route name="signup" handler={SignUpForm} />
-    <Route name="timesheets" handler={Timesheets} />
-    <Route name="timesheet" path="timesheet/:id" handler={Timesheet} />
-    <Route name="staff" handler={StaffTracker} />
+    <Route name="timesheets" handler={Timesheets} onEnter={confirmAuth} />
+    <Route name="timesheet" path="timesheet/:id" handler={Timesheet} onEnter={confirmAuth}/>
+    <Route name="staff" handler={StaffTracker} onEnter={confirmAuth} />
     <NotFoundRoute handler={NotFound} />
   </Route>
 );
