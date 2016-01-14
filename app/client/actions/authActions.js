@@ -42,7 +42,7 @@ var authActions = Flux.createActions({
             user: user
         });
     },
-    authenticated: function() {
+    isLoggedIn: function() {
         return authStore.authenticated();
     },
     getJWT: function(){
