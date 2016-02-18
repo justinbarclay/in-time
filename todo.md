@@ -6,7 +6,6 @@
 
 * Learn how to and implement a sanitation process for inputting data to the database
 
-
 * Create script to add staff and timesheets to database.
 
 * Create Staff Page/Supervisor Page
