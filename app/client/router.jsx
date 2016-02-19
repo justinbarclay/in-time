@@ -1,6 +1,5 @@
 // React
 var React = require("react");
-var Router = require("react-router");
 
 //Main components for Timesheet app
 var App = require("./components/app");
@@ -14,34 +13,30 @@ var NotFound = require("./components/notfound");
 var About = require("./components/about");
 
 // Set up Router object
-var Route = Router.Route;
-var DefaultRoute = Router.DefaultRoute;
-var NotFoundRoute = Router.NotFoundRoute;
+var ReactRouter = require('react-router');
+var Router = ReactRouter.Router;
+var Route = ReactRouter.Route;
 
 // On Enter
-auth = require('./router/routerAuth.js');
-confirmAuth = require('./router/protectedNav.js').staff;
-confirmSup = require('./router/protectedNav.js').sup;
+auth = require('./routes/routerAuth.js');
+authStaff = auth.staff;
+authSup = auth.sup;
 
 // Declare routes
 var routes = (
-  <Route handler={App} path="/">
-    <DefaultRoute name="home" handler={Home} />
-    <Route name="about" handler={About} />
-    <Route name="signin" handler={SignInForm} />
-    <Route name="signup" handler={SignUpForm} />
-    <Route name="timesheets" handler={Timesheets} onEnter={confirmStaff} />
-    <Route name="timesheet" path="timesheet/:id" handler={Timesheet} onEnter={confirmStaff}/>
-    <Route name="staff" handler={StaffTracker} onEnter={confirmSup} />
-    <NotFoundRoute handler={NotFound} />
-  </Route>
+    <Route component={App}>
+      <Route path="/" handler={Home}/>
+      <Route path="about" component={About} />
+      <Route path="signin" component={SignInForm} />
+      <Route path="signup" component={SignUpForm} />
+      <Route path="timesheets" handler={Timesheets} onEnter={authStaff} />
+      <Route name="timesheet" path="timesheet/:id" component={Timesheet} onEnter={authStaff}/>
+      <Route path="staff" component={StaffTracker} onEnter={authSup} />
+    </Route>
 );
 
 module.exports = {
     run: function(el){
-        Router.run(routes, function (Handler, state) {
-            var params = state.params;
-            React.render(<Handler params={params} />, el);
-        });
+        React.render(<Router>{routes}</Router>, el);
     }
 };

@@ -12,11 +12,12 @@ var app = React.createClass({
     propTypes:[],
 
     render: function(){
+            console.log(this.props);
         return (
             <div className="app">
                 <Header />
                 <main>
-                    <RouteHandler />
+                    {this.props.children}
                 </main>
                 <Footer />
             </div>
