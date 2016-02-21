@@ -1,5 +1,6 @@
 // React
 var React = require("react");
+var render = require("react-dom").render;
 
 //Main components for Timesheet app
 var App = require("./components/app");
@@ -16,7 +17,7 @@ var About = require("./components/about");
 var ReactRouter = require('react-router');
 var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
-
+var hashHistory = ReactRouter.hashHistory;
 // On Enter
 auth = require('./routes/routerAuth.js');
 authStaff = auth.staff;
@@ -37,6 +38,6 @@ var routes = (
 
 module.exports = {
     run: function(el){
-        React.render(<Router>{routes}</Router>, el);
+         render(<Router>{routes}</Router>, el);
     }
 };

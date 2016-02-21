@@ -9,7 +9,7 @@ var authStore = require('../../stores/authStore.js');
 var NavSignedIn = React.createClass({
     displayName: "signed in",
     propTypes: {},
-    mixins: [Navigation, authStore.mixin],
+    mixins: [authStore.mixin],
     getInitialState: function(){
         return({
             role: authActions.getUserInfo().role

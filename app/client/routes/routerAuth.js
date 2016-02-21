@@ -1,9 +1,9 @@
 var authActions = require("../actions/authActions.js");
-
+var authStore = require("../stores/authStore.js");
 function authStaff(nextState, replace) {
-    if (!auth.loggedIn()) {
+    if (!authStore.authenticated()) {
         replace({
-            pathname: '/login',
+            pathname: '/signin',
             state: {
                 nextPathname: nextState.location.pathname
             }
@@ -12,9 +12,9 @@ function authStaff(nextState, replace) {
 }
 
 function authSup(nextState, replace) {
-    if (!auth.loggedIn()) {
+    if (!authStore.authenticated()) {
         replace({
-            pathname: '/login',
+            pathname: '/signin',
             state: {
                 nextPathname: nextState.location.pathname
             }

@@ -25,7 +25,7 @@ var header = React.createClass({
         nav = this.state.signedIn ? <SignedIn/> : <SignedOut/>;
         return (
             <div className="header">
-                <Link className="nav homeButton" to="home">
+                <Link className="nav homeButton" to="/">
                     <label>Home</label>
                 </Link>
                 {nav}
