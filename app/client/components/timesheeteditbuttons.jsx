@@ -2,7 +2,7 @@ var uuid = require('uuid');
 var React = require('react');
 
 var timesheetActions = require("../actions/timesheetActions");
-var browserHistory = require("react-router").browserHistory;
+var hashHistory = require('react-router').hashHistory;
 
 var TimesheetEditButtons = React.createClass({
     displayName: "row edit",

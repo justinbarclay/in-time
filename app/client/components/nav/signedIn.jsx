@@ -1,7 +1,7 @@
 var React = require("react");
 var ReactRouter = require("react-router");
 var Link = ReactRouter.Link;
-var Navigation = ReactRouter.Router;
+var hashHistory = require('react-router').hashHistory;
 var authActions = require("../../actions/authActions");
 var timesheetActions = require("../../actions/timesheetActions");
 var authStore = require('../../stores/authStore.js');
@@ -10,7 +10,7 @@ var NavSignedIn = React.createClass({
     displayName: "signed in",
     propTypes: {},
     mixins: [authStore.mixin],
-    
+
     getInitialState: function(){
         return({
             role: authActions.getUserInfo().role
@@ -30,7 +30,7 @@ var NavSignedIn = React.createClass({
     },
     componentWillUnmount: function(){
         timesheetActions.deleteTimesheets();
-        router.push("home");
+        hashHistory.push("home");
     },
     changeRole: function(){
         newRole = this.state.role === "Supervisor" ? "Staff" : "Supervisor";

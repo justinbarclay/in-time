@@ -1,5 +1,5 @@
 var React = require('react');
-var browserHistory = require('react-router').browserHistory;
+var browserHistory = require('react-router').hashHistory;
 var timesheetStore = require("../stores/timesheetStore");
 
 var TimesheetInfo = React.createClass({
@@ -13,7 +13,7 @@ var TimesheetInfo = React.createClass({
     goToTimesheet: function() {
         id = this.props.timesheet.timesheetID ? this.props.timesheet.timesheetID
             : null;
-        browserHistory.push("/timesheet/" + id);
+        browserHistory.push("timesheet/" + id);
     },
     totalDuration: function() {
         entries = this.props.timesheet.entries;
