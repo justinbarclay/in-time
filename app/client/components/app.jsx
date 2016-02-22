@@ -1,6 +1,6 @@
 var React = require("react");
-var Router = require("react-router");
-var RouteHandler = Router.RouteHandler;
+//var Router = require("react-router");
+//var RouteHandler = Router.RouteHandler;
 
 //Components
 var Header = require("./Header");
@@ -12,7 +12,7 @@ var app = React.createClass({
     propTypes:[],
 
     render: function(){
-            console.log(this.props);
+        console.log(this.conext);
         return (
             <div className="app">
                 <Header />

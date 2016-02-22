@@ -1,18 +1,18 @@
 var React = require("react");
-var Navigation = require('react-router').Navigation;
+var browserHistory = require("react-router").browserHistory;
 var staffActions = require("../actions/staffActions");
 // Sub-component
 
 var StaffInfo = React.createClass({
     displayName: "StaffTracker",
     propTypes: [],
-    mixins: [Navigation],
+    mixins: [],
     getInitialState: function(){
         return({staff: this.props.staff, hours: this.props.hours});
     },
     loadTimesheets: function(){
         staffActions.setTimesheets(staffActions.getStaff(this.state.staff).timesheets);
-        this.transitionTo("/timesheets");
+        browserHistory.push("/timesheets");
     },
     render: function(){
         return (

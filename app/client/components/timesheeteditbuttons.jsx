@@ -2,12 +2,12 @@ var uuid = require('uuid');
 var React = require('react');
 
 var timesheetActions = require("../actions/timesheetActions");
-var Navigation = require("react-router").Navigation;
+var browserHistory = require("react-router").browserHistory;
 
 var TimesheetEditButtons = React.createClass({
     displayName: "row edit",
     propTypes: {},
-    mixins: [Navigation],
+    mixins: [],
     getInitialState: function(){
         return({
             deleteMessage: "Delete",
@@ -31,7 +31,7 @@ var TimesheetEditButtons = React.createClass({
         self = this;
         console.log("Hold for 2 seconds");
         this.setState({timer: window.setTimeout(function(){
-            self.transitionTo('/timesheets');
+            router.push('/timesheets');
             timesheetActions.deleteTimesheet(self.state.timesheetID);
         }, 2000)});
     },

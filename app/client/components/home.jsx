@@ -14,7 +14,6 @@ var Home = React.createClass({
     displayName: "Home",
     propTypes: {},
     mixins: [],
-
     getInitialState: function () {
         return null;
     },

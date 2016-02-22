@@ -1,11 +1,11 @@
 var React = require('react');
-var Navigation = require('react-router').Navigation;
+var browserHistory = require('react-router').browserHistory;
 var timesheetStore = require("../stores/timesheetStore");
 
 var TimesheetInfo = React.createClass({
     displayName: "TimesheetInfo",
     propTypes: [],
-    mixins: [Navigation],
+    mixins: [],
     getInitialState: function() {
         className = this.props.timesheet.approved === true ? "timesheet approved" : "timesheet";
         return ({className: className});
@@ -13,7 +13,7 @@ var TimesheetInfo = React.createClass({
     goToTimesheet: function() {
         id = this.props.timesheet.timesheetID ? this.props.timesheet.timesheetID
             : null;
-        this.transitionTo("/timesheet/" + id);
+        browserHistory.push("/timesheet/" + id);
     },
     totalDuration: function() {
         entries = this.props.timesheet.entries;
@@ -37,6 +37,7 @@ var TimesheetInfo = React.createClass({
         return this.props.timesheet.entries.length;
     },
     render: function(){
+        console.log("test");
         return (
             <div className={this.state.className} onClick={this.goToTimesheet} onMouseEnter={this.log}>
                 <div className="engagement">{this.props.timesheet.engagement}</div>

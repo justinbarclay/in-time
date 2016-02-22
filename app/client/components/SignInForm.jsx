@@ -1,7 +1,8 @@
 //React
 var React = require("react");
-var Navigation = require('react-router').Navigation;
-var Link = require('react-router').Link;
+var ReactRouter = require("react-router");
+var browserHistory = ReactRouter.browserHistory;
+var Link = ReactRouter.link;
 var authActions = require('../actions/authActions');
 var authStore = require('../stores/authStore');
 
@@ -10,7 +11,7 @@ var Message = require('./message');
 
 var SignInForm = React.createClass({
     displayName: "SignInForm",
-    mixins: [Navigation, authStore.mixin],
+    mixins: [authStore.mixin],
     getInitialState: function() {
         return {
             signInMessage: '',
@@ -19,7 +20,7 @@ var SignInForm = React.createClass({
     },
     storeDidChange: function(){
         if(authActions.authenticated()){
-            this.transitionTo("home");
+            browserHistory.push("/timesheets");
         } else {
             this.setState({
                 hidden: false,

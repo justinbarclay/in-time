@@ -26,18 +26,19 @@ authSup = auth.sup;
 // Declare routes
 var routes = (
     <Route component={App}>
-      <Route path="/" handler={Home}/>
+      <Route path="/" component={Home}/>
       <Route path="about" component={About} />
       <Route path="signin" component={SignInForm} />
       <Route path="signup" component={SignUpForm} />
-      <Route path="timesheets" handler={Timesheets} onEnter={authStaff} />
+      <Route path="timesheets" component={Timesheets} onEnter={authStaff}/>
       <Route name="timesheet" path="timesheet/:id" component={Timesheet} onEnter={authStaff}/>
       <Route path="staff" component={StaffTracker} onEnter={authSup} />
+      <Route path="*" component={NotFound}/>
     </Route>
 );
 
 module.exports = {
     run: function(el){
-         render(<Router>{routes}</Router>, el);
+         render(<Router history={hashHistory}>{routes}</Router>, el);
     }
 };

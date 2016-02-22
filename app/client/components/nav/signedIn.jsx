@@ -1,7 +1,7 @@
 var React = require("react");
-var Router = require("react-router");
-var Link = Router.Link;
-var Navigation = Router.Navigation;
+var ReactRouter = require("react-router");
+var Link = ReactRouter.Link;
+var Navigation = ReactRouter.Router;
 var authActions = require("../../actions/authActions");
 var timesheetActions = require("../../actions/timesheetActions");
 var authStore = require('../../stores/authStore.js');
@@ -10,6 +10,7 @@ var NavSignedIn = React.createClass({
     displayName: "signed in",
     propTypes: {},
     mixins: [authStore.mixin],
+    
     getInitialState: function(){
         return({
             role: authActions.getUserInfo().role
@@ -29,7 +30,7 @@ var NavSignedIn = React.createClass({
     },
     componentWillUnmount: function(){
         timesheetActions.deleteTimesheets();
-        this.transitionTo("home");
+        router.push("home");
     },
     changeRole: function(){
         newRole = this.state.role === "Supervisor" ? "Staff" : "Supervisor";
@@ -46,10 +47,10 @@ var NavSignedIn = React.createClass({
         return (
             <div className="navigation">
                 <label className="nav role" onClick={this.changeRole}>{this.state.role}</label>
-                <Link className="nav" to="about">
+                <Link to="/about" className="nav">
                     <label>About</label>
                 </Link>
-                <Link className="nav" to="timesheets">
+                <Link className="nav" to="/timesheets">
                     <label>Timesheets</label>
                 </Link>
                 {staff}

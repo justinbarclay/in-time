@@ -1,5 +1,5 @@
 var React = require('react');
-var Navigation = require('react-router').Navigation;
+var browserHistory = require('react-router').browserHistory;
 var uuid = require('uuid');
 //Flux
 var timesheetStore = require('../stores/timesheetStore');
@@ -13,20 +13,20 @@ var TimesheetInfo = require('./timesheetinfo');
 var Timesheets = React.createClass({
     displayName: "Timesheets",
     propTypes: [],
-    mixins: [Navigation, timesheetStore.mixin],
+    mixins: [timesheetStore.mixin],
     getInitialState: function() {
         return {user: authActions.getUserInfo(),
             timesheets: timesheetActions.getTimesheets()};
     },
     componentWillMount: function(){
         if(!authActions.authenticated()){
-            this.transitionTo("home");
+            browserHistory.push("home");
         }
     },
     newTimesheet: function(){
         var newID =uuid.v4();
         timesheetActions.newTimesheet(newID, this.state.user.id);
-        this.transitionTo("/timesheet/" + newID);
+        browserHistory.push("/timesheet/" + newID);
     },
     storeDidChange: function() {
         this.setState({timesheets:timesheetActions.getTimesheets()});

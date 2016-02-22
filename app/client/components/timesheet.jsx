@@ -1,5 +1,5 @@
 var React = require("react");
-var Navigation = require('react-router').Navigation;
+var router = require('react-router').Router;
 // Flux
 var timesheetActions = require("../actions/timesheetActions");
 var timesheetStore = require("../stores/timesheetStore");
@@ -15,11 +15,11 @@ var uuid = require('uuid');
 
 var Timesheet = React.createClass({
     displayName: "Timesheet",
-    mixins: [Navigation, timesheetStore.mixin],
+    mixins: [timesheetStore.mixin],
     propTypes: [],
     componentWillMount: function () {
         if (!this.state){
-            this.transitionTo("/timesheets");
+            router.push("/timesheets");
         }
     },
     displayApprove: function(){
