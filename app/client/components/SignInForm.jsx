@@ -20,7 +20,7 @@ var SignInForm = React.createClass({
     },
     storeDidChange: function(){
         if(authActions.authenticated()){
-            browserHistory.push("/timesheets");
+            hasHistory.push("/timesheets");
         } else {
             this.setState({
                 hidden: false,

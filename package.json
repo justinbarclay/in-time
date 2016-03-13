@@ -22,7 +22,6 @@
     "browserify": "^10.2.4",
     "chai": "^2.3.0",
     "foundation": "^4.2.1-1",
-    "gulp": "^3.9.0",
     "gulp-autoprefixer": "^2.3.1",
     "gulp-nodemon": "^2.0.3",
     "gulp-plumber": "^1.0.1",
@@ -39,7 +38,7 @@
     "watchify": "^3.2.3"
   },
   "engines": {
-    "node": "5.3.0"
+    "node": "5.7.1"
   },
   "jshintConfig": {
     "esnext": true,

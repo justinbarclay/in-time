@@ -13,7 +13,13 @@ var Approve = React.createClass({
         });
     },
     approve: function(){
-        timesheetActions.approveTimesheet(this.state.timesheetID);
+        data ={
+        id: this.props.id,
+        accessor: this.props.accessor,
+        index: this.props.index,
+        value: this.approve};
+
+        timesheetActions.approveTimesheet({id:this.state.timesheetID, accessor:"approve", data: blah});
     },
     render: function(){
         return (

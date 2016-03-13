@@ -1,5 +1,5 @@
 var React = require("react");
-var browserHistory = require("react-router").browserHistory;
+var hashHistory = require("react-router").hashHistory;
 var staffActions = require("../actions/staffActions");
 // Sub-component
 
@@ -12,7 +12,7 @@ var StaffInfo = React.createClass({
     },
     loadTimesheets: function(){
         staffActions.setTimesheets(staffActions.getStaff(this.state.staff).timesheets);
-        browserHistory.push("/timesheets");
+        hashHistory.push("/timesheets");
     },
     render: function(){
         return (

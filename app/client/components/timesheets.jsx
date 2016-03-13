@@ -20,13 +20,13 @@ var Timesheets = React.createClass({
     },
     componentWillMount: function(){
         if(!authActions.authenticated()){
-            browserHistory.push("home");
+            hashHistory.push("home");
         }
     },
     newTimesheet: function(){
         var newID =uuid.v4();
         timesheetActions.newTimesheet(newID, this.state.user.id);
-        browserHistory.push("/timesheet/" + newID);
+        hashHistory.push("/timesheet/" + newID);
     },
     storeDidChange: function() {
         this.setState({timesheets:timesheetActions.getTimesheets()});
