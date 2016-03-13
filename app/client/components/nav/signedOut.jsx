@@ -1,18 +1,18 @@
 var React = require("react");
-var Router = require("react-router");
-var Link = Router.Link;
+var Link = require("react-router").Link;
+var Router = require("react-router").Router;
+var Route = require("react-router").Route;
 
 var NavSignedOut = React.createClass({
     displayName: "signed out",
     propTypes: {},
-    mixins: [],
     render: function() {
         return (
             <div className="navigation">
-                <Link className="nav" to="signup">
+                <Link to="/signup" className="nav" >
                     <label>Sign Up</label>
                 </Link>
-                <Link className="nav" to="signin">
+                <Link to="/signin" className="nav">
                     <label>Sign In</label>
                 </Link>
             </div>

@@ -76,11 +76,7 @@ var timesheetStore = Flux.createStore({
         });
     },
     updateEntry: function(id, rowIndex, accessor, data) {
-        // console.log("id:" + id);
-        // console.log(rowIndex);
         findTimesheetIndex(id, function(index) {
-            // console.log(_timesheets[index].entries[rowIndex]
-            //    [accessor]);
             _timesheets[index].entries[rowIndex][accessor] =
                 data;
         });

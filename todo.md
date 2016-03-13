@@ -1,10 +1,10 @@
 # TO DO
 
 * Create router system to differentiate between user types
+-- Implement a better form of authentication throughout the app, possibly a Mixin like was shown in the react-router demos
+-- authenticate routes: staff/timesheet/timesheets
 
 * Learn how to and implement a sanitation process for inputting data to the database
-
-* Implement a better form of authentication throughout the app, possibly a Mixin like was shown in the react-router demos
 
 * Create script to add staff and timesheets to database.
 

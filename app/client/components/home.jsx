@@ -1,6 +1,5 @@
 // React
 var React = require("react");
-var Link = require("react").link
 
 //Components
 var Signin = require("./SignInForm");
@@ -9,14 +8,12 @@ var Signup = require("./SignUpForm");
 // Router
 var Router = require("react-router");
 var Link = Router.Link;
-var RouteHandler = Router.RouteHandler;
 
 // Component
 var Home = React.createClass({
     displayName: "Home",
     propTypes: {},
     mixins: [],
-
     getInitialState: function () {
         return null;
     },

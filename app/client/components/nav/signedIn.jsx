@@ -1,15 +1,16 @@
 var React = require("react");
-var Router = require("react-router");
-var Link = Router.Link;
-var Navigation = Router.Navigation;
-var authActions = require("../actions/authActions");
-var timesheetActions = require("../actions/timesheetActions");
-var authStore = require('../stores/authStore.js');
+var ReactRouter = require("react-router");
+var Link = ReactRouter.Link;
+var hashHistory = require('react-router').hashHistory;
+var authActions = require("../../actions/authActions");
+var timesheetActions = require("../../actions/timesheetActions");
+var authStore = require('../../stores/authStore.js');
 
 var NavSignedIn = React.createClass({
     displayName: "signed in",
     propTypes: {},
-    mixins: [Navigation, authStore.mixin],
+    mixins: [authStore.mixin],
+
     getInitialState: function(){
         return({
             role: authActions.getUserInfo().role
@@ -29,22 +30,30 @@ var NavSignedIn = React.createClass({
     },
     componentWillUnmount: function(){
         timesheetActions.deleteTimesheets();
-        this.transitionTo("home");
+        hashHistory.push("home");
     },
     changeRole: function(){
         newRole = this.state.role === "Supervisor" ? "Staff" : "Supervisor";
         authActions.changeRole(newRole);
     },
+    staffButton: function(){
+        return (
+            <Link className="nav" to="staff">
+                <label>Staff</label>
+            </Link> );
+    },
     render: function() {
+        var staff = this.state.role === "Supervisor" ? this.staffButton() : null;
         return (
             <div className="navigation">
-                <label className="role" onClick={this.changeRole}>{this.state.role}</label>
-                <Link className="nav" to="about">
+                <label className="nav role" onClick={this.changeRole}>{this.state.role}</label>
+                <Link to="/about" className="nav">
                     <label>About</label>
                 </Link>
-                <Link className="nav" to="timesheets">
+                <Link className="nav" to="/timesheets">
                     <label>Timesheets</label>
                 </Link>
+                {staff}
                 <a className="nav" onClick={this.signOut}>
                     <label>Sign Out</label>
                 </a>

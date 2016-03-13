@@ -1,11 +1,11 @@
 var React = require('react');
-var Navigation = require('react-router').Navigation;
+var hashHistory = require('react-router').hashHistory;
 var timesheetStore = require("../stores/timesheetStore");
 
 var TimesheetInfo = React.createClass({
     displayName: "TimesheetInfo",
     propTypes: [],
-    mixins: [Navigation],
+    mixins: [],
     getInitialState: function() {
         className = this.props.timesheet.approved === true ? "timesheet approved" : "timesheet";
         return ({className: className});
@@ -13,7 +13,7 @@ var TimesheetInfo = React.createClass({
     goToTimesheet: function() {
         id = this.props.timesheet.timesheetID ? this.props.timesheet.timesheetID
             : null;
-        this.transitionTo("/timesheet/" + id);
+        hashHistory.push("/timesheet/" + id);
     },
     totalDuration: function() {
         entries = this.props.timesheet.entries;

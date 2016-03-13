@@ -1,6 +1,6 @@
 // React
 var React = require("react");
-var Router = require("react-router");
+var render = require("react-dom").render;
 
 //Main components for Timesheet app
 var App = require("./components/app");
@@ -14,31 +14,31 @@ var NotFound = require("./components/notfound");
 var About = require("./components/about");
 
 // Set up Router object
-var Route = Router.Route;
-var DefaultRoute = Router.DefaultRoute;
-var NotFoundRoute = Router.NotFoundRoute;
+var ReactRouter = require('react-router');
+var Router = ReactRouter.Router;
+var Route = ReactRouter.Route;
+var hashHistory = ReactRouter.hashHistory;
+// On Enter
+auth = require('./routes/routerAuth.js');
+authStaff = auth.staff;
+authSup = auth.sup;
 
-
-// <Route name="timesheet" handler={timesheet} />
 // Declare routes
 var routes = (
-  <Route handler={App} path="/">
-    <DefaultRoute name="home" handler={Home} />
-    <Route name="about" handler={About} />
-    <Route name="signin" handler={SignInForm} />
-    <Route name="signup" handler={SignUpForm} />
-    <Route name="timesheets" handler={Timesheets} />
-    <Route name="timesheet" path="timesheet/:id" handler={Timesheet} />
-    <Route name="staff" handler={StaffTracker} />
-    <NotFoundRoute handler={NotFound} />
-  </Route>
+    <Route component={App}>
+      <Route path="/" component={Home}/>
+      <Route path="about" component={About} />
+      <Route path="signin" component={SignInForm} />
+      <Route path="signup" component={SignUpForm} />
+      <Route path="timesheets" component={Timesheets} onEnter={authStaff}/>
+      <Route name="timesheet" path="timesheet/:id" component={Timesheet} onEnter={authStaff}/>
+      <Route path="staff" component={StaffTracker} onEnter={authSup} />
+      <Route path="*" component={NotFound}/>
+    </Route>
 );
 
 module.exports = {
     run: function(el){
-        Router.run(routes, function (Handler, state) {
-            var params = state.params;
-            React.render(<Handler params={params} />, el);
-        });
+         render(<Router history={hashHistory}>{routes}</Router>, el);
     }
 };
