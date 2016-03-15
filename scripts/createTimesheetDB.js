@@ -15,7 +15,7 @@ function createTimesheetDB() {
             "CREATE TABLE IF NOT EXISTS Timesheets ( index serial PRIMARY KEY, timesheet_foreignkey varchar(36), row_id varchar(36) UNIQUE, service_description TEXT, service_duration REAL, service_date DATE, delete BOOLEAN)"
         );
         client.query(
-            "CREATE TABLE IF NOT EXISTS Timesheets_Meta ( index serial PRIMARY KEY, timesheet_id varchar(36) UNIQUE, user_foreignkey INT, start_date DATE, end_date DATE, engagement INT, delete BOOLEAN)"
+            "CREATE TABLE IF NOT EXISTS Timesheets_Meta ( index serial PRIMARY KEY, timesheet_id varchar(36) UNIQUE, user_foreignkey INT, start_date DATE, end_date DATE, engagement INT, approved BOOLEAN, delete BOOLEAN)"
         );
     } catch (error) {
         console.error("this is an error", error);
