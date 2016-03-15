@@ -19,7 +19,7 @@ var Timesheets = React.createClass({
             timesheets: timesheetActions.getTimesheets()};
     },
     componentWillMount: function(){
-        if(!authActions.authenticated()){
+        if(!authActions.isLoggedIn()){
             hashHistory.push("home");
         }
     },

@@ -12,6 +12,7 @@ var StaffTracker = require("./components/staffTracker");
 var Home = require("./components/home");
 var NotFound = require("./components/notfound");
 var About = require("./components/about");
+var Admin = require("./components/admin");
 
 // Set up Router object
 var ReactRouter = require('react-router');
@@ -33,6 +34,7 @@ var routes = (
       <Route path="timesheets" component={Timesheets} onEnter={authStaff}/>
       <Route name="timesheet" path="timesheet/:id" component={Timesheet} onEnter={authStaff}/>
       <Route path="staff" component={StaffTracker} onEnter={authSup} />
+      <Route path="admin" component={Admin} onEnter={authStaff}/>
       <Route path="*" component={NotFound}/>
     </Route>
 );

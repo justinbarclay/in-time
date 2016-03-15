@@ -16,10 +16,10 @@ var header = React.createClass({
     propTypes: [],
     mixins: [authStore.mixin],
     getInitialState: function(){
-        return({signedIn: authActions.authenticated()});
+        return({signedIn: authActions.isLoggedIn()});
     },
     storeDidChange: function(){
-        this.setState({signedIn: authActions.authenticated()});
+        this.setState({signedIn: authActions.isLoggedIn()});
     },
     render: function(){
         nav = this.state.signedIn ? <SignedIn/> : <SignedOut/>;
