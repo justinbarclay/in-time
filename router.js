@@ -1,11 +1,12 @@
-var    querystring = require('querystring');
-var    user = require('./app/server/controllers/user');
-var    timesheet = require('./app/server/controllers/timesheet');
-var    fs = require('fs');
-var    url = require('url');
-var    jwt = require("jsonwebtoken");
+var     querystring = require('querystring');
+var     user = require('./app/server/controllers/user');
+var     timesheet = require('./app/server/controllers/timesheet');
+var     fs = require('fs');
+var     url = require('url');
+var     jwt = require("jsonwebtoken");
+var     sendgrid = require("sendgrid")('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');
 
-var config = require("./config.js");
+var     config = require("./config.js");
 
 const secret = config.secret;
 //shorthand function for verifying JWT
@@ -324,6 +325,24 @@ function route(req, res) {
                 });
             }
         });
+    }else if (path === '/invite' && req.method === "POST") {
+            req.on("data", function(chunk) {
+                console.log("chunk", chunk);
+                data += chunk;
+            });
+
+            req.on("end", function() {
+                email = JSON.parse(data);
+                sendgrid.send({
+                    to:       email,
+                    from:     'admin@in-time.com',
+                    subject:  'You have been invited to In Time, the best timesheet management program',
+                    text:     'My first email through SendGrid.'
+                }, function(err, json) {
+                  if (err) { return console.error(err); }
+                  console.log(json);
+                });
+            });
     } else if (path.slice(0, 7) === "/public") {
         //server static content out. Including JS and CSS files
         //Unsure of how this will handle image files
