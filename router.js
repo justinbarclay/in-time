@@ -334,18 +334,18 @@ function route(req, res) {
             req.on("end", function() {
                 email = JSON.parse(data);
                 code = uuid();
-                success = invite(email, code);
-                if(success){
+                success = invite(email, code, function(err, success){
                     succMessage = "An invite was successfully sent to" + email;
-                    failMessage = email + "could not be invited at this time, please ensure you have the right e-mail or try again later";
+                    failMessage = email + " could not be invited at this time, please ensure you have the right e-mail or try again later";
+                    message = success ? succMessage: failMessage;
                     message = JSON.stringify(message);
                     res.writeHead(200, {
                         'Content-Type': 'application/json',
                         'Content-Length': Buffer.byteLength(message)
                     });
-                    res.write();
+                    res.write(message);
                     res.end();
-                }
+                });
             });
     } else if (path.slice(0, 7) === "/public") {
         //server static content out. Including JS and CSS files
