@@ -136,11 +136,20 @@ function deleteUser(userName) {
     });
 }
 
+function inviteUser(userEmail, userCode, callback){
+    var data = [userEmail, userCode, new Date()];
+    pg.connect(conString, function(err, client, done) {
+        client.query("INSERT INTO UserLogin(email, invited, invited_on) values($1, $2, $3) ", data,
+            function(err, res) {
+                callback(err, res);
+            });
+        });
+}
+
 function authenticate(userName, userPassword, callback) {
     //this function checks to see if the userName and userPassword match
     //anything stored in the user database
     // On a succesful authentication it should generate a JWT, and send it back in JSON with
-    console.log(conString);
     var auth = {err: null, success: null, message: '', JWT: ''};
     pg.connect(conString, function(err, client, done) {
         if (err) {
@@ -209,3 +218,4 @@ var validateUser = function(userName, userPassword, userEmail) {
 };
 exports.authenticate = authenticate;
 exports.signUp = signUp;
+exports.invite = inviteUser;

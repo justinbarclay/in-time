@@ -1,6 +1,6 @@
 var sendgrid = require("sendgrid")('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');
-
-var invite = function(email, code, func){
+var userInvite = require("./user").invite;
+var invite = function(email, code, callback){
     sendgrid.send({
         to:       email,
         from:     'admin@in-time.com',
@@ -10,10 +10,15 @@ var invite = function(email, code, func){
         if (err) {
             console.log(err);
             console.error(err);
-            func(err, false);
+            callback(err, false);
         } else {
             console.log(json);
-            func(err, true);
+            userInvite(email, code, function(err, res){
+                console.log(err);
+                console.log(res);
+                return err ? callback(err, false): callback(err, true);
+            });
+
         }
   });
 };
