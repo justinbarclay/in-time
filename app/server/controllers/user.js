@@ -100,7 +100,7 @@ function signUp(userName, userPassword, userEmail, callback) {
 
             } else {
                 console.log("Username all ready taken");
-                console.log(err)
+                console.log(err);
                 done();
                 callback(err, false,
                     "Username or e-mail is unavailable");

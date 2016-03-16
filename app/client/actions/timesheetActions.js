@@ -90,7 +90,7 @@ var timesheetActions = Flux.createActions({
         save(id);
     },
     approveTimesheet: function(meta){
-        post("/approve", {timesheetID: meta.id});
+        post("/api/approve", {timesheetID: meta.id});
         this.dispatch({
             actionType: "UPDATE_META",
             data: meta

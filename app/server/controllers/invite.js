@@ -27,5 +27,5 @@ var invite = function(email, code, callback){
 module.exports = invite;
 
 function customlink(code){
-    return "127.0.0.1:8888/signup/"+code;
+    return "127.0.0.1:8888/signup?"+code;
 }
