@@ -51,19 +51,7 @@ function route(req, res) {
     var token;
 
     console.log(path);
-    if (path === '/') {
-        // Load the home page
-        console.log("Path: " + path);
-        fs.readFile('app/public/index.html', function(err, data) {
-            res.writeHead(200, {
-                'Content-Type': 'text/html',
-                'Content-Length': Buffer.byteLength(data)
-            });
-            res.write(data);
-            res.end();
-        });
-        console.log('Successful test');
-    } else if (path === '/signup') {
+    if (path === '/api/signup') {
         //Attempt to login
         //This doesn't go anywhere yet, but it does test the user controller
         console.log("Succesful post to /signup!");
@@ -101,7 +89,7 @@ function route(req, res) {
                     console.log(message);
                 });
         });
-    } else if (path === '/signin') {
+    } else if (path === '/api/signin') {
         //Attempt to login
         //This doesn't go anywhere yet, but it does test the user controller
         req.on("data", function(chunk) {
@@ -167,7 +155,7 @@ function route(req, res) {
             res.end();
             console.log("res sent");
         });
-    } else if (path === '/timesheets' && req.method === "POST") {
+    } else if (path === '/api/timesheets' && req.method === "POST") {
         // Should handle both get and post? or just one...
         console.log("Retrieving timesheets");
         req.on("data", function(chunk) {
@@ -218,7 +206,7 @@ function route(req, res) {
                 });
             }
         });
-    } else if (path === '/timesheet' && req.method === "POST") {
+    } else if (path === '/api/timesheet' && req.method === "POST") {
         req.on("data", function(chunk) {
             console.log("chunk", chunk);
             data += chunk;
@@ -271,7 +259,24 @@ function route(req, res) {
                 });
             }
         });
-    } else if (path === '/approve' && req.method === "POST") {
+    } else if (path === '/api/timesheet/get' && req.method === "GET"){
+        req.on("data", function(chunk) {
+            console.log("chunk", chunk);
+            data += chunk;
+        });
+
+        req.on("end", function(){
+            data = JSON.parse(data);
+            query = {userID: data.userID, timesheetID: data.timesheetID};
+
+            results = timesheet.getTimesheet(query, function(result){
+                console.log("HEHA");
+                res.write(JSON.stringify(result));
+                res.end();
+                return console.log(result);
+            });
+        });
+    } else if (path === '/api/approve' && req.method === "POST") {
         req.on("data", function(chunk) {
             console.log("chunk", chunk);
             data += chunk;
@@ -325,7 +330,7 @@ function route(req, res) {
                 });
             }
         });
-    }else if (path === '/invite' && req.method === "POST") {
+    }else if (path === '/api/invite' && req.method === "POST") {
             req.on("data", function(chunk) {
                 console.log("chunk", chunk);
                 data += chunk;
@@ -366,12 +371,17 @@ function route(req, res) {
             }
         });
     } else {
-        //Base case, I don't have what you're looking
-        res.writeHead(404);
-        console.log("route fail");
-        console.log(req.headers);
-        console.log(req.body);
-        res.end();
+            console.log("Path: " + path);
+            fs.readFile('app/public/index.html', function(err, data) {
+                res.writeHead(200, {
+                    'Content-Type': 'text/html',
+                    'Content-Length': Buffer.byteLength(data)
+                });
+                res.write(data);
+                res.end();
+            });
+            console.log('Successful test');
+            console.log(req.method);
     }
 
 }

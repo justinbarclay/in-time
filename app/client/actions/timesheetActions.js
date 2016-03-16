@@ -8,7 +8,7 @@ var timesheetActions = Flux.createActions({
         self = this;
         user = JSON.stringify({userID: userID});
         var AJAXreq = new XMLHttpRequest();
-        AJAXreq.open("POST", "/timesheets", true);
+        AJAXreq.open("POST", "/api/timesheets", true);
         AJAXreq.setRequestHeader('ContentType', 'application/json; charset=UTF8');
         AJAXreq.setRequestHeader('X-ACCESS-TOKEN', authActions.getJWT());
         AJAXreq.setRequestHeader('ContentType',
@@ -90,7 +90,7 @@ var timesheetActions = Flux.createActions({
         save(id);
     },
     approveTimesheet: function(meta){
-        post("/approve", {timesheetID: meta.id});
+        post("/api/approve", {timesheetID: meta.id});
         this.dispatch({
             actionType: "UPDATE_META",
             data: meta
@@ -110,7 +110,7 @@ function save(id){
             console.log(verify[message]);
         }
     }
-    post("/timesheet", timesheet);
+    post("/api/timesheet", timesheet);
 }
 function post(location, data){
     var AJAXreq = new XMLHttpRequest();

@@ -11,7 +11,7 @@ var authActions = Flux.createActions({
     signIn: function(user) {
         self = this;
         var AJAXreq = new XMLHttpRequest();
-        AJAXreq.open("post", "/signin", true);
+        AJAXreq.open("post", "/api/signin", true);
         AJAXreq.setRequestHeader('ContentType',
             'application/json; charset=UTF8');
         AJAXreq.send(JSON.stringify(user));
