@@ -89,6 +89,9 @@ var timesheetStore = Flux.createStore({
     syncTimesheets: function(timesheets){
         _timesheets = timesheets;
         console.log("sync timesheets: ", timesheets);
+    },
+    addTimesheet: function(timesheet){
+        _timesheets.push(timesheet);
     }
 }, function(payload) {
     if (payload.actionType === "NEW_TIMESHEET") {
@@ -123,6 +126,10 @@ var timesheetStore = Flux.createStore({
     }
     if (payload.actionType === "DELETE_TIMESHEETS") {
         this.deleteTimesheets();
+        this.emitChange();
+    }
+    if (payload.actionType === "ADD_TIMESHEET"){
+        this.addTimesheet(payload.data);
         this.emitChange();
     }
     if (payload.actionType === "SYNC_TIMESHEET") {

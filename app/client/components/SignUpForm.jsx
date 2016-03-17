@@ -20,7 +20,7 @@ var SignUpForm = React.createClass({
         if (this.validateSubmission()){
 
             var AJAXreq = new XMLHttpRequest();
-            AJAXreq.open("post", "/signup", true);
+            AJAXreq.open("post", "/api/signup", true);
             AJAXreq.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
             AJAXreq.send(user);
             AJAXreq.onreadystatechange = function () {

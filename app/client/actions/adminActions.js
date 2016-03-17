@@ -6,7 +6,7 @@ var adminActions = Flux.createActions({
     invite: function(user) {
         self = this;
         var AJAXreq = new XMLHttpRequest();
-        AJAXreq.open("post", "/invite", true);
+        AJAXreq.open("post", "/api/invite", true);
         AJAXreq.setRequestHeader('ContentType',
             'application/json; charset=UTF8');
         AJAXreq.send(JSON.stringify(user));

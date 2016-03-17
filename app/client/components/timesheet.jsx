@@ -1,5 +1,6 @@
 var React = require("react");
-var router = require('react-router').Router;
+var router = require('react-router').hashHistory;
+console.log(router);
 // Flux
 var timesheetActions = require("../actions/timesheetActions");
 var timesheetStore = require("../stores/timesheetStore");
@@ -18,14 +19,17 @@ var Timesheet = React.createClass({
     displayName: "Timesheet",
     mixins: [timesheetStore.mixin],
     propTypes: [],
-    componentWillMount: function () {
+    componentWillMount: function() {
         if (!this.state){
-            router.push("/timesheets");
+            alert("Set time out");
+            setTimeout(function(){
+                router.push("/timesheets");
+            }, 300);
         }
     },
-    displayApprove: function(){
+    displayApprove: function() {
         currentUser = authActions.getUserInfo();
-        if(currentUser.role === "Supervisor" && currentUser.id !== this.state.userID){
+        if (currentUser.role === "Supervisor" && currentUser.id !== this.state.userID) {
             return true;
         } else {
             return false;
@@ -33,8 +37,13 @@ var Timesheet = React.createClass({
     },
     getInitialState: function() {
         pageState = timesheetActions.getTimesheet(this.props.params.id);
-        return pageState;
-        },
+        if (!pageState) {
+            timesheetActions.grabTimesheet(authActions.getUserInfo().id, this.props.params.id);
+            return null;
+        } else {
+            return pageState;
+        }
+    },
     storeDidChange: function() {
         this.setState(timesheetActions.getTimesheet(this.props.params.id));
     },
@@ -70,34 +79,32 @@ var Timesheet = React.createClass({
                 "type": "number"
             }
         ];
-        var entries = this.state.entries.map(function(entry, index) {
-            if(entry.delete === false){
-                return <TimesheetRow deletable={true} entry={entry} fields={entryFields} id={self.state.timesheetID} index={index} key={index}/>;
-            }
-        });
+        if (this.state) {
+            var entries = this.state.entries.map(function(entry, index) {
+                if (entry.delete === false) {
+                    return <TimesheetRow deletable={true} entry={entry} fields={entryFields} id={self.state.timesheetID} index={index} key={index}/>;
+                }
+            });
 
-        var headings = entryFields.map(function(field, index) {
-            return <label className="heading" key={index}>{field.name}</label>;
-        });
+            var headings = entryFields.map(function(field, index) {
+                return <label className="heading" key={index}>{field.name}</label>;
+            });
 
-        var metadata = <TimesheetMeta timesheet={this.state} fields={metaFields} />;
+            var metadata = <TimesheetMeta timesheet={this.state} fields={metaFields}/>;
 
-        var metaHeadings = metaFields.map(function(field, index) {
-            return <label className="metaHeading" key={index}>{field.name}</label>;
-        });
-        var editButtons = this.displayApprove() ? <Approve timesheetID={this.state.timesheetID}/> : <TimesheetEditButtons timesheetID={this.state.timesheetID}/>;
+            var metaHeadings = metaFields.map(function(field, index) {
+                return <label className="metaHeading" key={index}>{field.name}</label>;
+            });
+            var editButtons = this.displayApprove()? <Approve timesheetID={this.state.timesheetID}/>
+                : <TimesheetEditButtons timesheetID={this.state.timesheetID}/>;
+
+            data = <div><div className="meta">{metaHeadings}{metadata}</div><div className="fields"><div className="headings row">{headings}</div>{entries}{editButtons}</div></div>;
+        } else {
+            data = <div className="button">We were unable to find your timesheet,
+                <br> you will be redirected to timesheets shortly</div>;
+        }
         return (
-            <div className="timesheetPage">
-                <div className="meta">
-                    {metaHeadings}
-                    {metadata}
-                </div>
-                <div className="fields">
-                    <div className="headings row">{headings}</div>
-                    {entries}
-                    {editButtons}
-                </div>
-            </div>
+            <div className="timesheetPage">{data}</div>
         );
     }
 });

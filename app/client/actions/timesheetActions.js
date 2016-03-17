@@ -8,11 +8,12 @@ var timesheetActions = Flux.createActions({
         self = this;
         user = JSON.stringify({userID: userID});
         var AJAXreq = new XMLHttpRequest();
-        AJAXreq.open("POST", "/timesheets", true);
+        AJAXreq.open("POST", "/api/timesheets", true);
         AJAXreq.setRequestHeader('ContentType', 'application/json; charset=UTF8');
         AJAXreq.setRequestHeader('X-ACCESS-TOKEN', authActions.getJWT());
         AJAXreq.setRequestHeader('ContentType',
             'application/json; charset=UTF8');
+        console.log(user);
         AJAXreq.send(user);
         console.log("Sync called");
         AJAXreq.onreadystatechange = function() {
@@ -37,6 +38,20 @@ var timesheetActions = Flux.createActions({
     },
     getTimesheet: function(id) {
         return timesheetStore.getTimesheet(id);
+    },
+    grabTimesheet: function(userID, id){
+        request = {
+            userID: userID,
+            timesheetID: id
+        };
+        data = ajax("POST", "/api/findTimesheet", request);
+        if(data){
+            timesheet = formatTimesheet(data);
+            this.dispatch({
+                actionType: "ADD_TIMESHEET",
+                data: timesheet
+            });
+        }
     },
     deleteTimesheet: function(id) {
         this.dispatch({
@@ -90,7 +105,7 @@ var timesheetActions = Flux.createActions({
         save(id);
     },
     approveTimesheet: function(meta){
-        post("/api/approve", {timesheetID: meta.id});
+        ajax("POST", "/api/approve", {timesheetID: meta.id});
         this.dispatch({
             actionType: "UPDATE_META",
             data: meta
@@ -110,11 +125,11 @@ function save(id){
             console.log(verify[message]);
         }
     }
-    post("/timesheet", timesheet);
+    ajax("POST", "/api/timesheet", timesheet);
 }
-function post(location, data){
+function ajax(method, route, data){
     var AJAXreq = new XMLHttpRequest();
-    AJAXreq.open("POST", location, true);
+    AJAXreq.open(method, route, true);
     AJAXreq.setRequestHeader('ContentType', 'application/json; charset=UTF8');
     var currentJWT = localStorage.getItem('JWT');
     AJAXreq.setRequestHeader('X-ACCESS-TOKEN', currentJWT);

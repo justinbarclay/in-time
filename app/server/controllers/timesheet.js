@@ -291,7 +291,23 @@ function getTimesheetIDs(data) {
         });
     });
 }
-
+function getTimesheetMeta(data) {
+    let userID = data.setup.userID;
+    let timesheetID = data.setup.timesheetID;
+    console.log("Getting singular timesheetId");
+    console.log("userID: ", userID);
+    return new Promise(function(resolve, reject) {
+        let queryString = "SELECT timesheet_id, user_foreignkey, engagement, date_part('epoch', start_date)*1000 AS start_date, date_part('epoch', end_date)*1000 AS end_date, approved, delete FROM Timesheets_Meta WHERE delete = 'FALSE' AND user_foreignkey= $1 AND timesheet_ID=$2";
+        data.client.query(queryString, [userID, timesheetID], function(err, result) {
+            if (err) {
+                console.error(err);
+            } else {
+                data.meta = result.rows;
+                resolve(data);
+            }
+        });
+    });
+}
 function getAllEntries(data) {
     return new Promise(function(resolve, reject) {
         Promise.all(data.meta.map(function(meta) {
@@ -398,6 +414,16 @@ function getTimesheets(request, callback) {
     console.log("done getting timesheets");
 }
 
+function getTimesheet(request, callback) {
+    connect(request)
+        .then(getTimesheetMeta)
+        .then(getAllEntries)
+        .then(finish)
+        .catch(error)
+        .then(buildTimesheets)
+        .then(callback);
+        console.log("done getting singular timesheet");
+}
 function deleteTimesheets(request, callback) {
     connect(request)
         .then(deleteTimesheetEntries)
@@ -408,11 +434,11 @@ function deleteTimesheets(request, callback) {
 }
 function approveTimesheet(request, callback) {
     connect(request)
-    .then(verify)
-    .then(approve)
-    .then(finish)
-    .catch(error)
-    .then(callback);
+        .then(verify)
+        .then(approve)
+        .then(finish)
+        .catch(error)
+        .then(callback);
 }
 ////////////////////////////////////////////////////////////////////////////////
 //Helper Functions
@@ -488,5 +514,6 @@ function flatten(array) {
 }
 
 exports.getTimesheets = getTimesheets;
+exports.getTimesheet = getTimesheet;
 exports.createTimesheet = createTimesheet;
 exports.approveTimesheet = approveTimesheet;
