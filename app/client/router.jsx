@@ -32,7 +32,7 @@ var routes = (
       <Route path="signin" component={SignInForm} />
       <Route path="signup" component={SignUpForm} />
       <Route path="timesheets" component={Timesheets} onEnter={authStaff}/>
-      <Route name="timesheet" path="timesheet/:id" component={Timesheet} onEnter={authStaff}/>
+      <Route  path="timesheet/:id" component={Timesheet} onEnter={authStaff}/>
       <Route path="staff" component={StaffTracker} onEnter={authSup} />
       <Route path="admin" component={Admin} onEnter={authStaff}/>
       <Route path="*" component={NotFound}/>

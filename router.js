@@ -177,11 +177,13 @@ function route(req, res) {
                 res.end();
                 return;
             }
-
+            request = JSON.parse(data);
+            console.log("REQUEST "+ request);
             try {
                 request = JSON.parse(data);
+                console.log("REQUEST "+ request);
             } catch (err) {
-                console.error(err); //Debug
+                return console.error(err); //Debug
             }
             console.log(request.userID);
             if (request.userID !== parseInt(request.userID, 10)) {
@@ -259,23 +261,57 @@ function route(req, res) {
                 });
             }
         });
-    } else if (path === '/api/timesheet/get' && req.method === "GET"){
+    } else if (path === '/api/findTimesheet' && req.method === "POST"){
         req.on("data", function(chunk) {
             console.log("chunk", chunk);
             data += chunk;
         });
 
-        req.on("end", function(){
-            data = JSON.parse(data);
-            query = {userID: data.userID, timesheetID: data.timesheetID};
+        req.on("end", function() {
+            var verify = verifyJWT(req.headers["x-access-token"]);
 
-            results = timesheet.getTimesheet(query, function(result){
-                console.log("HEHA");
-                res.write(JSON.stringify(result));
+            if (!verify) {
+                res.setHeader('X-ACCESS-TOKEN', verify);
+                res.writeHead(401, {
+                    'Content-Type': 'application/json'
+                });
+                console.log("not verified");
+                res.write(JSON.stringify({
+                    "message": "invalid security token"
+                }));
                 res.end();
-                return console.log(result);
-            });
+                return;
+            }
+
+            try {
+                request = JSON.parse(data);
+            } catch (err) {
+                console.error(err); //Debug
+            }
+            console.log("USER ID "+request.userID);
+            if (request.userID !== parseInt(request.userID, 10)) {
+                res.writeHead(400, {
+                    'Content-Type': 'application/json'
+                });
+                res.write(JSON.stringify({
+                    "message": "Invalid user ID"
+                }));
+                return;
+            } else {
+
+                timesheet.getTimesheets(request, function(timesheets) {
+                    console.log("line 194");
+                    res.setHeader('X-ACCESS-TOKEN', verify);
+                    res.setHeader('Content-Length', Buffer.byteLength(JSON.stringify(timesheets)));
+                    // console.log("res", res);
+                    console.log("line 195", timesheets); //Debug
+                    res.write(JSON.stringify(timesheets));
+                    res.end();
+                    // }
+                });
+            }
         });
+
     } else if (path === '/api/approve' && req.method === "POST") {
         req.on("data", function(chunk) {
             console.log("chunk", chunk);
