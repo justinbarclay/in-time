@@ -1,6 +1,5 @@
 var registerStore = require('../stores/registerStore');
 
-
 var Flux = require("../biff");
 
 // Set of allowed actions

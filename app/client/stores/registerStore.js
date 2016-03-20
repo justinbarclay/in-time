@@ -21,9 +21,6 @@ var registerStore = Flux.createStore({
         this.updateEntry(payload.entry);
         this.emitChange();
     }
-    if (payload.actionType === "OTHER") {
-        this.emitChange();
-    }
 });
 
 module.exports = registerStore;
