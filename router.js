@@ -1,12 +1,12 @@
-var     querystring = require('querystring');
-var     user = require('./app/server/controllers/user');
-var     timesheet = require('./app/server/controllers/timesheet');
-var     invite = require('./app/server/controllers/invite');
-var     fs = require('fs');
-var     url = require('url');
-var     jwt = require("jsonwebtoken");
-var     uuid = require("uuid").v4;
-var     config = require("./config.js");
+var querystring = require('querystring');
+var user = require('./app/server/controllers/user');
+var timesheet = require('./app/server/controllers/timesheet');
+var invite = require('./app/server/controllers/invite');
+var fs = require('fs');
+var url = require('url');
+var jwt = require("jsonwebtoken");
+var uuid = require("uuid").v4;
+var config = require("./config.js");
 
 const secret = config.secret;
 //shorthand function for verifying JWT
@@ -139,10 +139,12 @@ function route(req, res) {
             headerJWT = req.headers["x-access-token"];
             console.log("headerJWT: " + headerJWT);
             var verify = verifyJWT(headerJWT);
-            if(verify){
+            if (verify) {
                 userID = getUserID(JWT);
             }
-            var message = {verify: verify ? "Token verified" : "illegal token"};
+            var message = {
+                verify: verify ? "Token verified" : "illegal token"
+            };
             res.setHeader('X-ACCESS-TOKEN', verify);
             message.userID = userID;
             res.writeHead(200, {
@@ -178,10 +180,10 @@ function route(req, res) {
                 return;
             }
             request = JSON.parse(data);
-            console.log("REQUEST "+ request);
+            console.log("REQUEST " + request);
             try {
                 request = JSON.parse(data);
-                console.log("REQUEST "+ request);
+                console.log("REQUEST " + request);
             } catch (err) {
                 return console.error(err); //Debug
             }
@@ -261,7 +263,7 @@ function route(req, res) {
                 });
             }
         });
-    } else if (path === '/api/findTimesheet' && req.method === "POST"){
+    } else if (path === '/api/findTimesheet' && req.method === "POST") {
         req.on("data", function(chunk) {
             console.log("chunk", chunk);
             data += chunk;
@@ -288,7 +290,7 @@ function route(req, res) {
             } catch (err) {
                 console.error(err); //Debug
             }
-            console.log("USER ID "+request.userID);
+            console.log("USER ID " + request.userID);
             if (request.userID !== parseInt(request.userID, 10)) {
                 res.writeHead(400, {
                     'Content-Type': 'application/json'
@@ -359,34 +361,52 @@ function route(req, res) {
                             'Content-Type': 'application/json'
                         });
                     }
-                        console.log("line 235", message); //Debug
-                        res.write(JSON.stringify(message));
-                        res.end();
+                    console.log("line 235", message); //Debug
+                    res.write(JSON.stringify(message));
+                    res.end();
                 });
             }
         });
-    }else if (path === '/api/invite' && req.method === "POST") {
-            req.on("data", function(chunk) {
-                console.log("chunk", chunk);
-                data += chunk;
-            });
+    } else if (path === '/api/invite' && req.method === "POST") {
+        req.on("data", function(chunk) {
+            console.log("chunk", chunk);
+            data += chunk;
+        });
 
-            req.on("end", function() {
-                email = JSON.parse(data);
-                code = uuid();
-                success = invite(email, code, function(err, success){
-                    succMessage = "An invite was successfully sent to" + email;
-                    failMessage = email + " could not be invited at this time, please ensure you have the right e-mail or try again later";
-                    message = success ? succMessage: failMessage;
-                    message = JSON.stringify(message);
-                    res.writeHead(200, {
-                        'Content-Type': 'application/json',
-                        'Content-Length': Buffer.byteLength(message)
-                    });
-                    res.write(message);
-                    res.end();
+        req.on("end", function() {
+            email = JSON.parse(data);
+            code = uuid();
+            success = invite(email, code, function(err, success) {
+                succMessage = "An invite was successfully sent to" + email;
+                failMessage = email + " could not be invited at this time, please ensure you have the right e-mail or try again later";
+                message = success ? succMessage : failMessage;
+                message = JSON.stringify(message);
+                res.writeHead(200, {
+                    'Content-Type': 'application/json',
+                    'Content-Length': Buffer.byteLength(message)
                 });
+                res.write(message);
+                res.end();
             });
+        });
+    } else if (path === '/api/register' && req.method === "POST") {
+        req.on("data", function(chunk) {
+            console.log("chunk", chunk);
+            data += chunk;
+        });
+
+        req.on("end", function() {
+            console.log(data);
+            register = JSON.parse(data);
+
+            message = "success";
+            res.writeHead(200, {
+                'Content-Type': 'application/json',
+                'Content-Length': Buffer.byteLength(message)
+            });
+            res.write(message);
+            res.end();
+        });
     } else if (path.slice(0, 7) === "/public") {
         //server static content out. Including JS and CSS files
         //Unsure of how this will handle image files
@@ -406,17 +426,17 @@ function route(req, res) {
             }
         });
     } else {
-            console.log("Path: " + path);
-            fs.readFile('app/public/index.html', function(err, data) {
-                res.writeHead(200, {
-                    'Content-Type': 'text/html',
-                    'Content-Length': Buffer.byteLength(data)
-                });
-                res.write(data);
-                res.end();
+        console.log("Path: " + path);
+        fs.readFile('app/public/index.html', function(err, data) {
+            res.writeHead(200, {
+                'Content-Type': 'text/html',
+                'Content-Length': Buffer.byteLength(data)
             });
-            console.log('Successful test');
-            console.log(req.method);
+            res.write(data);
+            res.end();
+        });
+        console.log('Successful test');
+        console.log(req.method);
     }
 
 }

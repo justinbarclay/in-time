@@ -23,10 +23,11 @@ var SignUpOrg = React.createClass({
         if (this.validateSubmission()){
             org = registerActions.getInfo();
             register={org:org, user:user};
+
             var AJAXreq = new XMLHttpRequest();
             AJAXreq.open("post", "/api/register", true);
             AJAXreq.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-            AJAXreq.send(register);
+            AJAXreq.send(JSON.stringify(register));
             AJAXreq.onreadystatechange = function () {
                 if (AJAXreq.readyState === 4)   {
                     self.setState({signUpMessage: AJAXreq.responseText, alertHidden: false});
