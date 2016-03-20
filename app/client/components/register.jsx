@@ -1,6 +1,7 @@
 //React
 var React = require("react");
 var Message = require("./message");
+var router = require('react-router').hashHistory;
 
 registerStore = require("../stores/registerStore");
 registerActions = require("../actions/registerActions");
@@ -14,6 +15,9 @@ var Register = React.createClass({
         register = registerActions.getInfo();
         return {register: register};
     },
+    next: function(){
+        router.push("signup");
+    },
     render: function () {
         return (
             <div className="register">
@@ -25,6 +29,7 @@ var Register = React.createClass({
 
                 <label className="phone">Phone Number</label>
                 <RegisterInput name="phone" type="text" accessor="phone" className="phone" value={this.state.register.phone}/>
+                <div className="next button" onClick={this.next}>Next</div>
             </div>
         );
     }
