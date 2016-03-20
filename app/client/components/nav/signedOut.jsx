@@ -9,8 +9,8 @@ var NavSignedOut = React.createClass({
     render: function() {
         return (
             <div className="navigation">
-                <Link to="/signup" className="nav" >
-                    <label>Sign Up</label>
+                <Link to="/register" className="nav" >
+                    <label>Register</label>
                 </Link>
                 <Link to="/signin" className="nav">
                     <label>Sign In</label>
