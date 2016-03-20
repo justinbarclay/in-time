@@ -16,7 +16,7 @@ var Register = React.createClass({
         return {register: register};
     },
     next: function(){
-        router.push("signup");
+        router.push("register/admin");
     },
     storeDidChange: function(){
         this.setState({register: registerActions.getInfo()});
@@ -33,6 +33,7 @@ var Register = React.createClass({
                 <label className="phone">Phone Number</label>
                 <RegisterInput name="phone" type="text" accessor="phone" className="phone" value={this.state.register.phone}/>
                 <div className="next button" onClick={this.next}>Next</div>
+                {this.props.children}
             </div>
         );
     }

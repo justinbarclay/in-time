@@ -6,6 +6,7 @@ var render = require("react-dom").render;
 var App = require("./components/app");
 var SignInForm = require("./components/SignInForm");
 var SignUpForm = require("./components/SignUpForm");
+var SignUpOrg = require("./components/signUpOrg");
 var Timesheet = require("./components/timesheet");
 var Timesheets = require("./components/timesheets");
 var StaffTracker = require("./components/staffTracker");
@@ -36,7 +37,8 @@ var routes = (
       <Route path="timesheet/:id" component={Timesheet} onEnter={authStaff}/>
       <Route path="staff" component={StaffTracker} onEnter={authSup} />
       <Route path="admin" component={Admin} onEnter={authStaff}/>
-      <Route path="register" component={Register} />
+      <Route path="register" component={Register}/>
+      <Route path="register/admin" component={SignUpOrg}/>
       <Route path="*" component={NotFound}/>
     </Route>
 );
