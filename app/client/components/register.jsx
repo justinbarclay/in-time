@@ -18,6 +18,9 @@ var Register = React.createClass({
     next: function(){
         router.push("signup");
     },
+    storeDidChange: function(){
+        this.setState({register: registerActions.getInfo()});
+    },
     render: function () {
         return (
             <div className="register">

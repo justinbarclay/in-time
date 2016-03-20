@@ -12,11 +12,16 @@ var registerStore = Flux.createStore({
         return _register;
     },
     updateEntry(entry){
+        console.log(entry);
         _register[entry.accessor] = entry.value;
     }
 }, function(payload){
-    if(payload.actionType === "UPDATE_ENTRY"){
+    if(payload.actionType === "UPDATE_ORG"){
+        console.log(payload.entry);
         this.updateEntry(payload.entry);
+        this.emitChange();
+    }
+    if (payload.actionType === "OTHER") {
         this.emitChange();
     }
 });

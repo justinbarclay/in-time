@@ -1,5 +1,5 @@
 var React = require("react");
-var timesheetActions = require('../actions/registerActions');
+var registerActions = require('../actions/registerActions');
 //Child Components
 var TextEntry = require("./textentry");
 
@@ -13,6 +13,7 @@ var registerInput = React.createClass({
         };
     },
     handleChange: function(entry) {
+        console.log(entry);
         registerActions.updateEntry(entry);
     },
     render: function() {

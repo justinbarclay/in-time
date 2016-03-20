@@ -12,7 +12,7 @@ var app = React.createClass({
     propTypes:[],
 
     render: function(){
-        console.log(this.conext);
+        console.log(this.context);
         return (
             <div className="app">
                 <Header />
