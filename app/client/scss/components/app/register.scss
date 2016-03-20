@@ -1,0 +1,37 @@
+.register{
+   @include grid-column(
+        $columns: 11,
+        $center: true
+   );
+    //@include vertical-align;
+   position: relative;
+   // top: 100px;
+   max-width: 360px;
+   input {
+       height: 37px;
+
+       padding: 0 5px;
+   }
+}
+
+.message {
+    top: -10px;
+    $alert-font-color: #B33A3A;
+    @include alert($bg: #E4252D);
+    text-align: center;
+    display: none;
+}
+
+
+@media screen and (min-width: 480px) {
+    .register {
+        @include grid-column(
+            $columns: 5,
+            $center: true
+        );
+        input {
+            min-width: 250px;
+        }
+
+    }
+}

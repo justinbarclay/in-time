@@ -1,5 +1,4 @@
 var Flux = require('../biff');
-
 // initialize the store
 // this is a simpe object, because I only want to store one authenticated user at a time
 _register={
@@ -21,3 +20,5 @@ var registerStore = Flux.createStore({
         this.emitChange();
     }
 });
+
+module.exports = registerStore;

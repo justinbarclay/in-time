@@ -2,21 +2,21 @@
 var React = require("react");
 var Message = require("./message");
 
-registerStore = require("./store/registerStore");
-registerActions = require("./actions/registerActions");
+registerStore = require("../stores/registerStore");
+registerActions = require("../actions/registerActions");
 //Component
 var RegisterInput = require("./registerInput");
 var Register = React.createClass({
     displayName: "Register",
     propTypes: [],
-    mixins: [],
+    mixins: [registerStore.mixin],
     getInitialState: function(){
         register = registerActions.getInfo();
         return {register: register};
     },
     render: function () {
         return (
-            <div className="Register">
+            <div className="register">
                 <label className="registerLabel">Organization Name</label>
                 <RegisterInput name="orgname" type="text" accessor="orgname" className="organization" value={this.state.register.orgname}/>
 
@@ -29,3 +29,5 @@ var Register = React.createClass({
         );
     }
 });
+
+module.exports = Register;

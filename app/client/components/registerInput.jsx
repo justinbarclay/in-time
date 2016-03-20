@@ -26,3 +26,5 @@ var registerInput = React.createClass({
         );
     }
 });
+
+module.exports = registerInput;
