@@ -1,6 +1,6 @@
 var React = require("react");
 var router = require('react-router').hashHistory;
-console.log(router);
+
 // Flux
 var timesheetActions = require("../actions/timesheetActions");
 var timesheetStore = require("../stores/timesheetStore");
@@ -21,7 +21,6 @@ var Timesheet = React.createClass({
     propTypes: [],
     componentWillMount: function() {
         if (!this.state){
-            alert("Set time out");
             setTimeout(function(){
                 router.push("/timesheets");
             }, 300);

@@ -23,7 +23,6 @@ var TextEntry = React.createClass({
             <input
             className={this.props.className}
             type={this.props.type}
-            ref="inputValue"
             value={value}
             onChange={this.handleInputChange} />
         );

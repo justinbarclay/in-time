@@ -5,7 +5,7 @@
 var Flux = require('../biff');
 
 // initialize the store
-// this is a simpe object, because I only want to store one authenticated user at a time
+// this is a simple object, because I only want to store one authenticated user at a time
 var _user = {role:"Supervisor"};
 
 var authStore = Flux.createStore({
