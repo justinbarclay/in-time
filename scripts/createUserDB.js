@@ -11,7 +11,7 @@ function createUserDB() {
 
     try {
         client.query(
-            "CREATE TABLE IF NOT EXISTS UserLogin ( user_id serial PRIMARY KEY, username varchar(32) UNIQUE,  password varchar(64), email varchar(32) UNIQUE, role varchar(32), invited varchar(36), invited_on timestamptz,last_accessed timestamptz )"
+            "CREATE TABLE IF NOT EXISTS UserLogin ( user_id serial PRIMARY KEY, email varchar(32) UNIQUE, password varchar(64), role varchar(32), invited varchar(36), invited_on timestamptz,last_accessed timestamptz )"
         );
     } catch (error) {
         console.log(error);
@@ -24,7 +24,6 @@ function createUserDB() {
 /* Data Structure
 {
 "user_id": "handled by DB as an incrementing number"
-"username": "String of length 32 or less"
 "password": "a hash of length 64"
 "email": "string of length 32 or less"
 }

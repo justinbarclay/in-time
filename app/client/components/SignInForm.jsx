@@ -1,8 +1,8 @@
 //React
 var React = require("react");
 var ReactRouter = require("react-router");
-var hashHistory = ReactRouter.hashHistory;
 var Link = ReactRouter.link;
+var hashHistory = ReactRouter.hashHistory;
 var authActions = require('../actions/authActions');
 var authStore = require('../stores/authStore');
 
@@ -19,7 +19,7 @@ var SignInForm = React.createClass({
         };
     },
     storeDidChange: function(){
-        if(authActions.authenticated()){
+        if(authActions.isLoggedIn()){
             hasHistory.push("/timesheets");
         } else {
             this.setState({
@@ -32,7 +32,7 @@ var SignInForm = React.createClass({
         form.preventDefault();
 
         var user = {
-            "username": React.findDOMNode(this.refs.username).value.trim(),
+            "email": React.findDOMNode(this.refs.email).value.trim(),
             "password": React.findDOMNode(this.refs.password).value.trim()
         };
         authActions.signIn(user);
@@ -43,8 +43,8 @@ var SignInForm = React.createClass({
                 <Message hidden={this.state.hidden} message={this.state.signInMessage}/>
                 <form method="post" name="user" onSubmit={this.login}>
                     <div>
-                        <label htmlFor="username">Username</label>
-                        <input id="username" name="username" ref="username" type="text"/>
+                        <label htmlFor="email">Email</label>
+                        <input id="email" name="email" ref="email" type="text"/>
                     </div>
                     <div>
                         <label htmlFor="signInPassword">Password</label>

@@ -38,7 +38,7 @@ function hashPassword(userPassword, callback) {
     });
 }
 
-function signUp(userName, userPassword, userEmail, callback) {
+function signUp(userPassword, userEmail, callback) {
     //this function creates a username and hashes
     //a password then stored it in the database
     console.log(conString);
@@ -48,8 +48,8 @@ function signUp(userName, userPassword, userEmail, callback) {
                 'error fetching client from pool in user controller',
                 err);
         }
-        let queryString = "SELECT * FROM userlogin WHERE username=" + "'" +
-            userName + "'";
+        let queryString = "SELECT * FROM userlogin WHERE email=" + "'" +
+            userEmail + "'";
         client.query(queryString, function(err, result) {
             //call `done()` to release the client back to the pool
 
@@ -58,7 +58,7 @@ function signUp(userName, userPassword, userEmail, callback) {
                 return console.error(
                     'error running select query', err);
             } else if (typeof result.rows[0] === 'undefined' &&
-                validateUser(userName, userPassword, userEmail)
+                validateUser(userPassword, userEmail)
             ) {
                 console.log(userPassword);
                 hashPassword(userPassword, function(err, hash) {
@@ -70,8 +70,8 @@ function signUp(userName, userPassword, userEmail, callback) {
                             err);
                     } else {
                         client.query(
-                            "INSERT INTO UserLogin(username, password, email) values($1, $2, $3)", [
-                                userName, hash,
+                            "INSERT INTO UserLogin(password, email) values($1, $2)", [
+                                hash,
                                 userEmail
                             ],
                             function(err, result) {
@@ -99,11 +99,11 @@ function signUp(userName, userPassword, userEmail, callback) {
                 });
 
             } else {
-                console.log("Username all ready taken");
+                console.log("Email is all ready taken");
                 console.log(err);
                 done();
                 callback(err, false,
-                    "Username or e-mail is unavailable");
+                    "Email is unavailable");
             }
         });
     });
@@ -111,7 +111,7 @@ function signUp(userName, userPassword, userEmail, callback) {
 
 }
 
-function deleteUser(userName) {
+function deleteUser(userEmail) {
     //deletes user from database
     pg.connect(conString, function(err, client, done) {
         if (err) {
@@ -119,8 +119,8 @@ function deleteUser(userName) {
 
             return console.error('error fetching client from pool', err);
         }
-        client.query("DELETE FROM UserLogin WHERE username =" + "'" +
-            userName + "'",
+        client.query("DELETE FROM UserLogin WHERE email=" + "'" +
+            userEmail + "'",
             function(err, res) {
                 if (err) {
                     console.error('error with a DELETE query', err);
@@ -139,15 +139,15 @@ function deleteUser(userName) {
 function inviteUser(userEmail, userCode, callback){
     var data = [userEmail, userCode, new Date()];
     pg.connect(conString, function(err, client, done) {
-        client.query("INSERT INTO UserLogin(email, invited, invited_on) values($1, $2, $3) ", data,
+        client.query("INSERT INTO UserLogin(email, invite_code, invited_on) values($1, $2, $3) ", data,
             function(err, res) {
                 callback(err, res);
             });
         });
 }
 
-function authenticate(userName, userPassword, callback) {
-    //this function checks to see if the userName and userPassword match
+function authenticate(userEmail, userPassword, callback) {
+    //this function checks to see if the userEmail and userPassword match
     //anything stored in the user database
     // On a succesful authentication it should generate a JWT, and send it back in JSON with
     var auth = {err: null, success: null, message: '', JWT: ''};
@@ -155,8 +155,8 @@ function authenticate(userName, userPassword, callback) {
         if (err) {
             return console.error('error fetching client from pool', err);
         }
-        client.query("SELECT * FROM UserLogin WHERE username =" + "'" +
-            userName + "'",
+        client.query("SELECT * FROM UserLogin WHERE email=" + "'" +
+            userEmail + "'",
             function(err, res) {
                 auth.err = err;
                 auth.success = false;
@@ -166,7 +166,7 @@ function authenticate(userName, userPassword, callback) {
                     callback(err, auth);
                 } else if (typeof(res.rows[0]) === 'undefined') {
                     done();
-                    auth.message = "Username or password do not match";
+                    auth.message = "Email or password do not match";
                     console.log(res);
                     callback(err, auth);
                 } else {
@@ -188,10 +188,9 @@ function authenticate(userName, userPassword, callback) {
                             } else {
                                 done();
                                 if (success === false) {
-                                    auth.message = "Username or password do not match";
+                                    auth.message = "Email or password do not match";
                                     callback(err, auth);
                                 } else {
-                                    auth.username = res.rows[0].username;
                                     auth.email = res.rows[0].email;
                                     auth.id = res.rows[0].user_id;
                                     payload.userid = res.rows[0].user_id;
@@ -209,9 +208,8 @@ function authenticate(userName, userPassword, callback) {
     });
 }
 
-var validateUser = function(userName, userPassword, userEmail) {
-    if (validator.isLength(userName, 6, 32) && validator.isEmail(userEmail) &&
-        !validator.isNull(userPassword)) {
+var validateUser = function(userPassword, userEmail) {
+    if (validator.isEmail(userEmail) && !validator.isNull(userPassword)) {
         return true;
     } else
         return false;

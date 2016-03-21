@@ -1,5 +1,6 @@
 //React
 var React = require("react");
+var ReactDOM = require("react-dom");
 var Message = require("./message");
 
 var registerActions = require('../actions/registerActions');
@@ -16,7 +17,6 @@ var SignUpOrg = React.createClass({
         self = this;
         form.preventDefault();
         user = JSON.stringify({
-            "username": React.findDOMNode(this.refs.username).value.trim(),
             "email": React.findDOMNode(this.refs.email).value.trim(),
             "password": React.findDOMNode(this.refs.password).value.trim()
         });
@@ -43,18 +43,13 @@ var SignUpOrg = React.createClass({
         return emailRegEx.test(email);
     },
     validateSubmission: function() {
-        var username = React.findDOMNode(this.refs.username).value.trim();
-        var email = React.findDOMNode(this.refs.email).value.trim();
-        var password = React.findDOMNode(this.refs.password).value.trim();
-        var confirm = React.findDOMNode(this.refs.confirmPassword).value.trim();
+        var email = ReactDOM.findDOMNode(this.refs.email).value.trim();
+        var password = ReactDOM.findDOMNode(this.refs.password).value.trim();
+        var confirm = ReactDOM.findDOMNode(this.refs.confirmPassword).value.trim();
 
         //This is a messy if statement
         // console.log(typeof username);
-        if (typeof username !== "string") {
-            // console.log(typeof username);
-            this.setState({signUpMessage: "Username must be a string", alertHidden: false});
-            return false;
-        } else if (!this.validateEmail(email)){
+        if (!this.validateEmail(email)){
             this.setState({signUpMessage: "E-mail address is not valid", alertHidden: false});
             return false;
         } else if(password.length < 5){
@@ -75,10 +70,6 @@ var SignUpOrg = React.createClass({
             <div className="signupForm">
                 <Message message={this.state.signUpMessage} hidden={this.state.alertHidden} />
                 <form name="user" action="" onSubmit={this.signup} method="post">
-                    <div>
-                        <label htmlFor="username">Username</label>
-                        <input type="text" ref="username" name="username" id="username" />
-                    </div>
                     <div>
                       <label htmlFor="email">E-mail</label>
                       <input type="text" ref="email" name="email" id="email"/>

@@ -64,7 +64,7 @@ function route(req, res) {
             currentUser = JSON.parse(data);
             //hard coded email for testing
             console.log(currentUser);
-            user.signUp(currentUser.username, currentUser.password,
+            user.signUp(currentUser.password,
                 currentUser.email,
                 function(err, bool, message) {
                     if (err) {
@@ -78,7 +78,7 @@ function route(req, res) {
                         res.end();
                     } else {
                         console.log("Succesful signUp of " +
-                            currentUser.username + " = " + bool
+                            currentUser.email + " = " + bool
                         );
                         res.writeHead(200, {
                             'Content-Type': 'application/json'
@@ -98,9 +98,9 @@ function route(req, res) {
 
         req.on("end", function() {
             currentUser = JSON.parse(data);
-            console.log(currentUser.username);
+            console.log(currentUser.email);
             //hard coded email for testing
-            user.authenticate(currentUser.username, currentUser.password,
+            user.authenticate(currentUser.email, currentUser.password,
                 function(err, auth, signedJWT) {
                     if (err) {
                         res.write(auth.message);
@@ -108,7 +108,7 @@ function route(req, res) {
                         res.end();
                     } else {
                         console.log("Succesful signUp of " +
-                            currentUser.username + " = " + auth
+                            currentUser.email + " = " + auth
                             .success);
                         console.log("Message:" + JSON.stringify(
                                 auth.message) + "\n" +
