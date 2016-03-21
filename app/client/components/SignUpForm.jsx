@@ -1,6 +1,10 @@
 //React
 var React = require("react");
 var Message = require("./message");
+var route = require("react-router").hashHistory;
+
+var uuid = require("uuid");
+
 //Component
 var SignUpForm = React.createClass({
     displayName: "Sign Up Form",
@@ -8,6 +12,13 @@ var SignUpForm = React.createClass({
     mixins: [],
     getInitialState: function(){
         return { signUpMessage: '', alertHidden: true, disableSubmit: true };
+    },
+    componentWillMount: function(){
+        //Regex to verify a UUID code
+        verify = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+        if(!verify.test(this.props.params.code)){
+            route.push("/");
+        }
     },
     signup: function(form){
         self = this;
@@ -66,6 +77,7 @@ var SignUpForm = React.createClass({
         }
     },
     render: function () {
+        console.log(this.props);
         return (
             <div className="signupForm">
                 <Message message={this.state.signUpMessage} hidden={this.state.alertHidden} />
