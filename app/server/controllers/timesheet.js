@@ -5,7 +5,6 @@ let pg = require('pg');
 let conString = config.postgres;
 let uuid = require('uuid')
     .v4;
-let fs = require('fs');
 
 
 //Lowers timeout time, to close client connection sooner, this may cause problems

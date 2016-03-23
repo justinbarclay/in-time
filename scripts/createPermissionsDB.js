@@ -6,7 +6,7 @@ var conString = config.postgres;
 function createPermissionsTable() {
     var client = new pg.Client(conString);
     client.connect();
-    client.query("DROP TABLE IF EXISTS PermissionsTable");
+    client.query("DROP TABLE IF EXISTS Permissions");
     // Creat table and insert 2 records into it
 
     try {
