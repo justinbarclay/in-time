@@ -16,18 +16,20 @@ var SignUpOrg = React.createClass({
     signup: function(form){
         self = this;
         form.preventDefault();
-        user = JSON.stringify({
-            "email": React.findDOMNode(this.refs.email).value.trim(),
-            "password": React.findDOMNode(this.refs.password).value.trim()
-        });
+        user = {
+            email: React.findDOMNode(this.refs.email).value.trim(),
+            password: React.findDOMNode(this.refs.password).value.trim()
+        };
         if (this.validateSubmission()){
             org = registerActions.getInfo();
             register={org:org, user:user};
-
+            register = JSON.stringify(register);
+            console.log(register);
+            console.log("Called this once");
             var AJAXreq = new XMLHttpRequest();
             AJAXreq.open("post", "/api/register", true);
             AJAXreq.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-            AJAXreq.send(JSON.stringify(register));
+            AJAXreq.send(register);
             AJAXreq.onreadystatechange = function () {
                 if (AJAXreq.readyState === 4)   {
                     self.setState({signUpMessage: AJAXreq.responseText, alertHidden: false});
@@ -54,9 +56,6 @@ var SignUpOrg = React.createClass({
             return false;
         } else if(password.length < 5){
             this.setState({signUpMessage: "Password must be at least 5 characters long", alertHidden: false});
-            return false;
-        } else if(username.length < 6){
-            this.setState({signUpMessage: "Username must be at least 6 characters long", alertHidden: false});
             return false;
         } else if (password !== confirm) {
             this.setState({signUpMessage: "Passwords do not match", alertHidden: false});

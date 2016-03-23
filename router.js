@@ -2,6 +2,7 @@ var querystring = require('querystring');
 var user = require('./app/server/controllers/user');
 var timesheet = require('./app/server/controllers/timesheet');
 var invite = require('./app/server/controllers/invite');
+var owner = require('./app/server/controllers/owner');
 var fs = require('fs');
 var url = require('url');
 var jwt = require("jsonwebtoken");
@@ -396,16 +397,23 @@ function route(req, res) {
         });
 
         req.on("end", function() {
-            console.log(data);
             register = JSON.parse(data);
-
-            message = "success";
-            res.writeHead(200, {
-                'Content-Type': 'application/json',
-                'Content-Length': Buffer.byteLength(message)
+            var message;
+            owner.addOrganization(register, function(err, result){
+                if(err){
+                    message = "Failure";
+                } else {
+                    message = "Success";
+                }
+                console.log("REGISTER END");
+                res.writeHead(200, {
+                    'Content-Type': 'application/json',
+                    'Content-Length': Buffer.byteLength(message)
+                });
+                res.write(message);
+                res.end();
             });
-            res.write(message);
-            res.end();
+
         });
     } else if (path.slice(0, 7) === "/public") {
         //server static content out. Including JS and CSS files

@@ -42,6 +42,8 @@ function signUp(userPassword, userEmail, callback) {
     //this function creates a username and hashes
     //a password then stored it in the database
     console.log(conString);
+    console.log(userPassword);
+    console.log(userEmail);
     pg.connect(conString, function(err, client, done) {
         if (err) {
             return console.error(
@@ -211,8 +213,9 @@ function authenticate(userEmail, userPassword, callback) {
 var validateUser = function(userPassword, userEmail) {
     if (validator.isEmail(userEmail) && !validator.isNull(userPassword)) {
         return true;
-    } else
+    } else {
         return false;
+    }
 };
 exports.authenticate = authenticate;
 exports.signUp = signUp;
