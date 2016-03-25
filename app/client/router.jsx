@@ -13,7 +13,7 @@ var StaffTracker = require("./components/staffTracker");
 var Home = require("./components/home");
 var NotFound = require("./components/notfound");
 var About = require("./components/about");
-var Admin = require("./components/admin");
+var Owner = require("./components/owner");
 var Register = require("./components/register");
 
 // Set up Router object
@@ -36,7 +36,7 @@ var routes = (
       <Route path="timesheets" component={Timesheets} onEnter={authStaff}/>
       <Route path="timesheet/:id" component={Timesheet} onEnter={authStaff}/>
       <Route path="staff" component={StaffTracker} onEnter={authSup} />
-      <Route path="admin" component={Admin} onEnter={authStaff}/>
+      <Route path="Owner" component={Owner} onEnter={authStaff}/>
       <Route path="register" component={Register}/>
       <Route path="register/admin" component={SignUpOrg}/>
       <Route path="*" component={NotFound}/>

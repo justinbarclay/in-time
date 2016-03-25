@@ -1,9 +1,10 @@
 var React = require("react");
 var adminActions = require("../actions/adminActions");
 var ReactDOM =require('react-dom');
+var MessageNew = require('./messageNew');
 
-var admin = React.createClass({
-    displayName: "admin",
+var Owner = React.createClass({
+    displayName: "owner",
     propTypes: [],
     mixins: [],
     getInitialState: function(){
@@ -19,6 +20,7 @@ var admin = React.createClass({
     render: function(){
         return (
             <div className="inviteUserForm">
+                <MessageNew accessor="owner"/>
                 <p> Please enter the email of the user you would like to invite</p>
                 <form method="post" name="user" onSubmit={this.invite}>
                     <div>
@@ -35,4 +37,4 @@ var admin = React.createClass({
 
 });
 
-module.exports = admin;
+module.exports = Owner;
