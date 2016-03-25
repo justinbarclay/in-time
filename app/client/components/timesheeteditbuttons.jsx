@@ -1,4 +1,4 @@
-var uuid = require('uuid');
+var uuid = require("node-uuid");
 var React = require('react');
 
 var timesheetActions = require("../actions/timesheetActions");

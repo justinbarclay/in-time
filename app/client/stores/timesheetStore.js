@@ -2,7 +2,7 @@
 // For ease of programming this should start using lowDash
 
 var Flux = require('../biff');
-var uuid = require('uuid');
+var uuid = require("node-uuid");
 // initialize the store this will have an _timesheetsay of timesheets, it will probably have one timesheet to start
 // then as I build out the process it should support having multiple timesheets and be able to edit individual entries in
 // each one.

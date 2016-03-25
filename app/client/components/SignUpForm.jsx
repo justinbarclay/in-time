@@ -4,7 +4,7 @@ var ReactDOM = require("react-dom");
 var Message = require("./message");
 var route = require("react-router").hashHistory;
 
-var uuid = require("uuid");
+var uuid = require("node-uuid");
 
 //Component
 var SignUpForm = React.createClass({

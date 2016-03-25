@@ -1,4 +1,4 @@
-var uuid = require("uuid");
+var uuid = require("node-uuid");
 var service = [
     "Pick up", "Administrative", "Timesheets", "Critical Incidence",
     "Phone Call", "Case Consult"

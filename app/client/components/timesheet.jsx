@@ -13,7 +13,7 @@ var TimesheetEditButtons = require("./timesheeteditbuttons");
 var Approve = require("./approve");
 
 // other
-var uuid = require('uuid');
+var uuid = require("node-uuid");
 
 var Timesheet = React.createClass({
     displayName: "Timesheet",
