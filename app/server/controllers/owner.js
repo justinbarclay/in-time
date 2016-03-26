@@ -21,7 +21,6 @@ let connect = function(data) {
             if (err) {
                 throw err;
             } else {
-                console.log(data);
                 resolve({
                     setup: data,
                     done: done,
@@ -91,16 +90,19 @@ function begin(data) {
 }
 function addOrganization(data){
     console.log("Call");
-    let queryString =
-        "INSERT INTO Organization (orgname, domain) VALUES($1, $2)";
     let org = data.setup.org;
     return new Promise(function(resolve, reject){
-        let values = [org.organization, org.domain];
+        var values = [org.orgname, org.domain, 3];
+        let queryString =
+            "INSERT INTO Organization(orgname, domains, owner_foreignkey) VALUES($1, $2, $3)";
+        console.log(values);
         data.client.query(queryString, values, function(err, result){
             if(err){
+                console.log(err);
                 throw err;
             } else{
-                console.log(result.rows);
+                console.log("ADDING INTO ORGANIZATION");
+                console.log(result);
                 resolve({
                     setup: data.setup,
                     client: data.client,
@@ -149,12 +151,12 @@ function updateOwner(data){
 }
 function addOrganizationPromise(data, callback) {
     connect(data)
-        .then(begin)
+        //.then(begin)
         .then(addOrganization)
         .then(createUser)
         .then(updateOwner)
         .then(finish)
-        .catch(rollback)
+        //.catch(rollback)
         .then(callback);
 }
 
