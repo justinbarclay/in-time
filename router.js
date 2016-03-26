@@ -400,8 +400,8 @@ function route(req, res) {
         req.on("end", function() {
             register = JSON.parse(data);
             var message;
-            owner.addOrganization(register, function(err, result){
-                if(err){
+            owner.addOrganization(register, function(result){
+                if(result.err){
                     message = "Failure";
                 } else {
                     message = "Success";

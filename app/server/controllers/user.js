@@ -101,7 +101,7 @@ function signUp(userPassword, userEmail, callback) {
                 });
 
             } else {
-                console.log("Email is all ready taken");
+                console.log("Email is taken");
                 console.log(err);
                 done();
                 callback(err, false,

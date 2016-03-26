@@ -36,7 +36,10 @@ function rollback(data) {
     //to the done function to close & remove this client from
     //the pool.  If you leave a client in the pool with an unaborted
     //transaction weird, hard to diagnose problems might happen.
+    console.log("lul wat?");
     return new Promise(function(resolve, reject) {
+        console.log("rollback");
+        console.log(data);
         data.client.query('ROLLBACK', function(err) {
             if (err) {
                 throw err;
@@ -52,17 +55,9 @@ function rollback(data) {
 }
 
 function finish(data) {
-    console.log("finish");
     return new Promise(function(resolve, reject) {
         data.client.query('COMMIT', data.done);
-        data.done();
-        data.client.end();
-        console.log("data", data);
-        resolve({
-            setup: data.setup,
-            client: data.client,
-            done: data.done
-        });
+        resolve({error: null});
     });
 }
 
@@ -89,7 +84,6 @@ function begin(data) {
     });
 }
 function addOrganization(data){
-    console.log("Call");
     let org = data.setup.org;
     return new Promise(function(resolve, reject){
         var values = [org.orgname, org.domain, 3];
@@ -101,8 +95,6 @@ function addOrganization(data){
                 console.log(err);
                 throw err;
             } else{
-                console.log("ADDING INTO ORGANIZATION");
-                console.log(result);
                 resolve({
                     setup: data.setup,
                     client: data.client,
@@ -131,14 +123,12 @@ function createUser(data){
 }
 
 function updateOwner(data){
-    let userEmail = data.user.email;
-    let findOwner = "SELECT user_id FROM userlogin WHERE email=" + "'" +
-        userEmail + "'";
+    let userEmail = data.setup.user.email;
+    let findOwner = "SELECT user_id FROM users WHERE email=" + "'" + userEmail + "'";
     return new Promise(function(resolve, reject){
         data.client.query(findOwner, function(err, result){
-            console.log(result.rows[0]);
-            let update = "UPDATE Organization SET admin_foreignkey='" +
-            result.rows[0].user_id + "'WHERE org =''" + data.setup.org.organization + "'";
+            let update = "UPDATE Organization SET owner_foreignkey='" +
+            result.rows[0].user_id + "'WHERE orgname='" + data.setup.org.orgname + "'";
             data.client.query(update, function(err, result){
                 resolve({
                     setup: data.setup,
@@ -151,12 +141,12 @@ function updateOwner(data){
 }
 function addOrganizationPromise(data, callback) {
     connect(data)
-        //.then(begin)
+        .then(begin)
         .then(addOrganization)
         .then(createUser)
         .then(updateOwner)
         .then(finish)
-        //.catch(rollback)
+        .catch(rollback)
         .then(callback);
 }
 
