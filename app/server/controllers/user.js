@@ -50,7 +50,7 @@ function signUp(userPassword, userEmail, callback) {
                 'error fetching client from pool in user controller',
                 err);
         }
-        let queryString = "SELECT * FROM userlogin WHERE email=" + "'" +
+        let queryString = "SELECT * FROM Users WHERE email=" + "'" +
             userEmail + "'";
         client.query(queryString, function(err, result) {
             //call `done()` to release the client back to the pool
@@ -72,7 +72,7 @@ function signUp(userPassword, userEmail, callback) {
                             err);
                     } else {
                         client.query(
-                            "INSERT INTO UserLogin(password, email) values($1, $2)", [
+                            "INSERT INTO Users(password, email) values($1, $2)", [
                                 hash,
                                 userEmail
                             ],
@@ -121,7 +121,7 @@ function deleteUser(userEmail) {
 
             return console.error('error fetching client from pool', err);
         }
-        client.query("DELETE FROM UserLogin WHERE email=" + "'" +
+        client.query("DELETE FROM Users WHERE email=" + "'" +
             userEmail + "'",
             function(err, res) {
                 if (err) {
@@ -141,7 +141,7 @@ function deleteUser(userEmail) {
 function inviteUser(userEmail, userCode, callback){
     var data = [userEmail, userCode, new Date()];
     pg.connect(conString, function(err, client, done) {
-        client.query("INSERT INTO UserLogin(email, invite_code, invited_on) values($1, $2, $3) ", data,
+        client.query("INSERT INTO Users(email, invite_code, invited_on) values($1, $2, $3) ", data,
             function(err, res) {
                 callback(err, res);
             });
@@ -157,7 +157,7 @@ function authenticate(userEmail, userPassword, callback) {
         if (err) {
             return console.error('error fetching client from pool', err);
         }
-        client.query("SELECT * FROM UserLogin WHERE email=" + "'" +
+        client.query("SELECT * FROM Users WHERE email=" + "'" +
             userEmail + "'",
             function(err, res) {
                 auth.err = err;

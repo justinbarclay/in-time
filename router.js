@@ -381,12 +381,13 @@ function route(req, res) {
                 succMessage = "An invite was successfully sent to" + email;
                 failMessage = email + " could not be invited at this time, please ensure you have the right e-mail or try again later";
                 message = success ? succMessage : failMessage;
-                message = JSON.stringify(message);
+                data = {message: message, success: success};
+                data = JSON.stringify(data);
                 res.writeHead(200, {
                     'Content-Type': 'application/json',
-                    'Content-Length': Buffer.byteLength(message)
+                    'Content-Length': Buffer.byteLength(data)
                 });
-                res.write(message);
+                res.write(data);
                 res.end();
             });
         });

@@ -1,4 +1,5 @@
 var Flux = require("../biff");
+var messageActions = require("./messageActions");
 
 
 // Set of allowed actions
@@ -12,16 +13,18 @@ var adminActions = Flux.createActions({
         AJAXreq.send(JSON.stringify(user));
         AJAXreq.onreadystatechange = function() {
             if (AJAXreq.readyState === 4) {
-                var res = JSON.parse(AJAXreq.responseText);
-                user = res;
-                console.log(user);
-                if (user.success) {
+                var data = JSON.parse(AJAXreq.responseText);
+                console.log(data);
+                if(data.message){
+                    console.log("test");
+                    messageActions.addMessage("owner", data.message);
+                }
+                if (data.success) {
                     authActions.setJWT(AJAXreq.getResponseHeader("X-ACCESS-TOKEN"));
-                    localStorage.setItem('USER_ID', user.id);
+                    //localStorage.setItem('USER_ID', user.id);
                 }
             }
         };
     }
 });
-
 module.exports = adminActions;

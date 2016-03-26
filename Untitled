@@ -1,1 +1,0 @@
-curl -x GET --get '{"userID": 5, "timesheetID": "53ee40e3-5f72-4a3a-83fa-db41c865e40b"}' -H "Content-Type: application/json" http://127.0.0.1:8888/api/timesheet
