@@ -139,9 +139,10 @@ function deleteUser(userEmail) {
 }
 
 function inviteUser(userEmail, userCode, callback){
-    var data = [userEmail, userCode, new Date()];
+    var data = [userEmail, userCode];
+
     pg.connect(conString, function(err, client, done) {
-        client.query("INSERT INTO Users(email, invite_code, invited_on) values($1, $2, $3) ", data,
+        client.query("INSERT INTO Users(email, invite_code, invited_on) values($1, $2, LOCALTIMESTAMP) ", data,
             function(err, res) {
                 callback(err, res);
             });

@@ -378,7 +378,7 @@ function route(req, res) {
             email = JSON.parse(data);
             code = uuid();
             success = invite(email, code, function(err, success) {
-                succMessage = "An invite was successfully sent to" + email;
+                succMessage = "An invite was successfully sent to " + email;
                 failMessage = email + " could not be invited at this time, please ensure you have the right e-mail or try again later";
                 message = success ? succMessage : failMessage;
                 data = {message: message, success: success};

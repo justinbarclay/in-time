@@ -1,6 +1,6 @@
 var Flux = require("../biff");
 var messageActions = require("./messageActions");
-
+var authActions = require('../actions/authActions');
 
 // Set of allowed actions
 var adminActions = Flux.createActions({
