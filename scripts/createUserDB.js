@@ -11,7 +11,7 @@ function createUserDB() {
 
     try {
         client.query(
-            "CREATE TABLE IF NOT EXISTS Users ( user_id serial PRIMARY KEY, email varchar(32) UNIQUE, password varchar(64), role varchar(32), invite_code varchar(36), invited_on timestamptz, org_foreignkey INTEGER, last_accessed timestamptz )"
+            "CREATE TABLE IF NOT EXISTS Users ( user_id serial PRIMARY KEY, email varchar(32) UNIQUE, password varchar(64), role TEXT, invite_code varchar(36), invited_on timestamptz, org_foreignkey INTEGER, last_accessed timestamptz )"
         );
     } catch (error) {
         console.log(error);

@@ -88,13 +88,14 @@ function addOrganization(data){
     return new Promise(function(resolve, reject){
         var values = [org.orgname, org.domain, 3];
         let queryString =
-            "INSERT INTO Organization(orgname, domains, owner_foreignkey) VALUES($1, $2, $3)";
+            "INSERT INTO Organization(orgname, domains, owner_foreignkey) VALUES($1, $2, $3) RETURNING index";
         console.log(values);
         data.client.query(queryString, values, function(err, result){
             if(err){
                 console.log(err);
                 throw err;
             } else{
+                data.setup.org.key = result.rows[0].index;
                 resolve({
                     setup: data.setup,
                     client: data.client,
@@ -108,7 +109,7 @@ function addOrganization(data){
 function createUser(data){
     return new Promise(function(resolve, reject){
         let newuser = data.setup.user;
-        user.signUp(newuser.password, newuser.email, function(err, bool, result){
+        user.signUpOwner(newuser.password, newuser.email, data.setup.org.key, function(err, bool, result){
             if (err){
                 throw err;
             } else {

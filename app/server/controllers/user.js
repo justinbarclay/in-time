@@ -93,6 +93,52 @@ function signUp(userPassword, userEmail, inviteCode, callback) {
     });
 }
 
+function signUpOwner(userPassword, userEmail, orgkey, callback) {
+    //this function creates a username and hashes
+    //a password then stored it in the database
+    console.log(conString);
+    console.log(userPassword);
+    console.log(userEmail);
+    pg.connect(conString, function(err, client, done) {
+        if (err) {
+            return console.error(
+                'error fetching client from pool in user controller',
+                err);
+        }
+        if (validateUser(userPassword, userEmail)) {
+            console.log(userPassword);
+            hashPassword(userPassword, function(err, hash) {
+
+                if (err) {
+                    done();
+                    return console.error(
+                        "error hashing password",
+                        err);
+                } else {
+                    var owner =[userEmail, hash, orgkey, "Owner"];
+                    client.query(
+                        "INSERT into Users(email, password, org_foreignkey, role) VALUES($1, $2, $3, $4)", owner,
+                        function(err, result) {
+                            done();
+                            if (err) {
+                                console.error('error running insert query', err);
+                                callback(err, false);
+                            } else if(result.rows[0]) {
+                                console.log(result);
+                                console.log("User created successfully");
+                                callback(err, true, "User created successfully");
+                            }
+                            else{
+                                console.log(result);
+                                callback(err, false, "Unable to process your request, please try again. If you continue to have difficulty, please speak to your system administrator");
+                            }
+
+                        });
+                }
+            });
+        }
+    });
+}
 function deleteUser(userEmail) {
     //deletes user from database
     pg.connect(conString, function(err, client, done) {
@@ -216,3 +262,4 @@ var validateUser = function(userPassword, userEmail) {
 exports.authenticate = authenticate;
 exports.signUp = signUp;
 exports.invite = inviteUser;
+exports.signUpOwner = signUpOwner;
