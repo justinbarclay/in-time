@@ -7,12 +7,13 @@ var adminActions = Flux.createActions({
     invite: function(user) {
         var id = authActions.getUserInfo().id;
         self = this;
-        data = {email: user, id: id};
+        user.id = id;
         var AJAXreq = new XMLHttpRequest();
         AJAXreq.open("post", "/api/invite", true);
         AJAXreq.setRequestHeader('ContentType',
             'application/json; charset=UTF8');
-        AJAXreq.send(JSON.stringify(data));
+        AJAXreq.send(JSON.stringify(user));
+        console.log(user);
         AJAXreq.onreadystatechange = function() {
             if (AJAXreq.readyState === 4) {
                 var data = JSON.parse(AJAXreq.responseText);

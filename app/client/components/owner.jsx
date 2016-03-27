@@ -2,6 +2,7 @@ var React = require("react");
 var adminActions = require("../actions/adminActions");
 var ReactDOM =require('react-dom');
 var MessageNew = require('./messageNew');
+var Dropdown = require('react-dropdown').default;
 
 var Owner = React.createClass({
     displayName: "owner",
@@ -12,12 +13,21 @@ var Owner = React.createClass({
     },
     storeDidChange: function(){
     },
+    _onSelect (option) {
+        console.log('You selected ', option.label);
+        this.setState({selected: option});
+    },
     invite: function(form){
         form.preventDefault();
-
-        adminActions.invite(ReactDOM.findDOMNode(this.refs.email).value.trim());
+        user = {
+            email: ReactDOM.findDOMNode(this.refs.email).value.trim(),
+            role: this.state.selected.value
+        };
+        adminActions.invite(user);
     },
     render: function(){
+        options = ["Staff", "Supervisor", "Owner"];
+        var defaultOption = options[0];
         return (
             <div className="inviteUserForm">
                 <MessageNew accessor="owner"/>
@@ -26,6 +36,10 @@ var Owner = React.createClass({
                     <div>
                         <label htmlFor="email">Email Address</label>
                         <input id="email" name="email" ref="email" type="email"/>
+                    </div>
+                    <div>
+                        <label htmlFor="role">Role</label>
+                        <Dropdown ref="dropdown" options={options} onChange={this._onSelect} value={defaultOption} placeholder="Select an option" />
                     </div>
                     <button type="submit">
                         Submit

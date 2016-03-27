@@ -164,17 +164,14 @@ function deleteUser(userEmail) {
     });
 }
 
-function inviteUser(owner, userEmail, userCode, callback) {
-    var data = [userEmail, userCode];
+function inviteUser(owner, userEmail, role, userCode, callback) {
+    var data = [userEmail, userCode, role];
 
     pg.connect(conString, function(err, client, done) {
         client.query("SELECT index FROM organization WHERE owner_foreignkey="+owner, function(err, results){
-            console.log("Owner id = " + owner);
-            console.log(results);
             var orgforeignkey = results.rows[0].index;
-            console.log("org key ", orgforeignkey);
             data.push(orgforeignkey);
-            client.query("INSERT INTO Users(email, invite_code, org_foreignkey, invited_on) values($1, $2, $3, LOCALTIMESTAMP) ", data,
+            client.query("INSERT INTO Users(email, invite_code, role, org_foreignkey, invited_on) values($1, $2, $3, $4, LOCALTIMESTAMP) ", data,
                 function(err, res) {
                     callback(err, res);
             });
