@@ -1,10 +1,10 @@
 'use strict';
 /*
-*       CONVERT ALL FUNCTIONS TO THROW AN ERR AND JAVASCRIPT OBJECT
-*       THE OBJECT AT MINIMUM SHOULD CONTAIN A SUCCESS BOOLEAN AND A
-*       MESSAGE OPTIONALLY IT CAN CONTAIN THE ERROR MESSAGE A USER OBJECT
-*
-*/
+ *       CONVERT ALL FUNCTIONS TO THROW AN ERR AND JAVASCRIPT OBJECT
+ *       THE OBJECT AT MINIMUM SHOULD CONTAIN A SUCCESS BOOLEAN AND A
+ *       MESSAGE OPTIONALLY IT CAN CONTAIN THE ERROR MESSAGE A USER OBJECT
+ *
+ */
 var config = require("../../../config.js");
 var validator = require('validator');
 var jwt = require("jsonwebtoken");
@@ -19,13 +19,13 @@ const conString = config.postgres;
 const secret = config.secret;
 const twoWeeks = 20160; // Two weeks in minutes
 /* Structure of JWT payload
-* It should have a username, time of creation(iat), and email address
-* When decrypting the payload we can confirm who is requestion infomation and
-* make sure they only have access to that user's information
-*/
+ * It should have a username, time of creation(iat), and email address
+ * When decrypting the payload we can confirm who is requestion infomation and
+ * make sure they only have access to that user's information
+ */
 var payload = {
     iat: '',
-    userid:'',
+    userid: '',
 };
 
 function hashPassword(userPassword, callback) {
@@ -38,7 +38,7 @@ function hashPassword(userPassword, callback) {
     });
 }
 
-function signUp(userPassword, userEmail, callback) {
+function signUp(userPassword, userEmail, inviteCode, callback) {
     //this function creates a username and hashes
     //a password then stored it in the database
     console.log(conString);
@@ -50,67 +50,47 @@ function signUp(userPassword, userEmail, callback) {
                 'error fetching client from pool in user controller',
                 err);
         }
-        let queryString = "SELECT * FROM Users WHERE email=" + "'" +
-            userEmail + "'";
-        client.query(queryString, function(err, result) {
-            //call `done()` to release the client back to the pool
+        if (validateUser(userPassword, userEmail)) {
+            console.log(userPassword);
+            hashPassword(userPassword, function(err, hash) {
 
-            if (err) {
-                done();
-                return console.error(
-                    'error running select query', err);
-            } else if (typeof result.rows[0] === 'undefined' &&
-                validateUser(userPassword, userEmail)
-            ) {
-                console.log(userPassword);
-                hashPassword(userPassword, function(err, hash) {
+                if (err) {
+                    done();
+                    return console.error(
+                        "error hashing password",
+                        err);
+                } else {
+                    client.query(
+                        "UPDATE Users set password='" + hash + "' WHERE email='" + userEmail + "' and invite_code='" + inviteCode + "' RETURNING user_id;",
+                        function(err, result) {
+                            done();
+                            if (err) {
+                                console.error(
+                                    'error running insert query',
+                                    err);
+                                callback(err,
+                                    false);
+                            } else if(result.rows[0]) {
+                                console.log(
+                                    result);
+                                console.log(
+                                    "User created successfully"
+                                );
+                                callback(err,
+                                    true,
+                                    "User created successfully"
+                                );
+                            }
+                            else{
+                                console.log(result);
+                                callback(err, false, "Unable to process your request, please try again. If you continue to have difficulty, please speak to your system administrator");
+                            }
 
-                    if (err) {
-                        done();
-                        return console.error(
-                            "error hashing password",
-                            err);
-                    } else {
-                        client.query(
-                            "INSERT INTO Users(password, email) values($1, $2)", [
-                                hash,
-                                userEmail
-                            ],
-                            function(err, result) {
-                                done();
-                                if (err) {
-                                    console.error(
-                                        'error running insert query',
-                                        err);
-                                    callback(err,
-                                        false);
-                                } else {
-                                    console.log(
-                                        result);
-                                    console.log(
-                                        "User created successfully"
-                                    );
-                                    callback(err,
-                                        true,
-                                        "User created successfully"
-                                    );
-                                }
-
-                            });
-                    }
-                });
-
-            } else {
-                console.log("Email is taken");
-                console.log(err);
-                done();
-                callback(err, false,
-                    "Email is unavailable");
-            }
-        });
+                        });
+                }
+            });
+        }
     });
-
-
 }
 
 function deleteUser(userEmail) {
@@ -138,22 +118,34 @@ function deleteUser(userEmail) {
     });
 }
 
-function inviteUser(userEmail, userCode, callback){
+function inviteUser(owner, userEmail, userCode, callback) {
     var data = [userEmail, userCode];
 
     pg.connect(conString, function(err, client, done) {
-        client.query("INSERT INTO Users(email, invite_code, invited_on) values($1, $2, LOCALTIMESTAMP) ", data,
-            function(err, res) {
-                callback(err, res);
+        client.query("SELECT index FROM organization WHERE owner_foreignkey="+owner, function(err, results){
+            console.log("Owner id = " + owner);
+            console.log(results);
+            var orgforeignkey = results.rows[0].index;
+            console.log("org key ", orgforeignkey);
+            data.push(orgforeignkey);
+            client.query("INSERT INTO Users(email, invite_code, org_foreignkey, invited_on) values($1, $2, $3, LOCALTIMESTAMP) ", data,
+                function(err, res) {
+                    callback(err, res);
             });
         });
+    });
 }
 
 function authenticate(userEmail, userPassword, callback) {
     //this function checks to see if the userEmail and userPassword match
     //anything stored in the user database
     // On a succesful authentication it should generate a JWT, and send it back in JSON with
-    var auth = {err: null, success: null, message: '', JWT: ''};
+    var auth = {
+        err: null,
+        success: null,
+        message: '',
+        JWT: ''
+    };
     pg.connect(conString, function(err, client, done) {
         if (err) {
             return console.error('error fetching client from pool', err);
@@ -183,7 +175,7 @@ function authenticate(userEmail, userPassword, callback) {
                                 // code to add token to browser to act logged in
                                 // probably need to add a token to table somewhere as well
 
-                                 done();
+                                done();
 
                                 auth.success = false;
                                 auth.message = "Error connecting to database";
@@ -198,7 +190,10 @@ function authenticate(userEmail, userPassword, callback) {
                                     auth.id = res.rows[0].user_id;
                                     payload.userid = res.rows[0].user_id;
                                     auth.message = "Authentication successful";
-                                    var signedJWT = jwt.sign(payload, secret,{expiresIn: twoWeeks, issuer: "Mountain View Industries"});
+                                    var signedJWT = jwt.sign(payload, secret, {
+                                        expiresIn: twoWeeks,
+                                        issuer: "Mountain View Industries"
+                                    });
                                     callback(err, auth, signedJWT);
                                 }
                             }

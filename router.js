@@ -63,10 +63,9 @@ function route(req, res) {
 
         req.on("end", function() {
             currentUser = JSON.parse(data);
-            //hard coded email for testing
             console.log(currentUser);
             user.signUp(currentUser.password,
-                currentUser.email,
+                currentUser.email, currentUser.code,
                 function(err, bool, message) {
                     if (err) {
                         res.writeHead(400, {
@@ -375,11 +374,12 @@ function route(req, res) {
         });
 
         req.on("end", function() {
-            email = JSON.parse(data);
+            data = JSON.parse(data);
             code = uuid();
-            success = invite(email, code, function(err, success) {
-                succMessage = "An invite was successfully sent to " + email;
-                failMessage = email + " could not be invited at this time, please ensure you have the right e-mail or try again later";
+            console.log(data);
+            success = invite(data.id, data.email, code, function(err, success) {
+                succMessage = "An invite was successfully sent to " + data.email;
+                failMessage = data.email + " could not be invited at this time, please ensure you have the right e-mail or try again later";
                 message = success ? succMessage : failMessage;
                 data = {message: message, success: success};
                 data = JSON.stringify(data);

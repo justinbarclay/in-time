@@ -4,6 +4,7 @@ var ReactDOM = require("react-dom");
 var Message = require("./message");
 
 var registerActions = require('../actions/registerActions');
+var authActions = require('../actions/authActions');
 
 //Component
 var SignUpOrg = React.createClass({

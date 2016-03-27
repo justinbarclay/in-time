@@ -26,7 +26,8 @@ var SignUpForm = React.createClass({
         form.preventDefault();
         user = JSON.stringify({
             "email": ReactDOM.findDOMNode(this.refs.email).value.trim(),
-            "password": ReactDOM.findDOMNode(this.refs.password).value.trim()
+            "password": ReactDOM.findDOMNode(this.refs.password).value.trim(),
+            "code": this.props.params.code
         });
         if (this.validateSubmission()){
 
