@@ -9,7 +9,7 @@ var Owner = React.createClass({
     propTypes: [],
     mixins: [],
     getInitialState: function(){
-        return {hidden: true};
+        return {hidden: true, selected: "Staff"};
     },
     storeDidChange: function(){
     },
