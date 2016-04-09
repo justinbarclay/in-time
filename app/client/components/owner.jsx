@@ -21,7 +21,7 @@ var Owner = React.createClass({
         form.preventDefault();
         user = {
             email: ReactDOM.findDOMNode(this.refs.email).value.trim(),
-            role: this.state.selected.value
+            role: this.state.selected
         };
         adminActions.invite(user);
     },
@@ -39,7 +39,7 @@ var Owner = React.createClass({
                     </div>
                     <div>
                         <label htmlFor="role">Role</label>
-                        <Dropdown ref="dropdown" options={options} onChange={this._onSelect} value={defaultOption} placeholder="Select an option" />
+                        <Dropdown ref="dropdown" options={options} onChange={this._onSelect} value={this.state.selected} />
                     </div>
                     <button type="submit">
                         Submit
