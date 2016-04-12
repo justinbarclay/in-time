@@ -11,30 +11,7 @@ var config = require("./config.js");
 
 const secret = config.secret;
 //shorthand function for verifying JWT
-var verifyJWT = function(token) {
-    //If JWT is verified return token, otherwise return null
-    var state;
-    try {
-        state = jwt.verify(token, secret);
-        return token;
-    } catch (err) {
-        console.log("JWT err");
-        console.log(err);
-        console.log(token);
-        return null;
-    }
-};
 
-var getUserID = function(token) {
-    var state;
-    try {
-        state = jwt.verify(token, secret);
-        return state.userid;
-    } catch (err) {
-        console.log(err);
-        return null;
-    }
-};
 
 //With this router, we only want to pass the necessary data into the controller
 //and leave the res and req objects in the router context. This may mean that
