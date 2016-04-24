@@ -17,9 +17,10 @@ var authActions = Flux.createActions({
         AJAXreq.send(JSON.stringify(user));
         AJAXreq.onreadystatechange = function() {
             if (AJAXreq.readyState === 4) {
-                var res = JSON.parse(AJAXreq.responseText);
-                user = res;
+                var user = JSON.parse(AJAXreq.responseText);
+                console.log("Header: " + AJAXreq.getResponseHeader("X-ACCESS-TOKEN"));
                 if (user.success) {
+                    console.log(AJAXreq.getResponseHeader("X-ACCESS-TOKEN"));
                     authActions.setJWT(AJAXreq.getResponseHeader("X-ACCESS-TOKEN"));
                     localStorage.setItem('USER_ID', user.id);
                 }
@@ -50,6 +51,7 @@ var authActions = Flux.createActions({
     },
     setJWT: function(jwt) {
         jwt = jwt !== "null" ? jwt : null;
+        console.log("Setting jwt: " + jwt);
         if(jwt){
             return localStorage.setItem('JWT', jwt);
         } else {

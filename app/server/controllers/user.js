@@ -183,6 +183,7 @@ function authenticate(userEmail, userPassword, callback) {
     //this function checks to see if the userEmail and userPassword match
     //anything stored in the user database
     // On a succesful authentication it should generate a JWT, and send it back in JSON with
+    console.log("User password is: " + userPassword);
     var auth = {
         err: null,
         success: null,

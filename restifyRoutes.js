@@ -25,10 +25,8 @@ server.get('/', restify.serveStatic({
     file: 'index.html'
 }));
 server.post('/api/signin', function(req, res, next){
-    // currentUser = JSON.parse(data);
-    var currentUser = req.body;
-    console.log("Body : " + currentUser);
-    //hard coded email for testing
+    var currentUser = JSON.parse(req.body);
+
     user.authenticate(currentUser.email, currentUser.password,
         function(err, auth, signedJWT) {
             if (err) {
@@ -43,10 +41,8 @@ server.post('/api/signin', function(req, res, next){
                         auth.message) + "\n" +
                     "message length: " + auth.length);
                 res.setHeader('X-ACCESS-TOKEN', signedJWT || null);
-                auth = JSON.stringify(auth);
             }
             res.send(auth);
-            console.log("Auth message", auth.message);
             return next();
         });
 });
