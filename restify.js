@@ -16,7 +16,7 @@ server.use(function logger(req,res,next) {
   next();
 });
 
-server.use(authorize());
+server.use(authorize);
 server.on('uncaughtException',function(request, response, route, error){
   console.error(error.stack);
   response.send(error);

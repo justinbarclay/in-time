@@ -27,6 +27,7 @@ server.get('/', restify.serveStatic({
 server.post('/api/signin', function(req, res, next){
     // currentUser = JSON.parse(data);
     var currentUser = req.body;
+    console.log("Body : " + currentUser);
     //hard coded email for testing
     user.authenticate(currentUser.email, currentUser.password,
         function(err, auth, signedJWT) {
@@ -41,23 +42,12 @@ server.post('/api/signin', function(req, res, next){
                 console.log("Message:" + JSON.stringify(
                         auth.message) + "\n" +
                     "message length: " + auth.length);
-                /* This header needs to reworked so that it reports the length properly, otherwise AJAX acts weird
-                res.writeHead(200, {'Content-Type': 'application/json','Content-Length':message.length}); */
-                // res.setHeader('X-ACCESS-TOKEN', signedJWT || null);
-                // auth = JSON.stringify(auth);
-                // res.writeHead(200, {
-                //     'Content-Type': 'application/json',
-                //     'Content-Length': auth.length
-                // });
-                // res.write(auth);
-                //
-                // console.log('response sent');
-                // console.log(res.headers);
-                // res.end();
+                res.setHeader('X-ACCESS-TOKEN', signedJWT || null);
+                auth = JSON.stringify(auth);
             }
             res.send(auth);
-            next();
             console.log("Auth message", auth.message);
+            return next();
         });
 });
 

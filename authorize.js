@@ -1,18 +1,17 @@
-function authorize(obj){
+function authorize(req, res, next){
         var unsecure = ['/api/signin', '/api/signup', '/api/regiter', '/', /\/public\/?\/?.*/];
-        return function(req, res, next){
+        console.log("REQ \n" + req.url);
             for(var i=0; i<unsecure.length; i++){
-                if(unsecure[i] === req._url.pathname){
+                if(unsecure[i] === req.url){
                     console.log("A match");
-                    console.log(req._url.pathname);
+                    console.log(req.url);
                     break;
                 }
             }
             console.log("headers");
             console.log(req.headers['x-access-token']);
-            console.log(JSON.stringify(Object.keys(req)));
+            //console.log(JSON.stringify(Object.keys(req)));
             next();
-        };
 }
 
 module.exports = authorize;
