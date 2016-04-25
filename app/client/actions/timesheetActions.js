@@ -219,10 +219,7 @@ function verifyEntry(entry){
 }
 
 function checkInt(data){
-    if(data === null || data !== parseInt(data, 10)){
-        return false;
-    }
-    return true;
+  return !isNaN(parseFloat(data)) && isFinite(data);
 }
 
 function checkStr(data){

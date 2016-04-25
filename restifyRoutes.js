@@ -108,6 +108,51 @@ server.post('/api/timesheets', function(req, res, next){
     }
 });
 
+server.on('/api/timesheet', function(req, res, next){
+    var timesheetObj;
+    var userID = getUserID(token);
+
+    res.setHeader('X-ACCESS-TOKEN', verify);
+    if (!verify) {
+        res.writeHead(401, {
+            'Content-Type': 'application/json'
+        });
+        res.write(JSON.stringify({
+            "message": "invalid security token"
+        }));
+        res.end();
+        return;
+    }
+    try {
+        timesheetObj = JSON.parse(data);
+    } catch (err) {
+        console.err(err); //Debug
+    }
+    console.log("timesheetObj", timesheetObj);
+    if (userID !== parseInt(userID, 10)) {
+        res.writeHead(400, {
+            'Content-Type': 'application/json'
+        });
+        res.write(JSON.stringify({
+            "message": "Invalid user ID"
+        }));
+    } else {
+        res.writeHead(200, {
+            'Content-Type': 'application/json'
+        });
+
+        timesheet.createTimesheet(timesheetObj, function(message) {
+            if (data) {
+                res.writeHead(200, {
+                    'Content-Type': 'application/json'
+                });
+                console.log("line 235", message); //Debug
+                res.write(JSON.stringify(message));
+                res.end();
+            }
+        });
+    }
+});
 server.get(/.*/, restify.serveStatic({
     directory: __dirname + "/app/public",
     file: 'index.html'
