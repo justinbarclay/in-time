@@ -30,7 +30,7 @@ server.post('/api/signin', function(req, res, next){
     user.authenticate(currentUser.email, currentUser.password,
         function(err, auth, signedJWT) {
             if (err) {
-                res.send(JSON.stringify(auth.message));
+                res.send(JSON.stringify(auth));
                 console.error(err);
                 next();
             } else {
@@ -47,7 +47,71 @@ server.post('/api/signin', function(req, res, next){
         });
 });
 
+server.post('/api/signup', function(req, res, next){
+    //Attempt to login
+    //This doesn't go anywhere yet, but it does test the user controller
+    console.log("Succesful post to /signup!");
+    currentUser = JSON.parse(req.body);
+    console.log(currentUser);
+    user.signUp(currentUser.password,
+        currentUser.email, currentUser.code,
+        function(err, bool, message) {
+            if (err) {
+                res.writeHead(400, {
+                    'Content-Type': 'application/json'
+                });
+                res.write(
+                    "There was an error talking to the server"
+                );
+                console.error(err);
+                res.end();
+            } else {
+                console.log("Succesful signUp of " +
+                    currentUser.email + " = " + bool
+                );
+                res.writeHead(200, {
+                    'Content-Type': 'application/json'
+                });
+                res.write('' + message);
+                res.end();
+            }
+            console.log(message);
+        });
+});
 
+server.post('/api/timesheets', function(req, res, next){
+    // Should handle both get and post? or just one...
+    console.log("Retrieving timesheets");
+    try {
+    var request = JSON.parse(req.body);
+        console.log("REQUEST " + JSON.stringify(request));
+        if (request.userID !== parseInt(request.userID, 10)) {
+            console.log("Fail");
+            res.writeHead(400, {
+                'Content-Type': 'application/json'
+            });
+            res.send(JSON.stringify({
+                "message": "Invalid user ID"
+            }));
+            next();
+            return;
+        } else {
+            timesheet.getTimesheets(request, function(timesheets) {
+                console.log("line 194");
+                console.log("line 195", timesheets); //Debug
+                res.send(JSON.stringify(timesheets));
+                next();
+            });
+        }
+    } catch (err) {
+        return console.error(err); //Debug
+    }
+});
+
+server.get(/.*/, restify.serveStatic({
+    directory: __dirname + "/app/public",
+    file: 'index.html'
+}));
 // app.get('/', siteController.index);
 // app.get('/detail', siteController.detail);
 //

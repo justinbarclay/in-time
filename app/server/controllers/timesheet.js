@@ -276,7 +276,6 @@ function approve(data){
 function getTimesheetIDs(data) {
     //grabs a list of user timesheets and passes it on in a callback
     let userID = data.setup.userID;
-    console.log("userID: ", userID);
     return new Promise(function(resolve, reject) {
         let queryString =
             "SELECT timesheet_id, user_foreignkey, engagement, date_part('epoch', start_date)*1000 AS start_date, date_part('epoch', end_date)*1000 AS end_date, approved, delete FROM Timesheets_Meta WHERE delete = 'FALSE' AND user_foreignkey= $1";
@@ -294,7 +293,6 @@ function getTimesheetMeta(data) {
     let userID = data.setup.userID;
     let timesheetID = data.setup.timesheetID;
     console.log("Getting singular timesheetId");
-    console.log("userID: ", userID);
     return new Promise(function(resolve, reject) {
         let queryString = "SELECT timesheet_id, user_foreignkey, engagement, date_part('epoch', start_date)*1000 AS start_date, date_part('epoch', end_date)*1000 AS end_date, approved, delete FROM Timesheets_Meta WHERE delete = 'FALSE' AND user_foreignkey= $1 AND timesheet_ID=$2";
         data.client.query(queryString, [userID, timesheetID], function(err, result) {
@@ -448,6 +446,7 @@ function approveTimesheet(request, callback) {
 // build up the timesheet later
 // This is an area for easy optimization
 function buildTimesheets(data) {
+    console.log("hmm");
     return new Promise(function(resolve, reject) {
         console.log("building timesheet");
         console.log(data);
@@ -479,6 +478,7 @@ function buildTimesheets(data) {
             });
             return timesheet;
         });
+        console.log("Timesheets", timesheets);
         resolve(timesheets);
     });
 }

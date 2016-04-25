@@ -1,17 +1,26 @@
+'use strict';
+var jwt = require("jsonwebtoken");
+var secret = require("./config.js").secret;
+
 function authorize(req, res, next){
-        var unsecure = ['/api/signin', '/api/signup', '/api/regiter', '/', /\/public\/?\/?.*/];
-        console.log("REQ \n" + req.url);
-            for(var i=0; i<unsecure.length; i++){
-                if(unsecure[i] === req.url){
-                    console.log("A match");
-                    console.log(req.url);
-                    break;
-                }
-            }
-            console.log("headers");
-            console.log(req.headers['x-access-token']);
-            //console.log(JSON.stringify(Object.keys(req)));
-            next();
+    var secure = new Set(['/api/timesheet', '/api/timesheets', '/api/approve', '/api/findTimesheet']);
+    var unsecure = ['/api/signin', '/api/signup', '/api/register', '/', /\/public\/?\/?.*/];
+    // Read JWT and set RES header as result returned from verifyJWT
+    var verify = verifyJWT(req.header('X-ACCESS-TOKEN'));
+    console.log(req.url);
+    res.setHeader('X-ACCESS-TOKEN', verify);
+    console.log(secure.has(req.url));
+    if(secure.has(req.url)){
+        // if requested path is secure, check for verified JWT
+        if(!verify){
+            res.redirect(401, "/#/signin", next);
+        }
+        next();
+    } else {
+        // Otherwise, no need to care about authorization
+        next();
+    }
+
 }
 
 module.exports = authorize;

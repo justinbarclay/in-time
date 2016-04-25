@@ -21,6 +21,8 @@ server.on('uncaughtException',function(request, response, route, error){
   console.error(error.stack);
   response.send(error);
 });
-
+server.on('NotFound', function(request, response, route, error){
+    response.redirect("/");
+});
 exports.server = server;
 routes = require('./restifyRoutes');
