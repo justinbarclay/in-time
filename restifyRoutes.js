@@ -10,6 +10,7 @@ var jwt = require('jsonwebtoken');
 var uuid = require("uuid").v4;
 var config = require("./config.js");
 var restify = require('restify');
+var secret = require('./config.js').secret;
 server = module.parent.exports.server;
 
 /* require your controllers here */
@@ -24,6 +25,7 @@ server.get('/', restify.serveStatic({
     directory: __dirname + "/app/public",
     file: 'index.html'
 }));
+
 server.post('/api/signin', function(req, res, next){
     var currentUser = JSON.parse(req.body);
 
@@ -80,12 +82,12 @@ server.post('/api/signup', function(req, res, next){
 });
 
 server.post('/api/timesheets', function(req, res, next){
-    // Should handle both get and post? or just one...
     console.log("Retrieving timesheets");
+    userID = getUserID(req.headers['X-ACCESS-TOKEN']);
     try {
     var request = JSON.parse(req.body);
-        console.log("REQUEST " + JSON.stringify(request));
-        if (request.userID !== parseInt(request.userID, 10)) {
+        console.log("REQUEST " + JSON.stringify(userID));
+        if (isNaN(parseFloat(userID)) && !isFinite(userID)) {
             console.log("Fail");
             res.writeHead(400, {
                 'Content-Type': 'application/json'
@@ -97,66 +99,139 @@ server.post('/api/timesheets', function(req, res, next){
             return;
         } else {
             timesheet.getTimesheets(request, function(timesheets) {
-                console.log("line 194");
-                console.log("line 195", timesheets); //Debug
-                res.send(JSON.stringify(timesheets));
+                res.send(timesheets);
                 next();
             });
         }
     } catch (err) {
-        return console.error(err); //Debug
+        console.error(err); //Debug
+        return next();
     }
 });
 
-server.on('/api/timesheet', function(req, res, next){
+server.post('/api/timesheet', function(req, res, next){
     var timesheetObj;
-    var userID = getUserID(token);
+    var userID = getUserID(req.headers['X-ACCESS-TOKEN']);
 
-    res.setHeader('X-ACCESS-TOKEN', verify);
-    if (!verify) {
-        res.writeHead(401, {
-            'Content-Type': 'application/json'
-        });
-        res.write(JSON.stringify({
-            "message": "invalid security token"
-        }));
-        res.end();
-        return;
-    }
     try {
-        timesheetObj = JSON.parse(data);
+        timesheetObj = JSON.parse(req.body);
     } catch (err) {
-        console.err(err); //Debug
+        console.error(err); //Debug
     }
-    console.log("timesheetObj", timesheetObj);
-    if (userID !== parseInt(userID, 10)) {
+    if (isNaN(parseFloat(userID)) && !isFinite(userID)) {
         res.writeHead(400, {
             'Content-Type': 'application/json'
         });
-        res.write(JSON.stringify({
+        res.send(JSON.stringify({
             "message": "Invalid user ID"
         }));
+        return next();
     } else {
-        res.writeHead(200, {
-            'Content-Type': 'application/json'
-        });
-
         timesheet.createTimesheet(timesheetObj, function(message) {
-            if (data) {
-                res.writeHead(200, {
-                    'Content-Type': 'application/json'
-                });
-                console.log("line 235", message); //Debug
-                res.write(JSON.stringify(message));
-                res.end();
+            if (message) {
+                res.send(JSON.stringify(message));
+                next();
             }
         });
     }
 });
+
+server.post('/api/approve', function(req, res, next){
+        token = req.headers["x-access-token"];
+        var timesheetID;
+        var userID = getUserID(req.headers('X-ACCESS-TOKEN'));
+
+        try {
+            approve = JSON.parse(req.body);
+        } catch (err) {
+            console.err(err); //Debug
+        }
+        console.log("timesheetID", timesheetID);
+        if (isNaN(parseFloat(userID)) && !isFinite(userID)) {
+            res.writeHead(400, {
+                'Content-Type': 'application/json'
+            });
+            res.send(JSON.stringify({
+                "message": "Invalid user ID"
+            }));
+            return next();
+        } else {
+            approve.userID = userID;
+            timesheet.approveTimesheet(approve, function(message) {
+                console.log("line 235", message); //Debug
+                res.send(JSON.stringify(message));
+                next();
+            });
+        }
+});
+
+server.post('/api/findTimesheet', function(req, res, next){
+        try {
+            request = JSON.parse(req.body);
+        } catch (err) {
+            console.error(err); //Debug
+        }
+        if (isNaN(parseFloat(request.userID)) && !isFinite(request.userID)) {
+            res.writeHead(400, {
+                'Content-Type': 'application/json'
+            });
+            res.send(JSON.stringify({
+                "message": "Invalid user ID"
+            }));
+            return next();
+        } else {
+            timesheet.getTimesheets(request, function(timesheets) {
+                console.log("line 194");
+                res.send(JSON.stringify(timesheets));
+                next();
+            });
+        }
+});
+
+server.post('/api/invite', function(req, res, next){
+        data = JSON.parse(req.body);
+        code = uuid();
+        invite(data.id, data.email, data.role, code, function(err, success) {
+            succMessage = "An invite was successfully sent to " + data.email;
+            failMessage = data.email + " could not be invited at this time, please ensure you have the right e-mail or try again later";
+            message = success ? succMessage : failMessage;
+            data = {message: message, success: success};
+            data = JSON.stringify(data);
+            res.write(data);
+            res.end();
+        });
+});
+
+server.post('/api/register', function(req, res, next){
+    register = req.body;
+    console.log("Register: " + register);
+    var message;
+    owner.addOrganization(register, function(result){
+        if(result.err){
+            message = "Failure";
+        } else {
+            message = "Success";
+        }
+        res.send(message);
+        next();
+    });
+});
+
 server.get(/.*/, restify.serveStatic({
     directory: __dirname + "/app/public",
     file: 'index.html'
 }));
+
+var getUserID = function(token) {
+    var state;
+    try {
+        state = jwt.verify(token, secret);
+        return state.userid;
+    } catch (err) {
+        console.log(err);
+        return null;
+    }
+};
 // app.get('/', siteController.index);
 // app.get('/detail', siteController.detail);
 //
