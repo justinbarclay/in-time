@@ -53,7 +53,7 @@ server.post('/api/signup', function(req, res, next){
     //Attempt to login
     //This doesn't go anywhere yet, but it does test the user controller
     console.log("Succesful post to /signup!");
-    currentUser = JSON.parse(req.body);
+    currentUser = req.body;
     console.log(currentUser);
     user.signUp(currentUser.password,
         currentUser.email, currentUser.code,
@@ -213,6 +213,22 @@ server.post('/api/register', function(req, res, next){
         res.send(message);
         next();
     });
+});
+
+server.post('/api/register', function(req, res, next){
+    var register = req.body;
+    var message;
+    owner.addOrganization(register, function(result){
+        if(result.err){
+            message = "Failure";
+        } else {
+            message = "Success";
+        }
+        console.log("REGISTER END");
+        res.send(message);
+        next();
+    });
+
 });
 
 server.get(/.*/, restify.serveStatic({

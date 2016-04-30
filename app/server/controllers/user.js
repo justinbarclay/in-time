@@ -230,7 +230,7 @@ function authenticate(userEmail, userPassword, callback) {
                                 done();
 
                                 auth.success = false;
-                                auth.message = "Error connecting to database";
+                                auth.message = "Email or password do not match";
                                 callback(err, auth);
                             } else {
                                 done();
