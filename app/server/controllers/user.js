@@ -169,12 +169,13 @@ function inviteUser(owner, userEmail, role, userCode, callback) {
     console.log("Usercode: "+ userCode);
     pg.connect(conString, function(err, client, done) {
         client.query("SELECT index FROM organization WHERE owner_foreignkey="+owner, function(err, results){
-            if(results.rows[0]){
+            if(!!results){
                 var orgforeignkey = results.rows[0].index;
                 data.push(orgforeignkey);
                 console.log(data);
                 client.query("INSERT INTO Users(email, invite_code, role, org_foreignkey, invited_on) values($1, $2, $3, $4, LOCALTIMESTAMP) ", data,
                     function(err, res) {
+                        console.log("RES: ", res);
                         callback(err, res);
                 });
             } else {

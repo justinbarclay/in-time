@@ -27,16 +27,6 @@ var adminActions = Flux.createActions({
             }
         };
     }
-    // setJWT(header){
-    //     jwt = jwt !== "null" ? jwt : null;
-    //     if(jwt){
-    //         return localStorage.setItem('JWT', jwt);
-    //     } else {
-    //         this.dispatch({
-    //             actionType: "SIGNOUT_USER"
-    //         });
-    //     }
-    // }
 });
 module.exports = adminActions;
 
