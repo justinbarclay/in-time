@@ -2,26 +2,31 @@ var sendgrid = require("sendgrid")('SG.Nd_XTFDVSFmXNShx9OEisQ.LkgZPQa50eKfTjSh9V
 var userInvite = require("./user").invite;
 
 var invite = function(owner, email, role, code, callback){
-    sendgrid.send({
-        to:       email,
-        from:     'admin@in-time.com',
-        subject:  'You have been invited to In Time, the best timesheet management program',
-            text:     customlink(code)
-    }, function(err, json) {
-        if (err) {
-            console.log(err);
-            console.error(err);
-            callback(err, false);
-        } else {
-            console.log(json);
-            userInvite(owner, email, role, code, function(err, res){
-                console.log(err);
-                console.log(res);
-                return err ? callback(err, false): callback(err, true);
-            });
-
+    userInvite(owner, email, role, code, function(err, message){
+        console.log(err);
+        console.log(message);
+        if(!err){
+            sendgrid.send({
+                to:       email,
+                from:     'admin@in-time.com',
+                subject:  'You have been invited to In Time, the best timesheet management program',
+                    text:     customlink(code)
+            }, function(err, json) {
+                if (err) {
+                    console.log(err);
+                    console.error(err);
+                    failMessage = data.email + " could not be invited at this time, please ensure you have the right e-mail or try again later";
+                    callback(err, failMessage);
+                } else {
+                    console.log(json);
+                    succMessage = "An invite was successfully sent to " + data.email;
+                    return callback(err, succMessage);
+                }
+          });
+        } else{
+          return callback(err, message);
         }
-  });
+    });
 };
 
 

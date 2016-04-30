@@ -15,7 +15,7 @@ var Owner = React.createClass({
     },
     _onSelect (option) {
         console.log('You selected ', option.label);
-        this.setState({selected: option});
+        this.setState({selected: option.value});
     },
     invite: function(form){
         form.preventDefault();

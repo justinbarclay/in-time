@@ -191,14 +191,13 @@ server.post('/api/findTimesheet', function(req, res, next){
 server.post('/api/invite', function(req, res, next){
         data = JSON.parse(req.body);
         code = uuid();
-        invite(data.id, data.email, data.role, code, function(err, success) {
-            succMessage = "An invite was successfully sent to " + data.email;
-            failMessage = data.email + " could not be invited at this time, please ensure you have the right e-mail or try again later";
-            message = success ? succMessage : failMessage;
-            data = {message: message, success: success};
+        invite(data.id, data.email, data.role, code, function(err, message) {
+            console.log(message);
+            console.log(!err);
+            data = {message: message, success: !err};
             data = JSON.stringify(data);
-            res.write(data);
-            res.end();
+            res.send(data);
+            next();
         });
 });
 
@@ -222,6 +221,12 @@ server.get(/.*/, restify.serveStatic({
     file: 'index.html'
 }));
 
+/////////////////////////////////////////////////////////////////////////////
+//
+//  Helper funcitons
+//
+////////////////////////////////////////////////////////////////////////////
+
 var getUserID = function(token) {
     var state;
     try {
@@ -232,13 +237,3 @@ var getUserID = function(token) {
         return null;
     }
 };
-// app.get('/', siteController.index);
-// app.get('/detail', siteController.detail);
-//
-// // admin routes
-// app.get('/admin', adminController.admin);
-/////////////////////////////////////////////////////////////////////////////
-//
-//  Helper funcitons
-//
-////////////////////////////////////////////////////////////////////////////

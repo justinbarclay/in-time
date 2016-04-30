@@ -166,15 +166,22 @@ function deleteUser(userEmail) {
 
 function inviteUser(owner, userEmail, role, userCode, callback) {
     var data = [userEmail, userCode, role];
-
+    console.log("Usercode: "+ userCode);
     pg.connect(conString, function(err, client, done) {
         client.query("SELECT index FROM organization WHERE owner_foreignkey="+owner, function(err, results){
-            var orgforeignkey = results.rows[0].index;
-            data.push(orgforeignkey);
-            client.query("INSERT INTO Users(email, invite_code, role, org_foreignkey, invited_on) values($1, $2, $3, $4, LOCALTIMESTAMP) ", data,
-                function(err, res) {
-                    callback(err, res);
-            });
+            if(results.rows[0]){
+                var orgforeignkey = results.rows[0].index;
+                data.push(orgforeignkey);
+                console.log(data);
+                client.query("INSERT INTO Users(email, invite_code, role, org_foreignkey, invited_on) values($1, $2, $3, $4, LOCALTIMESTAMP) ", data,
+                    function(err, res) {
+                        callback(err, res);
+                });
+            } else {
+                // If this query fails, that mean that the ownerid could not be
+                // in the database
+                callback(new Error(["Owner could not be found in the database", "user.js", 189]), "Owner not found");
+            }
         });
     });
 }
