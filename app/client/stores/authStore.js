@@ -44,6 +44,14 @@ var authStore = Flux.createStore({
     },
     changeRole: function(role){
         _user.role = role;
+    },
+    setJWT: function(jwt){
+        jwt = jwt !== "null" ? jwt : null;
+        if(jwt){
+            return localStorage.setItem('JWT', jwt);
+        } else {
+            this.signOut();
+        }
     }
 }, function(payload) {
     if (payload.actionType === "SIGNIN_USER") {
@@ -60,6 +68,10 @@ var authStore = Flux.createStore({
     }
     if (payload.actionType === "CHANGE_ROLE"){
         this.changeRole(payload.role);
+        this.emitChange();
+    }
+    if (payload.actionType === "SET_JWT"){
+        this.setJWT(payload.JWT);
         this.emitChange();
     }
 });

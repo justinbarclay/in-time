@@ -48,14 +48,10 @@ var authActions = Flux.createActions({
         return localStorage.getItem('JWT');
     },
     setJWT: function(jwt) {
-        jwt = jwt !== "null" ? jwt : null;
-        if(jwt){
-            return localStorage.setItem('JWT', jwt);
-        } else {
-            this.dispatch({
-                actionType: "SIGNOUT_USER"
-            });
-        }
+        this.dispatch({
+            actionType: "SET_JWT",
+            JWT: jwt
+        });
     },
     changeRole: function(role){
         this.dispatch({

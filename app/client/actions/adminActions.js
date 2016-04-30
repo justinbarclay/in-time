@@ -1,6 +1,7 @@
 var Flux = require("../biff");
 var messageActions = require("./messageActions");
-var authActions = require('./authActions');
+var authStore = require('../stores/authStore');
+var authActions = require("./authActions");
 
 // Set of allowed actions
 var adminActions = Flux.createActions({
@@ -23,25 +24,22 @@ var adminActions = Flux.createActions({
                     console.log("test");
                     messageActions.addMessage("owner", data.message);
                 }
-                // if (data.success) {
-                //     authActions.setJWT(AJAXreq.getResponseHeader("X-ACCESS-TOKEN"));
-                // }
             }
         };
-    },
-    setJWT(header){
-        jwt = jwt !== "null" ? jwt : null;
-        if(jwt){
-            return localStorage.setItem('JWT', jwt);
-        } else {
-            this.dispatch({
-                actionType: "SIGNOUT_USER"
-            });
-        }
     }
+    // setJWT(header){
+    //     jwt = jwt !== "null" ? jwt : null;
+    //     if(jwt){
+    //         return localStorage.setItem('JWT', jwt);
+    //     } else {
+    //         this.dispatch({
+    //             actionType: "SIGNOUT_USER"
+    //         });
+    //     }
+    // }
 });
 module.exports = adminActions;
 
 function setJWT(header){
-    authActions.setJWT(header);
+    authStore.setJWT(header);
 }
