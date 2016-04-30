@@ -32,7 +32,7 @@ server.post('/api/signin', function(req, res, next){
     user.authenticate(currentUser.email, currentUser.password,
         function(err, auth, signedJWT) {
             if (err) {
-                res.send(JSON.stringify(auth));
+                res.send(auth);
                 console.error(err);
                 next();
             } else {
@@ -43,9 +43,9 @@ server.post('/api/signin', function(req, res, next){
                         auth.message) + "\n" +
                     "message length: " + auth.length);
                 res.setHeader('X-ACCESS-TOKEN', signedJWT || null);
+                res.send(auth);
+                next();
             }
-            res.send(auth);
-            return next();
         });
 });
 
