@@ -25,4 +25,4 @@ server.on('NotFound', function(request, response, route, error){
     response.redirect("/");
 });
 exports.server = server;
-routes = require('./restifyRoutes');
+routes = require('./routes');
