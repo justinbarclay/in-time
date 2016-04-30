@@ -33,7 +33,7 @@ var NavSignedIn = React.createClass({
         timesheetActions.syncTimesheets(id);
     },
     componentWillUnmount: function(){
-        hashHistory.push("home");
+        hashHistory.push("/");
     },
     changeRole: function(){
         newRole = this.state.role === "Supervisor" ? "Staff" : "Supervisor";
