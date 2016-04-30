@@ -83,7 +83,7 @@ server.post('/api/signup', function(req, res, next){
 
 server.post('/api/timesheets', function(req, res, next){
     console.log("Retrieving timesheets");
-    userID = getUserID(req.headers['X-ACCESS-TOKEN']);
+    userID = getUserID(res.header('X-ACCESS-TOKEN'));
     try {
     var request = JSON.parse(req.body);
         console.log("REQUEST " + JSON.stringify(userID));

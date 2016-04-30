@@ -14,7 +14,7 @@ var adminActions = Flux.createActions({
         AJAXreq.setRequestHeader('ContentType',
             'application/json; charset=UTF8');
         var currentJWT = localStorage.getItem('JWT');
-        // AJAXreq.setRequestHeader('X-ACCESS-TOKEN', currentJWT);
+        AJAXreq.setRequestHeader('X-ACCESS-TOKEN', currentJWT);
         AJAXreq.send(JSON.stringify(user));
         console.log(user);
         AJAXreq.onreadystatechange = function() {

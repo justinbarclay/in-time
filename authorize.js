@@ -30,11 +30,9 @@ var verifyJWT = function(token) {
     var state;
     try {
         state = jwt.verify(token, secret);
+        console.log("State: " + JSON.stringify(state));
         return token;
     } catch (err) {
-        console.log("JWT err");
-        console.log(err);
-        console.log(token);
         return null;
     }
 };
