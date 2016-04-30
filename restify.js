@@ -1,6 +1,6 @@
 var restify = require('restify');
 var authorize = require('./authorize');
-
+var port = require('./config').port;
 
 var server = restify.createServer({
  name: 'MyApp'
@@ -9,7 +9,7 @@ var server = restify.createServer({
 
 // server.use(server.router);
 server.use(restify.bodyParser());
-server.listen(8000);
+server.listen(port);
 
 server.use(function logger(req,res,next) {
   console.log(new Date(),req.method,req.url);
