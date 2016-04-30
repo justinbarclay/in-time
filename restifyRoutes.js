@@ -195,7 +195,6 @@ server.post('/api/invite', function(req, res, next){
             console.log(message);
             console.log(!err);
             data = {message: message, success: !err};
-            data = JSON.stringify(data);
             res.send(data);
             next();
         });

@@ -47,11 +47,7 @@ var authStore = Flux.createStore({
     },
     setJWT: function(jwt){
         jwt = jwt !== "null" ? jwt : null;
-        if(jwt){
-            return localStorage.setItem('JWT', jwt);
-        } else {
-            this.signOut();
-        }
+        localStorage.setItem('JWT', jwt);
     }
 }, function(payload) {
     if (payload.actionType === "SIGNIN_USER") {

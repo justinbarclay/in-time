@@ -20,6 +20,10 @@ var NavSignedIn = React.createClass({
         authActions.signOut();
     },
     storeDidChange: function(){
+        console.log("JWT: ", localStorage.getItem("JWT"));
+        if(localStorage.getItem("JWT") === "null"){
+            authActions.signOut();
+        }
         this.setState({
             role: authActions.getUserInfo().role
         });
@@ -29,7 +33,6 @@ var NavSignedIn = React.createClass({
         timesheetActions.syncTimesheets(id);
     },
     componentWillUnmount: function(){
-        timesheetActions.deleteTimesheets();
         hashHistory.push("home");
     },
     changeRole: function(){

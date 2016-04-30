@@ -1,6 +1,6 @@
 var Flux = require("../biff");
 var messageActions = require("./messageActions");
-var authStore = require('../stores/authStore');
+//var authStore = require('../stores/authStore');
 var authActions = require("./authActions");
 
 // Set of allowed actions
@@ -13,15 +13,16 @@ var adminActions = Flux.createActions({
         AJAXreq.open("post", "/api/invite", true);
         AJAXreq.setRequestHeader('ContentType',
             'application/json; charset=UTF8');
+        var currentJWT = localStorage.getItem('JWT');
+        AJAXreq.setRequestHeader('X-ACCESS-TOKEN', currentJWT);
         AJAXreq.send(JSON.stringify(user));
         console.log(user);
         AJAXreq.onreadystatechange = function() {
             if (AJAXreq.readyState === 4) {
                 var data = JSON.parse(AJAXreq.responseText);
-                console.log(data);
-                setJWT(AJAXreq.getResponseHeader("X-ACCESS-TOKEN"));
+                var auth = AJAXreq.getResponseHeader("X-ACCESS-TOKEN");
+                authActions.setJWT(auth);
                 if(data.message){
-                    console.log("test");
                     messageActions.addMessage("owner", data.message);
                 }
             }
@@ -29,7 +30,3 @@ var adminActions = Flux.createActions({
     }
 });
 module.exports = adminActions;
-
-function setJWT(header){
-    authStore.setJWT(header);
-}

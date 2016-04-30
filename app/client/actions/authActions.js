@@ -1,4 +1,5 @@
 var authStore = require('../stores/authStore');
+var timesheetStore = require('../stores/timesheetStore');
 
 var Flux = require("../biff");
 
@@ -34,6 +35,9 @@ var authActions = Flux.createActions({
         this.dispatch({
             actionType: "SIGNOUT_USER"
         });
+        this.dispatch({
+            actionType: "DELETE_TIMESHEETS"
+        });
     },
     changeUserInfo: function(user) {
         this.dispatch({
@@ -48,10 +52,14 @@ var authActions = Flux.createActions({
         return localStorage.getItem('JWT');
     },
     setJWT: function(jwt) {
-        this.dispatch({
-            actionType: "SET_JWT",
-            JWT: jwt
-        });
+        if(jwt === "null"){
+            authActions.signOut();
+        } else{
+            this.dispatch({
+                actionType: "SET_JWT",
+                JWT: jwt
+            });
+        }
     },
     changeRole: function(role){
         this.dispatch({

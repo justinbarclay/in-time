@@ -2,7 +2,6 @@ var authActions = require("../actions/authActions.js");
 var authStore = require("../stores/authStore.js");
 function authStaff(nextState, replace) {
     if (!authStore.authenticated()) {
-        console.log("test");
         replace({
             pathname: '/signin',
             state: {
@@ -13,7 +12,6 @@ function authStaff(nextState, replace) {
 }
 
 function authSup(nextState, replace) {
-    console.log(nextState);
     if (!authStore.authenticated()) {
         replace({
             pathname: '/signin'
