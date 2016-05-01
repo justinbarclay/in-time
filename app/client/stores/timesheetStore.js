@@ -91,8 +91,8 @@ var timesheetStore = Flux.createStore({
         timesheets.forEach(function(timesheet){
             timesheet.startDate = moment(timesheet.startDate, "YYYY-MM-DD", true);
             timesheet.endDate = moment(timesheet.endDate, "YYYY-MM-DD", true);
-            timesheet.entry.forEach(function(entry){
-                entry.date = moment(entry.date, "YYYY-MM-DD");
+            timesheet.entries.forEach(function(entry){
+                entry.date = moment(entry.date, "YYYY-MM-DD", true);
             });
         });
         _timesheets = timesheets;
