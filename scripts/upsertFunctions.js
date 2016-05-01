@@ -87,7 +87,7 @@ function createFunctions() {
     setTimeout(function() {
         client.end();
         console.log("Success");
-    }, 3000);
+    }, 1000);
     return "Success";
 }
 module.exports = createFunctions;

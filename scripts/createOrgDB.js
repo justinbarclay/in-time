@@ -18,7 +18,7 @@ function createOrganization() {
     setTimeout(function() {
         client.end();
         console.log("Succesful");
-    }, 1000);
+    }, 3000);
 }
 
 module.exports = createOrganization;
