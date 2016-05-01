@@ -3,6 +3,7 @@
 
 var Flux = require('../biff');
 var uuid = require("node-uuid");
+var moment = require("moment");
 // initialize the store this will have an _timesheetsay of timesheets, it will probably have one timesheet to start
 // then as I build out the process it should support having multiple timesheets and be able to edit individual entries in
 // each one.
@@ -87,6 +88,13 @@ var timesheetStore = Flux.createStore({
         });
     },
     syncTimesheets: function(timesheets){
+        timesheets.forEach(function(timesheet){
+            timesheet.startDate = moment(timesheet.startDate, "YYYY-MM-DD", true);
+            timesheet.endDate = moment(timesheet.endDate, "YYYY-MM-DD", true);
+            timesheet.entry.forEach(function(entry){
+                entry.date = moment(entry.date, "YYYY-MM-DD");
+            });
+        });
         _timesheets = timesheets;
         console.log("sync timesheets: ", timesheets);
     },

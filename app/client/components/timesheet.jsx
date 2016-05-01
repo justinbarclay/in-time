@@ -63,6 +63,7 @@ var Timesheet = React.createClass({
                 "type": "text"
             }
         ];
+
         var metaFields = [
             {
                 "name": "Start Date",
@@ -78,6 +79,7 @@ var Timesheet = React.createClass({
                 "type": "number"
             }
         ];
+        
         if (this.state) {
             var entries = this.state.entries.map(function(entry, index) {
                 if (entry.delete === false) {
@@ -89,7 +91,7 @@ var Timesheet = React.createClass({
                 return <label className="heading" key={index}>{field.name}</label>;
             });
 
-            var metadata = <TimesheetMeta timesheet={this.state} fields={metaFields}/>;
+            var metadata = <TimesheetMeta timesheet={this.state} />;
 
             var metaHeadings = metaFields.map(function(field, index) {
                 return <label className="metaHeading" key={index}>{field.name}</label>;

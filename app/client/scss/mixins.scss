@@ -1,6 +1,21 @@
 // Custom Mixins
 // Mixin that I pulled off the internet that allows elements to center
 // horizontally
+
+$border-color: #aeaeae;
+$background-color: #f0f0f0;
+$selected-color: #216ba5;
+$muted-color: #ccc;
+$text-color: #000;
+
+$border-radius: 4px;
+$item-size: 24px;
+$day-margin: 2px;
+$triangle-size: 8px;
+$datepicker__margin: 5px;
+$navigation-size: 6px;
+
+
 @mixin vertical-align-container {
     transform-style: preserve-3d;
 }
@@ -12,3 +27,63 @@
 }
 
 $eggshell: #F0EAD6;
+
+%triangle-arrow {
+  margin-left: -$triangle-size;
+  position: absolute;
+
+  &,
+  &::before {
+    box-sizing: content-box;
+    position: absolute;
+    border: $triangle-size solid transparent;
+
+    height: 0;
+    width: 1px;
+  }
+
+  &::before {
+    content: "";
+    z-index: -1;
+    border-width: $triangle-size;
+
+    left: -$triangle-size;
+    border-bottom-color: $border-color;
+  }
+}
+
+%triangle-arrow-up {
+  @extend %triangle-arrow;
+
+  top: 0;
+  margin-top: -$triangle-size;
+
+  &,
+  &::before {
+    border-top: none;
+    border-bottom-color: $background-color;
+  }
+
+  &::before {
+    top: -1px;
+    border-bottom-color: $border-color;
+  }
+}
+
+%triangle-arrow-down {
+  @extend %triangle-arrow;
+
+  bottom: 0;
+  margin-bottom: -$triangle-size;
+
+  &,
+  &::before {
+    border-bottom: none;
+    border-top-color: #fff;
+  }
+
+  &::before {
+    bottom: -1px;
+    border-top-color: $border-color;
+  }
+}
