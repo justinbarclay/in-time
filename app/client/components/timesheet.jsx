@@ -50,10 +50,6 @@ var Timesheet = React.createClass({
         var self = this;
         var entryFields = [
             {
-                "name": "Date",
-                "accessor": "date",
-                "type": "date"
-            }, {
                 "name": "Duration",
                 "accessor": "duration",
                 "type": "number"
@@ -79,11 +75,11 @@ var Timesheet = React.createClass({
                 "type": "number"
             }
         ];
-        
+
         if (this.state) {
             var entries = this.state.entries.map(function(entry, index) {
                 if (entry.delete === false) {
-                    return <TimesheetRow deletable={true} entry={entry} fields={entryFields} id={self.state.timesheetID} index={index} key={index}/>;
+                    return <TimesheetRow deletable={true} startDate={self.state.startDate} endDate={self.state.endDate} entry={entry} fields={entryFields} id={self.state.timesheetID} index={index} key={index}/>;
                 }
             });
 
@@ -99,7 +95,8 @@ var Timesheet = React.createClass({
             var editButtons = this.displayApprove()? <Approve timesheetID={this.state.timesheetID}/>
                 : <TimesheetEditButtons timesheetID={this.state.timesheetID}/>;
 
-            data = <div><div className="meta">{metaHeadings}{metadata}</div><div className="fields"><div className="headings row">{headings}</div>{entries}{editButtons}</div></div>;
+            data = <div><div className="meta">{metaHeadings}{metadata}</div><div className="fields">
+                <div className="headings row">{headings}</div>{entries}{editButtons}</div></div>;
         } else {
             data = <div className="button">We were unable to find your timesheet,
             <br /> you will be redirected to timesheets shortly</div>;

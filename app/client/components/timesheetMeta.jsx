@@ -11,10 +11,7 @@ var TimesheetMeta = React.createClass({
         return null;
     },
     handleChange: function(meta) {
-        // delete meta.index;
-
-        console.log(meta.toDate());
-        console.log(meta);
+        // delete meta.index;   
         timesheetActions.updateMeta(meta);
     },
     changeStart: function(time){
@@ -29,7 +26,8 @@ var TimesheetMeta = React.createClass({
         meta = {
             id: this.props.timesheet.timesheetID,
             accessor: "endDate",
-            value: time
+            value: time,
+            index: this.props.index
         };
         timesheetActions.updateMeta(meta);
     },
@@ -37,21 +35,21 @@ var TimesheetMeta = React.createClass({
         return (
             <div>
                 <DatePicker
-                    className=" metaInfo"
                     accessor="startDate"
-                    dateFormat="YYYY/MM/DD"
+                    dateFormat="MM/DD/YYYY"
                     placeholderText="Click to select a date"
-                    selected={this.props.timesheet.startDate || null}
+                    selected={this.props.timesheet.startDate || undefined}
                     id={this.props.timesheet.timesheetID}
                     onChange={this.changeStart}
                     type="text" />
                 <DatePicker
-                    className="metaInfo"
                     accessor="endDate"
+                    dateFormat="MM/DD/YYYY"
+                    placeholderText="Click to select a date"
+                    selected={this.props.timesheet.endDate || undefined}
                     id={this.props.timesheet.timesheetID}
                     onChange={this.changeEnd}
-                    type="text"
-                    value={this.props.timesheet.endDate} />
+                    type="text" />
                 <TextEntry
                     className="metaInfo"
                     accessor="engagement"

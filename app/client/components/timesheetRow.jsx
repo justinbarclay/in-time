@@ -3,6 +3,7 @@ var Navigation = require("react-router");
 var timesheetActions = require('../actions/timesheetActions');
 //Child Components
 var TimesheetInput = require('./timesheetInput');
+var DatePicker = require('react-datepicker');
 
 
 var TimesheetRow = React.createClass({
@@ -24,11 +25,29 @@ var TimesheetRow = React.createClass({
     deleteRow: function() {
         timesheetActions.deleteRow(this.props.id, this.props.index);
     },
+    changeDate: function(time){
+        entry = {
+            id: this.props.id,
+            index: this.props.index,
+            accessor: "date",
+            value: time
+        };
+        timesheetActions.updateEntry(entry);
+    },
     render: function() {
         var rows = this.props.fields.map(this.buildRow);
         var del = <div className="delButton" onClick={this.deleteRow}>&times;</div>;
         return (
             <div className="timesheetRow">
+                <DatePicker
+                dateFormat="MM/DD/YYYY"
+                placeholderText="Click to select a date"
+                minDate = {this.props.startDate || undefined}
+                maxDate = {this.props.endDate || undefined}
+                selected={this.props.entry.date || undefined}
+                onChange={this.changeDate}
+                type="text" />
+
                 {rows}
                 {this.props.deletable ? del : null}
             </div>
