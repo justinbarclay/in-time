@@ -5,7 +5,7 @@ let pg = require('pg');
 let conString = config.postgres;
 let uuid = require('uuid')
     .v4;
-
+var moment = require('moment');
 
 //Lowers timeout time, to close client connection sooner, this may cause problems
 //in the long run as queries to the database take a longer time
@@ -456,8 +456,8 @@ function buildTimesheets(data) {
             let timesheet = {
                 timesheetID: meta.timesheet_id,
                 userID: meta.user_foreignkey,
-                startDate: buildYearMonthDay(new Date(meta.start_date)),
-                endDate: buildYearMonthDay(new Date(meta.end_date)),
+                startDate: moment(meta.start_date).add(1, "day").format("YYYY-MM-DD"), // for some reason postgres returns a UTC time that is 1 day off in JS
+                endDate: moment(meta.end_date).add(1, "day").format("YYYY-MM-DD"),
                 engagement: String(meta.engagement),
                 delete: meta.delete,
                 approved: meta.approved,
@@ -466,7 +466,7 @@ function buildTimesheets(data) {
             entries.forEach(function(entry, index) {
                 if (entry.timesheet_foreignkey === timesheet.timesheetID) {
                     timesheet.entries.push({
-                        date: buildYearMonthDay(new Date(entry.service_date)),
+                        date: moment(entry.service_date).add(1, "day").format("YYYY-MM-DD"),
                         service: entry.service_description,
                         duration: String(entry.service_duration),
                         delete: entry.delete
@@ -495,9 +495,11 @@ function matchPermissions(action, permissions){
     }
     return false;
 }
+
+//Dead code, may keep it if I can figure out why I am getting an off by one day error
 function buildYearMonthDay(date) {
     console.log("build date", date.getDate());
-    let day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+    let day = date.getDate()+1 < 10 ? '0' + (date.getDate()+1) : date.getDate()+1;
     console.log('day', day);
     let month = date.getMonth()+1 < 10 ? '0' + (date.getMonth()+1) : date.getMonth()+1;
     console.log('date', date.getMonth());

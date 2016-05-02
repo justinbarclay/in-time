@@ -153,8 +153,8 @@ function formatTimesheet(timesheet){
     var formattedTimesheet = {
         timesheetID: timesheet.timesheetID,
         engagement: timesheet.engagement,
-        startDate: timesheet.startDate.format("MM/DD/YYYY"),
-        endDate: timesheet.endDate.format("MM/DD/YYYY"),
+        startDate: timesheet.startDate.format("YYYY-MM-DD"),
+        endDate: timesheet.endDate.format("YYYY-MM-DD"),
         approved: timesheet.approved,
         delete: Boolean(timesheet.delete),
         userID: localStorage.getItem('USER_ID'),
@@ -164,7 +164,7 @@ function formatTimesheet(timesheet){
         return {
             rowID: entry.rowID,
             service: entry.service,
-            date: entry.date.format("MM/DD/YYYY"),
+            date: entry.date.format("YYYY-MM-DD"),
             duration: entry.duration,
             delete: Boolean(entry.delete)
         };
