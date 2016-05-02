@@ -1,6 +1,9 @@
+$pad: .8rem;
+
 .react-datepicker {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 11px;
+  width: calc(33% - #{$pad});
   background-color: #fff;
   color: $text-color;
   border: 1px solid $border-color;
@@ -150,6 +153,7 @@
 }
 
 .react-datepicker__input-container {
+  width: calc(33% - #{$pad});
   position: relative;
   display: inline-block;
 }

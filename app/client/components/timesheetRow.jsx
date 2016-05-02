@@ -40,6 +40,7 @@ var TimesheetRow = React.createClass({
         return (
             <div className="timesheetRow">
                 <DatePicker
+                className="react-datepicker"
                 dateFormat="MM/DD/YYYY"
                 placeholderText="Click to select a date"
                 minDate = {this.props.startDate || undefined}
