@@ -1,5 +1,6 @@
 var uuid = require("node-uuid");
 var React = require('react');
+var hashHistory = require("react-router").hashHistory;
 
 var timesheetActions = require("../actions/timesheetActions");
 var hashHistory = require('react-router').hashHistory;
@@ -31,7 +32,7 @@ var TimesheetEditButtons = React.createClass({
         self = this;
         console.log("Hold for 2 seconds");
         this.setState({timer: window.setTimeout(function(){
-            router.push('/timesheets');
+            hashHistory.push('/timesheets');
             timesheetActions.deleteTimesheet(self.state.timesheetID);
         }, 2000)});
     },
