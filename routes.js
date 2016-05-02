@@ -128,10 +128,13 @@ server.post('/api/timesheet', function(req, res, next){
         return next();
     } else {
         timesheet.createTimesheet(timesheetObj, function(message) {
-            if (message) {
-                res.send(JSON.stringify(message));
-                next();
+            console.log("Message " + message.message);
+            if (message.message) {
+                console.log("in here");
+                res.send({"message":message.message});
             }
+            console.log("Done");
+            next();
         });
     }
 });

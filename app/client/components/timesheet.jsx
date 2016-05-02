@@ -14,6 +14,7 @@ var Approve = require("./approve");
 
 // other
 var uuid = require("node-uuid");
+var MessageNew = require("./messageNew");
 
 var Timesheet = React.createClass({
     displayName: "Timesheet",
@@ -99,8 +100,15 @@ var Timesheet = React.createClass({
             var editButtons = this.displayApprove()? <Approve timesheetID={this.state.timesheetID}/>
                 : <TimesheetEditButtons timesheetID={this.state.timesheetID}/>;
 
-            data = <div><div className="meta">{metaHeadings}{metadata}</div><div className="fields">
-                <div className="headings row">{headings}</div>{entries}{editButtons}</div></div>;
+            data = <div>
+                        <MessageNew accessor="timesheet" hidden={true}/>
+                        <div className="meta">{metaHeadings}{metadata}</div>
+                        <div className="fields">
+                            <div className="headings row">{headings}</div>
+                            {entries}
+                            {editButtons}
+                        </div>
+                    </div>;
         } else {
             data = <div className="button">We were unable to find your timesheet,
             <br /> you will be redirected to timesheets shortly</div>;

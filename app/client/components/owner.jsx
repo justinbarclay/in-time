@@ -14,7 +14,6 @@ var Owner = React.createClass({
     storeDidChange: function(){
     },
     _onSelect (option) {
-        console.log('You selected ', option.label);
         this.setState({selected: option.value});
     },
     invite: function(form){

@@ -8,10 +8,14 @@ var MessageNew = React.createClass({
     propTypes: {},
     mixins: [messageStore.mixin],
     getInitialState: function(){
+        console.log("Store change");
         return {message:messageActions.getMessage(this.props.accessor), hidden: this.props.hidden};
     },
     storeDidChange: function(){
-        this.setState({message: messageActions.getMessage(this.props.accessor), hidden: false});
+        var newMessage = messageActions.getMessage(this.props.accessor);
+        if(newMessage){
+            this.setState({message: newMessage , hidden: false});
+        }
     },
     componentWillMount: function(){
         if(this.state.message){

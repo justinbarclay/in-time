@@ -2,6 +2,7 @@ var Flux = require("../biff");
 var timesheetStore = require('../stores/timesheetStore');
 var authActions = require("./authActions");
 var _ = require("underscore");
+var messageActions = require('./messageActions');
 
 var timesheetActions = Flux.createActions({
     syncTimesheets: function(userID) {
@@ -25,7 +26,6 @@ var timesheetActions = Flux.createActions({
                     "X-ACCESS-TOKEN");
                     console.log("newJWT: ", newJWT);
                 authActions.setJWT(newJWT);
-                console.log(res);
                 self.dispatch({
                     actionType: "SYNC_TIMESHEET",
                     timesheets: res
@@ -140,11 +140,10 @@ function ajax(method, route, data){
         var res = JSON.parse(AJAXreq.responseText);
         console.log(res);
         if (AJAXreq.readyState === 4) {
-            newJWT = AJAXreq.getResponseHeader(
+            jwt = AJAXreq.getResponseHeader(
                 "X-ACCESS-TOKEN");
-            if (newJWT) {
-                localStorage.setItem('JWT', newJWT);
-            }
+            authActions.setJWT(jwt);
+            messageActions.addMessage("timesheet", res.message);
             return res;
         }
     };

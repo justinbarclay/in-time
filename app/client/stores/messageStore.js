@@ -5,19 +5,23 @@ var Flux = require('../biff');
 
 // initialize the store
 // this is a simple object, because I only want to store one authenticated user at a time
-var _message = {"owner": {current:"hello world"}};
+var _message = {};
 
 var messageStore = Flux.createStore({
     addMessage: function(accessor, message){
-        if(_message[accessor].current === null){
-            _message[accessor].current = message;
+        if(!_message[accessor]){
+            _message[accessor] = {"current": message};
         } else if(_message[accessor].stack){
             _message[accessor].stack.push(message);
         } else{
             _message[accessor].stack = [message];
         }
+        console.log(_message);
     },
     getMessage: function(accessor){
+        if(!_message[accessor]){
+            return null;
+        }
         temp = _message[accessor].current;
         if(_message[accessor].stack){
             _message[accessor].current = _message[accessor].stack[0];

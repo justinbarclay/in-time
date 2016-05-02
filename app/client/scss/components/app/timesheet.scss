@@ -17,6 +17,16 @@ $pad: .8rem;
     }
 
 }
+.message {
+    top: -10px;
+    max-width: 360px;
+    margin: 0 auto;
+    $alert-font-color: #B33A3A;
+    @include alert($bg: #E4252D);
+    text-align: center;
+    display: none;
+}
+
 .meta{
     .metaInfo {
         width: calc(33% - #{$pad});

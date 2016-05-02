@@ -77,6 +77,7 @@ function finish(data) {
         data.done();
         data.client.end();
         // console.log("data", data);
+        data.message = "Timesheet updated";
         resolve(data);
     });
 }
