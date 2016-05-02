@@ -1,18 +1,20 @@
 //React
 var React = require("react");
 var ReactDOM = require("react-dom");
-var Message = require("./message");
 var route = require("react-router").hashHistory;
+
+var messageActions = require('../actions/messageActions');
 
 var uuid = require("node-uuid");
 
 //Component
+var MessageNew = require('./messageNew');
 var SignUpForm = React.createClass({
     displayName: "Sign Up Form",
     propTypes: [],
     mixins: [],
     getInitialState: function(){
-        return { signUpMessage: '', alertHidden: true, disableSubmit: true };
+        return {};
     },
     componentWillMount: function(){
         //Regex to verify a UUID code
@@ -31,7 +33,7 @@ var SignUpForm = React.createClass({
             "password": ReactDOM.findDOMNode(this.refs.password).value.trim(),
             "code": this.props.params.code
         });
-        
+
         if (this.validateSubmission()){
 
             var AJAXreq = new XMLHttpRequest();
@@ -40,7 +42,7 @@ var SignUpForm = React.createClass({
             AJAXreq.send(user);
             AJAXreq.onreadystatechange = function () {
                 if (AJAXreq.readyState === 4)   {
-                    self.setState({signUpMessage: AJAXreq.responseText, alertHidden: false});
+                    messageActions.addMessage("signup", AJAXreq.responseText);
                 }
             };
 
@@ -60,13 +62,13 @@ var SignUpForm = React.createClass({
         //This is a messy if statement
         // console.log(typeof username);
         if (!this.validateEmail(email)){
-            this.setState({signUpMessage: "E-mail address is not valid", alertHidden: false});
+            messageActions.addMessage("signup", "E-mail address is not valid");
             return false;
         } else if(password.length < 5){
-            this.setState({signUpMessage: "Password must be at least 5 characters long", alertHidden: false});
+            messageActions.addMessage("signup", "Password must be at least 5 characters long");
             return false;
         } else if (password !== confirm) {
-            this.setState({signUpMessage: "Passwords do not match", alertHidden: false});
+            messageActions.addMessage("signup", "Passwords do not match");
             return false;
         } else {
             return true;
@@ -76,7 +78,7 @@ var SignUpForm = React.createClass({
         console.log(this.props);
         return (
             <div className="signupForm">
-                <Message message={this.state.signUpMessage} hidden={this.state.alertHidden} />
+                <MessageNew accessor="signup" hidden={true}/>
                 <form name="user" action="" onSubmit={this.signup} method="post">
                     <div>
                       <label htmlFor="email">E-mail</label>

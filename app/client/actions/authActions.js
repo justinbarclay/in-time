@@ -1,6 +1,6 @@
 var authStore = require('../stores/authStore');
 var timesheetStore = require('../stores/timesheetStore');
-
+var messageActions = require('./messageActions');
 var Flux = require("../biff");
 
 
@@ -21,8 +21,8 @@ var authActions = Flux.createActions({
                 var user = JSON.parse(AJAXreq.responseText);
                 if (user.success) {
                     authActions.setJWT(AJAXreq.getResponseHeader("X-ACCESS-TOKEN"));
-                    localStorage.setItem('USER_ID', user.id);
                 }
+                messageActions.addMessage("signin", user.message);
                 self.dispatch({
                     actionType: "SIGNIN_USER",
                     user: user

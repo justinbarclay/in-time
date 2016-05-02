@@ -6,8 +6,9 @@ var hashHistory = ReactRouter.hashHistory;
 var authActions = require('../actions/authActions');
 var authStore = require('../stores/authStore');
 
+
 //Components
-var Message = require('./message');
+var MessageNew = require('./messageNew');
 
 var SignInForm = React.createClass({
     displayName: "SignInForm",
@@ -25,10 +26,6 @@ var SignInForm = React.createClass({
             hashHistory.push("/timesheets");
         } else {
             submit.disabled = false;
-            this.setState({
-                hidden: false,
-                signInMessage: authActions.getUserInfo().message
-            });
         }
     },
     login: function(form) {
@@ -43,7 +40,7 @@ var SignInForm = React.createClass({
     render: function() {
         return (
             <div className="signinForm">
-                <Message hidden={this.state.hidden} message={this.state.signInMessage}/>
+                <MessageNew accessor="signin" hidden={true}/>
                 <form method="post" name="user" onSubmit={this.login}>
                     <div>
                         <label htmlFor="email">Email</label>
