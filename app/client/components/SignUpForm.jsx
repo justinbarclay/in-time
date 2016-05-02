@@ -24,11 +24,14 @@ var SignUpForm = React.createClass({
     signup: function(form){
         self = this;
         form.preventDefault();
+        submit.disabled =true;
+
         user = JSON.stringify({
             "email": ReactDOM.findDOMNode(this.refs.email).value.trim(),
             "password": ReactDOM.findDOMNode(this.refs.password).value.trim(),
             "code": this.props.params.code
         });
+        
         if (this.validateSubmission()){
 
             var AJAXreq = new XMLHttpRequest();
@@ -87,7 +90,7 @@ var SignUpForm = React.createClass({
                         <label htmlFor="confirmPassword">Confirm Password</label>
                         <input type="password" ref="confirmPassword" name="confirmPassword" id="confirmPassword" onBlur={this.matchPasswords}/>
                     </div>
-                    <button type="submit"> Submit </button>
+                    <button id="submit" type="submit"> Submit </button>
                 </form>
             </div>
         );

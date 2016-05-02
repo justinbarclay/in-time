@@ -24,6 +24,7 @@ var SignInForm = React.createClass({
             console.log(authActions.isLoggedIn());
             hashHistory.push("/timesheets");
         } else {
+            submit.disabled = false;
             this.setState({
                 hidden: false,
                 signInMessage: authActions.getUserInfo().message
@@ -32,7 +33,7 @@ var SignInForm = React.createClass({
     },
     login: function(form) {
         form.preventDefault();
-
+        submit.disabled = true;
         var user = {
             "email": React.findDOMNode(this.refs.email).value.trim(),
             "password": React.findDOMNode(this.refs.password).value.trim()
@@ -52,7 +53,7 @@ var SignInForm = React.createClass({
                         <label htmlFor="signInPassword">Password</label>
                         <input id="signInPassword" name="password" ref="password" type="password"/>
                     </div>
-                    <button type="submit">
+                    <button id="submit" type="submit">
                         Submit
                     </button>
                 </form>
