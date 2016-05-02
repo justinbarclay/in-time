@@ -82,11 +82,15 @@ var Timesheet = React.createClass({
                     return <TimesheetRow deletable={true} startDate={self.state.startDate} endDate={self.state.endDate} entry={entry} fields={entryFields} id={self.state.timesheetID} index={index} key={index}/>;
                 }
             });
-
+            entryFields = [{
+                "name": "Date",
+                "accessor": "date",
+                "type": "string"
+            }].concat(entryFields);
             var headings = entryFields.map(function(field, index) {
                 return <label className="heading" key={index}>{field.name}</label>;
             });
-
+            entryFields.slice(0,1);
             var metadata = <TimesheetMeta timesheet={this.state} />;
 
             var metaHeadings = metaFields.map(function(field, index) {
