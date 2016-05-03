@@ -11,7 +11,7 @@ var messageStore = require('../stores/messageStore');
 var SignUpOrg = React.createClass({
     displayName: "Sign Up Form",
     propTypes: [],
-    mixins: [],
+    mixins: [messageStore.mixin],
     getInitialState: function(){
         return {};
     },

@@ -36,22 +36,15 @@ function rollback(data) {
     //to the done function to close & remove this client from
     //the pool.  If you leave a client in the pool with an unaborted
     //transaction weird, hard to diagnose problems might happen.
-    console.log("lul wat?");
-    return new Promise(function(resolve, reject) {
-        console.log("rollback");
-        console.log(data);
+    return new Promise(function(resolve, reject){
         data.client.query('ROLLBACK', function(err) {
             if (err) {
                 throw err;
-            } else {
-                resolve({
-                    setup: data.setup,
-                    client: data.client,
-                    done: data.done
-                });
             }
+            resolve({err: true});
         });
     });
+
 }
 
 function finish(data) {
@@ -92,6 +85,7 @@ function addOrganization(data){
         console.log(values);
         data.client.query(queryString, values, function(err, result){
             if(err){
+                console.log("addOrganization");
                 console.log(err);
                 throw err;
             } else{
@@ -111,7 +105,8 @@ function createUser(data){
         let newuser = data.setup.user;
         user.signUpOwner(newuser.password, newuser.email, data.setup.org.key, function(err, bool, result){
             if (err){
-                throw err;
+                console.log("createUser");
+                reject(data);
             } else {
                 resolve({
                     setup: data.setup,
