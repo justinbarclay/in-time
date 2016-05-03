@@ -16,7 +16,6 @@ var messageStore = Flux.createStore({
         } else{
             _message[accessor].stack = [message];
         }
-        console.log(_message);
     },
     getMessage: function(accessor){
         if(!_message[accessor]){
