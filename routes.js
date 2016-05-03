@@ -36,7 +36,7 @@ server.post('/api/signin', function(req, res, next){
                 console.error(err);
                 next();
             } else {
-                console.log("Succesful signUp of " +
+                console.log("Succesful signin of " +
                     currentUser.email + " = " + auth
                     .success);
                 console.log("Message:" + JSON.stringify(

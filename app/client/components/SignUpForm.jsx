@@ -2,7 +2,7 @@
 var React = require("react");
 var ReactDOM = require("react-dom");
 var route = require("react-router").hashHistory;
-
+var messageStore = require('../stores/messageStore');
 var messageActions = require('../actions/messageActions');
 
 var uuid = require("node-uuid");
@@ -12,7 +12,7 @@ var MessageNew = require('./messageNew');
 var SignUpForm = React.createClass({
     displayName: "Sign Up Form",
     propTypes: [],
-    mixins: [],
+    mixins: [messageStore.mixin],
     getInitialState: function(){
         return {};
     },
@@ -23,11 +23,14 @@ var SignUpForm = React.createClass({
             route.push("/");
         }
     },
+    storeDidChange: function(){
+        submit.disabled = false;
+    },
     signup: function(form){
         self = this;
         form.preventDefault();
         submit.disabled =true;
-
+        console.log(form);
         user = JSON.stringify({
             "email": ReactDOM.findDOMNode(this.refs.email).value.trim(),
             "password": ReactDOM.findDOMNode(this.refs.password).value.trim(),
@@ -55,9 +58,9 @@ var SignUpForm = React.createClass({
         return emailRegEx.test(email);
     },
     validateSubmission: function() {
-        var email = React.findDOMNode(this.refs.email).value.trim();
-        var password = React.findDOMNode(this.refs.password).value.trim();
-        var confirm = React.findDOMNode(this.refs.confirmPassword).value.trim();
+        var email = ReactDOM.findDOMNode(this.refs.email).value.trim();
+        var password = ReactDOM.findDOMNode(this.refs.password).value.trim();
+        var confirm = ReactDOM.findDOMNode(this.refs.confirmPassword).value.trim();
 
         //This is a messy if statement
         // console.log(typeof username);

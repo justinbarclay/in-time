@@ -1,5 +1,6 @@
 //React
 var React = require("react");
+var ReactDOM = require("react-dom");
 var ReactRouter = require("react-router");
 var Link = ReactRouter.link;
 var hashHistory = ReactRouter.hashHistory;
@@ -32,8 +33,8 @@ var SignInForm = React.createClass({
         form.preventDefault();
         submit.disabled = true;
         var user = {
-            "email": React.findDOMNode(this.refs.email).value.trim(),
-            "password": React.findDOMNode(this.refs.password).value.trim()
+            "email": ReactDOM.findDOMNode(this.refs.email).value.trim(),
+            "password": ReactDOM.findDOMNode(this.refs.password).value.trim()
         };
         authActions.signIn(user);
     },
