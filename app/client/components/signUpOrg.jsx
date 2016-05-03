@@ -21,6 +21,7 @@ var SignUpOrg = React.createClass({
     signup: function(form){
         self = this;
         form.preventDefault();
+        submit.disabled = true;
         user = {
             email: ReactDOM.findDOMNode(this.refs.email).value.trim(),
             password: ReactDOM.findDOMNode(this.refs.password).value.trim()
