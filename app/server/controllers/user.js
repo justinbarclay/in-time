@@ -217,6 +217,7 @@ function authenticate(userEmail, userPassword, callback) {
                     console.log(res);
                     callback(err, auth);
                 } else {
+                    console.log(res.rows);
                     bcrypt.compare(userPassword, res.rows[0].password,
                         function(err, success) {
                             payload.iat = Date.now();
@@ -252,7 +253,6 @@ function authenticate(userEmail, userPassword, callback) {
 
                         });
                     done();
-
                 }
             });
     });
