@@ -50,7 +50,9 @@ function rollback(data) {
 function finish(data) {
     return new Promise(function(resolve, reject) {
         data.client.query('COMMIT', data.done);
-        resolve({error: null});
+        resolve({error: null,
+                 userid: data.userid
+        });
     });
 }
 
@@ -123,13 +125,15 @@ function updateOwner(data){
     let findOwner = "SELECT user_id FROM users WHERE email=" + "'" + userEmail + "'";
     return new Promise(function(resolve, reject){
         data.client.query(findOwner, function(err, result){
+            let userID = result.rows[0].user_id;
             let update = "UPDATE Organization SET owner_foreignkey='" +
-            result.rows[0].user_id + "'WHERE orgname='" + data.setup.org.orgname + "'";
+            userID + "'WHERE orgname='" + data.setup.org.orgname + "'";
             data.client.query(update, function(err, result){
                 resolve({
                     setup: data.setup,
                     client: data.client,
-                    done: data.done
+                    done: data.done,
+                    userid: userID
                 });
             });
         });

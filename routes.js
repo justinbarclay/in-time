@@ -62,11 +62,11 @@ server.post('/api/signup', function(req, res, next){
                 res.writeHead(400, {
                     'Content-Type': 'application/json'
                 });
-                res.write(
+                res.send(
                     "There was an error talking to the server"
                 );
                 console.error(err);
-                res.end();
+                next();
             } else {
                 console.log("Succesful signUp of " +
                     currentUser.email + " = " + bool
@@ -74,11 +74,27 @@ server.post('/api/signup', function(req, res, next){
                 res.writeHead(200, {
                     'Content-Type': 'application/json'
                 });
-                res.write('' + message);
-                res.end();
-            }
+                user.authenticate(currentUser.email, currentUser.password,
+                    function(err, auth, signedJWT) {
+                        if (err) {
+                            res.send(auth);
+                            console.error(err);
+                            next();
+                        } else {
+                            console.log("Succesful signin of " +
+                                currentUser.email + " = " + auth
+                                .success);
+                            console.log("Message:" + JSON.stringify(
+                                    auth.message) + "\n" +
+                                "message length: " + auth.length);
+                            res.setHeader('X-ACCESS-TOKEN', signedJWT || null);
+                            res.send(auth);
+                            next();
+                        }
+                });
             console.log(message);
-        });
+        }
+    });
 });
 
 server.post('/api/timesheets', function(req, res, next){
@@ -161,7 +177,6 @@ server.post('/api/approve', function(req, res, next){
         } else {
             approve.userID = userID;
             timesheet.approveTimesheet(approve, function(message) {
-                console.log("line 235", message); //Debug
                 res.send(JSON.stringify(message));
                 next();
             });
@@ -184,7 +199,6 @@ server.post('/api/findTimesheet', function(req, res, next){
             return next();
         } else {
             timesheet.getTimesheets(request, function(timesheets) {
-                console.log("line 194");
                 res.send(JSON.stringify(timesheets));
                 next();
             });
@@ -204,34 +218,35 @@ server.post('/api/invite', function(req, res, next){
 });
 
 server.post('/api/register', function(req, res, next){
-    register = req.body;
-    console.log("Register: " + register);
-    var message;
-    owner.addOrganization(register, function(result){
-        if(result.err){
-            message = "Failure";
-        } else {
-            message = "Success";
-        }
-        res.send(message);
-        next();
-    });
-});
-
-server.post('/api/register', function(req, res, next){
     var register = req.body;
     var message;
     owner.addOrganization(register, function(result){
         if(result.err){
-            message = "Failure";
+            message = "Unable to register organization, please try again later or contact the system administrator";
+            res.send(result.message);
+            next();
         } else {
-            message = "Success";
+            var currentUser = register.user;
+            user.authenticate(currentUser.email, currentUser.password,
+                function(err, auth, signedJWT) {
+                    if (err) {
+                        res.send(auth);
+                        console.error(err);
+                        next();
+                    } else {
+                        console.log("Succesful signin of " +
+                            currentUser.email + " = " + auth
+                            .success);
+                        console.log("Message:" + JSON.stringify(
+                                auth.message) + "\n" +
+                            "message length: " + auth.length);
+                        res.setHeader('X-ACCESS-TOKEN', signedJWT || null);
+                    }
+            });
+            res.send(result.message);
+            next();
         }
-        console.log("REGISTER END");
-        res.send(message);
-        next();
     });
-
 });
 
 server.get(/.*/, restify.serveStatic({

@@ -2,21 +2,27 @@
 var React = require("react");
 var ReactDOM = require("react-dom");
 var MessageNew = require("./messageNew");
+var HashHistory = require('react-router').HashHistory;
 
 var registerActions = require('../actions/registerActions');
 var authActions = require('../actions/authActions');
 var messageActions = require('../actions/messageActions');
 var messageStore = require('../stores/messageStore');
+var authStore = require('../stores/authStore');
+
 //Component
 var SignUpOrg = React.createClass({
     displayName: "Sign Up Form",
     propTypes: [],
-    mixins: [messageStore.mixin],
+    mixins: [messageStore.mixin, authStore.mixin],
     getInitialState: function(){
         return {};
     },
     storeDidChange: function(){
         submit.disabled = false;
+        if(authActions.isAuthenticated()){
+            HashHistory.push("/");
+        }
     },
     signup: function(form){
         self = this;
@@ -36,6 +42,7 @@ var SignUpOrg = React.createClass({
             AJAXreq.send(register);
             AJAXreq.onreadystatechange = function () {
                 if (AJAXreq.readyState === 4)   {
+                    authActions.setJWT(AJAXreq.getResponseHeader("X-ACCESS-TOKEN"));
                     messageActions.addMessage("regorg", AJAXreq.responseText);
                 }
             };
