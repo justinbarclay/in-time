@@ -4,6 +4,9 @@ var ReactDOM = require("react-dom");
 var route = require("react-router").hashHistory;
 var messageStore = require('../stores/messageStore');
 var messageActions = require('../actions/messageActions');
+var registerActions = require('../actions/registerActions');
+var authActions = require('../actions/authActions');
+
 
 var uuid = require("node-uuid");
 
@@ -27,7 +30,6 @@ var SignUpForm = React.createClass({
         submit.disabled = false;
     },
     signup: function(form){
-        self = this;
         form.preventDefault();
         submit.disabled =true;
         console.log(form);
@@ -38,17 +40,7 @@ var SignUpForm = React.createClass({
         });
 
         if (this.validateSubmission()){
-
-            var AJAXreq = new XMLHttpRequest();
-            AJAXreq.open("post", "/api/signup", true);
-            AJAXreq.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-            AJAXreq.send(user);
-            AJAXreq.onreadystatechange = function () {
-                if (AJAXreq.readyState === 4)   {
-                    messageActions.addMessage("signup", AJAXreq.responseText);
-                }
-            };
-
+            registerActions.signUpUser(user);
         }
     },
     validateEmail: function(email){

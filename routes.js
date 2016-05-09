@@ -66,20 +66,17 @@ server.post('/api/signup', function(req, res, next){
                     "There was an error talking to the server"
                 );
                 console.error(err);
-                next();
+                return next();
             } else {
                 console.log("Succesful signUp of " +
                     currentUser.email + " = " + bool
                 );
-                res.writeHead(200, {
-                    'Content-Type': 'application/json'
-                });
                 user.authenticate(currentUser.email, currentUser.password,
                     function(err, auth, signedJWT) {
                         if (err) {
                             res.send(auth);
                             console.error(err);
-                            next();
+                            return next();
                         } else {
                             console.log("Succesful signin of " +
                                 currentUser.email + " = " + auth
@@ -88,15 +85,14 @@ server.post('/api/signup', function(req, res, next){
                                     auth.message) + "\n" +
                                 "message length: " + auth.length);
                             res.setHeader('X-ACCESS-TOKEN', signedJWT || null);
+                            console.log(JSON.stringify(auth));
                             res.send(auth);
-                            next();
+                            return next();
                         }
                 });
-            console.log(message);
         }
     });
 });
-
 server.post('/api/timesheets', function(req, res, next){
     console.log("Retrieving timesheets");
     userID = getUserID(res.header('X-ACCESS-TOKEN'));
@@ -127,10 +123,12 @@ server.post('/api/timesheets', function(req, res, next){
 
 server.post('/api/timesheet', function(req, res, next){
     var timesheetObj;
-    var userID = getUserID(req.headers['X-ACCESS-TOKEN']);
-
+    var userID = getUserID(res.header('X-ACCESS-TOKEN'));
+    console.log(res.header('X-ACCESS-TOKEN'));
+    console.log(getUserID(res.header('X-ACCESS-TOKEN')));
     try {
         timesheetObj = JSON.parse(req.body);
+        timesheetObj.userID = userID;
     } catch (err) {
         console.error(err); //Debug
     }

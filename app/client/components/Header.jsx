@@ -1,5 +1,6 @@
 //React
 var React = require("react");
+var hashHistory = require('react-router').hashHistory;
 var Router = require("react-router");
 var Link = Router.Link;
 
@@ -19,7 +20,11 @@ var header = React.createClass({
         return({signedIn: authActions.isLoggedIn()});
     },
     storeDidChange: function(){
-        this.setState({signedIn: authActions.isLoggedIn()});
+        var loggedIn = authActions.isLoggedIn();
+        if(loggedIn){
+            this.setState({signedIn: authActions.isLoggedIn()});
+            hashHistory.push('/timesheets');
+        }
     },
     render: function(){
         nav = this.state.signedIn ? <SignedIn/> : <SignedOut/>;
