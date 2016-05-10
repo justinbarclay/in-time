@@ -85,7 +85,6 @@ server.post('/api/signup', function(req, res, next){
                                     auth.message) + "\n" +
                                 "message length: " + auth.length);
                             res.setHeader('X-ACCESS-TOKEN', signedJWT || null);
-                            console.log(JSON.stringify(auth));
                             res.send(auth);
                             return next();
                         }
@@ -221,7 +220,8 @@ server.post('/api/register', function(req, res, next){
     owner.addOrganization(register, function(result){
         if(result.err){
             message = "Unable to register organization, please try again later or contact the system administrator";
-            res.send(result.message);
+            result.message = message;
+            res.send({message: message});
             next();
         } else {
             var currentUser = register.user;
@@ -239,10 +239,11 @@ server.post('/api/register', function(req, res, next){
                                 auth.message) + "\n" +
                             "message length: " + auth.length);
                         res.setHeader('X-ACCESS-TOKEN', signedJWT || null);
+                        res.send(auth);
+                        next();
                     }
             });
-            res.send(result.message);
-            next();
+
         }
     });
 });

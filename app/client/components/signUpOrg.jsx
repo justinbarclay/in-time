@@ -14,15 +14,12 @@ var authStore = require('../stores/authStore');
 var SignUpOrg = React.createClass({
     displayName: "Sign Up Form",
     propTypes: [],
-    mixins: [messageStore.mixin, authStore.mixin],
+    mixins: [messageStore.mixin],
     getInitialState: function(){
         return {};
     },
     storeDidChange: function(){
         submit.disabled = false;
-        if(authActions.isAuthenticated()){
-            HashHistory.push("/");
-        }
     },
     signup: function(form){
         self = this;
@@ -34,19 +31,8 @@ var SignUpOrg = React.createClass({
         };
         if (this.validateSubmission()){
             org = registerActions.getInfo();
-            register={org:org, user:user};
-            register = JSON.stringify(register);
-            var AJAXreq = new XMLHttpRequest();
-            AJAXreq.open("post", "/api/register", true);
-            AJAXreq.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-            AJAXreq.send(register);
-            AJAXreq.onreadystatechange = function () {
-                if (AJAXreq.readyState === 4)   {
-                    authActions.setJWT(AJAXreq.getResponseHeader("X-ACCESS-TOKEN"));
-                    messageActions.addMessage("regorg", AJAXreq.responseText);
-                }
-            };
-
+            organization={org:org, user:user};
+            registerActions.signUpOrg(organization);
         }
     },
     validateEmail: function(email){
