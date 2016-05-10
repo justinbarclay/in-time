@@ -107,33 +107,6 @@ function route(req, res) {
                     console.log("Auth message", auth.message);
                 });
         });
-    } else if (path === '/JWT') {
-        req.on("data", function(chunk) {
-            data += chunk;
-        });
-
-        req.on("end", function() {
-            headerJWT = req.headers["x-access-token"];
-            console.log("headerJWT: " + headerJWT);
-            var verify = verifyJWT(headerJWT);
-            if (verify) {
-                userID = getUserID(JWT);
-            }
-            var message = {
-                verify: verify ? "Token verified" : "illegal token"
-            };
-            res.setHeader('X-ACCESS-TOKEN', verify);
-            message.userID = userID;
-            res.writeHead(200, {
-                'Content-Type': 'application/text',
-                'Content-Length': Buffer.byteLength(message)
-
-            });
-            console.log("verify " + verify);
-            res.write(message);
-            res.end();
-            console.log("res sent");
-        });
     } else if (path === '/api/timesheets' && req.method === "POST") {
         // Should handle both get and post? or just one...
         console.log("Retrieving timesheets");
