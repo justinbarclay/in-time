@@ -51,7 +51,7 @@ function finish(data) {
     return new Promise(function(resolve, reject) {
         data.client.query('COMMIT', data.done);
         resolve({error: null,
-                 userid: data.userid
+                 userid: data
         });
     });
 }
@@ -78,10 +78,16 @@ function begin(data) {
         });
     });
 }
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Add a new Owner and Organization
+//
+///////////////////////////////////////////////////////////////////////////////
 function addOrganization(data){
     let org = data.setup.org;
     return new Promise(function(resolve, reject){
-        var values = [org.orgname, org.domain, 3];
+        var values = [org.orgname, org.domain, 0];
         let queryString =
             "INSERT INTO Organization(orgname, domains, owner_foreignkey) VALUES($1, $2, $3) RETURNING index";
         console.log(values);
@@ -122,9 +128,9 @@ function createUser(data){
 
 function updateOwner(data){
     let userEmail = data.setup.user.email;
-    let findOwner = "SELECT user_id FROM users WHERE email=" + "'" + userEmail + "'";
+    let findOwner = "SELECT user_id FROM users WHERE email=$1";
     return new Promise(function(resolve, reject){
-        data.client.query(findOwner, function(err, result){
+        data.client.query(findOwner, [userEmail], function(err, result){
             let userID = result.rows[0].user_id;
             let update = "UPDATE Organization SET owner_foreignkey='" +
             userID + "'WHERE orgname='" + data.setup.org.orgname + "'";
@@ -139,6 +145,59 @@ function updateOwner(data){
         });
     });
 }
+///////////////////////////////////////////////////////////////////////////////
+//
+// findStaff
+//
+//////////////////////////////////////////////////////////////////////////////
+function findOrganization(data){
+    let ownerID = data.setup.id;
+    var findOrg = "SELECT index FROM Organization WHERE organization.owner_foreignkey=$1";
+    return new Promise(function(resolve, reject){
+        data.client.query(findOrg, [ownerID], function(err, result){
+            if(result.rows){
+                let orgID = result.rows[0].index;
+                resolve ({
+                    setup: data.setup,
+                    client: data.client,
+                    done: data.done,
+                    orgID: orgID
+                });
+            } else {
+                reject("Bad things");
+            }
+        });
+    });
+}
+
+function getStaff(data){
+    let orgID = data.orgID;
+    let getUsers = "SELECT email, org_foreignkey, role FROM users WHERE org_foreignkey=$1";
+    return new Promise(function(resolve, reject){
+        data.client.query(getUsers, [orgID], function(err, result){
+            if(err){
+                reject({
+                    err:err
+                });
+            } else{
+                let staff = result.rows.map(function(data){
+                    return {role: data.role, email: data.email};
+                });
+                data.done();
+                data.client.end();
+                resolve({
+                    staff
+                });
+            }
+        });
+    });
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// api Calls
+//
+///////////////////////////////////////////////////////////////////////////////
 function addOrganizationPromise(data, callback) {
     connect(data)
         .then(begin)
@@ -149,5 +208,15 @@ function addOrganizationPromise(data, callback) {
         .catch(rollback)
         .then(callback);
 }
+function getStaffPromise(data, callback){
+    connect(data)
+        // .then(begin)
+        .then(findOrganization)
+        .then(getStaff)
+        // .catch(rollback)
+        // .then(finish)
+        .then(callback);
 
+}
 exports.addOrganization = addOrganizationPromise;
+exports.getStaff = getStaffPromise;
