@@ -3,7 +3,7 @@ var jwt = require("jsonwebtoken");
 var secret = require("./config.js").secret;
 
 function authorize(req, res, next){
-    var secure = new Set(['/api/timesheet', '/api/timesheets', '/api/approve', '/api/findTimesheet', '/api/invite']);
+    var secure = new Set(['/api/timesheet', '/api/timesheets', '/api/approve', '/api/findTimesheet', '/api/invite', '/api/JWT']);
     var unsecure = ['/api/signin', '/api/signup', '/api/register', '/', /\/public\/?\/?.*/];
     // Read JWT and set RES header as result returned from verifyJWT
     var verify = verifyJWT(req.header('X-ACCESS-TOKEN'));
