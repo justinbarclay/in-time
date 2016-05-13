@@ -6956,7 +6956,6 @@ button {
 .react-datepicker {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 11px;
-  width: calc(33% - 0.8rem);
   background-color: #fff;
   color: #000;
   border: 1px solid #aeaeae;
