@@ -248,6 +248,13 @@ server.post('/api/register', function(req, res, next){
     });
 });
 
+server.post('/api/JWT', function(req, res, next){
+        if(res.header('X-ACCESS-TOKEN')){
+            res.send({success:true});
+        }
+        res.next();
+});
+
 server.get(/.*/, restify.serveStatic({
     directory: __dirname + "/app/public",
     file: 'index.html'

@@ -61,6 +61,25 @@ var authActions = Flux.createActions({
             });
         }
     },
+    verifyJWT: function(jwt){
+        self = this;
+        var AJAXreq = new XMLHttpRequest();
+        AJAXreq.open("post", "/api/JWT", true);
+        AJAXreq.setRequestHeader('ContentType',
+            'application/json; charset=UTF8');
+        AJAXreq.setRequestHeader('X-ACCESS-TOKEN', authActions.getJWT());
+        AJAXreq.send(JSON.stringify(user));
+        AJAXreq.onreadystatechange = function() {
+            if (AJAXreq.readyState === 4) {
+                var user = JSON.parse(AJAXreq.responseText);
+                authActions.setJWT(AJAXreq.getResponseHeader("X-ACCESS-TOKEN"));
+                self.dispatch({
+                    actionType: "SIGNIN_USER",
+                    user: user
+                });
+            }
+        };
+    },
     changeRole: function(role){
         this.dispatch({
             actionType: "CHANGE_ROLE",

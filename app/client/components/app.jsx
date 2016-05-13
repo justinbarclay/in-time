@@ -1,4 +1,5 @@
 var React = require("react");
+var authActions = require("../actions/authActions");
 //var Router = require("react-router");
 //var RouteHandler = Router.RouteHandler;
 
@@ -10,7 +11,12 @@ var app = React.createClass({
     displayName: "TimeClock App",
     mixins:[],
     propTypes:[],
-
+    componentWillMount: function(){
+        var jwt = authActions.getJWT();
+        if(jwt){
+            authActions.verifyJWT(jwt);
+        }
+    },
     render: function(){
         console.log(this.context);
         return (

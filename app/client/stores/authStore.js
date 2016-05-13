@@ -13,11 +13,6 @@ var authStore = Flux.createStore({
         return _user;
     },
     authenticated: function(){
-        var userID = parseInt(localStorage.getItem("USER_ID"));
-        if (!_user.authenticated && userID){
-            _user.id = userID;
-            return true;
-        }
         return _user.authenticated;
     },
     signinUser: function(user) {
