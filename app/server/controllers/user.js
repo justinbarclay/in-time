@@ -196,7 +196,6 @@ function authenticate(userEmail, userPassword, callback) {
         err: null,
         success: null,
         message: '',
-        JWT: ''
     };
     pg.connect(conString, function(err, client, done) {
         if (err) {
@@ -242,6 +241,7 @@ function authenticate(userEmail, userPassword, callback) {
                                     auth.email = res.rows[0].email;
                                     auth.id = res.rows[0].user_id;
                                     payload.userid = res.rows[0].user_id;
+                                    auth.role = res.rows[0].role;
                                     auth.message = "Authentication successful";
                                     var signedJWT = jwt.sign(payload, secret, {
                                         expiresIn: twoWeeks,

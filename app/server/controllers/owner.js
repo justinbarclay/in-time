@@ -210,13 +210,9 @@ function addOrganizationPromise(data, callback) {
 }
 function getStaffPromise(data, callback){
     connect(data)
-        // .then(begin)
         .then(findOrganization)
         .then(getStaff)
-        // .catch(rollback)
-        // .then(finish)
         .then(callback);
-
 }
 exports.addOrganization = addOrganizationPromise;
 exports.getStaff = getStaffPromise;

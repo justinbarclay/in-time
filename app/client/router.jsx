@@ -36,7 +36,7 @@ var routes = (
       <Route path="timesheets" component={Timesheets} onEnter={authStaff}/>
       <Route path="timesheet/:id" component={Timesheet} onEnter={authStaff}/>
       <Route path="staff" component={StaffTracker} onEnter={authSup} />
-      <Route path="Owner" component={Owner} onEnter={authStaff}/>
+      <Route path="invite" component={Owner} onEnter={authStaff}/>
       <Route path="register" component={Register}/>
       <Route path="register/admin" component={SignUpOrg}/>
       <Route path="*" component={NotFound}/>

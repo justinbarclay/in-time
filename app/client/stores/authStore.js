@@ -6,7 +6,7 @@ var Flux = require('../biff');
 
 // initialize the store
 // this is a simple object, because I only want to store one authenticated user at a time
-var _user = {role:"Supervisor"};
+var _user = {};
 
 var authStore = Flux.createStore({
     getUserInfo: function() {
@@ -18,9 +18,11 @@ var authStore = Flux.createStore({
     signinUser: function(user) {
         // this will take a user object with the properties of username, email and JWT token
         // I may eventually grow this information to first name, last name, and other user information
+        console.log(user);
         _user.username = user.username;
         _user.id = user.id;
         _user.email = user.email;
+        _user.role = user.role;
         _user.authenticated = user.success;
 
         //Maybe split _user.message off to a message store
@@ -35,9 +37,6 @@ var authStore = Flux.createStore({
         // functionally the same thing as signinUser, but different names to indicate different purposes.
         _user.username = user.username;
         _user.email = user.email;
-    },
-    changeRole: function(role){
-        _user.role = role;
     },
     setJWT: function(jwt){
         jwt = jwt !== "null" ? jwt : null;

@@ -12,20 +12,21 @@ var NavSignedIn = React.createClass({
     mixins: [authStore.mixin],
 
     getInitialState: function(){
+        var role = authActions.getUserInfo().role;
+        var links = this.genLinks(this.genLinkArray(role));
         return({
-            role: authActions.getUserInfo().role
+            role: role,
+            links: links
         });
-    },
-    signOut: function(){
-        authActions.signOut();
     },
     storeDidChange: function(){
         console.log("JWT: ", localStorage.getItem("JWT"));
         if(localStorage.getItem("JWT") === "null"){
             authActions.signOut();
         }
+        role = authActions.getUserInfo().role;
         this.setState({
-            role: authActions.getUserInfo().role
+            role: role
         });
     },
     componentDidMount: function(){
@@ -35,28 +36,37 @@ var NavSignedIn = React.createClass({
     componentWillUnmount: function(){
         hashHistory.push("/");
     },
-    changeRole: function(){
-        newRole = this.state.role === "Supervisor" ? "Staff" : "Supervisor";
-        authActions.changeRole(newRole);
+    signOut: function(){
+        authActions.signOut();
     },
-    staffButton: function(){
-        return (
-            <Link className="nav" to="staff">
-                <label>Staff</label>
-            </Link> );
+    genLinkArray: function(role){
+        var owner = [{route:"/invite", label:"Invite"}, {route:"/", label:"Employees"}];
+        var supervisor = [{route:"/staff", label: "Staff"}];
+        var base = [{route:"/timesheets", label:"Timesheets"},{route: "/about", label:"About"}];
+        var links = [];
+        if(role === "Staff"){
+            links = base;
+        } else if (role === "Supervisor"){
+            links = supervisor.concat(base);
+        } else if (role === "Owner"){
+            links = owner.concat(base.slice(1,2));
+        }
+        console.log(links);
+        return links;
+    },
+    genLinks: function(data){
+        var links = data.map(function(link, index){
+            return (<Link to={link.route} className="nav" key={index}>
+                <label>{link.label}</label>
+            </Link>);
+        });
+        return links;
     },
     render: function() {
-        var staff = this.state.role === "Supervisor" ? this.staffButton() : null;
+        // console.log(this.state.links);   
         return (
             <div className="navigation">
-                <label className="nav role" onClick={this.changeRole}>{this.state.role}</label>
-                <Link to="/about" className="nav">
-                    <label>About</label>
-                </Link>
-                <Link className="nav" to="/timesheets">
-                    <label>Timesheets</label>
-                </Link>
-                {staff}
+                {this.state.links}
                 <a className="nav" onClick={this.signOut}>
                     <label>Sign Out</label>
                 </a>

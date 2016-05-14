@@ -21,11 +21,11 @@ var header = React.createClass({
     },
     storeDidChange: function(){
         var loggedIn = authActions.isLoggedIn();
-        this.setState({signedIn: authActions.isLoggedIn()});
+        this.setState({signedIn: loggedIn});
         if(loggedIn){
             hashHistory.push('/timesheets');
         } else {
-            hashHistory.push('/');
+            //hashHistory.push('/');
         }
     },
     render: function(){
