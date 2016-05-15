@@ -7,13 +7,6 @@ let uuid = require('uuid')
     .v4;
 var moment = require('moment');
 
-//Lowers timeout time, to close client connection sooner, this may cause problems
-//in the long run as queries to the database take a longer time
-//but for now, while running tests this needs to be short
-
-//without this being set pg.defaults to 30 clients running and a timeout time for
-//each client of 30s (30000)
-pg.defaults.poolIdleTimeout = 10 * 1000;
 ////////////////////////////////////////////////////////////////////////////////
 //
 //Timesheet Controller
@@ -75,7 +68,6 @@ function finish(data) {
     return new Promise(function(resolve, reject) {
         data.client.query('COMMIT', data.done);
         data.done();
-        data.client.end();
         // console.log("data", data);
         data.message = "Timesheet updated";
         resolve(data);
@@ -450,7 +442,6 @@ function buildTimesheets(data) {
     console.log("hmm");
     return new Promise(function(resolve, reject) {
         console.log("building timesheet");
-        console.log(data);
         let meta_info = data.meta;
         let entries = data.entries;
         let timesheets = meta_info.map(function(meta) {
