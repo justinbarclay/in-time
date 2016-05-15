@@ -1,14 +1,20 @@
 $pad: .8rem;
 .employeesContainer{
-    max-width: 50em;
+    max-width: 30em;
+    min-width: 10em;
     margin: 0 auto;
     padding-left: 1em;
+    .title{
+        width: calc(50% - #{$pad});
+        text-align: center;
+        display: inline-block;
+    }
 }
 .employeeRow{
     margin: 0 auto .5em auto;
     vertical-align: middle;
     .Dropdown-root{
-        width: calc(33% - #{$pad});
+        width: calc(50% - #{$pad});
         margin-bottom: 0;
         display: inline-block;
     }

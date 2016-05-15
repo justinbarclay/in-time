@@ -33,7 +33,12 @@ var Employees = React.createClass({
         var employees = this.buildEmployees(this.state.employees);
         return (
             <div className="employeesContainer">
+                <div>
+                    <div className="title">Position</div>
+                    <div className="title">Supervisor</div>
+                </div>
                 {employees}
+
             </div>
         );
     }
