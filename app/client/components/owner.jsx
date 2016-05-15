@@ -9,7 +9,11 @@ var Owner = React.createClass({
     propTypes: [],
     mixins: [],
     getInitialState: function(){
-        return {hidden: true, selected: "Staff"};
+        return {
+            options: ["Staff", "Supervisor", "Owner"],
+            hidden: true,
+            selected: "Staff"
+        };
     },
     storeDidChange: function(){
     },
@@ -25,7 +29,7 @@ var Owner = React.createClass({
         adminActions.invite(user);
     },
     render: function(){
-        options = ["Staff", "Supervisor", "Owner"];
+
         var defaultOption = options[0];
         return (
             <div className="inviteUserForm">
@@ -38,7 +42,7 @@ var Owner = React.createClass({
                     </div>
                     <div>
                         <label htmlFor="role">Role</label>
-                        <Dropdown ref="dropdown" options={options} onChange={this._onSelect} value={this.state.selected} />
+                        <Dropdown ref="dropdown" options={this.state.options} onChange={this._onSelect} value={this.state.selected} />
                     </div>
                     <button type="submit">
                         Submit
