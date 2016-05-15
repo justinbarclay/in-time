@@ -6744,6 +6744,11 @@ button {
 .newTimesheet {
   margin: 0 auto; }
 
+@media (max-width: 545px) {
+  .timesheetsContainer .timesheet {
+    width: 17em;
+    max-width: 100%; } }
+
 .staffContainer {
   text-align: center; }
   .staffContainer .staffInfo {
