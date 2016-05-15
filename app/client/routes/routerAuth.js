@@ -16,8 +16,7 @@ function authSup(nextState, replace) {
         replace({
             pathname: '/signin'
         });
-    } else if (!matchAuth(authActions.getUserInfo().role, ["Supervisor", "Admin"])){
-        console.log(authActions.getUserInfo().role);
+    } else if (!matchAuth(authActions.getUserInfo().role, ["Supervisor", "Owner"])){
         replace({
             pathname: '/timesheets'
         });

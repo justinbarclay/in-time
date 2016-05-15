@@ -6,6 +6,7 @@ var Flux = require("../biff");
 
 // Set of allowed actions
 var staffActions = Flux.createActions({
+    syncStaff: function(){},
     getAllStaff: function(){
         return staffStore.getAllStaff();
     },

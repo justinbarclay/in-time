@@ -17,7 +17,6 @@ var registerStore = Flux.createStore({
     }
 }, function(payload){
     if(payload.actionType === "UPDATE_ORG"){
-        console.log(payload.entry);
         this.updateEntry(payload.entry);
         this.emitChange();
     }

@@ -123,8 +123,7 @@ server.post('/api/timesheets', function(req, res, next){
 server.post('/api/timesheet', function(req, res, next){
     var timesheetObj;
     var userID = getUserID(res.header('X-ACCESS-TOKEN'));
-    console.log(res.header('X-ACCESS-TOKEN'));
-    console.log(getUserID(res.header('X-ACCESS-TOKEN')));
+    console.log("User ID: " + userID);
     try {
         timesheetObj = JSON.parse(req.body);
         timesheetObj.userID = userID;
@@ -211,6 +210,19 @@ server.post('/api/invite', function(req, res, next){
             data = {message: message, success: !err};
             res.send(data);
             next();
+        });
+});
+
+server.post('/api/employees', function(req, res, next){
+        thing = JSON.parse(req.body);
+        owner.getEmployees(thing, function(data) {
+            console.log(data);
+            if(data.err){
+                res.send({success: false, message: data.message});
+                next();
+            } else {res.send(data);
+                next();
+            }
         });
 });
 

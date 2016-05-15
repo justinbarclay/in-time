@@ -15,6 +15,7 @@ var NotFound = require("./components/notfound");
 var About = require("./components/about");
 var Owner = require("./components/owner");
 var Register = require("./components/register");
+var Employees = require("./components/Employees");
 
 // Set up Router object
 var ReactRouter = require('react-router');
@@ -39,6 +40,7 @@ var routes = (
       <Route path="invite" component={Owner} onEnter={authStaff}/>
       <Route path="register" component={Register}/>
       <Route path="register/admin" component={SignUpOrg}/>
+      <Route path="employees" component={Employees}/>
       <Route path="*" component={NotFound}/>
     </Route>
 );

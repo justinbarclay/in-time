@@ -2,6 +2,7 @@
 
 var config = require("../../../config.js");
 var pg = require('pg');
+pg.defaults.poolSize = 30;
 var conString = config.postgres;
 var uuid = require('uuid').v4;
 var user = require('./user');
@@ -155,16 +156,22 @@ function findOrganization(data){
     var findOrg = "SELECT index FROM Organization WHERE organization.owner_foreignkey=$1";
     return new Promise(function(resolve, reject){
         data.client.query(findOrg, [ownerID], function(err, result){
-            if(result.rows){
-                let orgID = result.rows[0].index;
-                resolve ({
-                    setup: data.setup,
-                    client: data.client,
-                    done: data.done,
-                    orgID: orgID
-                });
+            if(err){
+                reject(err);
             } else {
-                reject("Bad things");
+                console.log(err);
+                console.log(result);
+                if(typeof result.rows !== undefined){
+                    let orgID = result.rows[0].index;
+                    resolve ({
+                        setup: data.setup,
+                        client: data.client,
+                        done: data.done,
+                        orgID: orgID
+                    });
+                } else {
+                    reject("Bad things");
+                }
             }
         });
     });
@@ -172,7 +179,7 @@ function findOrganization(data){
 
 function getStaff(data){
     let orgID = data.orgID;
-    let getUsers = "SELECT email, org_foreignkey, role FROM users WHERE org_foreignkey=$1";
+    let getUsers = "SELECT email, supervisor, role FROM users WHERE org_foreignkey=$1";
     return new Promise(function(resolve, reject){
         data.client.query(getUsers, [orgID], function(err, result){
             if(err){
@@ -181,12 +188,13 @@ function getStaff(data){
                 });
             } else{
                 let staff = result.rows.map(function(data){
-                    return {role: data.role, email: data.email};
+                    return {role: data.role, email: data.email, supervisor: data.supervisor};
                 });
                 data.done();
                 data.client.end();
                 resolve({
-                    staff
+                    message: "Success",
+                    data: staff
                 });
             }
         });
@@ -208,11 +216,16 @@ function addOrganizationPromise(data, callback) {
         .catch(rollback)
         .then(callback);
 }
-function getStaffPromise(data, callback){
+function getEmployeesPromise(data, callback){
     connect(data)
         .then(findOrganization)
         .then(getStaff)
+        .catch(function(err){
+            console.log(err);
+            console.log("Error getting employees");
+            return({err:true, message: "Error getting employees"});
+        })
         .then(callback);
 }
 exports.addOrganization = addOrganizationPromise;
-exports.getStaff = getStaffPromise;
+exports.getEmployees = getEmployeesPromise;

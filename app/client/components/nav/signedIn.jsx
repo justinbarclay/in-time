@@ -5,6 +5,7 @@ var hashHistory = require('react-router').hashHistory;
 var authActions = require("../../actions/authActions");
 var timesheetActions = require("../../actions/timesheetActions");
 var authStore = require('../../stores/authStore.js');
+var employeeActions = require('../../actions/employeeActions');
 
 var NavSignedIn = React.createClass({
     displayName: "signed in",
@@ -13,10 +14,8 @@ var NavSignedIn = React.createClass({
 
     getInitialState: function(){
         var role = authActions.getUserInfo().role;
-        var links = this.genLinks(this.genLinkArray(role));
         return({
             role: role,
-            links: links
         });
     },
     storeDidChange: function(){
@@ -32,6 +31,7 @@ var NavSignedIn = React.createClass({
     componentDidMount: function(){
         id = authActions.getUserInfo().id;
         timesheetActions.syncTimesheets(id);
+        employeeActions.syncEmployees(authActions.getUserInfo().id);
     },
     componentWillUnmount: function(){
         hashHistory.push("/");
@@ -40,10 +40,11 @@ var NavSignedIn = React.createClass({
         authActions.signOut();
     },
     genLinkArray: function(role){
-        var owner = [{route:"/invite", label:"Invite"}, {route:"/", label:"Employees"}];
+        var owner = [{route:"/invite", label:"Invite"}, {route:"/employees", label:"Employees"}];
         var supervisor = [{route:"/staff", label: "Staff"}];
         var base = [{route:"/timesheets", label:"Timesheets"},{route: "/about", label:"About"}];
         var links = [];
+        console.log("Role: "+ role);
         if(role === "Staff"){
             links = base;
         } else if (role === "Supervisor"){
@@ -51,22 +52,23 @@ var NavSignedIn = React.createClass({
         } else if (role === "Owner"){
             links = owner.concat(base.slice(1,2));
         }
-        console.log(links);
+        console.log("Links: " + links);
         return links;
     },
     genLinks: function(data){
-        var links = data.map(function(link, index){
+        console.log("Here");
+        return data.map(function(link, index){
+            console.log("Working");
             return (<Link to={link.route} className="nav" key={index}>
                 <label>{link.label}</label>
             </Link>);
         });
-        return links;
     },
     render: function() {
-        // console.log(this.state.links);   
+        var links = this.genLinks(this.genLinkArray(authActions.getUserInfo().role));
         return (
             <div className="navigation">
-                {this.state.links}
+                {links}
                 <a className="nav" onClick={this.signOut}>
                     <label>Sign Out</label>
                 </a>

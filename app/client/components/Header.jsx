@@ -25,7 +25,7 @@ var header = React.createClass({
         if(loggedIn){
             hashHistory.push('/timesheets');
         } else {
-            //hashHistory.push('/');
+            hashHistory.push('/');
         }
     },
     render: function(){
