@@ -187,6 +187,39 @@ function inviteUser(owner, userEmail, role, userCode, callback) {
     });
 }
 
+function grabInfo(user, callback){
+    let queryTerm;
+    let query;
+    if(user.id){
+        queryTerm = user.id;
+        query = "SELECT email, user_id, role FROM users where user_id=$1";
+    } else{
+        queryTerm = user.email;
+        query = "SELECT email, user_id, role FROM users where email=$1";
+    }
+    pg.connect(conString, function(err, client, done) {
+        if (err) {
+            return console.error('error fetching client from pool', err);
+        }
+        client.query(query, [queryTerm], function(err, res) {
+            let auth = {};
+            if(err){
+                auth.message = err;
+                auth.success = false;
+                console.error(err);
+                callback(auth);
+            } else{
+                auth.email = res.rows[0].email;
+                auth.id = res.rows[0].user_id;
+                auth.role = res.rows[0].role;
+                auth.success = true;
+                auth.message = "Authentication successful";
+                callback(auth);
+            }
+        });
+    });
+}
+
 function authenticate(userEmail, userPassword, callback) {
     //this function checks to see if the userEmail and userPassword match
     //anything stored in the user database
@@ -201,8 +234,7 @@ function authenticate(userEmail, userPassword, callback) {
         if (err) {
             return console.error('error fetching client from pool', err);
         }
-        client.query("SELECT * FROM Users WHERE email=" + "'" +
-            userEmail + "'",
+        client.query("SELECT email, user_id, role, password FROM Users WHERE email=$1", [userEmail],
             function(err, res) {
                 auth.err = err;
                 auth.success = false;
@@ -240,9 +272,9 @@ function authenticate(userEmail, userPassword, callback) {
                                 } else {
                                     auth.email = res.rows[0].email;
                                     auth.id = res.rows[0].user_id;
-                                    payload.userid = res.rows[0].user_id;
                                     auth.role = res.rows[0].role;
                                     auth.message = "Authentication successful";
+                                    payload.userid = res.rows[0].user_id;
                                     var signedJWT = jwt.sign(payload, secret, {
                                         expiresIn: twoWeeks,
                                         issuer: "Mountain View Industries"
@@ -269,3 +301,4 @@ exports.authenticate = authenticate;
 exports.signUp = signUp;
 exports.invite = inviteUser;
 exports.signUpOwner = signUpOwner;
+exports.grabInfo = grabInfo;
