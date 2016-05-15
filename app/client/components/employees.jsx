@@ -24,7 +24,7 @@ var Employees = React.createClass({
             return (<Employee key={index} email={employee.email} supervisor={employee.supervisor} supervisors={employeeActions.getSupervisors()}/>);
         });
         return (
-            <div className="employees">
+            <div className="">
                 {list}
             </div>
         );
@@ -32,7 +32,7 @@ var Employees = React.createClass({
     render: function(){
         var employees = this.buildEmployees(this.state.employees);
         return (
-            <div>
+            <div className="employeesContainer">
                 {employees}
             </div>
         );

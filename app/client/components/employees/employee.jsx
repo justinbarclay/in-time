@@ -23,10 +23,10 @@ var Employee = React.createClass({
         this._onSelect("supervisor", option.value);
     },
     render: function(){
-        return (<div className="employee">
+        return (<div className="employeeRow">
                     <label>{this.props.email}</label>
-                    <Dropdown ref="role" options={this.state.options} onChange={this._onSelectRole} value={this.props.role}/>
-                    <Dropdown ref="supervisor" options={this.props.supervisors} onChange={this._onSelectSup} value={this.props.supervisor}/>
+                    <Dropdown className="employeeDropdown" ref="role" options={this.state.options} onChange={this._onSelectRole} value={this.props.role}/>
+                    <Dropdown className="employeeDropdown" ref="supervisor" options={this.props.supervisors} onChange={this._onSelectSup} value={this.props.supervisor}/>
             </div>);
     }
 });
