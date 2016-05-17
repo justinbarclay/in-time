@@ -20,6 +20,15 @@ var Timesheet = React.createClass({
     displayName: "Timesheet",
     mixins: [timesheetStore.mixin],
     propTypes: [],
+    getInitialState: function() {
+        pageState = timesheetActions.getTimesheet(this.props.params.id);
+        if (!pageState) {
+            timesheetActions.grabTimesheet(authActions.getUserInfo().id, this.props.params.id);
+            return null;
+        } else {
+            return pageState;
+        }
+    },
     componentWillMount: function() {
         if (!this.state){
             setTimeout(function(){
@@ -33,15 +42,6 @@ var Timesheet = React.createClass({
             return true;
         } else {
             return false;
-        }
-    },
-    getInitialState: function() {
-        pageState = timesheetActions.getTimesheet(this.props.params.id);
-        if (!pageState) {
-            timesheetActions.grabTimesheet(authActions.getUserInfo().id, this.props.params.id);
-            return null;
-        } else {
-            return pageState;
         }
     },
     storeDidChange: function() {
