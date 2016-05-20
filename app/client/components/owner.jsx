@@ -30,7 +30,7 @@ var Owner = React.createClass({
     },
     render: function(){
 
-        var defaultOption = options[0];
+        // var defaultOption = options[0];
         return (
             <div className="inviteUserForm">
                 <MessageNew accessor="owner"/>
