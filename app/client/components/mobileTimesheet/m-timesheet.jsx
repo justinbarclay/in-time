@@ -1,16 +1,17 @@
 var React = require('react');
 var TimesheetRow = require('./m-timesheetrow');
 var TimesheetMeta = require('./m-timesheetmeta');
-var TimesheetEditButtons = require('../timesheeteditbuttons');
+var TimesheetEditButtons = require('./m-timesheeteditbuttons');
 var MessageNew = require('../messageNew');
 
 
 var timesheetActions = require('../../actions/timesheetActions');
 var authActions = require('../../actions/authActions');
+var timesheetStore = require('../../stores/timesheetStore');
 
 var Timesheet = React.createClass({
     displayName: "Mobile Timesheet",
-    mixins: [],
+    mixins: [timesheetStore.mixin],
     componentWillMount: function() {
         if (!this.state){
             setTimeout(function(){
@@ -69,7 +70,7 @@ var Timesheet = React.createClass({
         }
     },
     storeDidChange: function() {
-        this.setState(timesheetActions.getTimesheet(this.props.params.id));
+        this.setState({timesheet: timesheetActions.getTimesheet(this.props.params.id)});
     },render: function() {
         console.log("entryFields " + this.state.entryFields);
         var self = this;

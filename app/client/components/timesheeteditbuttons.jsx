@@ -16,6 +16,7 @@ var TimesheetEditButtons = React.createClass({
         });
     },
     newRow: function() {
+        console.log("New row");
         var newRow = {
             "rowID": uuid.v4(),
             "date": "",
@@ -26,7 +27,7 @@ var TimesheetEditButtons = React.createClass({
         return timesheetActions.addRow(this.state.timesheetID, newRow);
     },
     saveTimesheet: function() {
-        timesheetActions.saveTimesheet(this.state.timesheetID);
+        return timesheetActions.saveTimesheet(this.state.timesheetID);
     },
     deleteTimesheet: function() {
         self = this;
@@ -36,14 +37,15 @@ var TimesheetEditButtons = React.createClass({
             timesheetActions.deleteTimesheet(self.state.timesheetID);
         }, 2000)});
     },
-    hoverDelete:function(event){
-        (this.state.deleteMessage === "Delete") ? this.setState({deleteMessage:"Hold To Delete"}) : this.setState({deleteMessage:"Delete"});
-    },
     clearTimeout: function(){
         console.log("cleared");
         window.clearTimeout(this.state.timer);
     },
+    hoverDelete:function(event){
+        (this.state.deleteMessage === "Delete") ? this.setState({deleteMessage:"Hold To Delete"}) : this.setState({deleteMessage:"Delete"});
+    },
     render: function (){
+        console.log(this.props.timesheetID);
         return (
             <div className="newRowContainer">
                 <div className="add button" onClick={this.newRow}>
