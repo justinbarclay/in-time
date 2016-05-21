@@ -1,7 +1,14 @@
 var React = require('react');
-var TimesheetRow = require('.m-timesheetrow');
+var TimesheetRow = require('./m-timesheetrow');
+var TimesheetMeta = require('./m-timesheetmeta');
+var TimesheetEditButtons = require('../timesheeteditbuttons');
+var MessageNew = require('../messageNew');
 
-var Timesheet = React.creatClass({
+
+var timesheetActions = require('../../actions/timesheetActions');
+var authActions = require('../../actions/authActions');
+
+var Timesheet = React.createClass({
     displayName: "Mobile Timesheet",
     mixins: [],
     componentWillMount: function() {
@@ -21,6 +28,7 @@ var Timesheet = React.creatClass({
     },
     getInitialState: function() {
         pageState = timesheetActions.getTimesheet(this.props.params.id);
+        console.log("PAGE STATE" + pageState);
         if (!pageState) {
             timesheetActions.grabTimesheet(authActions.getUserInfo().id, this.props.params.id);
             return null;
@@ -42,7 +50,7 @@ var Timesheet = React.creatClass({
                         "type": "text"
                     }
                 ],
-                metaHeadings: [
+                metaFields: [
                     {
                         "name": "Start Date",
                         "accessor": "startDate",
@@ -63,30 +71,22 @@ var Timesheet = React.creatClass({
     storeDidChange: function() {
         this.setState(timesheetActions.getTimesheet(this.props.params.id));
     },render: function() {
+        console.log("entryFields " + this.state.entryFields);
         var self = this;
         if (this.state.timesheet) {
-            var entries = this.state.entries.map(function(entry, index) {
+            var entries = this.state.timesheet.entries.map(function(entry, index) {
                 if (entry.delete === false) {
-                    return <TimesheetRow deletable={true} startDate={self.state.startDate} endDate={self.state.endDate} entry={entry} fields={entryFields} id={self.state.timesheetID} index={index} key={index}/>;
+                    return <TimesheetRow deletable={true} startDate={self.state.timesheet.startDate} endDate={self.state.timesheet.endDate} entry={entry} fields={self.state.entryFields} id={self.state.timesheetID} index={index} key={index}/>;
                 }
             });
-            var headings = entryFields.map(function(field, index) {
-                return <label className="heading" key={index}>{field.name}</label>;
-            });
-            entryFields.slice(0,1);
-            var metadata = <TimesheetMeta timesheet={this.state} />;
-
-            var metaHeadings = metaFields.map(function(field, index) {
-                return <label className="metaHeading" key={index}>{field.name}</label>;
-            });
-            var editButtons = this.displayApprove()? <Approve timesheetID={this.state.timesheetID}/>
-                : <TimesheetEditButtons timesheetID={this.state.timesheetID}/>;
+            var metadata = <TimesheetMeta timesheet={this.state.timesheet} />;
+            var editButtons = this.displayApprove()? <Approve timesheetID={this.state.timesheet.timesheetID}/>
+        : <TimesheetEditButtons timesheetID={this.state.timesheet.timesheetID}/>;
 
             data = <div>
                         <MessageNew accessor="timesheet" hidden={true}/>
-                        <div className="meta">{metaHeadings}{metadata}</div>
+                        <div className="meta">{metadata}</div>
                         <div className="fields">
-                            <div className="headings row">{headings}</div>
                             {entries}
                             {editButtons}
                         </div>
@@ -101,3 +101,5 @@ var Timesheet = React.creatClass({
     }
 
 });
+
+module.exports = Timesheet;
