@@ -42,3 +42,9 @@ button {
         );
     }
 }
+
+@media(max-width:$mobile-width){
+    main{
+        padding: 5vh 0;
+    }
+}

@@ -55,7 +55,7 @@
     margin: 0 auto;
 }
 
-@media(max-width:545px){
+@media(max-width:$mobile-width){
     .timesheetsContainer{
         .timesheet{
             width:17em;
