@@ -27,27 +27,19 @@ var TimesheetEditButtons = React.createClass({
         return timesheetActions.addRow(this.state.timesheetID, newRow);
     },
     saveTimesheet: function() {
-        console.log("save");
         return timesheetActions.saveTimesheet(this.state.timesheetID);
     },
     deleteTimesheet: function() {
         self = this;
-        console.log("Hold for 2 seconds");
         this.setState({timer: window.setTimeout(function(){
-            console.log("Test");
             hashHistory.push('/timesheets');
             timesheetActions.deleteTimesheet(self.state.timesheetID);
         }, 2000)});
     },
     clearTimeout: function(){
-        console.log("cleared");
         window.clearTimeout(this.state.timer);
     },
-    hoverDelete:function(event){
-        (this.state.deleteMessage === "Delete") ? this.setState({deleteMessage:"Hold To Delete"}) : this.setState({deleteMessage:"Delete"});
-    },
     render: function (){
-        console.log(this.props.timesheetID);
         return (
             <div className="newRowContainer">
                 <div className="add button" onClick={this.newRow}>

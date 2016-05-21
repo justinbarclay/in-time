@@ -147,4 +147,7 @@ $pad: .8rem;
             display: inline-block;
         }
     }
+    .delete{
+        max-width: calc(33% - #{$pad})
+    }
 }

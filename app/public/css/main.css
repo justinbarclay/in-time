@@ -6757,7 +6757,9 @@ button {
     .m-timesheetMeta .text {
       font-size: 1em;
       margin-bottom: 0;
-      display: inline-block; } }
+      display: inline-block; }
+  .delete {
+    max-width: calc(33% - 0.8rem); } }
 
 .timesheetsPage .row {
   text-align: center; }
