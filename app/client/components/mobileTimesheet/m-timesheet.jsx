@@ -23,6 +23,9 @@ var Timesheet = React.createClass({
             }, 300);
         }
     },
+    storeDidChange: function(){
+        return timesheetActions.getTimesheet(this.props.params.id);
+    },
     render: function() {
         data = <div className="button">We were unable to find your timesheet,
         <br /> you will be redirected to timesheets shortly</div>;

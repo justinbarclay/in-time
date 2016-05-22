@@ -2,6 +2,7 @@ var React = require("react");
 var Navigation = require("react-router");
 var timesheetActions = require('../../actions/timesheetActions');
 var timesheetStore = require('../../stores/timesheetStore');
+var hashHistory = require('react-router').hashHistory;
 //Child Components
 var TimesheetInput = require('../timesheetInput');
 var DatePicker = require('react-datepicker');
@@ -30,15 +31,12 @@ var TimesheetEditRow = React.createClass({
             ]
         };
     },
-    componentWillReceiveProps(nextProps){
-        this.setState({index: nextProps.params.row,
-        id: nextProps.params.id,
-        entry:timesheetActions.findRow(nextProps.params.id, nextProps.params.row)});
-    },
     storeDidChange: function(){
-        this.setState({index: this.props.params.row,
-        id: this.props.params.id,
-        entry:timesheetActions.findRow(this.props.params.id, this.props.params.row)});
+        this.setState({
+            index: this.props.params.row,
+            id: this.props.params.id,
+            entry: timesheetActions.findRow(this.props.params.id, this.props.params.row)
+        });
     },
     buildRow: function(field, index) {
         return <TimesheetInput  accessor={field.accessor}
@@ -72,8 +70,9 @@ var TimesheetEditRow = React.createClass({
                 maxDate = {this.state.entry.endDate || undefined}
                 selected={this.state.entry.date || undefined}
                 onChange={this.changeDate}
-                type="date" />
+                type="string" />
                 {this.state.fields.map(this.buildRow)}
+                <div className="button back" onClick={hashHistory.goBack}>Back</div>
                 {this.state.deletable ? del : null}
             </div>
         );

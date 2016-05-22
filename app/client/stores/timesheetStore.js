@@ -77,9 +77,16 @@ var timesheetStore = Flux.createStore({
         });
     },
     updateEntry: function(id, rowIndex, accessor, data) {
+
         findTimesheetIndex(id, function(index) {
-            _timesheets[index].entries[rowIndex][accessor] =
-                data;
+            // Clean up number only values because some browsers don't handle this
+            // for you
+            if(accessor === "duration" && !isNumeric(data)){
+
+                console.log("Not a number");
+            } else {
+            _timesheets[index].entries[rowIndex][accessor] = data;
+            }
         });
     },
     updateMeta: function(id, accessor, data) {
@@ -186,6 +193,10 @@ var _templateTimesheet = {
         "delete": false
     }]
 };
+
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
 
 var cloneObject = function(obj) {
     //a trick to deep clone an object
