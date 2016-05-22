@@ -43,13 +43,11 @@ var TimesheetRows = React.createClass({
     },
     buildRows: function(){
         var self = this;
-        console.log(this.state.entries);
         var entries = this.state.timesheet.entries.map(function(entry, index) {
             if (entry.delete === false) {
                 return <TimesheetRow startDate={self.state.timesheet.startDate} endDate={self.state.timesheet.endDate} entry={entry} fields={self.state.entryFields} id={self.state.timesheet.timesheetID} row={index} key={index}/>;
             }
         });
-        console.log("Entries: " + entries);
         return entries;
     },
     displayApprove: function() {
