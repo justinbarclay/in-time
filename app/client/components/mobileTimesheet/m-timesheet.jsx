@@ -17,11 +17,11 @@ var Timesheet = React.createClass({
     },
     componentWillMount: function() {
 
-        // if (!this.state){
-        //     setTimeout(function(){
-        //         hashHistory.push("/timesheets");
-        //     }, 300);
-        // }
+        if (!this.state){
+            setTimeout(function(){
+                hashHistory.push("/timesheets");
+            }, 300);
+        }
     },
     render: function() {
         data = <div className="button">We were unable to find your timesheet,

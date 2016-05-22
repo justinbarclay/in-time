@@ -39,8 +39,6 @@ $pad: .8rem;
     font-size: 1.5em;
     width: calc(33% - #{$pad});
     display: inline-block;
-
-
 }
 
 .fields{
@@ -92,11 +90,10 @@ $pad: .8rem;
         background-color: rgba(#008CBA,0.75);
         cursor: pointer;
         padding: 1em;
-        margin-bottom: 1em;
         padding: 1em;
         color: $white-smoke;
         margin: 1em .5em 0;
-        max-width: 17em;
+        max-width: 19.6em;
         min-width: 15em;
         width: 100%;
         text-align: center;
@@ -132,7 +129,6 @@ $pad: .8rem;
         color: $white-smoke;
         width: 100%;
         text-align: center;
-        margin-bottom: 1.5em;
         .date{
             font-size: 1.1em;
             margin-bottom: .2em;

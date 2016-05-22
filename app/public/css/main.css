@@ -6633,7 +6633,7 @@ button {
 
 @media (max-width: 545px) {
   main {
-    padding: 5vh 0; } }
+    padding: 2.5vh 0; } }
 
 .timesheetPage {
   max-width: 60em;
@@ -6717,11 +6717,10 @@ button {
     background-color: rgba(0, 140, 186, 0.75);
     cursor: pointer;
     padding: 1em;
-    margin-bottom: 1em;
     padding: 1em;
     color: #F5F5F5;
     margin: 1em .5em 0;
-    max-width: 17em;
+    max-width: 19.6em;
     min-width: 15em;
     width: 100%;
     text-align: center;
@@ -6746,8 +6745,7 @@ button {
     display: block;
     color: #F5F5F5;
     width: 100%;
-    text-align: center;
-    margin-bottom: 1.5em; }
+    text-align: center; }
     .m-timesheetMeta .date {
       font-size: 1.1em;
       margin-bottom: .2em; }
