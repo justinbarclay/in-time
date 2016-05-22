@@ -11,7 +11,6 @@ var NavSignedIn = React.createClass({
     displayName: "signed in",
     propTypes: {},
     mixins: [authStore.mixin],
-
     getInitialState: function(){
         var role = authActions.getUserInfo().role;
         return({
@@ -19,7 +18,6 @@ var NavSignedIn = React.createClass({
         });
     },
     storeDidChange: function(){
-        console.log("JWT: ", localStorage.getItem("JWT"));
         if(localStorage.getItem("JWT") === "null"){
             authActions.signOut();
         }
@@ -44,7 +42,6 @@ var NavSignedIn = React.createClass({
         var supervisor = [{route:"/staff", label: "Staff"}];
         var base = [{route:"/timesheets", label:"Timesheets"},{route: "/about", label:"About"}];
         var links = [];
-        console.log("Role: "+ role);
         if(role === "Staff"){
             links = base;
         } else if (role === "Supervisor"){
@@ -52,13 +49,10 @@ var NavSignedIn = React.createClass({
         } else if (role === "Owner"){
             links = owner.concat(base.slice(1,2));
         }
-        console.log("Links: " + links);
         return links;
     },
     genLinks: function(data){
-        console.log("Here");
         return data.map(function(link, index){
-            console.log("Working");
             return (<Link to={link.route} className="nav" key={index}>
                 <label>{link.label}</label>
             </Link>);

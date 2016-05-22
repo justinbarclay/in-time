@@ -18,7 +18,6 @@ var app = React.createClass({
         }
     },
     render: function(){
-        console.log(this.context);
         return (
             <div className="app">
                 <Header />
