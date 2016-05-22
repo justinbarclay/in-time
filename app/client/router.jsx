@@ -16,11 +16,14 @@ var About = require("./components/about");
 var Owner = require("./components/owner");
 var Register = require("./components/register");
 var Employees = require("./components/Employees");
+var TimesheetRow = require("./components/mobileTimesheet/m-timesheetedit");
+var TimesheetRows = require("./components/mobileTimesheet/m-timesheetrows");
 
 // Set up Router object
 var ReactRouter = require('react-router');
 var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
+var IndexRoute = ReactRouter.IndexRoute;
 var hashHistory = ReactRouter.hashHistory;
 // On Enter
 auth = require('./routes/routerAuth.js');
@@ -35,7 +38,10 @@ var routes = (
       <Route path="signin" component={SignInForm} />
       <Route path="signup/:code" component={SignUpForm} />
       <Route path="timesheets" component={Timesheets} onEnter={authStaff}/>
-      <Route path="timesheet/:id" component={Timesheet} onEnter={authStaff}/>
+      <Route path="timesheet/:id" component={Timesheet} onEnter={authStaff}>
+          <IndexRoute component={TimesheetRows}/>
+          <Route path=":row" component={TimesheetRow}/>
+      </Route>
       <Route path="staff" component={StaffTracker} onEnter={authSup} />
       <Route path="invite" component={Owner} onEnter={authStaff}/>
       <Route path="register" component={Register}/>
@@ -47,6 +53,6 @@ var routes = (
 
 module.exports = {
     run: function(el){
-         render(<Router history={hashHistory}>{routes}</Router>, el);
+         render(<Router history={hashHistory} routes={routes}/>, el);
     }
 };

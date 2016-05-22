@@ -109,6 +109,9 @@ var timesheetActions = Flux.createActions({
             actionType: "UPDATE_META",
             data: meta
         });
+    },
+    findRow: function(id, row){
+        return timesheetStore.findRow(id, row);
     }
 });
 

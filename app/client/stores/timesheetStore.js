@@ -101,6 +101,18 @@ var timesheetStore = Flux.createStore({
     },
     addTimesheet: function(timesheet){
         _timesheets.push(timesheet);
+    },
+    findRow: function(id, rowIndex){
+        var row = findTimesheetIndex(id, function(index){
+            try {
+                row = _timesheets[index].entries[rowIndex];
+                return row;
+            } catch (e){
+                console.log(e);
+                return undefined;
+            }
+        });
+        return row;
     }
 }, function(payload) {
     if (payload.actionType === "NEW_TIMESHEET") {
