@@ -159,54 +159,6 @@ var findTimesheetIndex = function(id, callback) {
     return callback(null);
 };
 
-var _resetTimesheets = [{
-    "timesheetID": "8d741119-9b92-4fea-b64c-3b7854e40665",
-    "startDate": "2015-01-01",
-    "endDate": "2015-01-15",
-    "userID": "0000001",
-    "approved": false,
-    "engagement": 86328,
-    "entries": [{
-        "date": "2015-03-02",
-        "duration": 4,
-        "type": "Access Drive",
-        "delete": false
-    }, {
-        "date": "2015-03-02",
-        "duration": 2,
-        "type": "Access Drive",
-        "delete": false
-    }, {
-        "date": "2015-03-02",
-        "duration": 6,
-        "type": "Access Drive",
-        "delete": false
-    }]
-}, {
-    "timesheetID": "6629c93e-9292-45e9-bfa2-e0c006ba1e40",
-    "startDate": "2015-02-01",
-    "endDate": "2015-02-15",
-    "userID": "0000001",
-    "approved": false,
-    "engagement": 86328,
-    "entries": [{
-        "date": "2015-03-02",
-        "duration": 4,
-        "type": "Access Drive",
-        "delete": false
-    }, {
-        "date": "2015-03-02",
-        "duration": 2,
-        "type": "Access Drive",
-        "delete": false
-    }, {
-        "date": "2015-03-02",
-        "duration": 6,
-        "type": "Access Drive",
-        "delete": false
-    }]
-}];
-
 var _templateTimesheet = {
     "timesheetID": null,
     "startDate": "",
