@@ -16,7 +16,7 @@ var TimesheetEditRow = React.createClass({
         return {
             index: this.props.params.row,
             id: this.props.params.id,
-            entry:timesheetActions.findRow(this.props.params.id, this.props.params.row),
+            timesheet:timesheetActions.getTimesheet(this.props.params.id),
             deletable: true,
             fields: [
                 {
@@ -45,7 +45,7 @@ var TimesheetEditRow = React.createClass({
                                 key={index}
                                 index={this.state.index}
                                 type={field.type}
-                                value={this.state.entry[field.accessor]} />;
+                                value={this.state.timesheet.entries[this.state.index][field.accessor]} />;
     },
     deleteRow: function() {
         timesheetActions.deleteRow(this.props.params.id, this.props.params.row);
@@ -60,20 +60,22 @@ var TimesheetEditRow = React.createClass({
         timesheetActions.updateEntry(entry);
     },
     render: function() {
-        var del = <div className="delButton" onClick={this.deleteRow}>&times;</div>;
+        var del = <div className="delButton" onClick={this.deleteRow}>Delete</div>;
         return (
             <div className="m-timesheeteditrow">
                 <DatePicker
                 dateFormat="MM/DD/YYYY"
                 placeholderText="Click to select a date"
-                minDate = {this.state.entry.startDate || undefined}
-                maxDate = {this.state.entry.endDate || undefined}
-                selected={this.state.entry.date || undefined}
+                minDate = {this.state.timesheet.startDate || undefined}
+                maxDate = {this.state.timesheet.endDate || undefined}
+                selected={this.state.timesheet.entries[this.state.index].date || undefined}
                 onChange={this.changeDate}
-                type="string" />
+                type="date" />
                 {this.state.fields.map(this.buildRow)}
-                <div className="button back" onClick={hashHistory.goBack}>Back</div>
-                {this.state.deletable ? del : null}
+                <div className="control">
+                    <div className="button back" onClick={hashHistory.goBack}>Back</div>
+                    {this.state.deletable ? del : null}
+                </div>
             </div>
         );
     }

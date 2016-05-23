@@ -90,9 +90,8 @@ $pad: .8rem;
         background-color: rgba(#008CBA,0.75);
         cursor: pointer;
         padding: 1em;
-        padding: 1em;
         color: $white-smoke;
-        margin: 1em .5em 0;
+        margin: 1em 0.5em 0 0.5em;
         max-width: 19.6em;
         min-width: 15em;
         width: 100%;
@@ -129,6 +128,7 @@ $pad: .8rem;
         color: $white-smoke;
         width: 100%;
         text-align: center;
+        margin-bottom: 1em;
         .date{
             font-size: 1.1em;
             margin-bottom: .2em;
@@ -145,5 +145,27 @@ $pad: .8rem;
     }
     .delete{
         max-width: calc(33% - #{$pad})
+    }
+
+    .m-timesheeteditrow{
+        text-align: center;
+        margin: 1em 0.5em 0 0.5em;
+        .delButton{
+            border-radius: 0px;
+            padding: 1rem 2rem 1.0625rem 2rem;
+            vertical-align: top;
+            line-height: normal;
+            margin: 0;
+        }
+        input{
+            margin-bottom: 0.5em;
+        }
+        .control{
+            margin: 1em auto 0;
+            display: block;
+            div{
+                margin: 0 0.5em;
+            }
+        }
     }
 }
