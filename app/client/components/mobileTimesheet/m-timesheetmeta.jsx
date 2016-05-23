@@ -44,7 +44,7 @@ var MobileTimesheetMeta = React.createClass({
     },
     render: function() {
         return (
-            <div>
+            <div className="metaContainer">
                 <div className="m-timesheetMeta" onClick={this.editable}>
                     <div className="date">{moment(new Date(this.props.timesheet.startDate)).format("MM/DD/YYYY")} - {moment(new Date(this.props.timesheet.endDate)).format("MM/DD/YYYY")}</div>
                     <div className="text">Engagement:</div><div className="engagement">{this.props.timesheet.engagement}</div>

@@ -6739,25 +6739,32 @@ button {
     padding-left: 0; }
   .fields {
     margin: 0; }
-  .m-timesheetMeta {
+  .metaContainer .m-timesheetMeta {
     background-color: #008CBA;
     display: block;
     color: #F5F5F5;
     width: 100%;
     text-align: center;
     margin-bottom: 1em; }
-    .m-timesheetMeta .date {
+    .metaContainer .m-timesheetMeta .date {
       font-size: 1.1em;
       margin-bottom: .2em; }
-    .m-timesheetMeta .engagement {
+    .metaContainer .m-timesheetMeta .engagement {
       font-size: 2em;
       line-height: 1; }
-    .m-timesheetMeta .text {
+    .metaContainer .m-timesheetMeta .text {
       font-size: 1em;
       margin-bottom: 0;
       display: inline-block; }
-  .delete {
+  .metaContainer .delete {
     max-width: calc(33% - 0.8rem); }
+  .metaContainer .range {
+    text-align: center; }
+  .metaContainer .metaInfo {
+    max-width: 19.6em;
+    min-width: 15em;
+    width: 100%;
+    margin: 0 auto; }
   .m-timesheeteditrow {
     text-align: center;
     margin: 1em 0.5em 0 0.5em; }

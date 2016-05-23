@@ -121,30 +121,40 @@ $pad: .8rem;
     .fields{
         margin: 0;
     }
-
-    .m-timesheetMeta{
-        background-color: $shades-of-blue;
-        display: block;
-        color: $white-smoke;
-        width: 100%;
-        text-align: center;
-        margin-bottom: 1em;
-        .date{
-            font-size: 1.1em;
-            margin-bottom: .2em;
+    .metaContainer{
+        .m-timesheetMeta{
+            background-color: $shades-of-blue;
+            display: block;
+            color: $white-smoke;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 1em;
+            .date{
+                font-size: 1.1em;
+                margin-bottom: .2em;
+            }
+            .engagement{
+                font-size: 2em;
+                line-height: 1;
+            }
+            .text{
+                font-size: 1em;
+                margin-bottom: 0;
+                display: inline-block;
+            }
         }
-        .engagement{
-            font-size: 2em;
-            line-height: 1;
+        .delete{
+            max-width: calc(33% - #{$pad})
         }
-        .text{
-            font-size: 1em;
-            margin-bottom: 0;
-            display: inline-block;
+        .range{
+            text-align: center;
         }
-    }
-    .delete{
-        max-width: calc(33% - #{$pad})
+        .metaInfo{
+            max-width: 19.6em;
+            min-width: 15em;
+            width:100%;
+            margin: 0 auto;
+        }
     }
 
     .m-timesheeteditrow{
