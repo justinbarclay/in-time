@@ -1,17 +1,14 @@
 var React = require('react');
 var timesheetActions = require('../actions/timesheetActions');
-var DatePicker = require('react-datepicker');
+
 //Sub Components
 var TextEntry = require('./textentry');
+var DatePicker = require('react-datepicker');
 
 var TimesheetMeta = React.createClass({
     displayName: "timesheetMeta",
     propTypes: [],
-    getInitialState: function() {
-        return null;
-    },
     handleChange: function(meta) {
-        // delete meta.index;   
         timesheetActions.updateMeta(meta);
     },
     changeStart: function(time){
@@ -41,7 +38,7 @@ var TimesheetMeta = React.createClass({
                     selected={this.props.timesheet.startDate || undefined}
                     id={this.props.timesheet.timesheetID}
                     onChange={this.changeStart}
-                    type="text" />
+                    type="date" />
                 <DatePicker
                     accessor="endDate"
                     dateFormat="MM/DD/YYYY"
@@ -49,7 +46,7 @@ var TimesheetMeta = React.createClass({
                     selected={this.props.timesheet.endDate || undefined}
                     id={this.props.timesheet.timesheetID}
                     onChange={this.changeEnd}
-                    type="text" />
+                    type="date" />
                 <TextEntry
                     className="metaInfo"
                     accessor="engagement"
@@ -63,18 +60,3 @@ var TimesheetMeta = React.createClass({
 });
 
 module.exports = TimesheetMeta;
-var metaFields = [
-    {
-        "name": "Start Date",
-        "accessor": "startDate",
-        "type": "date"
-    }, {
-        "name": "End Date",
-        "accessor": "endDate",
-        "type": "date"
-    }, {
-        "name": "Engagement Number",
-        "accessor": "engagement",
-        "type": "number"
-    }
-];

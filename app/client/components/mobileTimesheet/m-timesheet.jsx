@@ -5,7 +5,7 @@ var timesheetStore = require('../../stores/timesheetStore');
 var hashHistory = require('react-router').hashHistory;
 //Child Components
 var TimesheetEditButtons = require('./m-timesheeteditbuttons');
-var TimesheetMeta = require('./m-timesheetmeta');
+var MobTimesheetMeta = require('./m-timesheetmeta');
 var MessageNew = require('../messageNew');
 var TimesheetRows = require('./m-timesheetrows');
 
@@ -24,7 +24,7 @@ var Timesheet = React.createClass({
         }
     },
     storeDidChange: function(){
-        return timesheetActions.getTimesheet(this.props.params.id);
+        this.setState(timesheetActions.getTimesheet(this.props.params.id));
     },
     render: function() {
         data = <div className="button">We were unable to find your timesheet,
@@ -33,7 +33,7 @@ var Timesheet = React.createClass({
         return (
             <div className="timesheetPage">
                 <MessageNew accessor="timesheet" hidden={true}/>
-                <TimesheetMeta timesheet={this.state}/>
+                <MobTimesheetMeta timesheet={this.state}/>
                 {this.props.children}
             </div>
         );
