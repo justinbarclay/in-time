@@ -33,13 +33,13 @@ var MobileTimesheetMeta = React.createClass({
         }
     },
     editable: function(){
-        var edit = this.state.edit;
+        var edit = !this.state.edit;
         if (edit){
             ReactDOM.findDOMNode(this.refs.metaEdit).style.display = "none";
         } else {
             ReactDOM.findDOMNode(this.refs.metaEdit).style.display = "inherit";
         }
-        this.setState({edit:!edit});
+        this.setState({edit:edit});
 
     },
     render: function() {
