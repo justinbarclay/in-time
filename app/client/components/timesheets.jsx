@@ -7,7 +7,6 @@ var timesheetActions = require('../actions/timesheetActions');
 var authActions = require('../actions/authActions');
 
 //Sub components
-var Timesheet = require('./mobileTimesheet/m-timesheet');
 var TimesheetInfo = require('./timesheetinfo');
 
 var Timesheets = React.createClass({
