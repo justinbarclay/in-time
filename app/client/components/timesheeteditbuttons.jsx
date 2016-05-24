@@ -44,7 +44,6 @@ var TimesheetEditButtons = React.createClass({
         (this.state.deleteMessage === "Delete") ? this.setState({deleteMessage:"Hold To Delete"}) : this.setState({deleteMessage:"Delete"});
     },
     render: function (){
-        console.log(this.props.timesheetID);
         return (
             <div className="newRowContainer">
                 <div className="add button" onClick={this.newRow}>

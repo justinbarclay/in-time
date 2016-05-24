@@ -48,7 +48,6 @@ var Timesheet = React.createClass({
         this.setState(timesheetActions.getTimesheet(this.props.params.id));
     },
     render: function() {
-        console.log("here");
         var self = this;
         var entryFields = [
             {

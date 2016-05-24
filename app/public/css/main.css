@@ -6631,12 +6631,12 @@ button {
   margin-right: auto;
   float: none; }
 
-@media (max-width: 545px) {
+@media (max-width: 1000px) {
   main {
     padding: 2.5vh 0; } }
 
 .timesheetPage {
-  max-width: 60em;
+  max-width: 62.5em;
   margin: 0 auto;
   padding-left: 1em; }
   .timesheetPage input {
@@ -6711,7 +6711,7 @@ button {
   margin-left: .1em;
   color: #F5F5F5; }
 
-@media (max-width: 545px) {
+@media (max-width: 1000px) {
   .m-timesheetRow {
     border: #008CBA solid 2px;
     background-color: rgba(0, 140, 186, 0.75);
@@ -6739,32 +6739,33 @@ button {
     padding-left: 0; }
   .fields {
     margin: 0; }
-  .metaContainer .m-timesheetMeta {
-    background-color: #008CBA;
-    display: block;
-    color: #F5F5F5;
-    width: 100%;
-    text-align: center;
-    margin-bottom: 1em; }
-    .metaContainer .m-timesheetMeta .date {
-      font-size: 1.1em;
-      margin-bottom: .2em; }
-    .metaContainer .m-timesheetMeta .engagement {
-      font-size: 2em;
-      line-height: 1; }
-    .metaContainer .m-timesheetMeta .text {
-      font-size: 1em;
-      margin-bottom: 0;
-      display: inline-block; }
-  .metaContainer .delete {
-    max-width: calc(33% - 0.8rem); }
-  .metaContainer .range {
-    text-align: center; }
-  .metaContainer .metaInfo {
-    max-width: 19.6em;
-    min-width: 15em;
-    width: 100%;
-    margin: 0 auto; }
+  .metaContainer {
+    width: 100%; }
+    .metaContainer .m-timesheetMeta {
+      background-color: #008CBA;
+      display: block;
+      color: #F5F5F5;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 1em; }
+      .metaContainer .m-timesheetMeta .date {
+        font-size: 1.1em;
+        margin-bottom: .2em; }
+      .metaContainer .m-timesheetMeta .engagement {
+        font-size: 2em;
+        line-height: 1; }
+      .metaContainer .m-timesheetMeta .text {
+        font-size: 1em;
+        margin-bottom: 0;
+        display: inline-block; }
+    .metaContainer .delete {
+      max-width: calc(33% - 0.8rem); }
+    .metaContainer .range {
+      text-align: center; }
+    .metaContainer .metaInfo {
+      max-width: 19.6em;
+      min-width: 15em;
+      width: 100%; }
   .m-timesheeteditrow {
     text-align: center;
     margin: 1em 0.5em 0 0.5em; }
@@ -6820,7 +6821,7 @@ button {
 .newTimesheet {
   margin: 0 auto; }
 
-@media (max-width: 545px) {
+@media (max-width: 1000px) {
   .timesheetsContainer .timesheet {
     width: 19.6em;
     max-width: 100%; } }

@@ -8,30 +8,46 @@ var Container = React.createClass({
     displayName: "Container",
     getInitialState: function(){
         return ({
-            intervalid: null,
-            viewwidth: window.innerWidth
+            resizeID: null,
+            viewWidth: window.innerWidth
         });
     },
-    pollViewWidth: function(){
-        this.setState({viewwidth: window.innerWidth});
+    setWidth: function(){
+        var currentWidth = window.innerWidth;
+        if(currentWidth !== this.state.viewWidth){
+            this.setState({
+                viewWidth: currentWidth,
+                queue: false
+            });
+        } else{
+            this.setState({
+                queue: false
+            });
+        }
+    },
+    updateViewWidth: function(){
+        if(!this.state.queue){
+            requestAnimationFrame(this.setWidth);
+            this.state.queue = true;
+        }
     },
     setContainer: function(size){
         return (size > 1000? <Timesheet {...this.props}/>: <MobileTimesheet {...this.props}/>);
     },
     componentDidMount: function(){
-        var id = setInterval(this.pollViewWidth, 100);
-        this.setState({intervalid:id});
+        this.setState({
+            resizeID:window.addEventListener("resize", this.updateViewWidth),
+            queue: false
+        });
+
     },
     componentWillUnmount: function(){
-        clearInterval(this.state.intervalid);
-    },
-    shouldComponentUpdate: function(nextProps, nextState){
-        return this.state.viewwidth !== nextState.viewwidth;
+        window.removeEventListener(this.state.resizeID);
     },
     render(){
         return  (
             <div>
-                {this.setContainer(this.state.viewwidth)}
+                {this.setContainer(this.state.viewWidth)}
             </div>
         );
     }
