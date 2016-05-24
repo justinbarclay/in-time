@@ -67,7 +67,6 @@ function finish(data) {
     console.log("finish");
     return new Promise(function(resolve, reject) {
         data.client.query('COMMIT', data.done);
-        data.done();
         // console.log("data", data);
         data.message = "Timesheet updated";
         resolve(data);
@@ -114,7 +113,8 @@ function rollback(data) {
     //transaction weird, hard to diagnose problems might happen.
     return new Promise(function(resolve, reject) {
         data.client.query('ROLLBACK', function(err) {
-            if (err) {
+            data.done();
+            if (err) {    
                 throw err;
             } else {
                 resolve({
@@ -439,7 +439,6 @@ function approveTimesheet(request, callback) {
 // build up the timesheet later
 // This is an area for easy optimization
 function buildTimesheets(data) {
-    console.log("hmm");
     return new Promise(function(resolve, reject) {
         console.log("building timesheet");
         let meta_info = data.meta;
@@ -464,8 +463,6 @@ function buildTimesheets(data) {
                         delete: entry.delete
                     });
                     console.log("entry date", entry.date);
-                } else {
-                    console.log("Some error");
                 }
             });
             return timesheet;
@@ -486,18 +483,6 @@ function matchPermissions(action, permissions){
         }
     }
     return false;
-}
-
-//Dead code, may keep it if I can figure out why I am getting an off by one day error
-function buildYearMonthDay(date) {
-    console.log("build date", date.getDate());
-    let day = date.getDate()+1 < 10 ? '0' + (date.getDate()+1) : date.getDate()+1;
-    console.log('day', day);
-    let month = date.getMonth()+1 < 10 ? '0' + (date.getMonth()+1) : date.getMonth()+1;
-    console.log('date', date.getMonth());
-    console.log('month ', month);
-    let year = date.getFullYear();
-    return (year + "-" + month + "-" + day);
 }
 
 function flatten(array) {

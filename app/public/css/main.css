@@ -6440,6 +6440,10 @@ body {
   height: 100%;
   width: 100%; }
 
+#start {
+  height: 100%;
+  width: 100%; }
+
 .employeesContainer {
   max-width: 30em;
   min-width: 10em;

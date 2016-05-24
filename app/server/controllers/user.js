@@ -202,6 +202,7 @@ function grabInfo(user, callback){
             return console.error('error fetching client from pool', err);
         }
         client.query(query, [queryTerm], function(err, res) {
+            done();
             let auth = {};
             if(err){
                 auth.message = err;
@@ -238,12 +239,11 @@ function authenticate(userEmail, userPassword, callback) {
             function(err, res) {
                 auth.err = err;
                 auth.success = false;
+                done();
                 if (err) {
-                    done();
                     auth.message = "Error connecting to the database";
                     callback(err, auth);
                 } else if (typeof(res.rows[0]) === 'undefined') {
-                    done();
                     auth.message = "Email or password do not match";
                     console.log(res);
                     callback(err, auth);
@@ -258,14 +258,10 @@ function authenticate(userEmail, userPassword, callback) {
                             if (err) {
                                 // code to add token to browser to act logged in
                                 // probably need to add a token to table somewhere as well
-
-                                done();
-
                                 auth.success = false;
                                 auth.message = "Email or password do not match";
                                 callback(err, auth);
                             } else {
-                                done();
                                 if (success === false) {
                                     auth.message = "Email or password do not match";
                                     callback(err, auth);
@@ -284,7 +280,6 @@ function authenticate(userEmail, userPassword, callback) {
                             }
 
                         });
-                    done();
                 }
             });
     });

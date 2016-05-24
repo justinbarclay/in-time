@@ -155,21 +155,27 @@ function findOrganization(data){
     let ownerID = data.setup.id;
     var findOrg = "SELECT index FROM Organization WHERE organization.owner_foreignkey=$1";
     return new Promise(function(resolve, reject){
-        data.client.query(findOrg, [ownerID], function(err, result){
+        data.client.query(findOrg, [ownerID], function(err, result){            
             if(err){
                 reject(err);
             } else {
                 console.log(err);
                 console.log(result);
                 if(typeof result.rows !== undefined){
-                    let orgID = result.rows[0].index;
-                    resolve ({
-                        setup: data.setup,
-                        client: data.client,
-                        done: data.done,
-                        orgID: orgID
-                    });
+                    try{
+                        let orgID = result.rows[0].index;
+                        resolve ({
+                            setup: data.setup,
+                            client: data.client,
+                            done: data.done,
+                            orgID: orgID
+                        });
+                    } catch(error){
+                        data.done();
+                        reject({error:error});
+                    }
                 } else {
+                    data.done();
                     reject("Bad things");
                 }
             }
@@ -181,23 +187,29 @@ function getStaff(data){
     let orgID = data.orgID;
     let getUsers = "SELECT email, supervisor, role FROM users WHERE org_foreignkey=$1";
     return new Promise(function(resolve, reject){
-        data.client.query(getUsers, [orgID], function(err, result){
-            if(err){
-                reject({
-                    err:err
-                });
-            } else{
-                let staff = result.rows.map(function(data){
-                    return {role: data.role, email: data.email, supervisor: data.supervisor};
-                });
-                data.done();
-                data.client.end();
-                resolve({
-                    message: "Success",
-                    data: staff
-                });
-            }
-        });
+        try{
+            data.client.query(getUsers, [orgID], function(err, result){
+                if(err){
+                    data.done();
+                    reject({
+                        err:err
+                    });
+                } else{
+                    let staff = result.rows.map(function(data){
+                        return {role: data.role, email: data.email, supervisor: data.supervisor};
+                    });
+                    data.client.query('COMMIT', data.done);
+                    data.done();
+                    resolve({
+                        message: "Success",
+                        data: staff
+                    });
+                }
+            });
+        } catch (error){
+            data.done();
+            reject({error:error});
+        }
     });
 }
 
@@ -221,7 +233,6 @@ function getEmployeesPromise(data, callback){
         .then(findOrganization)
         .then(getStaff)
         .catch(function(err){
-            console.log(err);
             console.log("Error getting employees");
             return({err:true, message: "Error getting employees"});
         })
