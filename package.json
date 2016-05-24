@@ -12,7 +12,7 @@
     "moment": "^2.13.0",
     "node-sass": "^3.7.0",
     "node-uuid": "^1.4.7",
-    "pg": "^4.4.0",
+    "pg": "^4.5.5",
     "react": "^0.14.7",
     "react-datepicker": "^0.27.0",
     "react-dom": "^0.14.7",
