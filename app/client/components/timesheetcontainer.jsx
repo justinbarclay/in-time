@@ -42,7 +42,9 @@ var Container = React.createClass({
 
     },
     componentWillUnmount: function(){
-        window.removeEventListener(this.state.resizeID);
+        if(this.state.resizeID){
+            window.removeEventListener(this.state.resizeID);
+        }
     },
     render(){
         return  (
