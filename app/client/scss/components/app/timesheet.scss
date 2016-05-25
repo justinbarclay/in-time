@@ -29,9 +29,18 @@ $pad: .8rem;
 
 .meta{
     .metaInfo {
-        width: calc(33% - #{$pad});
-        font-size: 1.1em;
+        display: block;
+    }
+    label{
+        font-size: 1.5em;
+        text-align: left;
+        line-height: 1.5em;
         display: inline-block;
+        width:calc(33% - #{$pad});
+
+        .react-datepicker__input-container{
+            width:100%;
+        }
     }
 }
 
@@ -43,7 +52,7 @@ $pad: .8rem;
 
 .fields{
     margin: 5vh 0;
-    text-align: center;
+    text-align: left;
     .headings{
         line-height: 1;
     }

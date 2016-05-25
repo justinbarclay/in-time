@@ -102,7 +102,7 @@ var Timesheet = React.createClass({
 
             data = <div>
                         <MessageNew accessor="timesheet" hidden={true}/>
-                        <div className="meta">{metaHeadings}{metadata}</div>
+                        <div className="meta">{metadata}</div>
                         <div className="fields">
                             <div className="headings row">{headings}</div>
                             {entries}

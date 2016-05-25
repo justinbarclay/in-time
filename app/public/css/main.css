@@ -6672,9 +6672,16 @@ button {
   display: none; }
 
 .meta .metaInfo {
-  width: calc(33% - 0.8rem);
-  font-size: 1.1em;
-  display: inline-block; }
+  display: block; }
+
+.meta label {
+  font-size: 1.5em;
+  text-align: left;
+  line-height: 1.5em;
+  display: inline-block;
+  width: calc(33% - 0.8rem); }
+  .meta label .react-datepicker__input-container {
+    width: 100%; }
 
 .metaHeading {
   font-size: 1.5em;
@@ -6683,7 +6690,7 @@ button {
 
 .fields {
   margin: 5vh 0;
-  text-align: center; }
+  text-align: left; }
   .fields .headings {
     line-height: 1; }
 
