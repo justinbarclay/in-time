@@ -39,13 +39,16 @@ var TimesheetEditRow = React.createClass({
         });
     },
     buildRow: function(field, index) {
-        return <TimesheetInput  accessor={field.accessor}
-                                className="m-timesheetInput"
+        return(
+        <label key={index}>{field.name}
+            <TimesheetInput  accessor={field.accessor}
+                                className={"m-timesheetInput " + field.accessor}
                                 id={this.state.id}
-                                key={index}
                                 index={this.state.index}
                                 type={field.type}
-                                value={this.state.timesheet.entries[this.state.index][field.accessor]} />;
+                                value={this.state.timesheet.entries[this.state.index][field.accessor]} />
+        </label>
+    );
     },
     deleteRow: function() {
         timesheetActions.deleteRow(this.props.params.id, this.props.params.row);
@@ -63,6 +66,7 @@ var TimesheetEditRow = React.createClass({
         var del = <div className="delButton" onClick={this.deleteRow}>Delete</div>;
         return (
             <div className="m-timesheeteditrow">
+                <label>Date
                 <DatePicker
                 dateFormat="MM/DD/YYYY"
                 placeholderText="Click to select a date"
@@ -70,7 +74,7 @@ var TimesheetEditRow = React.createClass({
                 maxDate = {this.state.timesheet.endDate || undefined}
                 selected={this.state.timesheet.entries[this.state.index].date || undefined}
                 onChange={this.changeDate}
-                type="date" />
+                type="date" /></label>
                 {this.state.fields.map(this.buildRow)}
                 <div className="control">
                     <div className="button back" onClick={hashHistory.goBack}>Back</div>

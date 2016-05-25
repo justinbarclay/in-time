@@ -287,3 +287,10 @@ $pad: .8rem;
 .react-datepicker__tether-element {
   z-index: 2147483647;
 }
+
+@media(max-width:$mobile-width){
+    .react-datepicker__input-container{
+        width:100%;
+        display: block;
+    }
+}

@@ -6767,12 +6767,11 @@ button {
     .metaContainer .range {
       text-align: center; }
     .metaContainer .metaInfo {
-      max-width: 19.6em;
-      min-width: 15em;
       width: 100%; }
   .m-timesheeteditrow {
     text-align: center;
-    margin: 1em 0.5em 0 0.5em; }
+    margin-top: 1em;
+    width: 100%; }
     .m-timesheeteditrow .delButton {
       border-radius: 0px;
       padding: 1rem 2rem 1.0625rem 2rem;
@@ -6781,6 +6780,16 @@ button {
       margin: 0; }
     .m-timesheeteditrow input {
       margin-bottom: 0.5em; }
+    .m-timesheeteditrow label {
+      text-align: left;
+      line-height: 1.5em;
+      display: inline-block;
+      width: 50%; }
+    .m-timesheeteditrow label:last-of-type {
+      width: 100%;
+      display: block; }
+    .m-timesheeteditrow .duration {
+      width: 100%; }
     .m-timesheeteditrow .control {
       margin: 1em auto 0;
       display: block; }
@@ -7182,3 +7191,8 @@ button {
 
 .react-datepicker__tether-element {
   z-index: 2147483647; }
+
+@media (max-width: 1000px) {
+  .react-datepicker__input-container {
+    width: 100%;
+    display: block; } }

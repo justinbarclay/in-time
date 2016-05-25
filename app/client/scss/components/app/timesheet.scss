@@ -151,15 +151,14 @@ $pad: .8rem;
             text-align: center;
         }
         .metaInfo{
-            max-width: 19.6em;
-            min-width: 15em;
             width:100%;
         }
     }
 
     .m-timesheeteditrow{
         text-align: center;
-        margin: 1em 0.5em 0 0.5em;
+        margin-top: 1em;
+        width: 100%;
         .delButton{
             border-radius: 0px;
             padding: 1rem 2rem 1.0625rem 2rem;
@@ -169,6 +168,19 @@ $pad: .8rem;
         }
         input{
             margin-bottom: 0.5em;
+        }
+        label{
+            text-align: left;
+            line-height: 1.5em;
+            display: inline-block;
+            width:50%;
+        }
+        label:last-of-type{
+            width:100%;
+            display: block;
+        }
+        .duration{
+            width: 100%;
         }
         .control{
             margin: 1em auto 0;
