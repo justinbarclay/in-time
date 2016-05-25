@@ -6768,6 +6768,14 @@ button {
       text-align: center; }
     .metaContainer .metaInfo {
       width: 100%; }
+    .metaContainer label {
+      text-align: left;
+      line-height: 1.5em;
+      display: inline-block;
+      width: 50%; }
+    .metaContainer label:last-of-type {
+      width: 100%;
+      margin-bottom: 1em; }
   .m-timesheeteditrow {
     text-align: center;
     margin-top: 1em;

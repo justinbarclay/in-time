@@ -153,6 +153,16 @@ $pad: .8rem;
         .metaInfo{
             width:100%;
         }
+        label{
+            text-align: left;
+            line-height: 1.5em;
+            display:inline-block;
+            width: 50%;
+        }
+        label:last-of-type{
+            width:100%;
+            margin-bottom: 1em;
+        }
     }
 
     .m-timesheeteditrow{

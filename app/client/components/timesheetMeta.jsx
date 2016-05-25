@@ -31,6 +31,7 @@ var TimesheetMeta = React.createClass({
     render: function() {
         return (
             <div>
+                <label>Start Date
                 <DatePicker
                     accessor="startDate"
                     dateFormat="MM/DD/YYYY"
@@ -38,7 +39,8 @@ var TimesheetMeta = React.createClass({
                     selected={this.props.timesheet.startDate || undefined}
                     id={this.props.timesheet.timesheetID}
                     onChange={this.changeStart}
-                    type="date" />
+                    type="date" /></label>
+                <label>End Date
                 <DatePicker
                     accessor="endDate"
                     dateFormat="MM/DD/YYYY"
@@ -46,14 +48,15 @@ var TimesheetMeta = React.createClass({
                     selected={this.props.timesheet.endDate || undefined}
                     id={this.props.timesheet.timesheetID}
                     onChange={this.changeEnd}
-                    type="date" />
+                    type="date" /></label>
+                <label>Engagement   
                 <TextEntry
                     className="metaInfo"
                     accessor="engagement"
                     id={this.props.timesheet.timesheetID}
                     type="number"
                     inputCallback={this.handleChange}
-                    value={this.props.timesheet.engagement} />
+                    value={this.props.timesheet.engagement} /></label>
             </div>
         );
     }
