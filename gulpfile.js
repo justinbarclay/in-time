@@ -4,7 +4,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var plumber = require('gulp-plumber');
 var gutil = require('gulp-util');
 var browserify = require('browserify');
-var reactify = require('reactify');
+var babelify = require('babelify');
 var watchify = require('watchify');
 // var browserSync = require('browser-sync');
 var source = require('vinyl-source-stream');
@@ -39,7 +39,7 @@ gulp.task('sass', function () {
 gulp.task('browserify', function() {
     var bundler = browserify({
         entries: './app/client/main.js', // Only need initial file, browserify finds the deps
-        transform: [reactify], // We want to convert JSX to normal javascript
+        transform: [[babelify, {"presets": ["react"]}]], // We want to convert JSX to normal javascript
         debug: true, // Gives us sourcemapping
         cache: {}, packageCache: {}, fullPaths: true, // Requirement of watchify
         extensions: ['.jsx','.js']
