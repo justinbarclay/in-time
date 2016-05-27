@@ -27,9 +27,12 @@ var NavSignedIn = React.createClass({
         });
     },
     componentDidMount: function(){
-        id = authActions.getUserInfo().id;
-        timesheetActions.syncTimesheets(id);
-        employeeActions.syncEmployees(authActions.getUserInfo().id);
+        user = authActions.getUserInfo();
+        if(user.role === "Owner"){
+            employeeActions.syncEmployees(user.id);
+        } else {
+        timesheetActions.syncTimesheets(user.id);
+        }
     },
     componentWillUnmount: function(){
         hashHistory.push("/");

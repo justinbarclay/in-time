@@ -37,11 +37,9 @@ var employeeActions = Flux.createActions({
             value: value
         });
     },
-    getEmployees: function(name){
+    getEmployees: function(){
         var employees = employeeStore.getEmployees();
-        if(!name){
             return employees;
-        }
     },
     getSupervisors: function(){
         console.log("Made it here");
