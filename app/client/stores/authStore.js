@@ -25,9 +25,6 @@ var authStore = Flux.createStore({
         _user.email = user.email;
         _user.role = user.role;
         _user.authenticated = user.success;
-
-        //Maybe split _user.message off to a message store
-        _user.message = user.message;
     },
     signOut: function() {
         localStorage.removeItem('JWT');
