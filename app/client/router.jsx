@@ -7,9 +7,10 @@ var App = require("./components/app");
 var SignInForm = require("./components/SignInForm");
 var SignUpForm = require("./components/SignUpForm");
 var SignUpOrg = require("./components/signUpOrg");
+var StaffTracker = require("./components/staffTracker");
 var Timesheet = require("./components/timesheetcontainer");
 var Timesheets = require("./components/timesheets");
-var StaffTracker = require("./components/staffTracker");
+var Demo = require("./components/demo");
 var Home = require("./components/home");
 var NotFound = require("./components/notfound");
 var About = require("./components/about");
@@ -34,6 +35,7 @@ authSup = auth.sup;
 var routes = (
     <Route component={App}>
       <Route path="/" component={Home}/>
+      <Route path="demo" component={Demo} />
       <Route path="about" component={About} />
       <Route path="signin" component={SignInForm} />
       <Route path="signup/:code" component={SignUpForm} />
@@ -46,7 +48,7 @@ var routes = (
       <Route path="invite" component={Owner} onEnter={authStaff}/>
       <Route path="register" component={Register}/>
       <Route path="register/admin" component={SignUpOrg}/>
-      <Route path="employees" component={Employees}/>
+      <Route path="employees" component={Employees} onEnter={authSup}/>
       <Route path="*" component={NotFound}/>
     </Route>
 );
