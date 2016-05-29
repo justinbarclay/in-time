@@ -52,7 +52,8 @@ function finish(data) {
     return new Promise(function(resolve, reject) {
         data.client.query('COMMIT', data.done);
         resolve({error: null,
-                 userid: data
+                 userID: data.userID,
+                 orgID: data.orgID
         });
     });
 }
@@ -136,11 +137,13 @@ function updateOwner(data){
             let update = "UPDATE Organization SET owner_foreignkey='" +
             userID + "'WHERE orgname='" + data.setup.org.orgname + "'";
             data.client.query(update, function(err, result){
+                console.log(err);
                 resolve({
                     setup: data.setup,
                     client: data.client,
                     done: data.done,
-                    userid: userID
+                    userID: userID,
+                    orgID:data.setup.org.key
                 });
             });
         });
@@ -155,7 +158,7 @@ function findOrganization(data){
     let ownerID = data.setup.id;
     var findOrg = "SELECT index FROM Organization WHERE organization.owner_foreignkey=$1";
     return new Promise(function(resolve, reject){
-        data.client.query(findOrg, [ownerID], function(err, result){            
+        data.client.query(findOrg, [ownerID], function(err, result){
             if(err){
                 reject(err);
             } else {

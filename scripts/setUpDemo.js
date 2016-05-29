@@ -1,21 +1,9 @@
 let owner = require('../app/server/controllers/owner');
-let data = require('./demodata');
 
 let config = require("../config.js");
 let pg = require('pg');
 let Client = pg.Client;
 let conString = config.postgres;
-
-let demoOwner = {
-    "user":{
-        "email": data.owner.email,
-        "password":1
-    }, "org": {
-        "orgname": data.owner.organization,
-        "domain": null
-    }
-};
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -195,7 +183,7 @@ function addEmployee(data, client) {
         });
     });
 }
-
+function demoSetup(data){
 makeDemo(data)
 .then(connect)
 .then(begin)
@@ -204,6 +192,7 @@ makeDemo(data)
 .then(addStaff)
 .catch(rollback)
 .then(finish)
-.then(function(){
-    console.log("done");
-});
+.then(callback);
+}
+
+module.exports = demoSetup;

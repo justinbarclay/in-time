@@ -96,9 +96,6 @@ function signUp(userPassword, userEmail, inviteCode, callback) {
 function signUpOwner(userPassword, userEmail, orgkey, callback) {
     //this function creates a username and hashes
     //a password then stored it in the database
-    console.log(conString);
-    console.log(userPassword);
-    console.log(userEmail);
     pg.connect(conString, function(err, client, done) {
         if (err) {
             return console.error(
@@ -108,7 +105,6 @@ function signUpOwner(userPassword, userEmail, orgkey, callback) {
         if (validateUser(userPassword, userEmail)) {
             console.log(userPassword);
             hashPassword(userPassword, function(err, hash) {
-
                 if (err) {
                     done();
                     return console.error(
@@ -116,6 +112,7 @@ function signUpOwner(userPassword, userEmail, orgkey, callback) {
                         err);
                 } else {
                     var owner =[userEmail, hash, orgkey, "Owner"];
+                    console.log("blah");
                     client.query(
                         "INSERT into Users(email, password, org_foreignkey, role) VALUES($1, $2, $3, $4)", owner,
                         function(err, result) {
@@ -181,7 +178,7 @@ function inviteUser(owner, userEmail, role, userCode, callback) {
             } else {
                 // If this query fails, that mean that the ownerid could not be
                 // in the database
-                callback(new Error(["Owner could not be found in the database", "user.js", 189]), "Owner not found");
+                callback(new Error(["Owner could not be found in the database", "user.js", 184]), "Owner not found");
             }
         });
     });
