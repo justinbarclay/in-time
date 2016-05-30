@@ -1,4 +1,6 @@
 let owner = require('../app/server/controllers/owner');
+let timesheet = require('../app/server/controllers/timesheet');
+
 
 let config = require("../config.js");
 let pg = require('pg');
@@ -137,12 +139,13 @@ function addStaff(data){
         let staff = data.setup.staff;
         Promise.all(staff.map(function(user) {
                 user.orgID = data.setup.orgID;
+                console.log("user: " + user.orgID);
                 return addEmployee(user, data.client);
-            }))
+        }))
         .then(function(result) {
             console.log("add staff");
             resolve({
-                data: data.setup,
+                setup: data.setup,
                 client: data.client,
                 done: data.done
             });
@@ -151,7 +154,7 @@ function addStaff(data){
     });
 }
 function addSupervisorID(data){
-    console.log(data);
+
     let employees = data.setup.staff;
     let supervisors = data.setup.supervisors;
     employees.map(function(employee){
@@ -167,20 +170,55 @@ function addSupervisorID(data){
 function addEmployee(data, client) {
     let queryString = "INSERT into Users(email, password, org_foreignkey, role, supervisor) VALUES ($1, $2, $3, $4, $5) RETURNING user_id";
     //Asynchronously insert data into the database
+    console.log(data);
     var employee = [
-        data.email, null, data.orgId, data.role, data.supervisorID || null
+        data.email, null, data.orgID, data.role, data.supervisorID || null
     ];
+    console.log("employee" + employee);
     return new Promise(function(resolve, reject) {
         client.query(queryString, employee, function(err, result) {
             if (err) {
                 console.error(err);
                 reject(err);
             } else {
-                console.log(result);
                 data.id = result.rows[0].user_id;
                 resolve(data);
             }
         });
+    });
+}
+
+function addAllTimesheets(data){
+    supervisors = data.setup.supervisors;
+    staff = data.setup.staff;
+    return new Promise(function(resolve, reject){
+        Promise.all(supervisors.map(function(supervisor){
+            return addStaffTimesheets(supervisor);
+        }))
+        .then(function(){
+            Promise.all(staff.map(function(single){
+                return addStaffTimesheets(single);
+            }));
+        }).then(resolve(data));
+    });
+}
+
+function addStaffTimesheets(staff){
+    var timesheets;
+    if(staff.timesheets){
+        timesheets = staff.timesheets;
+    } else{
+        console.log("fail");
+        return;
+    }
+    return new Promise(function(resolve, reject){
+        Promise.all(timesheets.map(function(entry){
+            entry.userID = staff.id;
+            entry.delete = false;
+            timesheet.createTimesheet(entry, function(test){
+                resolve(staff);
+            });
+        }));
     });
 }
 function demoSetup(data){
@@ -190,6 +228,7 @@ makeDemo(data)
 .then(addSupervisors)
 .then(addSupervisorID)
 .then(addStaff)
+.then(addAllTimesheets)
 .catch(rollback)
 .then(finish)
 .then(callback);

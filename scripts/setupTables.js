@@ -108,7 +108,7 @@ function clearTimesheetMetaTable(data){
 
 function timesheetTable(data){
      return new Promise(function(resolve, reject){
-        let make = "CREATE TABLE IF NOT EXISTS Timesheets ( index serial PRIMARY KEY, timesheet_foreignkey varchar(36), row_id varchar(36) UNIQUE, service_description TEXT, service_duration REAL, service_date DATE, delete BOOLEAN)";
+        let make = "CREATE TABLE IF NOT EXISTS Timesheets(index serial PRIMARY KEY, timesheet_foreignkey varchar(36), row_id varchar(36) UNIQUE, service_description TEXT, service_duration REAL, service_date DATE, delete BOOLEAN)";
         data.client.query(make, function(err, results){
             resolve(data);
         });
@@ -118,7 +118,7 @@ function timesheetTable(data){
 function timesheetMetaTable(data){
 
      return new Promise(function(resolve, reject){
-        let make = "CREATE TABLE IF NOT EXISTS Timesheets_Meta ( index serial PRIMARY KEY, timesheet_id varchar(36) UNIQUE, user_foreignkey INT, start_date DATE, end_date DATE, engagement INT, approved BOOLEAN, delete BOOLEAN)";
+        let make = "CREATE TABLE IF NOT EXISTS Timesheets_Meta(index serial PRIMARY KEY, timesheet_id varchar(36) UNIQUE, user_foreignkey INT, start_date DATE, end_date DATE, engagement INT, approved BOOLEAN, delete BOOLEAN)";
         data.client.query(make, function(err, results){
             resolve(data);
         });
@@ -139,7 +139,7 @@ function clearUsersTable(data){
 
 function usersTable(data){
      return new Promise(function(resolve, reject){
-        let make ="CREATE TABLE IF NOT EXISTS Users( user_id serial PRIMARY KEY, email varchar(32) UNIQUE, password varchar(64), role TEXT, invite_code varchar(36), invited_on timestamptz, supervisor INTEGER, org_foreignkey INTEGER, last_accessed timestamptz )";
+        let make ="CREATE TABLE IF NOT EXISTS Users(user_id serial PRIMARY KEY, email varchar(32) UNIQUE, password varchar(64), role TEXT, invite_code varchar(36), invited_on timestamptz, supervisor INTEGER, org_foreignkey INTEGER, last_accessed timestamptz )";
         data.client.query(make, function(err, results){
             resolve(data);
         });
@@ -161,7 +161,7 @@ function clearOwnerTable(data){
 
 function ownerTable(data){
      return new Promise(function(resolve, reject){
-        let make = "CREATE TABLE IF NOT EXISTS organization ( index serial PRIMARY KEY, orgname TEXT,  domains TEXT, owner_foreignkey INTEGER )";
+        let make = "CREATE TABLE IF NOT EXISTS organization(index serial PRIMARY KEY, orgname TEXT,  domains TEXT, owner_foreignkey INTEGER )";
         data.client.query(make, function(err, results){
             resolve(data);
         });
