@@ -48,7 +48,6 @@ let connect = function(data) {
             if (err) {
                 throw err;
             } else {
-                console.log(data);
                 resolve({
                     setup: data,
                     done: done,
@@ -67,7 +66,6 @@ function finish(data) {
     console.log("finish");
     return new Promise(function(resolve, reject) {
         data.client.query('COMMIT', data.done);
-        // console.log("data", data);
         data.message = "Timesheet updated";
         resolve(data);
     });
@@ -114,7 +112,7 @@ function rollback(data) {
     return new Promise(function(resolve, reject) {
         data.client.query('ROLLBACK', function(err) {
             data.done();
-            if (err) {    
+            if (err) {
                 throw err;
             } else {
                 resolve({
@@ -158,7 +156,6 @@ let addMetaData = function(data) {
     return new Promise(function(resolve, reject) {
         //Asynchronously insert data into the database
         let upsert = `SELECT * FROM upsert_meta('${meta.timesheetID}', ${meta.userID}, '${meta.startDate}', '${meta.endDate}', ${meta.engagement}, ${meta.delete})`;
-        console.log(upsert);
         data.client.query(upsert, function(err, result) {
             if (err) {
                 throw err;
@@ -177,7 +174,6 @@ function upsertEntries(data) {
     return new Promise(function(resolve, reject) {
         let entries = data.setup.entries;
         Promise.all(entries.map(function(entry) {
-                console.log("entry", entry);
                 return upsertEntry({
                     timesheetID: data.setup.timesheetID,
                     rowID: entry.rowID,
@@ -207,18 +203,13 @@ function addEntry(data, client) {
         data.timesheetID, data.duration,
         data.service, data.date
     ];
-    console.log(entry);
     console.log("made it into here");
     return new Promise(function(resolve, reject) {
         console.log("and here");
-        console.log(entry);
         client.query(queryString, entry, function(err, result) {
-            console.log("but not here");
             if (err) {
                 throw err;
             } else {
-                console.log(result);
-                console.log(result.rows);
                 resolve(result.rows);
             }
         });
@@ -236,8 +227,6 @@ function upsertEntry(data, client) {
             if (err) {
                 throw err;
             } else {
-                console.log(result);
-                console.log(result.rows);
                 resolve(result.rows);
             }
         });
@@ -322,7 +311,6 @@ function getEntries(data, client) {
                 console.log("this is an err: ", err);
                 throw err;
             } else {
-                console.log(result.rows);
                 resolve(result.rows);
             }
         });
@@ -462,7 +450,6 @@ function buildTimesheets(data) {
                         duration: String(entry.service_duration),
                         delete: entry.delete
                     });
-                    console.log("entry date", entry.date);
                 }
             });
             return timesheet;
