@@ -31,8 +31,7 @@ function matchAuth(user, authedTypes) {
         for (i = 0; i < authedTypes.length; i++) {
             if (authedTypes[i] === user) {
                 return true;
-            } else {
-                return false;
             }
         }
+        return false;
     }

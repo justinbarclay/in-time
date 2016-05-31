@@ -21,7 +21,8 @@ var Employees = React.createClass({
     },
     buildEmployees: function(employees){
         var list = employees.map(function(employee, index){
-            return (<Employee key={index} email={employee.email} supervisor={employee.supervisor} supervisors={employeeActions.getSupervisors()}/>);
+            console.log("employee supervisor: " + employee.role);
+            return (<Employee key={index} email={employee.email} role={employee.role} supervisor={employee.supervisor} supervisors={employeeActions.getSupervisors()}/>);
         });
         return (
             <div className="">

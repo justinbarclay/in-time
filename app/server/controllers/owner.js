@@ -188,7 +188,7 @@ function findOrganization(data){
 
 function getStaff(data){
     let orgID = data.orgID;
-    let getUsers = "SELECT email, supervisor, role FROM users WHERE org_foreignkey=$1";
+    let getUsers = "SELECT users1.email, users1.role, users2.email as supervisor FROM public.users as users1 LEFT OUTER JOIN public.users as users2 ON users1.supervisor = users2.user_id AND users1.org_foreignkey = $1";
     return new Promise(function(resolve, reject){
         try{
             data.client.query(getUsers, [orgID], function(err, result){

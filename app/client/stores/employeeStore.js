@@ -20,6 +20,7 @@ var employeeStore = Flux.createStore({
     change: function(email, accessor, value){
         for(i=0; i<_employees.length; i++){
             if(_employees[i] === email){
+                console.log(_employees[i]);
                 _employees[i].accessor = value;
                 return;
             }
