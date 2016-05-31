@@ -1,8 +1,9 @@
 let owner = require('../app/server/controllers/owner');
 let timesheet = require('../app/server/controllers/timesheet');
-
+let bcrypt = require('bcrypt');
 
 let config = require("../config.js");
+let secret = config.secret;
 let pg = require('pg');
 let Client = pg.Client;
 let conString = config.postgres;
@@ -38,7 +39,6 @@ function rollback(data) {
     //to the done function to close & remove this client from
     //the pool.  If you leave a client in the pool with an unaborted
     //transaction weird, hard to diagnose problems might happen.
-    console.log(data);
     return new Promise(function(resolve, reject) {
         data.client.query('ROLLBACK', function(err) {
             data.done();
@@ -95,7 +95,7 @@ makeDemo = function(data){
         let demoOwner = {
             "user":{
                 "email": data.owner.email,
-                "password":"1"
+                "password":"demo"
             }, "org": {
                 "orgname": data.owner.organization,
                 "domain": null
@@ -171,8 +171,10 @@ function addEmployee(data, client) {
     let queryString = "INSERT into Users(email, password, org_foreignkey, role, supervisor) VALUES ($1, $2, $3, $4, $5) RETURNING user_id";
     //Asynchronously insert data into the database
     console.log(data);
+    let password = bcrypt.hashSync("demo", bcrypt.genSaltSync(4));
+    console.log("hashed");
     var employee = [
-        data.email, null, data.orgID, data.role, data.supervisorID || null
+        data.email, password, data.orgID, data.role, data.supervisorID || null
     ];
     console.log("employee" + employee);
     return new Promise(function(resolve, reject) {
