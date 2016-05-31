@@ -46,7 +46,7 @@ var TimesheetRows = React.createClass({
         var self = this;
         var entries = this.state.timesheet.entries.map(function(entry, index) {
             if (entry.delete === false) {
-                return <TimesheetRow startDate={self.state.timesheet.startDate} endDate={self.state.timesheet.endDate} entry={entry} fields={self.state.entryFields} id={self.state.timesheet.timesheetID} row={index} key={index} user={self.state.userID}/>;
+                return <TimesheetRow startDate={self.state.timesheet.startDate} endDate={self.state.timesheet.endDate} entry={entry} fields={self.state.entryFields} id={self.state.timesheet.timesheetID} row={index} key={index}/>;
             }
         });
         return entries;
