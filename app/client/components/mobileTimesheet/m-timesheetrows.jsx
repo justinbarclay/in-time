@@ -8,12 +8,13 @@ var timesheetStore = require('../../stores/timesheetStore');
 var timesheetActions = require('../../actions/timesheetActions');
 var authActions = require('../../actions/authActions');
 var TimesheetEditButtons = require('./m-timesheeteditbuttons');
-
+var Approve = require('../approve');
 var TimesheetRows = React.createClass({
     displayName: "Timesheet Rows",
     mixins: [timesheetStore.mixin],
     getInitialState: function() {
         pageState = timesheetActions.getTimesheet(this.props.params.id);
+        console.log(pageState);
         if (!pageState) {
             timesheetActions.grabTimesheet(authActions.getUserInfo().id, this.props.params.id);
             return null;
@@ -45,14 +46,16 @@ var TimesheetRows = React.createClass({
         var self = this;
         var entries = this.state.timesheet.entries.map(function(entry, index) {
             if (entry.delete === false) {
-                return <TimesheetRow startDate={self.state.timesheet.startDate} endDate={self.state.timesheet.endDate} entry={entry} fields={self.state.entryFields} id={self.state.timesheet.timesheetID} row={index} key={index}/>;
+                return <TimesheetRow startDate={self.state.timesheet.startDate} endDate={self.state.timesheet.endDate} entry={entry} fields={self.state.entryFields} id={self.state.timesheet.timesheetID} row={index} key={index} user={self.state.userID}/>;
             }
         });
         return entries;
     },
     displayApprove: function() {
         currentUser = authActions.getUserInfo();
-        if (currentUser.role === "Supervisor" && currentUser.id !== this.state.userID) {
+        console.log("Current User ID " + currentUser.id );
+        console.log("State id " + this.props.id);
+        if ((currentUser.role === "Supervisor" || currentUser.role === "Owner") && currentUser.id !== this.state.timesheet.userID) {
             return true;
         } else {
             return false;

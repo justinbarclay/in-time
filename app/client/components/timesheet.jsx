@@ -38,7 +38,7 @@ var Timesheet = React.createClass({
     },
     displayApprove: function() {
         currentUser = authActions.getUserInfo();
-        if (currentUser.role === "Supervisor" && currentUser.id !== this.state.userID) {
+        if ((currentUser.role === "Supervisor" || currentUser.role === "Owner") && currentUser.id !== this.state.userID) {
             return true;
         } else {
             return false;
