@@ -10,21 +10,20 @@ var demoActions = Flux.createActions({
         if(role === "Owner"){
             user = {
                 "email": "owner@timescape.tech",
-                "password": undefined
+                "password": "demo"
             };
         } else if(role === "Supervisor"){
             user = {
-                "email": "supervisor@timescape.tech",
-                "password": undefined
+                "email": "dduchovny@timescape.tech",
+                "password": "demo"
             };
         } else if(role === "Staff"){
             user = {
-                "email": "staff@timescape.tech",
-                "password": undefined
+                "email": "trussel@timescape.tech",
+                "password": "demo"
             };
         }
-        console.log(role);
-        //authActions.signIn(user);
+        authActions.signIn(user);
     }
 });
 module.exports = demoActions;

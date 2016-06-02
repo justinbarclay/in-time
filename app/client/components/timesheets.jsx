@@ -17,11 +17,6 @@ var Timesheets = React.createClass({
         return {user: authActions.getUserInfo(),
             timesheets: timesheetActions.getTimesheets()};
     },
-    componentWillMount: function(){
-        if(!authActions.isLoggedIn()){
-            hashHistory.push("home");
-        }
-    },
     newTimesheet: function(){
         var newID =uuid.v4();
         timesheetActions.newTimesheet(newID, this.state.user.id);

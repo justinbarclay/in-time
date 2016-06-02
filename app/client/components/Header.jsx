@@ -17,19 +17,22 @@ var header = React.createClass({
     propTypes: [],
     mixins: [authStore.mixin],
     getInitialState: function(){
-        return({signedIn: authActions.isLoggedIn()});
+        return({loggedIn: authActions.isLoggedIn()});
     },
     storeDidChange: function(){
         var loggedIn = authActions.isLoggedIn();
-        this.setState({signedIn: loggedIn});
-        if(loggedIn){
+        var previousLoggedIn = this.state.loggedIn || false;
+        this.setState({loggedIn: loggedIn});
+        if(loggedIn !== previousLoggedIn){
+            console.log(loggedIn);
+            console.log(previousLoggedIn);
             hashHistory.push('/timesheets');
-        } else {
+        } else if(!loggedIn){
             hashHistory.push('/');
         }
     },
     render: function(){
-        nav = this.state.signedIn ? <SignedIn/> : <SignedOut/>;
+        nav = this.state.loggedIn ? <SignedIn/> : <SignedOut/>;
         return (
             <div className="header">
                 <Link className="nav homeButton" to="/">

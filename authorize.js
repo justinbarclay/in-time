@@ -17,6 +17,8 @@ function authorize(req, res, next){
         }
         next();
     } else {
+        let userID = getUserID(req.header('X-ACCESS-TOKEN'));
+        req.userID = userID;
         // Otherwise, no need to care about authorization
         next();
     }

@@ -33,7 +33,7 @@ var Owner = React.createClass({
         // var defaultOption = options[0];
         return (
             <div className="inviteUserForm">
-                <MessageNew accessor="owner"/>
+                <MessageNew accessor="owner" hidden={this.state.hidden}/>
                 <p> Please enter the email of the user you would like to invite</p>
                 <form method="post" name="user" onSubmit={this.invite}>
                     <div>

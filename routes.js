@@ -213,9 +213,35 @@ server.post('/api/invite', function(req, res, next){
         });
 });
 
-server.post('/api/employees', function(req, res, next){
+server.post('/api/allemployees', function(req, res, next){
         thing = JSON.parse(req.body);
-        owner.getEmployees(thing, function(data) {
+        owner.getAllEmployees(thing, function(data) {
+            console.log(data);
+            if(data.err){
+                res.send({success: false, message: data.message});
+                next();
+            } else {res.send(data);
+                next();
+            }
+        });
+});
+
+server.post('/api/allemployees', function(req, res, next){
+        thing = JSON.parse(req.body);
+        owner.getAllEmployees(thing, function(data) {
+            console.log(data);
+            if(data.err){
+                res.send({success: false, message: data.message});
+                next();
+            } else {res.send(data);
+                next();
+            }
+        });
+});
+
+server.post('/api/employees', function(req, res, next){
+        supervisorID = JSON.parse(req.body);
+        owner.getEmployees(supervisorID, function(data) {
             console.log(data);
             if(data.err){
                 res.send({success: false, message: data.message});
@@ -265,6 +291,18 @@ server.post('/api/JWT', function(req, res, next){
             var userID = getUserID(res.header('X-ACCESS-TOKEN'));
             user.grabInfo({id:userID}, function(auth){
                 res.send(auth);
+                next();
+            });
+        } else {
+            next();
+        }
+});
+
+server.post('/api/getstaff', function(req, res, next){
+        if(res.header('X-ACCESS-TOKEN')){
+            var userID = getUserID(res.header('X-ACCESS-TOKEN'));
+            supervisor.getStaff({id:userID}, function(staff){
+                res.send(staff);
                 next();
             });
         } else {

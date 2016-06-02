@@ -17,11 +17,10 @@ function authSup(nextState, replace) {
             pathname: '/signin'
         });
     } else if (!matchAuth(authActions.getUserInfo().role, ["Supervisor", "Owner"])){
+        console.log("Redirect");
         replace({
             pathname: '/timesheets'
         });
-    } else {
-        return;
     }
 }
 module.exports.sup = authSup;

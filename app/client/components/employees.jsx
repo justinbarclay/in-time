@@ -12,7 +12,7 @@ var Employees = React.createClass({
     mixins: [employeeStore.mixin],
     getInitialState: function(){
         return({
-            options: ["Staff", "Supervisor"],
+            options: ["Staff", "Supervisor", "Owner"],
             employees: employeeActions.getEmployees(),
         });
     },
@@ -25,7 +25,7 @@ var Employees = React.createClass({
             return (<Employee key={index} email={employee.email} role={employee.role} supervisor={employee.supervisor} supervisors={employeeActions.getSupervisors()}/>);
         });
         return (
-            <div className="">
+            <div className="employees">
                 {list}
             </div>
         );

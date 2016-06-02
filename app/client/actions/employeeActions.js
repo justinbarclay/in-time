@@ -1,14 +1,15 @@
 var employeeStore = require('../stores/employeeStore');
 var authActions = require('./authActions');
+var staffStore = require('../stores/staffStore');
 
 var Flux = require("../biff");
 
 var employeeActions = Flux.createActions({
-    syncEmployees: function(userID){
+    syncAllEmployees: function(userID){
         self = this;
         user = JSON.stringify({id: userID});
         var AJAXreq = new XMLHttpRequest();
-        AJAXreq.open("POST", "/api/employees", true);
+        AJAXreq.open("POST", "/api/allemployees", true);
         AJAXreq.setRequestHeader('ContentType', 'application/json; charset=UTF8');
         AJAXreq.setRequestHeader('X-ACCESS-TOKEN', authActions.getJWT());
         AJAXreq.setRequestHeader('ContentType',
@@ -25,6 +26,29 @@ var employeeActions = Flux.createActions({
                 self.dispatch({
                     actionType: "SYNC_EMPLOYEES",
                     employees: res.data
+                });
+            }
+        };
+    },
+    syncEmployees: function(userID){
+        self = this;
+        user = JSON.stringify({id: userID});
+        var AJAXreq = new XMLHttpRequest();
+        AJAXreq.open("POST", "/api/employees", true);
+        AJAXreq.setRequestHeader('ContentType', 'application/json; charset=UTF8');
+        AJAXreq.setRequestHeader('X-ACCESS-TOKEN', authActions.getJWT());
+        AJAXreq.setRequestHeader('ContentType',
+            'application/json; charset=UTF8');
+        AJAXreq.send(user);
+        AJAXreq.onreadystatechange = function() {
+            var res = JSON.parse(AJAXreq.responseText);
+            console.log("Employees: " + res.data);
+            if (AJAXreq.readyState === 4) {
+                newJWT = AJAXreq.getResponseHeader("X-ACCESS-TOKEN");
+                authActions.setJWT(newJWT);
+                self.dispatch({
+                    actionType: "SET_STAFF",
+                    data: res.data
                 });
             }
         };

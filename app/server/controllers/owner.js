@@ -186,7 +186,7 @@ function findOrganization(data){
     });
 }
 
-function getStaff(data){
+function getEmployees(data){
     let orgID = data.orgID;
     let getUsers = "SELECT users1.email, users1.role, users2.email as supervisor FROM public.users as users1 LEFT OUTER JOIN public.users as users2 ON users1.supervisor = users2.user_id AND users1.org_foreignkey = $1";
     return new Promise(function(resolve, reject){
@@ -216,6 +216,39 @@ function getStaff(data){
     });
 }
 
+
+function getStaff(data){
+    let supervisorID = data.setup.id;
+    console.log(data.setup.id);
+    let getUsers = "SELECT email, role, user_id FROM Users WHERE supervisor = $1";
+    return new Promise(function(resolve, reject){
+        try{
+            data.client.query(getUsers, [supervisorID], function(err, result){
+                if(err){
+                    console.log(err);
+                    data.done();
+                    reject({
+                        err:err
+                    });
+                } else{
+                    let staff = result.rows.map(function(data){
+                        console.log(data);
+                        return {role: data.role, email: data.email, id: data.user_id};
+                    });
+                    data.client.query('COMMIT', data.done);
+                    data.done();
+                    resolve({
+                        message: "Success",
+                        data: staff
+                    });
+                }
+            });
+        } catch (error){
+            data.done();
+            reject({error:error});
+        }
+    });
+}
 ///////////////////////////////////////////////////////////////////////////////
 //
 // api Calls
@@ -231,15 +264,27 @@ function addOrganizationPromise(data, callback) {
         .catch(rollback)
         .then(callback);
 }
-function getEmployeesPromise(data, callback){
+function getAllEmployeesPromise(data, callback){
     connect(data)
         .then(findOrganization)
-        .then(getStaff)
+        .then(getEmployees)
         .catch(function(err){
             console.log("Error getting employees");
             return({err:true, message: "Error getting employees"});
         })
         .then(callback);
 }
+
+function getEmployeesPromise(data, callback){
+    connect(data)
+    .then(getStaff)
+    .catch(function(err){
+        console.log("Error getting supervisors staff");
+        return({err: true, message: "Error getting staff"});
+    })
+    .then(callback);
+}
+
 exports.addOrganization = addOrganizationPromise;
+exports.getAllEmployees = getAllEmployeesPromise;
 exports.getEmployees = getEmployeesPromise;

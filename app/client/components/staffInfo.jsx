@@ -11,14 +11,14 @@ var StaffInfo = React.createClass({
         return({staff: this.props.staff, hours: this.props.hours});
     },
     loadTimesheets: function(){
-        staffActions.setTimesheets(staffActions.getStaff(this.state.staff).timesheets);
+        staffActions.setTimesheets(staffActions.getStaff(this.props.staff).timesheets);
         hashHistory.push("/timesheets");
     },
     render: function(){
         return (
             <div className="staffInfo" onClick={this.loadTimesheets}>
-                <div>{this.state.staff}</div>
-                <div>{this.state.hours} </div>
+                <div>{this.props.staff}</div>
+                <div>{this.props.hours || 0} </div>
             </div>
         );
     }

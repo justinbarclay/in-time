@@ -12,9 +12,8 @@ var NavSignedIn = React.createClass({
     propTypes: {},
     mixins: [authStore.mixin],
     getInitialState: function(){
-        var role = authActions.getUserInfo().role;
         return({
-            role: role,
+            role: authActions.getUserInfo().role
         });
     },
     storeDidChange: function(){
@@ -29,9 +28,9 @@ var NavSignedIn = React.createClass({
     componentDidMount: function(){
         user = authActions.getUserInfo();
         if(user.role === "Owner"){
-            employeeActions.syncEmployees(user.id);
+            employeeActions.syncAllEmployees(user.id);
         } else {
-        timesheetActions.syncTimesheets(user.id);
+            timesheetActions.syncTimesheets(user.id);
         }
     },
     componentWillUnmount: function(){
