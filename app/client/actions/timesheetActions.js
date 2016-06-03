@@ -87,8 +87,9 @@ var timesheetActions = Flux.createActions({
             index: index
         });
     },
-    updateEntry: function(userID, entry) {
+    updateEntry: function(entry) {
         // console.log("updateEntry");
+        console.log(entry);
         this.dispatch({
             actionType: "UPDATE_ENTRY",
             data: entry

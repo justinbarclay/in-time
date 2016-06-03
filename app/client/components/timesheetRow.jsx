@@ -14,11 +14,13 @@ var TimesheetRow = React.createClass({
         return null;
     },
     buildRow: function(field, index) {
+        console.log("this.props.userID" + this.props.userID);
         return <TimesheetInput  accessor={field.accessor}
                                 className="timesheetInput"
                                 id={this.props.id}
                                 key={index}
                                 index={this.props.index}
+                                userID={this.props.userID}
                                 type={field.type}
                                 value={this.props.entry[field.accessor]} />;
     },

@@ -24,6 +24,7 @@ var TimesheetInput = React.createClass({
                 inputCallback={this.handleChange}
                 accessor={this.props.accessor}
                 type={this.props.type}
+                userID={this.props.userID}
                 className={this.props.className}
                 value={this.props.value} />
         );
