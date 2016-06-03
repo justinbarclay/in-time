@@ -13,10 +13,9 @@ var TimesheetRows = React.createClass({
     displayName: "Timesheet Rows",
     mixins: [timesheetStore.mixin],
     getInitialState: function() {
-        pageState = timesheetActions.getTimesheet(this.props.params.id);
-        console.log(pageState);
+        pageState = timesheetActions.getTimesheet(this.props.params.userID, this.props.params.id);
         if (!pageState) {
-            timesheetActions.grabTimesheet(authActions.getUserInfo().id, this.props.params.id);
+            timesheetActions.grabTimesheet(this.props.params.userID, this.props.params.id);
             return null;
         } else {
             return ({timesheet: pageState,
@@ -40,21 +39,19 @@ var TimesheetRows = React.createClass({
         }
     },
     storeDidChange: function() {
-        this.setState({timesheet: timesheetActions.getTimesheet(this.props.params.id)});
+        this.setState({timesheet: timesheetActions.getTimesheet(this.props.params.userID, this.props.params.id)});
     },
     buildRows: function(){
         var self = this;
         var entries = this.state.timesheet.entries.map(function(entry, index) {
             if (entry.delete === false) {
-                return <TimesheetRow startDate={self.state.timesheet.startDate} endDate={self.state.timesheet.endDate} entry={entry} fields={self.state.entryFields} id={self.state.timesheet.timesheetID} row={index} key={index}/>;
+                return <TimesheetRow userID={self.props.params.userID} startDate={self.state.timesheet.startDate} endDate={self.state.timesheet.endDate} entry={entry} fields={self.state.entryFields} id={self.state.timesheet.timesheetID} row={index} key={index}/>;
             }
         });
         return entries;
     },
     displayApprove: function() {
         currentUser = authActions.getUserInfo();
-        console.log("Current User ID " + currentUser.id );
-        console.log("State id " + this.props.id);
         if ((currentUser.role === "Supervisor" || currentUser.role === "Owner") && currentUser.id !== this.state.timesheet.userID) {
             return true;
         } else {
@@ -63,7 +60,7 @@ var TimesheetRows = React.createClass({
     },
     render: function(){
         var editButtons = this.displayApprove()? <Approve timesheetID={this.state.timesheet.timesheetID}/>
-        : <TimesheetEditButtons timesheetID={this.state.timesheet.timesheetID}/>;
+    : <TimesheetEditButtons timesheetID={this.state.timesheet.timesheetID} userID={this.props.params.userID}/>;
         return(
             <div className="newRowContainer">
                 {this.buildRows()}

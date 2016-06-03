@@ -53,6 +53,7 @@ var TimesheetMeta = React.createClass({
                     type="date" /></label>
                 <label>Engagement
                 <TextEntry
+                    userID={this.props.userID}
                     className="metaInfo"
                     accessor="engagement"
                     id={this.props.timesheet.timesheetID}

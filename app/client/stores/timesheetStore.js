@@ -42,12 +42,9 @@ var timesheetStore = Flux.createStore({
         }
     },
     getTimesheet: function(userID, id) {
-        console.log(id);
         if(_timesheets[userID]){
-            console.log(_timesheets[userID]);
             for (index = 0; index < _timesheets[userID].length; index++) {
                 if (_timesheets[userID][index].timesheetID === id) {
-                    console.log("return");
                     return _timesheets[userID][index];
                 }
             }

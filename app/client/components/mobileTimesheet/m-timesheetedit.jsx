@@ -16,7 +16,7 @@ var TimesheetEditRow = React.createClass({
         return {
             index: this.props.params.row,
             id: this.props.params.id,
-            timesheet:timesheetActions.getTimesheet(this.props.params.id),
+            timesheet:timesheetActions.getTimesheet(this.props.params.userID, this.props.params.id),
             deletable: true,
             fields: [
                 {
@@ -35,13 +35,14 @@ var TimesheetEditRow = React.createClass({
         this.setState({
             index: this.props.params.row,
             id: this.props.params.id,
-            entry: timesheetActions.findRow(this.props.params.id, this.props.params.row)
+            entry: timesheetActions.findRow(this.props.params.userID, this.props.params.id, this.props.params.row)
         });
     },
     buildRow: function(field, index) {
         return(
         <label key={index}>{field.name}
             <TimesheetInput  accessor={field.accessor}
+                                userID={this.props.params.userID}
                                 className={"m-timesheetInput " + field.accessor}
                                 id={this.state.id}
                                 index={this.state.index}
@@ -55,6 +56,7 @@ var TimesheetEditRow = React.createClass({
     },
     changeDate: function(time){
         entry = {
+            userID: this.props.params.userID,
             id: this.state.id,
             index: this.state.index,
             accessor: "date",

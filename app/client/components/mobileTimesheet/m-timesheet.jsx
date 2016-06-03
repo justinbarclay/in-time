@@ -13,7 +13,7 @@ var Timesheet = React.createClass({
     displayName: "Mobile Timesheet",
     mixins: [timesheetStore.mixin],
     getInitialState: function() {
-        return(timesheetActions.getTimesheet(this.props.params.id));
+        return(timesheetActions.getTimesheet(this.props.params.userID, this.props.params.id));
     },
     componentWillMount: function() {
 
@@ -24,7 +24,7 @@ var Timesheet = React.createClass({
         }
     },
     storeDidChange: function(){
-        this.setState(timesheetActions.getTimesheet(this.props.params.id));
+        this.setState(timesheetActions.getTimesheet(this.props.params.userID, this.props.params.id));
     },
     render: function() {
         data = <div className="button">We were unable to find your timesheet,

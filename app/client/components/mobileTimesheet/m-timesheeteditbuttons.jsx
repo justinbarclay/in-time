@@ -24,10 +24,10 @@ var TimesheetEditButtons = React.createClass({
             "service": "type of service",
             "delete": false
         };
-        return timesheetActions.addRow(this.state.timesheetID, newRow);
+        return timesheetActions.addRow(this.props.userID, this.state.timesheetID, newRow);
     },
     saveTimesheet: function() {
-        return timesheetActions.saveTimesheet(this.state.timesheetID);
+        return timesheetActions.saveTimesheet(this.props.userID, this.state.timesheetID);
     },
     deleteTimesheet: function() {
         self = this;
