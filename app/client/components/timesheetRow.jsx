@@ -27,6 +27,7 @@ var TimesheetRow = React.createClass({
     },
     changeDate: function(time){
         entry = {
+            userID: this.props.userID,
             id: this.props.id,
             index: this.props.index,
             accessor: "date",

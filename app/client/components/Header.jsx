@@ -24,11 +24,11 @@ var header = React.createClass({
         var previousLoggedIn = this.state.loggedIn || false;
         this.setState({loggedIn: loggedIn});
         if(loggedIn !== previousLoggedIn){
-            console.log(loggedIn);
-            console.log(previousLoggedIn);
-            hashHistory.push('/timesheets');
-        } else if(!loggedIn){
-            hashHistory.push('/');
+            if(loggedIn){
+                hashHistory.push('/timesheets/'+authActions.getUserInfo().id);
+            } else {
+                hashHistory.push('/');
+            }
         }
     },
     render: function(){

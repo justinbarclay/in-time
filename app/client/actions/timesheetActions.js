@@ -27,16 +27,17 @@ var timesheetActions = Flux.createActions({
                 authActions.setJWT(newJWT);
                 self.dispatch({
                     actionType: "SYNC_TIMESHEET",
+                    userID: authActions.getUserInfo().id,
                     timesheets: res
                 });
             }
         };
     },
-    getTimesheets: function(){
-        return timesheetStore.getTimesheets();
+    getTimesheets: function(userID){
+        return timesheetStore.getTimesheets(userID);
     },
-    getTimesheet: function(id) {
-        return timesheetStore.getTimesheet(id);
+    getTimesheet: function(userID, id) {
+        return timesheetStore.getTimesheet(userID, id);
     },
     grabTimesheet: function(userID, id){
         request = {
@@ -52,7 +53,7 @@ var timesheetActions = Flux.createActions({
             });
         }
     },
-    deleteTimesheet: function(id) {
+    deleteTimesheet: function(userID, id) {
         this.dispatch({
             actionType: "DELETE_TIMESHEET",
             timesheetID: id
@@ -65,28 +66,28 @@ var timesheetActions = Flux.createActions({
             actionType: "DELETE_TIMESHEETS",
         });
     },
-    newTimesheet: function(timesheetID, userID) {
+    newTimesheet: function(userID, timesheetID) {
         this.dispatch({
             actionType: "NEW_TIMESHEET",
             timesheetID: timesheetID,
             userID: userID
         });
     },
-    addRow: function(id, entry) {
+    addRow: function(userID, id, entry) {
         this.dispatch({
             actionType: "ADD_ROW",
             id: id,
             entry: entry
         });
     },
-    deleteRow: function(id, index) {
+    deleteRow: function(userID, id, index) {
         this.dispatch({
             actionType: "DELETE_ROW",
             id: id,
             index: index
         });
     },
-    updateEntry: function(entry) {
+    updateEntry: function(userID, entry) {
         // console.log("updateEntry");
         this.dispatch({
             actionType: "UPDATE_ENTRY",
@@ -100,7 +101,7 @@ var timesheetActions = Flux.createActions({
             data: meta
         });
     },
-    saveTimesheet: function(id){
+    saveTimesheet: function(userID, id){
         save(id);
     },
     approveTimesheet: function(meta){
@@ -110,8 +111,8 @@ var timesheetActions = Flux.createActions({
             data: meta
         });
     },
-    findRow: function(id, row){
-        return timesheetStore.findRow(id, row);
+    findRow: function(userID, id, row){
+        return timesheetStore.findRow(userID, id, row);
     }
 });
 
@@ -129,6 +130,7 @@ function save(id){
     }
     ajax("POST", "/api/timesheet", timesheet);
 }
+
 function ajax(method, route, data){
     var AJAXreq = new XMLHttpRequest();
     AJAXreq.open(method, route, true);

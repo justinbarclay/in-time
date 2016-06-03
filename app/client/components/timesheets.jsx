@@ -15,28 +15,35 @@ var Timesheets = React.createClass({
     mixins: [timesheetStore.mixin],
     getInitialState: function() {
         return {user: authActions.getUserInfo(),
-            timesheets: timesheetActions.getTimesheets()};
+            timesheets: timesheetActions.getTimesheets(this.props.params.userID)};
     },
     newTimesheet: function(){
         var newID =uuid.v4();
-        timesheetActions.newTimesheet(newID, this.state.user.id);
-        hashHistory.push("/timesheet/" + newID);
+        console.log(this.state.user.id);
+        timesheetActions.newTimesheet(this.state.user.id, newID);
+        hashHistory.push("/timesheet/" + this.state.user.id +"/"+ newID);
     },
     storeDidChange: function() {
-        this.setState({timesheets:timesheetActions.getTimesheets()});
+        console.log(timesheetActions.getTimesheets(this.props.params.userID));
+        this.setState({timesheets:timesheetActions.getTimesheets(this.props.params.userID)});
+    },
+    createTimesheets: function(){
+        var self = this;
+        if(!this.state.timesheets){ return;}
+        var timesheets = this.state.timesheets.map(function(timesheet, index){
+            timesheetMeta = !timesheet.delete ? <TimesheetInfo userID={self.props.params.userID} timesheet={timesheet} key={index}/> : null;
+            return timesheetMeta;
+        });
+        return timesheets;
     },
     render: function() {
-        var timesheets = this.state.timesheets.map(function(timesheet, index){
-            timesheetInfo = !timesheet.delete ? <TimesheetInfo timesheet={timesheet} key={index}/> : null;
-            return timesheetInfo;
-        });
         return (
             <div className="timesheetsPage">
                 <div className="row">
                     <div className="button createTimesheet" onClick={this.newTimesheet}>Create New Timesheet</div>
                 </div>
                 <div className="timesheetsContainer">
-                    {timesheets}
+                    {this.createTimesheets()}
                 </div>
             </div>
         );

@@ -18,7 +18,6 @@ var StaffInfo = React.createClass({
         return (
             <div className="staffInfo" onClick={this.loadTimesheets}>
                 <div>{this.props.staff}</div>
-                <div>{this.props.hours || 0} </div>
             </div>
         );
     }

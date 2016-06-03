@@ -21,18 +21,20 @@ var Timesheet = React.createClass({
     mixins: [timesheetStore.mixin],
     propTypes: [],
     getInitialState: function() {
-        pageState = timesheetActions.getTimesheet(this.props.params.id);
+        pageState = timesheetActions.getTimesheet(this.props.params.userID, this.props.params.id);
+        console.log(pageState);
         if (!pageState) {
-            timesheetActions.grabTimesheet(authActions.getUserInfo().id, this.props.params.id);
+            timesheetActions.grabTimesheet(this.props.params.userID, this.props.params.id);
             return null;
         } else {
             return pageState;
         }
     },
     componentWillMount: function() {
+        var self = this;
         if (!this.state){
             setTimeout(function(){
-                router.push("/timesheets");
+                router.push("/timesheets"+"/"+self.props.params.userID);
             }, 300);
         }
     },
@@ -45,7 +47,7 @@ var Timesheet = React.createClass({
         }
     },
     storeDidChange: function() {
-        this.setState(timesheetActions.getTimesheet(this.props.params.id));
+        this.setState(timesheetActions.getTimesheet(this.props.params.userID, this.props.params.id));
     },
     render: function() {
         var self = this;
@@ -80,7 +82,7 @@ var Timesheet = React.createClass({
         if (this.state) {
             var entries = this.state.entries.map(function(entry, index) {
                 if (entry.delete === false) {
-                    return <TimesheetRow deletable={true} startDate={self.state.startDate} endDate={self.state.endDate} entry={entry} fields={entryFields} id={self.state.timesheetID} index={index} key={index}/>;
+                    return <TimesheetRow userID={self.props.params.userID} deletable={true} startDate={self.state.startDate} endDate={self.state.endDate} entry={entry} fields={entryFields} id={self.state.timesheetID} index={index} key={index}/>;
                 }
             });
             entryFields = [{
@@ -97,8 +99,8 @@ var Timesheet = React.createClass({
             var metaHeadings = metaFields.map(function(field, index) {
                 return <label className="metaHeading" key={index}>{field.name}</label>;
             });
-            var editButtons = this.displayApprove()? <Approve timesheetID={this.state.timesheetID}/>
-                : <TimesheetEditButtons timesheetID={this.state.timesheetID}/>;
+            var editButtons = this.displayApprove()? <Approve userID={this.props.params.userID} timesheetID={this.state.timesheetID}/>
+        : <TimesheetEditButtons userID={this.props.params.userID} timesheetID={this.state.timesheetID}/>;
 
             data = <div>
                         <MessageNew accessor="timesheet" hidden={true}/>

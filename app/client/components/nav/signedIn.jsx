@@ -42,7 +42,7 @@ var NavSignedIn = React.createClass({
     genLinkArray: function(role){
         var owner = [{route:"/invite", label:"Invite"}, {route:"/employees", label:"Employees"}];
         var supervisor = [{route:"/staff", label: "Staff"}];
-        var base = [{route:"/timesheets", label:"Timesheets"},{route: "/about", label:"About"}];
+        var base = [{route:("/timesheets/"+authActions.getUserInfo().id), label:"Timesheets"},{route: "/about", label:"About"}];
         var links = [];
         if(role === "Staff"){
             links = base;

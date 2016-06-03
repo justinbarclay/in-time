@@ -25,8 +25,8 @@ var StaffTracker = React.createClass({
         });
         return(
             <div className="staffContainer">
-                <p>"Hello"</p>
-                {staff}</div>
+                {staff}
+            </div>
         );
     }
 });

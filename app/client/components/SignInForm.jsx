@@ -22,9 +22,7 @@ var SignInForm = React.createClass({
     },
     storeDidChange: function(){
         if(authActions.isLoggedIn()){
-            console.log("Auth Actions");
-            console.log(authActions.isLoggedIn());
-            hashHistory.push("/timesheets");
+            hashHistory.push("/timesheets/"+authActions.getUserInfo().id);
         } else {
             submit.disabled = false;
         }

@@ -13,6 +13,7 @@ var TimesheetMeta = React.createClass({
     },
     changeStart: function(time){
         meta = {
+            userID: this.props.timesheet.userID,
             id: this.props.timesheet.timesheetID,
             accessor: "startDate",
             value: time
@@ -21,6 +22,7 @@ var TimesheetMeta = React.createClass({
     },
     changeEnd: function(time){
         meta = {
+            userID: this.props.timesheet.userID,
             id: this.props.timesheet.timesheetID,
             accessor: "endDate",
             value: time,
@@ -49,7 +51,7 @@ var TimesheetMeta = React.createClass({
                     id={this.props.timesheet.timesheetID}
                     onChange={this.changeEnd}
                     type="date" /></label>
-                <label>Engagement   
+                <label>Engagement
                 <TextEntry
                     className="metaInfo"
                     accessor="engagement"

@@ -39,8 +39,8 @@ var routes = (
       <Route path="about" component={About} />
       <Route path="signin" component={SignInForm} />
       <Route path="signup/:code" component={SignUpForm} />
-      <Route path="timesheets" component={Timesheets} onEnter={authStaff}/>
-      <Route path="timesheet/:id" component={Timesheet} onEnter={authStaff}>
+      <Route path="timesheets/:userID" component={Timesheets} onEnter={authStaff}/>
+      <Route path="timesheet/:userID/:id" component={Timesheet} onEnter={authStaff}>
           <IndexRoute component={TimesheetRows}/>
           <Route path=":row" component={TimesheetRow}/>
       </Route>
