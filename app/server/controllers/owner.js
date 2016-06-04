@@ -2,7 +2,7 @@
 
 var config = require("../../../config.js");
 var pg = require('pg');
-pg.defaults.poolSize = 30;
+pg.defaults.poolSize = 20;
 var conString = config.postgres;
 var uuid = require('uuid').v4;
 var user = require('./user');

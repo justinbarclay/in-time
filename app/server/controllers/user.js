@@ -10,7 +10,7 @@ var validator = require('validator');
 var jwt = require("jsonwebtoken");
 var bcrypt = require('bcrypt');
 var pg = require('pg');
-pg.defaults.poolSize = 30;
+pg.defaults.poolSize = 20;
 /** User Controller
  * This will handle creating a user, removing a user, and authenticating a loging
  * This needs to be refactored to take in a user object
