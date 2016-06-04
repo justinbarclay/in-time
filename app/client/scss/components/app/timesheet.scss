@@ -37,7 +37,7 @@ $pad: .8rem;
         line-height: 1.5em;
         display: inline-block;
         width:calc(33% - #{$pad});
-
+        vertical-align: bottom;
         .react-datepicker__input-container{
             width:100%;
         }
@@ -71,6 +71,7 @@ $pad: .8rem;
         width: calc(33% - #{$pad});
         margin-bottom: 0;
         display: inline-block;
+        vertical-align: bottom;
     }
 }
 

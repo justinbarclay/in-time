@@ -156,6 +156,7 @@ $pad: .8rem;
   width: calc(33% - #{$pad});
   position: relative;
   display: inline-block;
+  vertical-align: bottom;
 }
 
 .react-datepicker__year-read-view {
