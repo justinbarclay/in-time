@@ -27,7 +27,7 @@ var timesheetActions = Flux.createActions({
                 authActions.setJWT(newJWT);
                 self.dispatch({
                     actionType: "SYNC_TIMESHEET",
-                    userID: authActions.getUserInfo().id,
+                    userID: userID,
                     timesheets: res
                 });
             }

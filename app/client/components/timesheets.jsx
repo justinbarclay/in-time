@@ -41,6 +41,9 @@ var Timesheets = React.createClass({
             user: nextProps.params.userID,
             timesheets: timesheetActions.getTimesheets(nextProps.params.userID)});
     },
+    componentDidMount: function(){
+        timesheetActions.syncTimesheets(this.props.params.userID);
+    },
     render: function() {
         console.log("rerender");
         return (
