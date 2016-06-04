@@ -21,7 +21,7 @@ var StaffTracker = React.createClass({
     },
     render: function(){
         staff = this.state.staff.map(function(staff, index){
-            return <StaffInfo staff={staff.email} hours={staff.hours || null} key={index}/>;
+            return <StaffInfo staff={staff.email} hours={staff.hours || null} key={index} userID={staff.id}/>;
         });
         return(
             <div className="staffContainer">

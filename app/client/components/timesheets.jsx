@@ -14,7 +14,7 @@ var Timesheets = React.createClass({
     propTypes: [],
     mixins: [timesheetStore.mixin],
     getInitialState: function() {
-        return {user: authActions.getUserInfo(),
+        return {user: this.props.params.userID,
             timesheets: timesheetActions.getTimesheets(this.props.params.userID)};
     },
     newTimesheet: function(){
@@ -36,7 +36,13 @@ var Timesheets = React.createClass({
         });
         return timesheets;
     },
+    componentWillReceiveProps: function(nextProps){
+        this.setState({
+            user: nextProps.params.userID,
+            timesheets: timesheetActions.getTimesheets(nextProps.params.userID)});
+    },
     render: function() {
+        console.log("rerender");
         return (
             <div className="timesheetsPage">
                 <div className="row">

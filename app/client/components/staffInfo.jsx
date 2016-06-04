@@ -11,8 +11,8 @@ var StaffInfo = React.createClass({
         return({staff: this.props.staff, hours: this.props.hours});
     },
     loadTimesheets: function(){
-        staffActions.setTimesheets(staffActions.getStaff(this.props.staff).timesheets);
-        hashHistory.push("/timesheets");
+        //staffActions.setTimesheets(staffActions.getStaff(this.props.staff).timesheets);
+        hashHistory.push("/timesheets/"+ this.props.userID);
     },
     render: function(){
         return (

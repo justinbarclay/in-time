@@ -28,11 +28,11 @@ var Container = React.createClass({
     updateViewWidth: function(){
         if(!this.state.queue){
             requestAnimationFrame(this.setWidth);
-            this.state.queue = true;
+            this.setState({queue: true});
         }
     },
     setContainer: function(size){
-        return (size > 1000? <Timesheet {...this.props}/>: <MobileTimesheet {...this.props}/>);
+        return (size > 1000? <Timesheet userID={this.props.params.userID} {...this.props}/>: <MobileTimesheet {...this.props}/>);
     },
     componentDidMount: function(){
         this.setState({

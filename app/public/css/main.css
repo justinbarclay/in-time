@@ -6679,7 +6679,8 @@ button {
   text-align: left;
   line-height: 1.5em;
   display: inline-block;
-  width: calc(33% - 0.8rem); }
+  width: calc(33% - 0.8rem);
+  vertical-align: bottom; }
   .meta label .react-datepicker__input-container {
     width: 100%; }
 
@@ -6704,7 +6705,8 @@ button {
   .timesheetRow .timesheetInput {
     width: calc(33% - 0.8rem);
     margin-bottom: 0;
-    display: inline-block; }
+    display: inline-block;
+    vertical-align: bottom; }
 
 .newRowContainer {
   text-align: center; }
@@ -6921,7 +6923,8 @@ button {
 
 .Dropdown-root {
   position: relative;
-  margin-bottom: 10px; }
+  margin-bottom: 10px;
+  vertical-align: bottom; }
 
 .Dropdown-control {
   position: relative;
@@ -7106,7 +7109,8 @@ button {
 .react-datepicker__input-container {
   width: calc(33% - 0.8rem);
   position: relative;
-  display: inline-block; }
+  display: inline-block;
+  vertical-align: bottom; }
 
 .react-datepicker__year-read-view {
   width: 50%;
