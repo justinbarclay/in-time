@@ -7,6 +7,7 @@ var hashHistory = require('react-router').hashHistory;
 var TimesheetInput = require('../timesheetInput');
 var DatePicker = require('react-datepicker');
 
+var authActions = require('../../actions/authActions');
 
 var TimesheetEditRow = React.createClass({
     displayName: "Timesheet Edit",
@@ -17,7 +18,7 @@ var TimesheetEditRow = React.createClass({
             index: this.props.params.row,
             id: this.props.params.id,
             timesheet:timesheetActions.getTimesheet(this.props.params.userID, this.props.params.id),
-            deletable: true,
+            deletable: this.props.params.userID != authActions.getUserInfo().id,
             fields: [
                 {
                     "name": "Duration",
@@ -64,6 +65,8 @@ var TimesheetEditRow = React.createClass({
             value: time
         };
         timesheetActions.updateEntry(entry);
+    },
+    componentDidMount: function(){
     },
     render: function() {
         var del = <div className="delButton" onClick={this.deleteRow}>Delete</div>;
