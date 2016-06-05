@@ -6,15 +6,12 @@ var _staff = [];
 
 var staffStore = Flux.createStore({
     getAllStaff: function() {
-        console.log("get all staff");
-        console.log(_staff);
         return _staff;
     },
     getStaff: function(name){
         return findStaff(name);
     },
     setStaff: function(staff) {
-        console.log(staff);
         _staff = staff;
     }
 },

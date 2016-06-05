@@ -1,4 +1,5 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var hashHistory = require('react-router').hashHistory;
 var uuid = require("node-uuid");
 //Flux
@@ -24,8 +25,17 @@ var Timesheets = React.createClass({
         hashHistory.push("/timesheet/" + this.state.user.id +"/"+ newID);
     },
     storeDidChange: function() {
+        this.setAsSupervisor(this.props.params.userID);
         console.log(timesheetActions.getTimesheets(this.props.params.userID));
         this.setState({timesheets:timesheetActions.getTimesheets(this.props.params.userID)});
+    },
+    setAsSupervisor: function(user){
+        console.log("called");
+        if(user != authActions.getUserInfo().id){
+            ReactDOM.findDOMNode(this.refs.create).style.display = "none";
+        } else {
+            ReactDOM.findDOMNode(this.refs.create).style.display = "block";
+        }
     },
     createTimesheets: function(){
         var self = this;
@@ -37,19 +47,20 @@ var Timesheets = React.createClass({
         return timesheets;
     },
     componentWillReceiveProps: function(nextProps){
+        this.setAsSupervisor(this.props.params.userID);
         this.setState({
             user: nextProps.params.userID,
             timesheets: timesheetActions.getTimesheets(nextProps.params.userID)});
     },
     componentDidMount: function(){
+        this.setAsSupervisor(this.props.params.userID);
         timesheetActions.syncTimesheets(this.props.params.userID);
     },
     render: function() {
-        console.log("rerender");
         return (
             <div className="timesheetsPage">
                 <div className="row">
-                    <div className="button createTimesheet" onClick={this.newTimesheet}>Create New Timesheet</div>
+                    <div ref="create" className="button createTimesheet" onClick={this.newTimesheet}>Create New Timesheet</div>
                 </div>
                 <div className="timesheetsContainer">
                     {this.createTimesheets()}

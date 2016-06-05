@@ -12,15 +12,12 @@ var employeeStore = Flux.createStore({
         return _employees;
     },
     getSupervisors: function(){
-        console.log("Get supervisor called");
         var supervisors = _employees.filter(findSup);
-        console.log(supervisors);
         return supervisors;
     },
     change: function(email, accessor, value){
         for(i=0; i<_employees.length; i++){
             if(_employees[i] === email){
-                console.log(_employees[i]);
                 _employees[i].accessor = value;
                 return;
             }
@@ -37,7 +34,6 @@ var employeeStore = Flux.createStore({
         }
 });
 function findSup(employee){
-    console.log(employee);
     if(employee.role === "Supervisor"){
         return true;
     }
