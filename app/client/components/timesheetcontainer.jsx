@@ -42,8 +42,12 @@ var Container = React.createClass({
 
     },
     componentWillUnmount: function(){
+        console.log(this.state.resizeID);
+        console.log(this.state);
         if(this.state.resizeID){
+            console.log("Unmounting eventlistener");
             window.removeEventListener(this.state.resizeID);
+            this.setState({});
         }
     },
     render(){
