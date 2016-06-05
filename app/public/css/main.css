@@ -6494,19 +6494,17 @@ body {
 
 .nav {
   display: inline-block;
-  padding: 0 5px;
   height: 30px;
   transform-style: preserve-3d; }
-  .nav:hover {
-    background-color: #F5F5F5;
-    color: #333333; }
   .nav label {
     position: relative;
     top: 50%;
     -ms-transform: translateY(-50%);
         transform: translateY(-50%);
-    color: #F5F5F5; }
+    color: #F5F5F5;
+    padding: 0 5px; }
     .nav label:hover {
+      background-color: #F5F5F5;
       color: #333333; }
 
 .homeButton {

@@ -20,19 +20,15 @@ $oil: #333333;
 }
 .nav {
     display: inline-block;
-    padding: 0 5px;
     height: 30px;
     @include vertical-align-container;
-
-    &:hover {
-        background-color: $white-smoke;
-        color: $oil;
-    }
 
     label {
         @include vertical-align;
         color: $white-smoke;
+        padding: 0 5px;
         &:hover {
+            background-color: $white-smoke;
             color: $oil;
         }
     }
