@@ -33,7 +33,7 @@ var TimesheetEditButtons = React.createClass({
         self = this;
         this.setState({timer: window.setTimeout(function(){
             hashHistory.push('/timesheets');
-            timesheetActions.deleteTimesheet(self.state.timesheetID);
+            timesheetActions.deleteTimesheet(self.props.userID, self.state.timesheetID);
         }, 2000)});
     },
     clearTimeout: function(){

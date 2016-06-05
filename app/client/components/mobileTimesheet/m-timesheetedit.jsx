@@ -52,7 +52,8 @@ var TimesheetEditRow = React.createClass({
     );
     },
     deleteRow: function() {
-        timesheetActions.deleteRow(this.props.params.id, this.props.params.row);
+        timesheetActions.deleteRow(this.props.params.userID, this.props.params.id, this.props.params.row);
+        hashHistory.push(`/timesheet/${this.props.params.userID}/${this.props.params.id}`);
     },
     changeDate: function(time){
         entry = {

@@ -24,20 +24,19 @@ var TimesheetEditButtons = React.createClass({
             "service": "type of service",
             "delete": false
         };
-        return timesheetActions.addRow(this.props.params.userID, this.state.timesheetID, newRow);
+        return timesheetActions.addRow(this.props.userID, this.state.timesheetID, newRow);
     },
     saveTimesheet: function() {
-        return timesheetActions.saveTimesheet(this.props.params.userID, this.state.timesheetID);
+        return timesheetActions.saveTimesheet(this.props.userID, this.state.timesheetID);
     },
     deleteTimesheet: function() {
         self = this;
         this.setState({timer: window.setTimeout(function(){
-            hashHistory.push('/timesheets/'+this.props.params.userID);
-            timesheetActions.deleteTimesheet(this.props.params.userID, self.state.timesheetID);
+            hashHistory.push('/timesheets/'+ self.props.userID);
+            timesheetActions.deleteTimesheet(self.props.userID, self.state.timesheetID);
         }, 2000)});
     },
     clearTimeout: function(){
-        console.log("cleared");
         window.clearTimeout(this.state.timer);
     },
     hoverDelete:function(event){

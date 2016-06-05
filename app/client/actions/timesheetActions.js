@@ -56,6 +56,7 @@ var timesheetActions = Flux.createActions({
     deleteTimesheet: function(userID, id) {
         this.dispatch({
             actionType: "DELETE_TIMESHEET",
+            userID: userID,
             timesheetID: id
         });
         save(id);
@@ -76,6 +77,7 @@ var timesheetActions = Flux.createActions({
     addRow: function(userID, id, entry) {
         this.dispatch({
             actionType: "ADD_ROW",
+            userID: userID,
             id: id,
             entry: entry
         });
@@ -83,6 +85,7 @@ var timesheetActions = Flux.createActions({
     deleteRow: function(userID, id, index) {
         this.dispatch({
             actionType: "DELETE_ROW",
+            userID: userID,
             id: id,
             index: index
         });

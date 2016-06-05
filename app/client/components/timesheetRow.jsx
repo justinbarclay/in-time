@@ -14,7 +14,6 @@ var TimesheetRow = React.createClass({
         return null;
     },
     buildRow: function(field, index) {
-        console.log("this.props.userID" + this.props.userID);
         return <TimesheetInput  accessor={field.accessor}
                                 className="timesheetInput"
                                 id={this.props.id}
@@ -25,7 +24,7 @@ var TimesheetRow = React.createClass({
                                 value={this.props.entry[field.accessor]} />;
     },
     deleteRow: function() {
-        timesheetActions.deleteRow(this.props.id, this.props.index);
+        timesheetActions.deleteRow(this.props.userID, this.props.id, this.props.index);
     },
     changeDate: function(time){
         entry = {
