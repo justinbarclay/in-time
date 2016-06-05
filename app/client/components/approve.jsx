@@ -23,7 +23,9 @@ var Approve = React.createClass({
     },
     render: function(){
         return (
-            <div className="button approve" onClick={this.approve}>Approve</div>
+            <div className="newRowContainer">
+                <div className="button approve" onClick={this.approve}>Approve</div>
+            </div>
         );
     }
 });
