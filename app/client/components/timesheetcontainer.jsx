@@ -8,8 +8,8 @@ var Container = React.createClass({
     displayName: "Container",
     getInitialState: function(){
         return ({
-            resizeID: null,
-            viewWidth: window.innerWidth
+            viewWidth: window.innerWidth,
+            queue: false
         });
     },
     setWidth: function(){
@@ -35,20 +35,10 @@ var Container = React.createClass({
         return (size > 1000? <Timesheet userID={this.props.params.userID} {...this.props}/>: <MobileTimesheet {...this.props}/>);
     },
     componentDidMount: function(){
-        this.setState({
-            resizeID:window.addEventListener("resize", this.updateViewWidth),
-            queue: false
-        });
-
+        window.addEventListener("resize", this.updateViewWidth);
     },
     componentWillUnmount: function(){
-        console.log(this.state.resizeID);
-        console.log(this.state);
-        if(this.state.resizeID){
-            console.log("Unmounting eventlistener");
-            window.removeEventListener(this.state.resizeID);
-            this.setState({});
-        }
+        window.removeEventListener("resize", this.updateViewWidth);
     },
     render(){
         return  (
