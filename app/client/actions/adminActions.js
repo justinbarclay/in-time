@@ -6,9 +6,8 @@ var authActions = require("./authActions");
 // Set of allowed actions
 var adminActions = Flux.createActions({
     invite: function(user) {
-        var id = authActions.getUserInfo().id;
         self = this;
-        user.id = id;
+        user.id = authActions.getUserInfo().id;
         var AJAXreq = new XMLHttpRequest();
         AJAXreq.open("post", "/api/invite", true);
         AJAXreq.setRequestHeader('ContentType',
@@ -16,7 +15,6 @@ var adminActions = Flux.createActions({
         var currentJWT = localStorage.getItem('JWT');
         AJAXreq.setRequestHeader('X-ACCESS-TOKEN', currentJWT);
         AJAXreq.send(JSON.stringify(user));
-        console.log(user);
         AJAXreq.onreadystatechange = function() {
             if (AJAXreq.readyState === 4) {
                 var data = JSON.parse(AJAXreq.responseText);

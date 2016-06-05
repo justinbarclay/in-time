@@ -18,8 +18,6 @@ var employeeActions = Flux.createActions({
         console.log("Sync called");
         AJAXreq.onreadystatechange = function() {
             var res = JSON.parse(AJAXreq.responseText);
-            console.log("Employees: " + res.data);
-            console.log(AJAXreq.readyState);
             if (AJAXreq.readyState === 4) {
                 newJWT = AJAXreq.getResponseHeader("X-ACCESS-TOKEN");
                 authActions.setJWT(newJWT);
@@ -42,7 +40,6 @@ var employeeActions = Flux.createActions({
         AJAXreq.send(user);
         AJAXreq.onreadystatechange = function() {
             var res = JSON.parse(AJAXreq.responseText);
-            console.log("Employees: " + res.data);
             if (AJAXreq.readyState === 4) {
                 newJWT = AJAXreq.getResponseHeader("X-ACCESS-TOKEN");
                 authActions.setJWT(newJWT);
@@ -66,9 +63,7 @@ var employeeActions = Flux.createActions({
             return employees;
     },
     getSupervisors: function(){
-        console.log("Made it here");
         var supervisors = employeeStore.getSupervisors();
-        console.log("Supervisors: " + JSON.stringify(supervisors));
         return supervisors.map(function(supervisor){
             return supervisor.email;
         });

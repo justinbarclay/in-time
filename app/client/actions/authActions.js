@@ -73,7 +73,6 @@ var authActions = Flux.createActions({
             if (AJAXreq.readyState === 4) {
                 var user = JSON.parse(AJAXreq.responseText);
                 authActions.setJWT(AJAXreq.getResponseHeader("X-ACCESS-TOKEN"));
-                console.log("user "+ JSON.stringify(user));
                 self.dispatch({
                     actionType: "SIGNIN_USER",
                     user: user

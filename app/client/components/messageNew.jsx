@@ -8,7 +8,6 @@ var MessageNew = React.createClass({
     propTypes: {},
     mixins: [messageStore.mixin],
     getInitialState: function(){
-        console.log("Store change");
         return {message:messageActions.getMessage(this.props.accessor), hidden: this.props.hidden};
     },
     storeDidChange: function(){
@@ -38,7 +37,6 @@ var MessageNew = React.createClass({
     },
     handleClick: function(){
         ReactDOM.findDOMNode(this.refs.message).style.display = "none";
-        this.props.message = "none";
         this.setState({hidden: true});
     },
     render: function(){
