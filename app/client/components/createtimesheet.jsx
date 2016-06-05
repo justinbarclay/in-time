@@ -20,7 +20,6 @@ var CreateTimesheet = React.createClass({
         hashHistory.push("/timesheet/" + this.props.userID +"/"+ newID);
     },
     componentWillUpdate: function(nextProps, nextState){
-        console.log("nextProps.hidden: " + nextProps.hidden);
         if (nextProps.hidden){
             ReactDOM.findDOMNode(this.refs.create).style.display = "none";
         } else {

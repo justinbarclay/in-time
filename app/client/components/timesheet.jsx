@@ -22,7 +22,6 @@ var Timesheet = React.createClass({
     propTypes: [],
     getInitialState: function() {
         pageState = timesheetActions.getTimesheet(this.props.params.userID, this.props.params.id);
-        console.log(pageState);
         if (!pageState) {
             timesheetActions.grabTimesheet(this.props.params.userID, this.props.params.id);
             return null;

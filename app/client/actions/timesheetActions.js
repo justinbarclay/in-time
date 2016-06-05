@@ -88,15 +88,12 @@ var timesheetActions = Flux.createActions({
         });
     },
     updateEntry: function(entry) {
-        // console.log("updateEntry");
-        console.log(entry);
         this.dispatch({
             actionType: "UPDATE_ENTRY",
             data: entry
         });
     },
     updateMeta: function(meta) {
-        // console.log("updateMeta");
         this.dispatch({
             actionType: "UPDATE_META",
             data: meta
@@ -119,6 +116,11 @@ var timesheetActions = Flux.createActions({
 
 module.exports = timesheetActions;
 
+///////////////////////////////////////////////////////////////////////////////
+//
+// Helper Functions
+//
+///////////////////////////////////////////////////////////////////////////////
 function save(id){
     var timesheet = formatTimesheet(timesheetStore.getTimesheet(id));
     var verify = verifyTimesheet(timesheet);
