@@ -59,7 +59,7 @@ var TimesheetRows = React.createClass({
         }
     },
     render: function(){
-        var editButtons = this.displayApprove()? <Approve timesheetID={this.state.timesheet.timesheetID}/>
+        var editButtons = this.displayApprove()? <Approve userID={this.props.params.userID} timesheetID={this.state.timesheet.timesheetID}/>
     : <TimesheetEditButtons timesheetID={this.state.timesheet.timesheetID} userID={this.props.params.userID}/>;
         return(
             <div className="newRowContainer">

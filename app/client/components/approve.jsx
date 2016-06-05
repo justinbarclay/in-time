@@ -19,7 +19,7 @@ var Approve = React.createClass({
         index: this.props.index,
         value: this.approve};
 
-        timesheetActions.approveTimesheet({userID: this.props.userID, id:this.state.timesheetID, accessor:"approve", data: blah});
+        timesheetActions.approveTimesheet({userID: this.props.userID, id:this.state.timesheetID, accessor:"approve", data: "true"});
     },
     render: function(){
         return (
