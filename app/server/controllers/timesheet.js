@@ -277,7 +277,9 @@ function getAllEntries(data) {
                 return getEntries(meta, data.client);
             }))
             .then(function(entries) {
-                data.entries = flatten(entries);
+                if(entries.length){
+                    data.entries = flatten(entries);
+                }
                 resolve(data);
             });
     });
