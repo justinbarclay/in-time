@@ -151,13 +151,18 @@ function begin(data) {
 ////////////////////////////////////////////////////////////////////////////////
 //Insert Queries
 ////////////////////////////////////////////////////////////////////////////////
+
 let addMetaData = function(data) {
     let meta = data.setup;
+    console.log(meta.startDate);
+    let values = [meta.timesheetID, meta.userID, meta.startDate, meta.endDate, meta.engagement, meta.delete];
     return new Promise(function(resolve, reject) {
         //Asynchronously insert data into the database
-        let upsert = `SELECT * FROM upsert_meta('${meta.timesheetID}', ${meta.userID}, '${meta.startDate}', '${meta.endDate}', ${meta.engagement}, ${meta.delete})`;
-        data.client.query(upsert, function(err, result) {
+        let upsert = `INSERT INTO timesheets_meta(timesheet_id, user_foreignkey, start_date, end_date, engagement, delete) VALUES ($1, $2, $3, $4, $5, $6)
+        ON CONFLICT (timesheet_id) DO UPDATE SET start_date=$3, end_date=$4, engagement=$5, delete=$6`;
+        data.client.query(upsert, values, function(err, result) {
             if (err) {
+                console.log(err);
                 throw err;
             } else {
                 resolve({
@@ -195,35 +200,13 @@ function upsertEntries(data) {
     });
 }
 
-function addEntry(data, client) {
-    var queryString =
-        "INSERT INTO Timesheets (timesheet_foreignkey, row_id, service_duration, service_description, service_date) VALUES($1, $2, $3, $4, $5)";
-    //Asynchronously insert data into the database
-    var entry = [
-        data.timesheetID, data.duration,
-        data.service, data.date
-    ];
-    console.log("made it into here");
-    return new Promise(function(resolve, reject) {
-        console.log("and here");
-        client.query(queryString, entry, function(err, result) {
-            if (err) {
-                throw err;
-            } else {
-                resolve(result.rows);
-            }
-        });
-    });
-}
-
 function upsertEntry(data, client) {
-    let upsert = `SELECT * FROM upsert_timesheet('${data.timesheetID}', '${data.rowID}', '${data.service}', ${data.duration}, '${data.date}', ${data.delete})`;
+    let upsert = `INSERT INTO Timesheets (timesheet_foreignkey, row_id, service_duration, service_description, service_date, delete) VALUES($1, $2, $3, $4, $5, $6)
+    ON CONFLICT (row_id) DO UPDATE SET service_duration=$3, service_description=$4, service_date=$5, delete=$6`;
+    let values = [data.timesheetID, data.rowID, data.duration, data.service, data.date, data.delete];
     //Asynchronously insert data into the database
-    console.log("made it into here");
     return new Promise(function(resolve, reject) {
-        console.log("and here");
-        client.query(upsert, function(err, result) {
-            console.log("but not here");
+        client.query(upsert, values, function(err, result) {
             if (err) {
                 throw err;
             } else {
@@ -271,6 +254,7 @@ function getTimesheetIDs(data) {
         });
     });
 }
+
 function getTimesheetMeta(data) {
     let userID = data.setup.userID;
     let timesheetID = data.setup.timesheetID;
