@@ -13,8 +13,6 @@ var restify = require('restify');
 var secret = require('./config.js').secret;
 server = module.parent.exports.server;
 
-var jsonLint = require('durable-json-lint');
-
 /* require your controllers here */
 // var siteController = require('./controllers/site');
 // var adminController = require('./controllers/admin');
@@ -110,7 +108,6 @@ server.post('/api/timesheets', function(req, res, next){
             return;
         } else {
             timesheet.getTimesheets(request, function(timesheets) {
-                console.log("Errors " + jsonLint(JSON.stringify(timesheets)).errors);
                 res.header('Content-Length', Buffer.byteLength(timesheets));
                 res.json(timesheets);
                 next();
@@ -230,8 +227,6 @@ server.post('/api/invite', function(req, res, next){
 server.post('/api/allemployees', function(req, res, next){
         thing = JSON.parse(req.body);
         owner.getAllEmployees(thing, function(data) {
-            console.log(data);
-            console.log(jsonLint(data));
             if(data.err){
                 res.json({success: false, message: data.message});
                 next();
@@ -251,7 +246,6 @@ server.post('/api/employees', function(req, res, next){
                 res.json({success: false, message: data.message});
                 next();
             } else {
-                console.log("Get employees: " + jsonLint(JSON.stringify(data)).errors);
                 res.json(data);
                 next();
             }
