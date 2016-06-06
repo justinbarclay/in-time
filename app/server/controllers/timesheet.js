@@ -414,7 +414,6 @@ function approveTimesheet(request, callback) {
 // This is an area for easy optimization
 function buildTimesheets(data) {
     return new Promise(function(resolve, reject) {
-        console.log("building timesheet");
         let meta_info = data.meta;
         let entries = data.entries;
         let timesheets = meta_info.map(function(meta) {
@@ -440,7 +439,6 @@ function buildTimesheets(data) {
             });
             return timesheet;
         });
-        console.log("Timesheets", timesheets);
         resolve(timesheets);
     });
 }

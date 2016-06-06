@@ -17,8 +17,8 @@ var employeeActions = Flux.createActions({
         AJAXreq.send(user);
         console.log("Sync called");
         AJAXreq.onreadystatechange = function() {
-            var res = JSON.parse(AJAXreq.responseText);
             if (AJAXreq.readyState === 4) {
+                var res = JSON.parse(AJAXreq.responseText);
                 newJWT = AJAXreq.getResponseHeader("X-ACCESS-TOKEN");
                 authActions.setJWT(newJWT);
                 self.dispatch({
@@ -39,8 +39,8 @@ var employeeActions = Flux.createActions({
             'application/json; charset=UTF8');
         AJAXreq.send(user);
         AJAXreq.onreadystatechange = function() {
-            var res = JSON.parse(AJAXreq.responseText);
             if (AJAXreq.readyState === 4) {
+                var res = JSON.parse(AJAXreq.responseText);
                 newJWT = AJAXreq.getResponseHeader("X-ACCESS-TOKEN");
                 authActions.setJWT(newJWT);
                 self.dispatch({

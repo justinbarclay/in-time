@@ -12,12 +12,11 @@ var timesheetActions = Flux.createActions({
         AJAXreq.open("POST", "/api/timesheets", true);
         AJAXreq.setRequestHeader('ContentType', 'application/json; charset=UTF8');
         AJAXreq.setRequestHeader('X-ACCESS-TOKEN', authActions.getJWT());
-        AJAXreq.setRequestHeader('ContentType',
-            'application/json; charset=UTF8');
+        AJAXreq.setRequestHeader('ContentType', 'application/json; charset=UTF8');
         AJAXreq.send(user);
         AJAXreq.onreadystatechange = function() {
-            var res = JSON.parse(AJAXreq.responseText);
             if (AJAXreq.readyState === 4) {
+                var res = JSON.parse(AJAXreq.responseText);
                 newJWT = AJAXreq.getResponseHeader("X-ACCESS-TOKEN");
                 authActions.setJWT(newJWT);
                 self.dispatch({
@@ -142,11 +141,9 @@ function ajax(method, route, data){
         'application/json; charset=UTF8');
     AJAXreq.send(JSON.stringify(data));
     AJAXreq.onreadystatechange = function() {
-        var res = JSON.parse(AJAXreq.responseText);
-        console.log(res);
         if (AJAXreq.readyState === 4) {
-            jwt = AJAXreq.getResponseHeader(
-                "X-ACCESS-TOKEN");
+            var res = JSON.parse(AJAXreq.responseText);
+            jwt = AJAXreq.getResponseHeader("X-ACCESS-TOKEN");
             authActions.setJWT(jwt);
             messageActions.addMessage("timesheet", res.message);
             return res;
