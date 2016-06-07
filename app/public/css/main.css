@@ -6786,6 +6786,7 @@ button {
   .m-timesheeteditrow {
     text-align: center;
     margin-top: 1em;
+    padding: 0 1em 0 1em;
     width: 100%; }
     .m-timesheeteditrow .delButton {
       border-radius: 0px;
