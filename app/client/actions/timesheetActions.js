@@ -97,7 +97,7 @@ var timesheetActions = Flux.createActions({
         });
     },
     saveTimesheet: function(userID, id){
-        save(id);
+        save(userID, id);
     },
     approveTimesheet: function(meta){
         //ajax("POST", "/api/approve", {timesheetID: meta.id, action:"approve"});
@@ -118,8 +118,8 @@ module.exports = timesheetActions;
 // Helper Functions
 //
 ///////////////////////////////////////////////////////////////////////////////
-function save(id){
-    var timesheet = formatTimesheet(timesheetStore.getTimesheet(id));
+function save(userID, id){
+    var timesheet = formatTimesheet(timesheetStore.getTimesheet(userID, id));
     var verify = verifyTimesheet(timesheet);
     console.log(verify);
     if(verify !== []){
