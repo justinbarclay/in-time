@@ -25,7 +25,14 @@ var header = React.createClass({
         this.setState({loggedIn: loggedIn});
         if(loggedIn !== previousLoggedIn){
             if(loggedIn){
+                var role = authActions.getUserInfo().role;
+                if(role === "Owner"){
+                hashHistory.push('/employees');
+                } else if (role === "Supervisor"){
+                hashHistory.push('/staff');
+                } else{
                 hashHistory.push('/timesheets/'+authActions.getUserInfo().id);
+            }
             } else {
                 hashHistory.push('/');
             }
