@@ -2,6 +2,7 @@
 var React = require("react");
 var hashHistory = require('react-router').hashHistory;
 var Router = require("react-router");
+var ReactDOM = require('react-dom');
 var Link = Router.Link;
 
 //Flux
@@ -25,6 +26,7 @@ var header = React.createClass({
         this.setState({loggedIn: loggedIn});
         if(loggedIn !== previousLoggedIn){
             if(loggedIn){
+                ReactDOM.findDOMNode(this.refs.home).style.display = "none";
                 var role = authActions.getUserInfo().role;
                 if(role === "Owner"){
                 hashHistory.push('/employees');
@@ -34,6 +36,7 @@ var header = React.createClass({
                 hashHistory.push('/timesheets/'+authActions.getUserInfo().id);
             }
             } else {
+                ReactDOM.findDOMNode(this.refs.home).style.display = 'inherit';
                 hashHistory.push('/');
             }
         }
@@ -42,7 +45,7 @@ var header = React.createClass({
         nav = this.state.loggedIn ? <SignedIn/> : <SignedOut/>;
         return (
             <div className="header">
-                <Link className="nav homeButton" to="/">
+                <Link ref="home" className="nav homeButton" to="/">
                     <label>Home</label>
                 </Link>
                 {nav}
