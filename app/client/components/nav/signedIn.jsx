@@ -55,7 +55,8 @@ var NavSignedIn = React.createClass({
     },
     genLinks: function(data){
         return data.map(function(link, index){
-            return (<Link to={link.route} className="nav" key={index}>
+            return (
+            <Link to={link.route} className="nav" key={index}>
                 <label>{link.label}</label>
             </Link>);
         });
