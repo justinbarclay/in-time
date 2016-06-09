@@ -108,7 +108,7 @@ function clearTimesheetMetaTable(data){
 
 function timesheetTable(data){
      return new Promise(function(resolve, reject){
-        let make = "CREATE TABLE IF NOT EXISTS Timesheets(index serial PRIMARY KEY, timesheet_foreignkey varchar(36), row_id varchar(36) UNIQUE, service_description TEXT, service_duration REAL, service_date DATE, delete BOOLEAN)";
+        let make = "CREATE TABLE IF NOT EXISTS Timesheets(index serial PRIMARY KEY, timesheet_foreignkey varchar(36), row_id varchar(36) UNIQUE NOT NULL, service_description TEXT, service_duration REAL, service_date DATE, delete BOOLEAN)";
         data.client.query(make, function(err, results){
             resolve(data);
         });

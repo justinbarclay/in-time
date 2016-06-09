@@ -159,7 +159,7 @@ let addMetaData = function(data) {
     return new Promise(function(resolve, reject) {
         //Asynchronously insert data into the database
         let upsert = `INSERT INTO timesheets_meta(timesheet_id, user_foreignkey, start_date, end_date, engagement, delete) VALUES ($1, $2, $3, $4, $5, $6)
-        ON CONFLICT (timesheet_id) DO UPDATE SET start_date=$3, end_date=$4, engagement=$5, delete=$6`;
+        ON CONFLICT (timesheet_id) DO UPDATE SET timesheet_id=$1, start_date=$3, end_date=$4, engagement=$5, delete=$6 WHERE timesheets_meta.timesheet_id=$1`;
         data.client.query(upsert, values, function(err, result) {
             if (err) {
                 console.log(err);
@@ -179,6 +179,7 @@ function upsertEntries(data) {
     return new Promise(function(resolve, reject) {
         let entries = data.setup.entries;
         Promise.all(entries.map(function(entry) {
+            console.log(entry);
                 return upsertEntry({
                     timesheetID: data.setup.timesheetID,
                     rowID: entry.rowID,
@@ -202,8 +203,9 @@ function upsertEntries(data) {
 
 function upsertEntry(data, client) {
     let upsert = `INSERT INTO Timesheets (timesheet_foreignkey, row_id, service_duration, service_description, service_date, delete) VALUES($1, $2, $3, $4, $5, $6)
-    ON CONFLICT (row_id) DO UPDATE SET service_duration=$3, service_description=$4, service_date=$5, delete=$6`;
+    ON CONFLICT (row_id) DO UPDATE SET row_id=$2, service_duration=$3, service_description=$4, service_date=$5, delete=$6 WHERE timesheets.row_id=$2`;
     let values = [data.timesheetID, data.rowID, data.duration, data.service, data.date, data.delete];
+    console.log(data);
     //Asynchronously insert data into the database
     return new Promise(function(resolve, reject) {
         client.query(upsert, values, function(err, result) {
@@ -294,7 +296,6 @@ function getEntries(data, client) {
         client.query(queryString, [data.timesheet_id], function(err,
             result) {
             if (err) {
-                console.log("this is an err: ", err);
                 throw err;
             } else {
                 resolve(result.rows);
@@ -430,6 +431,7 @@ function buildTimesheets(data) {
             entries.forEach(function(entry, index) {
                 if (entry.timesheet_foreignkey === timesheet.timesheetID) {
                     timesheet.entries.push({
+                        rowID: entry.row_id,
                         date: moment(entry.service_date).add(1, "day").format("YYYY-MM-DD"),
                         service: entry.service_description,
                         duration: String(entry.service_duration),
