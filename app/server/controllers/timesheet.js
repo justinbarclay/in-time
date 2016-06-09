@@ -291,7 +291,7 @@ function getEntries(data, client) {
     let queryString = "SELECT timesheet_foreignkey, row_id, service_description" +
         ", service_duration, EXTRACT('epoch' from service_date)*1000 AS service_date," +
         " delete FROM timesheets WHERE delete = 'FALSE' AND timesheet_foreignkey" +
-        " = $1";
+        " = $1 ORDER BY service_date";
     return new Promise(function(resolve, reject) {
         client.query(queryString, [data.timesheet_id], function(err,
             result) {
@@ -414,6 +414,7 @@ function approveTimesheet(request, callback) {
 // build up the timesheet later
 // This is an area for easy optimization
 function buildTimesheets(data) {
+    console.log(data.start_date);
     return new Promise(function(resolve, reject) {
         let meta_info = data.meta;
         let entries = data.entries;
