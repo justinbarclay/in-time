@@ -13,21 +13,18 @@ main {
 
 .home {
     position: inherit;
-    // @include vertical-align-container;
-    // height: 500px;
     text-align: center;
-    margin: 0 auto 0 auto;
+    margin: 0 auto;
     display: block;
     font-size: 1.5em;
-   //  background-color: black;
 }
 
 .authenticationButtons {
-    // @include vertical-align;
     font-size: 1.5em;
-    margin: 0 auto 0 auto;
-    /* background-color: red; */
-    display: block;
+    margin: 0 auto;
+    a{
+        color: white;
+    }
 
 }
 button {

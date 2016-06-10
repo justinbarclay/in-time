@@ -6611,15 +6611,15 @@ main {
 .home {
   position: inherit;
   text-align: center;
-  margin: 0 auto 0 auto;
+  margin: 0 auto;
   display: block;
   font-size: 1.5em; }
 
 .authenticationButtons {
   font-size: 1.5em;
-  margin: 0 auto 0 auto;
-  /* background-color: red; */
-  display: block; }
+  margin: 0 auto; }
+  .authenticationButtons a {
+    color: white; }
 
 button {
   margin-bottom: 0; }
@@ -7223,13 +7223,22 @@ button {
     margin: .5em .25em 0em;
     display: inline-block; }
 
+.container {
+  position: relative;
+  margin: auto auto;
+  padding: 2em 1em;
+  height: 100%;
+  width: 100%;
+  display: block; }
+
 .border {
   margin: 0 auto;
   position: relative;
-  height: 10em;
-  width: 10em;
+  height: 6em;
+  width: 6em;
   border-style: solid;
-  border-radius: 15%; }
+  border-radius: 15%;
+  background-color: rgba(0, 140, 186, 0.7); }
 
 .clock {
   position: absolute;
@@ -7253,7 +7262,7 @@ button {
   -ms-transform: translate(-50%, -50%);
       transform: translate(-50%, -50%);
   z-index: 200;
-  background-color: white; }
+  background-color: #333333; }
 
 .minute-hand {
   position: absolute;
@@ -7270,7 +7279,7 @@ button {
   height: 30%;
   background-color: black;
   border-radius: 25%;
-  left: 31%;
+  left: 32%;
   top: 43%;
   -ms-transform: rotate(67deg);
       transform: rotate(67deg); }
