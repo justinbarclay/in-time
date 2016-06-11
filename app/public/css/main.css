@@ -6606,7 +6606,7 @@ body {
 main {
   max-width: 100%;
   margin: 0 auto;
-  padding: 10vh 0; }
+  padding: 7vh 0; }
 
 .home {
   position: inherit;
@@ -6632,6 +6632,16 @@ button {
   margin-left: auto;
   margin-right: auto;
   float: none; }
+
+.regContainer {
+  padding: 1em;
+  margin: 0 auto;
+  display: inline-block; }
+
+.signinContainer {
+  padding: 1em;
+  margin: 0 auto;
+  display: inline-block; }
 
 @media (max-width: 1000px) {
   main {
@@ -7226,7 +7236,7 @@ button {
 .container {
   position: relative;
   margin: auto auto;
-  padding: 2em 1em;
+  padding: 2em 1em 0 1em;
   height: 100%;
   width: 100%;
   display: block; }

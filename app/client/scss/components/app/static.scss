@@ -8,7 +8,7 @@
 main {
     max-width: 100%;
     margin: 0 auto;
-    padding: 10vh 0;
+    padding: 7vh 0;
 }
 
 .home {
@@ -31,7 +31,6 @@ button {
     margin-bottom: 0;
 }
 .about {
-
     p {
         @include grid-column(
         $columns: 6,
@@ -40,6 +39,18 @@ button {
     }
 }
 
+.regContainer{
+    padding: 1em;
+    margin: 0 auto;
+    display: inline-block;
+}
+
+.signinContainer
+{
+    padding: 1em;
+    margin: 0 auto;
+    display: inline-block;
+}
 @media(max-width:$mobile-width){
     main{
         padding: 2.5vh 0;
