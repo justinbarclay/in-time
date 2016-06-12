@@ -30,8 +30,6 @@ var Register = React.createClass({
                 <label className="domain">Email Domain</label>
                 <RegisterInput name="domain" type="text" accessor="domain" className= "Domain" value={this.state.register.domain || ""}/>
 
-                <label className="phone">Phone Number</label>
-                <RegisterInput name="phone" type="text" accessor="phone" className="phone" value={this.state.register.phone || ""}/>
                 <div className="next button" onClick={this.next}>Next</div>
                 {this.props.children}
             </div>

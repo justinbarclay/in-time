@@ -1,5 +1,6 @@
 var sendgrid = require("sendgrid")('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');
 var userInvite = require("./user").invite;
+var domain = require("../../../config").domain;
 
 var invite = function(owner, email, role, code, callback){
     userInvite(owner, email, role, code, function(err, message){
@@ -8,7 +9,7 @@ var invite = function(owner, email, role, code, callback){
         if(!err){
             sendgrid.send({
                 to:       email,
-                from:     'admin@in-time.com',
+                from:     'admin@timescape.tech',
                 subject:  'You have been invited to In Time, the best timesheet management program',
                     text:     customlink(code)
             }, function(err, json) {
@@ -33,5 +34,5 @@ var invite = function(owner, email, role, code, callback){
 module.exports = invite;
 
 function customlink(code){
-    return "127.0.0.1:8888/#/signup/"+code;
+    return domain+"/#/signup/"+code;
 }
