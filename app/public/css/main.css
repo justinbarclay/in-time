@@ -6633,17 +6633,14 @@ button {
   margin-right: auto;
   float: none; }
 
-.regContainer {
-  padding: 1em;
-  margin: 0 auto;
-  display: inline-block; }
-
-.signinContainer {
+.regContainer, .signinContainer {
   padding: 1em;
   margin: 0 auto;
   display: inline-block; }
 
 @media (max-width: 1000px) {
+  .regContainer, .signinContainer {
+    display: block; }
   main {
     padding: 2.5vh 0; } }
 
