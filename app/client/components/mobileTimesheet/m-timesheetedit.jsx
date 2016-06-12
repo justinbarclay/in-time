@@ -80,6 +80,7 @@ var TimesheetEditRow = React.createClass({
                 maxDate = {this.state.timesheet.endDate || undefined}
                 selected={this.state.timesheet.entries[this.state.index].date || undefined}
                 onChange={this.changeDate}
+                readOnly={true}
                 type="date" /></label>
                 {this.state.fields.map(this.buildRow)}
                 <div className="control">
