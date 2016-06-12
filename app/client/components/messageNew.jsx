@@ -12,6 +12,7 @@ var MessageNew = React.createClass({
     },
     storeDidChange: function(){
         var newMessage = messageActions.getMessage(this.props.accessor);
+        alert(newMessage);
         if(newMessage){
             this.setState({message: newMessage, hidden: false});
         }
@@ -36,8 +37,12 @@ var MessageNew = React.createClass({
         }
     },
     handleClick: function(){
-        ReactDOM.findDOMNode(this.refs.message).style.display = "none";
-        this.setState({hidden: true});
+        var message = messageActions.getMessage(this.props.accessor);
+        if(!message){
+            this.setState({hidden: true});
+        } else{
+            this.setState({message: message});
+        }
     },
     render: function(){
         return (

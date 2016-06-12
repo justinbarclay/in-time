@@ -9,7 +9,7 @@ var _message = {};
 
 var messageStore = Flux.createStore({
     addMessage: function(accessor, message){
-        if(!_message[accessor]){
+        if(!_message[accessor] || !_message[accessor].stack){
             _message[accessor] = {"current": message};
         } else if(_message[accessor].stack){
             _message[accessor].stack.push(message);
