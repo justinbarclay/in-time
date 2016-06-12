@@ -3,8 +3,7 @@
 let config = require("../../../config.js");
 let pg = require('pg');
 let conString = config.postgres;
-let uuid = require('uuid')
-    .v4;
+let uuid = require('uuid').v4;
 var moment = require('moment');
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -1,6 +1,6 @@
 var sendgrid = require("sendgrid")('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');
 var userInvite = require("./user").invite;
-var domain = require("../../../config").domain;
+var domain = require("../../../config.js").domain;
 
 var invite = function(owner, email, role, code, callback){
     userInvite(owner, email, role, code, function(err, message){
