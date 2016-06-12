@@ -12,7 +12,6 @@ var MessageNew = React.createClass({
     },
     storeDidChange: function(){
         var newMessage = messageActions.getMessage(this.props.accessor);
-        alert(newMessage);
         if(newMessage){
             this.setState({message: newMessage, hidden: false});
         }
