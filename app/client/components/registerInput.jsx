@@ -13,7 +13,6 @@ var registerInput = React.createClass({
         };
     },
     handleChange: function(entry) {
-        console.log(entry);
         registerActions.updateEntry(entry);
     },
     render: function() {
