@@ -41,7 +41,7 @@ var TimesheetMeta = React.createClass({
                     selected={this.props.timesheet.startDate || undefined}
                     id={this.props.timesheet.timesheetID}
                     onChange={this.changeStart}
-                    readOnly={this.props.readOnly || false}
+                    readOnly={this.props.readOnly? this.props.readOnly:false}
                     /></label>
                 <label>End Date
                 <DatePicker
@@ -51,7 +51,7 @@ var TimesheetMeta = React.createClass({
                     selected={this.props.timesheet.endDate || undefined}
                     id={this.props.timesheet.timesheetID}
                     onChange={this.changeEnd}
-                    readOnly={this.props.readOnly || false}
+                    readOnly={this.props.readOnly? this.props.readOnly:false}
                     /></label>
                 <label>Engagement
                 <TextEntry

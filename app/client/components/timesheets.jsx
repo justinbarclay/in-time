@@ -33,7 +33,7 @@ var Timesheets = React.createClass({
         var self = this;
         if(!this.state.timesheets) return;
         var timesheets = this.state.timesheets.map(function(timesheet, index){
-            timesheetMeta = !timesheet.delete ? <TimesheetInfo userID={self.props.params.userID} timesheet={timesheet} key={index}/> : null;
+            timesheetMeta = !timesheet.delete ? <TimesheetInfo userID={self.props.params.userID} timesheet={timesheet} key={index} readOnly={false}/> : null;
             return timesheetMeta;
         });
         return timesheets;

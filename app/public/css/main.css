@@ -6438,29 +6438,48 @@ th.hide-for-touch {
 
 body {
   height: 100%;
-  width: 100%; }
+  width: 100%;
+  min-width: 360px; }
 
 #start {
   height: 100%;
   width: 100%; }
 
 .employeesContainer {
-  max-width: 30em;
-  min-width: 10em;
+  width: 100%;
+  min-width: 360px;
   margin: 0 auto;
-  padding-left: 1em; }
+  text-align: center; }
   .employeesContainer .title {
-    width: calc(50% - 0.8rem);
+    width: calc(50%);
     text-align: center;
     display: inline-block; }
 
 .employeeRow {
+  min-width: 360px;
   margin: 0 auto .5em auto;
   vertical-align: middle; }
   .employeeRow .Dropdown-root {
-    width: calc(50% - 0.8rem);
+    width: calc(50%);
     margin-bottom: 0;
     display: inline-block; }
+
+.employee {
+  display: inline-block;
+  margin: 0.5em 1em;
+  font: #F0EAD6;
+  text-align: center; }
+
+input.search {
+  max-width: 30em;
+  margin: 0 auto;
+  font-size: 1em; }
+
+@media (max-width: 1000px) {
+  .search {
+    min-width: calc(360px - 2em); }
+  .employeeRow {
+    padding-right: 1em; } }
 
 .footer {
   position: absolute;
@@ -6641,7 +6660,8 @@ button {
   border-color: rgba(0, 0, 0, 0.6);
   width: 100%;
   padding: 1.5em 1.5em;
-  margin-bottom: 2em; }
+  margin-bottom: 2em;
+  text-align: center; }
   .instruction p {
     margin: 0 auto;
     display: block;

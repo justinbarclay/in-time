@@ -25,9 +25,6 @@ var Employee = React.createClass({
     render: function(){
         return (
             <div className="employeeRow">
-                <div className="instructions">
-                    <p> Welcome to the Employee Information page, if you're an owner this is the page where you are able to search for staff, set their roles, and set their supervisors. If you are not an owner, you should not be here and some code is behaving very naughtily.</p>
-                </div>
                 <label>{this.props.email}</label>
                 <Dropdown className="employeeDropdown" ref="role" options={this.state.options} onChange={this._onSelectRole} value={this.props.role}/>
                 <Dropdown className="employeeDropdown" ref="supervisor" options={this.props.supervisors} onChange={this._onSelectSup} value={this.props.supervisor}/>
