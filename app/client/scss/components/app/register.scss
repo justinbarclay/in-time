@@ -1,11 +1,9 @@
 .register{
-   @include grid-column(
-        $columns: 11,
-        $center: true
-   );
-   position: relative;
-   max-width: 360px;
-   input {
+    margin: 0 auto;
+    position: relative;
+    max-width: 360px;
+    padding: 0 1em;
+    input {
        height: 37px;
 
        padding: 0 5px;

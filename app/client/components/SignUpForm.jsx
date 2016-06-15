@@ -72,23 +72,28 @@ var SignUpForm = React.createClass({
     render: function () {
         console.log(this.props);
         return (
-            <div className="signupForm">
-                <MessageNew accessor="signup" hidden={true}/>
-                <form name="user" action="" onSubmit={this.signup} method="post">
-                    <div>
-                      <label htmlFor="email">E-mail</label>
-                      <input type="text" ref="email" name="email" id="email"/>
-                    </div>
-                    <div>
-                        <label htmlFor="password">Password</label>
-                        <input type="password" ref="password" name="password" id="password" />
-                    </div>
-                    <div>
-                        <label htmlFor="confirmPassword">Confirm Password</label>
-                        <input type="password" ref="confirmPassword" name="confirmPassword" id="confirmPassword" onBlur={this.matchPasswords}/>
-                    </div>
-                    <button id="submit" type="submit"> Submit </button>
-                </form>
+            <div>
+                <div className="instruction">
+                    <p>I'm sure you've seen plenty of these before. But if you're new to these, please enter the password you'd like to have to enter, day in day out for the rest of your working life. Oh, also the password you password must be over 5 characters in length and they both must match each other. Have fun! </p>
+                </div>
+                <div className="signupForm">
+                    <MessageNew accessor="signup" hidden={true}/>
+                    <form name="user" action="" onSubmit={this.signup} method="post">
+                        <div>
+                          <label htmlFor="email">E-mail</label>
+                          <input type="text" ref="email" name="email" id="email"/>
+                        </div>
+                        <div>
+                            <label htmlFor="password">Password</label>
+                            <input type="password" ref="password" name="password" id="password" />
+                        </div>
+                        <div>
+                            <label htmlFor="confirmPassword">Confirm Password</label>
+                            <input type="password" ref="confirmPassword" name="confirmPassword" id="confirmPassword" onBlur={this.matchPasswords}/>
+                        </div>
+                        <button id="submit" type="submit"> Submit </button>
+                    </form>
+                </div>
             </div>
         );
     }

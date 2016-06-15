@@ -22,16 +22,20 @@ var Register = React.createClass({
     },
     render: function () {
         return (
-            <div className="register">
-                <p> Thank you for your interest in Timescape. We're currently in alpha, and prefer that only organizations enroll at this stage. If you're an individual who is looking to track their time, we'll have a solution for you shortly. Or you could also pretend to be an organization and that would work as well</p>
-                <label className="registerLabel">Organization Name</label>
-                <RegisterInput name="orgname" type="text" accessor="orgname" className="organName" value={this.state.register.orgname || ""}/>
+            <div>
+                <div className="instruction">
+                    <p> Thank you for your interest in Timescape. We're currently in alpha, and prefer that only organizations enroll at this stage. If you're an individual who is looking to track their time, we'll have a solution for you shortly. Or you could also pretend to be an organization and that would work as well</p>
+                </div>
+                <div className="register">
+                    <label className="registerLabel">Organization Name</label>
+                    <RegisterInput name="orgname" type="text" accessor="orgname" className="organName" value={this.state.register.orgname || ""}/>
 
-                <label className="domain">Email Domain</label>
-                <RegisterInput name="domain" type="text" accessor="domain" className= "domain" value={this.state.register.domain || ""}/>
+                    <label className="domain">Email Domain</label>
+                    <RegisterInput name="domain" type="text" accessor="domain" className= "domain" value={this.state.register.domain || ""}/>
 
-                <div className="next button" onClick={this.next}>Next</div>
-                {this.props.children}
+                    <div className="next button" onClick={this.next}>Next</div>
+                    {this.props.children}
+                </div>
             </div>
         );
     }
