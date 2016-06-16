@@ -32,7 +32,7 @@ var TimesheetMeta = React.createClass({
     },
     render: function() {
         return (
-            <div>
+            <div className="timesheetMeta">
                 <label>Start Date
                 <DatePicker
                     accessor="startDate"

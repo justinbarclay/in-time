@@ -6459,7 +6459,7 @@ body {
   margin: 1em auto 0;
   width: 360px;
   vertical-align: middle; }
-  .employeeRow label {
+  .employeeRow label:first-child {
     font-size: 1.3em;
     text-transform: uppercase;
     color: #333333;
@@ -6824,6 +6824,8 @@ button {
       text-align: center; }
     .metaContainer .metaInfo {
       width: 100%; }
+    .metaContainer .timesheetMeta {
+      padding: 0 1em; }
     .metaContainer label {
       text-align: left;
       line-height: 1.5em;
