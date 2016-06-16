@@ -8,7 +8,10 @@ var Employee = React.createClass({
     propTypes: {},
     mixins: [],
     getInitialState: function(){
-        return ({options: ["Staff", "Supervisor"]});
+        return ({
+                options: ["Staff", "Supervisor"],
+                id: this.props.params.id
+                });
     },
     storeDidChange: function(){
         this.setState({employees: employeeActions.getEmployees()});
