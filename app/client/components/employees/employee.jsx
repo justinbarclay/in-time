@@ -9,12 +9,16 @@ var Employee = React.createClass({
     mixins: [],
     getInitialState: function(){
         return ({
-                options: ["Staff", "Supervisor"],
-                id: this.props.params.id
+                options: ["Staff", "Supervisor", "Owner"],
+                supervisors: employeeActions.getSupervisors(),
+                employee: employeeActions.getEmployee(this.props.params.id)
                 });
     },
+    componentWillMount: function(){
+        this.setState({employee: employeeActions.getEmployee(this.props.params.id)});
+    },
     storeDidChange: function(){
-        this.setState({employees: employeeActions.getEmployees()});
+        this.setState({employee: employeeActions.getEmployee(this.props.params.id)});
     },
     _onSelect: function(accessor, value){
         employeeActions.update(this.props.email, accessor, value);
@@ -28,9 +32,9 @@ var Employee = React.createClass({
     render: function(){
         return (
             <div className="employeeRow">
-                <label>{this.props.email}</label>
-                <Dropdown className="employeeDropdown" ref="role" options={this.state.options} onChange={this._onSelectRole} value={this.props.role}/>
-                <Dropdown className="employeeDropdown" ref="supervisor" options={this.props.supervisors} onChange={this._onSelectSup} value={this.props.supervisor}/>
+                <label>{this.state.employee.email}</label>
+                <Dropdown className="employeeDropdown" ref="role" options={this.state.options} onChange={this._onSelectRole} value={this.state.employee.role}/>
+                <Dropdown className="employeeDropdown" ref="supervisor" options={this.state.supervisors} onChange={this._onSelectSup} value={this.state.employee.supervisor}/>
             </div>);
     }
 });

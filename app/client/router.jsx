@@ -17,7 +17,7 @@ var About = require("./components/about");
 var Owner = require("./components/owner");
 var Register = require("./components/register");
 var Employees = require("./components/Employees");
-var Employee = require("./components/employee");
+var Employee = require("./components/employees/employee");
 var TimesheetRow = require("./components/mobileTimesheet/m-timesheetedit");
 var TimesheetRows = require("./components/mobileTimesheet/m-timesheetrows");
 
@@ -50,7 +50,7 @@ var routes = (
       <Route path="register" component={Register}/>
       <Route path="register/admin" component={SignUpOrg}/>
       <Route path="employees" component={Employees} onEnter={authSup}/>
-      <Route path="employee" component={Employee} onEnter={authSup}/>
+      <Route path="employee/:id" component={Employee} onEnter={authSup}/>
       <Route path="*" component={NotFound}/>
     </Route>
 );

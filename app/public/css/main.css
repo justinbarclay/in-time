@@ -6456,13 +6456,18 @@ body {
     display: inline-block; }
 
 .employeeRow {
-  min-width: 360px;
-  margin: 0 auto .5em auto;
+  margin: 1em auto 0;
+  width: 360px;
   vertical-align: middle; }
+  .employeeRow label {
+    font-size: 1.3em;
+    text-transform: uppercase;
+    color: #333333;
+    margin-bottom: 1em; }
   .employeeRow .Dropdown-root {
-    width: calc(50%);
-    margin-bottom: 0;
-    display: inline-block; }
+    width: 100%;
+    margin-bottom: .5em;
+    display: block; }
 
 .employee {
   display: inline-block;

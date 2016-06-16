@@ -21,6 +21,7 @@ var employeeActions = Flux.createActions({
                 var res = JSON.parse(AJAXreq.responseText);
                 newJWT = AJAXreq.getResponseHeader("X-ACCESS-TOKEN");
                 authActions.setJWT(newJWT);
+                console.log(res.data);
                 self.dispatch({
                     actionType: "SYNC_EMPLOYEES",
                     employees: res.data
@@ -59,8 +60,10 @@ var employeeActions = Flux.createActions({
         });
     },
     getEmployees: function(){
-        var employees = employeeStore.getEmployees();
-            return employees;
+            return employeeStore.getEmployees();
+    },
+    getEmployee: function(id){
+        return employeeStore.getEmployee(id);
     },
     getSupervisors: function(){
         var supervisors = employeeStore.getSupervisors();
