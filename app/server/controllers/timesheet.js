@@ -226,7 +226,10 @@ function approve(data){
                 throw err;
             } else {
                 console.log("Approve timesheet: ", data.setup.timesheetID);
-                resolve(result.rows);
+                resolve({
+                    client: data.client,
+                    done: data.done
+                });
             }
         });
     });
@@ -398,7 +401,7 @@ function deleteTimesheets(request, callback) {
 }
 function approveTimesheet(request, callback) {
     connect(request)
-        .then(verify)
+        //.then(verify)
         .then(approve)
         .then(finish)
         .catch(error)

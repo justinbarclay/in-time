@@ -170,8 +170,13 @@ server.post('/api/approve', function(req, res, next){
         } else {
             approve.userID = userID;
             timesheet.approveTimesheet(approve, function(message) {
-                res.json(message);
-                next();
+                if(message.err){
+                    res.json({success:false, message: message.message});
+                    next();
+                } else {
+                    res.json({success:true, message: message.message});
+                    next();
+                }
             });
         }
 });
