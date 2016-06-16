@@ -15,10 +15,10 @@ var employeeStore = Flux.createStore({
         var supervisors = _employees.filter(findSup);
         return supervisors;
     },
-    change: function(email, accessor, value){
+    change: function(id, accessor, value){
         for(i=0; i<_employees.length; i++){
-            if(_employees[i].email === email){
-                _employees[i].accessor = value;
+            if(_employees[i].id === id){
+                _employees[i][accessor] = value;
                 return;
             }
         }
@@ -32,7 +32,7 @@ var employeeStore = Flux.createStore({
     }
     }, function(payload){
         if(payload.actionType === "CHANGE"){
-            this.change(payload.email, payload.accessor, payload.value);
+            this.change(payload.id, payload.accessor, payload.value);
             this.emitChange();
         }
         if(payload.actionType === "SYNC_EMPLOYEES"){

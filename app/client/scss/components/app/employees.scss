@@ -14,7 +14,7 @@ $pad: .8rem;
     margin: 1em auto 0;
     width: 360px;
     vertical-align: middle;
-    label{
+    label:first-child{
         font-size: 1.3em;
         text-transform: uppercase;
         color: $oil;

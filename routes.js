@@ -151,7 +151,7 @@ server.post('/api/timesheet', function(req, res, next){
 server.post('/api/approve', function(req, res, next){
         token = req.headers["x-access-token"];
         var timesheetID;
-        var userID = getUserID(req.headers('X-ACCESS-TOKEN'));
+        var userID = getUserID(req.header('X-ACCESS-TOKEN'));
 
         try {
             approve = JSON.parse(req.body);

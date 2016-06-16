@@ -21,7 +21,7 @@ var Employee = React.createClass({
         this.setState({employee: employeeActions.getEmployee(this.props.params.id)});
     },
     _onSelect: function(accessor, value){
-        employeeActions.update(this.props.email, accessor, value);
+        employeeActions.update(this.state.employee.id, accessor, value);
     },
     _onSelectRole: function(option){
         this._onSelect("role", option.value);
@@ -31,11 +31,20 @@ var Employee = React.createClass({
     },
     render: function(){
         return (
-            <div className="employeeRow">
-                <label>{this.state.employee.email}</label>
-                <Dropdown className="employeeDropdown" ref="role" options={this.state.options} onChange={this._onSelectRole} value={this.state.employee.role}/>
-                <Dropdown className="employeeDropdown" ref="supervisor" options={this.state.supervisors} onChange={this._onSelectSup} value={this.state.employee.supervisor}/>
-            </div>);
+            <div className="employeeContainer">
+                <Message hidden={true} />
+                <div className="employeeRow">
+                    <label>{this.state.employee.email}</label>
+                    <label>Role:
+                        <Dropdown className="employeeDropdown" ref="role" options={this.state.options} onChange={this._onSelectRole} value={this.state.employee.role}/>
+                    </label>
+                    <label>Supervisor:
+                        <Dropdown className="employeeDropdown" ref="supervisor" options={this.state.supervisors} onChange={this._onSelectSupervisor} value={this.state.employee.supervisor}/>
+                    </label>
+                    <div className="button" onClick={this.saveEmployee}>Save</div>
+                </div>
+            </div>
+        );
     }
 });
 

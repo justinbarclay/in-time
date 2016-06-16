@@ -51,10 +51,10 @@ var employeeActions = Flux.createActions({
             }
         };
     },
-    update: function(email, accessor, value){
+    update: function(id, accessor, value){
         this.dispatch({
             actionType: "CHANGE",
-            email: email,
+            id: id,
             accessor: accessor,
             value: value
         });
