@@ -32,22 +32,27 @@ var Owner = React.createClass({
 
         // var defaultOption = options[0];
         return (
-            <div className="inviteUserForm">
-                <MessageNew accessor="owner" hidden={this.state.hidden}/>
+            <div>
+            <div className="instruction">
                 <p> Please enter the email of the user you would like to invite</p>
-                <form method="post" name="user" onSubmit={this.invite}>
-                    <div>
-                        <label htmlFor="email">Email Address</label>
-                        <input id="email" name="email" ref="email" type="email"/>
-                    </div>
-                    <div>
-                        <label htmlFor="role">Role</label>
-                        <Dropdown ref="dropdown" options={this.state.options} onChange={this._onSelect} value={this.state.selected} />
-                    </div>
-                    <button type="submit">
-                        Submit
-                    </button>
-                </form>
+            </div>
+                <div className="inviteUserForm">
+                    <MessageNew accessor="owner" hidden={this.state.hidden}/>
+
+                    <form method="post" name="user" onSubmit={this.invite}>
+                        <div>
+                            <label htmlFor="email">Email Address</label>
+                            <input id="email" name="email" ref="email" type="email"/>
+                        </div>
+                        <div>
+                            <label htmlFor="role">Role</label>
+                            <Dropdown ref="dropdown" options={this.state.options} onChange={this._onSelect} value={this.state.selected} />
+                        </div>
+                        <button type="submit">
+                            Submit
+                        </button>
+                    </form>
+                </div>
             </div>
         );
     }
