@@ -4,6 +4,7 @@ var Link = ReactRouter.Link;
 var hashHistory = require('react-router').hashHistory;
 var authActions = require("../../actions/authActions");
 var timesheetActions = require("../../actions/timesheetActions");
+var messageActions = require("../../actions/messageActions");
 var authStore = require('../../stores/authStore.js');
 var employeeActions = require('../../actions/employeeActions');
 
@@ -38,6 +39,9 @@ var NavSignedIn = React.createClass({
     },
     signOut: function(){
         authActions.signOut();
+        messageActions.clearAll();
+        employeeActions.clearAll();
+        timesheetActions.clearAll();
     },
     genLinkArray: function(role){
         var owner = [{route:"/invite", label:"Invite"}, {route:"/employees", label:"Employees"}];

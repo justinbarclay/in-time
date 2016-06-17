@@ -108,6 +108,11 @@ var timesheetActions = Flux.createActions({
     },
     findRow: function(userID, id, row){
         return timesheetStore.findRow(userID, id, row);
+    },
+    clearAll: function(){
+        this.dispatch({
+            actionType: "CLEAR_ALL"
+        });
     }
 });
 

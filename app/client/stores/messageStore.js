@@ -29,10 +29,24 @@ var messageStore = Flux.createStore({
             _message[accessor].current = null;
         }
         return temp;
+    },
+    clearMessages: function(accessor){
+        _message[accessor] = {};
+    },
+    clearAll: function(){
+        _message = {};
     }
 }, function(payload){
     if(payload.actionType == "ADD_MESSAGE"){
         this.addMessage(payload.accessor, payload.message);
+        this.emitChange();
+    }
+    if(payload.actionType == "CLEAR_MESSAGES"){
+        this.clearMessages(payload.accessor);
+        this.emitChange();
+    }
+    if(payload.actionType == "CLEAR_ALL"){
+        this.clearAll();
         this.emitChange();
     }
 });

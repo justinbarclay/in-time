@@ -16,6 +16,17 @@ var messageActions = Flux.createActions({
     },
     getMessage: function(accessor){
         return messageStore.getMessage(accessor);
+    },
+    clearMessage: function(accessor){
+        return this.dispatch({
+            actionType: "CLEAR_MESSAGES",
+            accessor: accessor
+        });
+    },
+    clearAll: function(){
+        return this.dispatch({
+            actionType: "CLEAR_ALL"
+        });
     }
 });
 

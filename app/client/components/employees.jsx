@@ -1,6 +1,7 @@
 var React = require("react");
 var Employee = require('./employees/employee');
 var EmployeeButton = require('./employees/employeebutton');
+var Link = require('react-router').Link;
 
 //Actions
 var employeeActions = require("../actions/employeeActions");
@@ -20,7 +21,14 @@ var Employees = React.createClass({
     storeDidChange: function(){
         this.setState({employees: employeeActions.getEmployees()});
     },
-    buildEmployees: function(employees, filteredIDs){
+    buildEmployees: function(employees){
+        if(!employees.length){
+            return(
+            <div className="employees">
+                <p>It looks like you haven't <Link to="invite">invited</Link> anyone yet!</p>
+            </div>
+        );
+        }
         var list = employees.map(function(employee, index){
             return (<EmployeeButton key={index} email={employee.email} role={employee.role} id={employee.id}/>);
             //return (<Employee key={index} email={employee.email} role={employee.role} supervisor={employee.supervisor} supervisors={employeeActions.getSupervisors()}/>);

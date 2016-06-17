@@ -70,6 +70,9 @@ var employeeActions = Flux.createActions({
         return supervisors.map(function(supervisor){
             return supervisor.email;
         });
+    },
+    signOut: function(){
+        return employeeStore.signOut();
     }
 });
 

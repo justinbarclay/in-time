@@ -125,6 +125,9 @@ var timesheetStore = Flux.createStore({
             }
         });
         return row;
+    },
+    clearAll: function(){
+        _timesheets = {};
     }
 }, function(payload) {
     if (payload.actionType === "NEW_TIMESHEET") {
@@ -167,6 +170,10 @@ var timesheetStore = Flux.createStore({
     }
     if (payload.actionType === "SYNC_TIMESHEET") {
         this.syncTimesheets(payload.userID, payload.timesheets);
+        this.emitChange();
+    }
+    if (payload.actionType === "CLEAR_ALL") {
+        this.clearAll();
         this.emitChange();
     }
 });

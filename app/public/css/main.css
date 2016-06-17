@@ -6445,6 +6445,11 @@ body {
   height: 100%;
   width: 100%; }
 
+.employees {
+  margin-top: 2em; }
+  .employees p {
+    font-size: 1.25em; }
+
 .employeesContainer {
   width: 100%;
   min-width: 360px;

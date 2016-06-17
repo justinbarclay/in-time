@@ -6,6 +6,7 @@ var _employees = [];
 
 var employeeStore = Flux.createStore({
     syncEmployees: function(employees){
+        if(!employees) return;
         _employees = employees;
     },
     getEmployees: function(){
@@ -29,6 +30,9 @@ var employeeStore = Flux.createStore({
                 return _employees[i];
             }
         }
+    },
+    clearAll: function(){
+        _employees =[];
     }
     }, function(payload){
         if(payload.actionType === "CHANGE"){
@@ -37,6 +41,10 @@ var employeeStore = Flux.createStore({
         }
         if(payload.actionType === "SYNC_EMPLOYEES"){
             this.syncEmployees(payload.employees);
+            this.emitChange();
+        }
+        if(payload.actionType === "CLEAR_ALL"){
+            this.clearAll();
             this.emitChange();
         }
 });
