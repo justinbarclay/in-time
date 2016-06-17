@@ -63,27 +63,32 @@ var Register = React.createClass({
     },
     render: function () {
         return (
-            <div className="signupForm">
-                <MessageNew accessor="regorg" hidden={true} />
-                <form name="user" action="" onSubmit={this.signup} method="post">
-                    <div>
-                      <label htmlFor="orgName">Organization name</label>
-                      <input type="text" ref="orgName" name="orgName" id="orgName"/>
-                    </div>
-                    <div>
-                      <label htmlFor="email">E-mail</label>
-                      <input type="text" ref="email" name="email" id="email"/>
-                    </div>
-                    <div>
-                        <label htmlFor="password">Password</label>
-                        <input type="password" ref="password" name="password" id="password" />
-                    </div>
-                    <div>
-                        <label htmlFor="confirmPassword">Confirm Password</label>
-                        <input type="password" ref="confirmPassword" name="confirmPassword" id="confirmPassword" onBlur={this.matchPasswords}/>
-                    </div>
-                    <button id="submit" type="submit"> Submit </button>
-                </form>
+            <div>
+                <div className="instruction">
+                    <p> Thank you for your interest in Timescape. We're currently in alpha, and prefer that only organizations enroll at this stage. If you're an individual who is looking to track their time, we'll have a solution for you shortly. Or you could also pretend to be an organization and that would work as well</p>
+                </div>
+                <div className="signupForm">
+                    <MessageNew accessor="regorg" hidden={true} />
+                    <form name="user" action="" onSubmit={this.signup} method="post">
+                        <div>
+                          <label htmlFor="orgName">Organization name</label>
+                          <input type="text" ref="orgName" name="orgName" id="orgName"/>
+                        </div>
+                        <div>
+                          <label htmlFor="email">E-mail</label>
+                          <input type="text" ref="email" name="email" id="email"/>
+                        </div>
+                        <div>
+                            <label htmlFor="password">Password</label>
+                            <input type="password" ref="password" name="password" id="password" />
+                        </div>
+                        <div>
+                            <label htmlFor="confirmPassword">Confirm Password</label>
+                            <input type="password" ref="confirmPassword" name="confirmPassword" id="confirmPassword" onBlur={this.matchPasswords}/>
+                        </div>
+                        <button id="submit" type="submit"> Submit </button>
+                    </form>
+                </div>
             </div>
         );
     }
