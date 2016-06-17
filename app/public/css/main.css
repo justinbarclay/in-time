@@ -6675,7 +6675,8 @@ button {
   .instruction p {
     margin: 0 auto;
     display: block;
-    width: 360px;
+    text-align: left;
+    max-width: 30em;
     padding: 0 1em; }
 
 .regContainer, .signinContainer {

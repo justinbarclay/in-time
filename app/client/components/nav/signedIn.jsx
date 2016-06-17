@@ -70,9 +70,9 @@ var NavSignedIn = React.createClass({
         return (
             <div className="navigation">
                 {links}
-                <Link className="nav" onClick={this.signOut}>
+                <a className="nav" onClick={this.signOut}>
                     <label>Sign Out</label>
-                </Link>
+                </a>
 
             </div>
         );
