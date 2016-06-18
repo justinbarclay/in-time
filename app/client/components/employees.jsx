@@ -40,7 +40,7 @@ var Employees = React.createClass({
         );
     },
     search: function(event){
-        var term = event.target.value;
+        var term = event.target.value.toLowerCase();
         var matchingEmployees = null;
         if(event.target.value){
             var matchTerm = match(term);
