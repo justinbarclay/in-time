@@ -29,10 +29,10 @@ var Register = React.createClass({
             "email": ReactDOM.findDOMNode(this.refs.email).value.trim(),
             "password": ReactDOM.findDOMNode(this.refs.password).value.trim()
         };
-        var org = {"organization": ReactDOM.findDOMNode(this.refs.orgName).value.trim()};
+        var org = {"orgname": ReactDOM.findDOMNode(this.refs.orgName).value.trim()};
         if (this.validateSubmission()){
-            org = registerActions.getInfo();
             organization={org:org, user:user};
+            console.log(organization);
             registerActions.signUpOrg(organization);
         }
     },
