@@ -10,8 +10,8 @@ var invite = function(owner, email, role, code, callback){
             sendgrid.send({
                 to:       email,
                 from:     'admin@timescape.tech',
-                subject:  'You have been invited to In Time, the best timesheet management program',
-                    text:     customlink(code)
+                subject:  'You have been invited to Timescape, helping you escape the hassle of tracking time',
+                    text:     customlink(domain, code)
             }, function(err, json) {
                 if (err) {
                     console.log(err);
@@ -33,6 +33,9 @@ var invite = function(owner, email, role, code, callback){
 
 module.exports = invite;
 
-function customlink(code){
-    return domain+"/#/signup/"+code;
+function customlink(domain, code){
+
+    var link = domain+"/#/signup/"+code;
+    var message = `You have been <a href=${link}>invited</a> to use Timescape! Come join the tens of us. Make your life easier by being able to track your activities quickly and easily, anywhere where you have an electronic device connected to the internet!`;
+    return message;
 }
