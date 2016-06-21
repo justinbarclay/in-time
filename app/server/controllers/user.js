@@ -284,7 +284,17 @@ function authenticate(userEmail, userPassword, callback) {
             });
     });
 }
-
+var updateLastAccessed = function(userID){
+    pg.connect(conString, function(err, client, done) {
+        if (err) {
+            return console.error('error fetching client from pool', err);
+        }
+        client.query("UPDATE users SET last_accessed=now() WHERE user_id=$1", [userID],
+            function(err, res) {
+                done();
+        });
+    });
+};
 var validateUser = function(userPassword, userEmail) {
     if (validator.isEmail(userEmail) && !validator.isNull(userPassword)) {
         return true;
