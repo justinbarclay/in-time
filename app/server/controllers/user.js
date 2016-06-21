@@ -222,12 +222,15 @@ function authenticate(userEmail, userPassword, callback) {
     //this function checks to see if the userEmail and userPassword match
     //anything stored in the user database
     // On a succesful authentication it should generate a JWT, and send it back in JSON with
-    console.log("User password is: " + userPassword);
     var auth = {
         err: null,
         success: null,
         message: '',
     };
+    if(userPassword.length < 5){
+        auth.message = "There was a problem with your login.";
+        return callback("Password entered is less than 5 characters.", auth);
+    }
     pg.connect(conString, function(err, client, done) {
         if (err) {
             return console.error('error fetching client from pool', err);
@@ -241,7 +244,7 @@ function authenticate(userEmail, userPassword, callback) {
                     auth.message = "Error connecting to the database";
                     callback(err, auth);
                 } else if (typeof(res.rows[0]) === 'undefined') {
-                    auth.message = "Email or password do not match";
+                    auth.message = "There was a problem with your login.";
                     console.log(res);
                     callback(err, auth);
                 } else {
