@@ -34,7 +34,7 @@ var Owner = React.createClass({
         return (
             <div>
             <div className="instruction">
-                <p> Please enter the email of the user you would like to invite</p>
+                <p> Please enter the email of the user you would like to invite.</p>
             </div>
                 <div className="inviteUserForm">
                     <MessageNew accessor="owner" hidden={this.state.hidden}/>

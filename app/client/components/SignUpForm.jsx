@@ -57,13 +57,13 @@ var SignUpForm = React.createClass({
         //This is a messy if statement
         // console.log(typeof username);
         if (!this.validateEmail(email)){
-            messageActions.addMessage("signup", "E-mail address is not valid");
+            messageActions.addMessage("signup", "E-mail address is not valid.");
             return false;
         } else if(password.length < 5){
-            messageActions.addMessage("signup", "Password must be at least 5 characters long");
+            messageActions.addMessage("signup", "Password must be at least 5 characters long.");
             return false;
         } else if (password !== confirm) {
-            messageActions.addMessage("signup", "Passwords do not match");
+            messageActions.addMessage("signup", "Passwords do not match.");
             return false;
         } else {
             return true;

@@ -8,7 +8,7 @@ var MessageNew = React.createClass({
     propTypes: {},
     mixins: [messageStore.mixin],
     getInitialState: function(){
-        return {message:messageActions.getMessage(this.props.accessor), hidden: this.props.hidden};
+        return {content:messageActions.getMessage(this.props.accessor).content, hidden: this.props.hidden, success: messageActions.getMessage(this.props.accessor).success};
     },
     storeDidChange: function(){
         var newMessage = messageActions.getMessage(this.props.accessor);
@@ -45,7 +45,7 @@ var MessageNew = React.createClass({
     },
     render: function(){
         return (
-            <p ref="message" className="message" onClick={this.handleClick}>{this.state.message}</p>
+            <p ref="message" className="message {this.state.success}" onClick={this.handleClick}>{this.state.message}</p>
         );
     }
 });

@@ -49,13 +49,13 @@ var Register = React.createClass({
         //This is a messy if statement
         // console.log(typeof username);
         if (!this.validateEmail(email)){
-            messageActions.addMessage("regorg", "E-mail address is not valid");
+            messageActions.addMessage("regorg", "E-mail address is not valid.");
             return false;
         } else if(password.length < 5){
-            messageActions.addMessage("regorg", "Password must be at least 5 characters long");
+            messageActions.addMessage("regorg", "Password must be at least 5 characters long.");
             return false;
         } else if (password !== confirm) {
-            messageActions.addMessage("regorg", "Passwords do not match");
+            messageActions.addMessage("regorg", "Passwords do not match.");
             return false;
         } else {
             return true;

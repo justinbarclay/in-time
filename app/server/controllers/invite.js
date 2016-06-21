@@ -25,7 +25,7 @@ var invite = function(owner, email, role, code, callback){
                 }
           });
         } else{
-          return callback(err, "User has all ready been invited, we have not sent an invite code to the user");
+          return callback(err, data.email + "has already been invited. We have not sent an invite code to the" + data.email);
         }
     });
 };
