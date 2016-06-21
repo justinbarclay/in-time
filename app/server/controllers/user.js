@@ -259,11 +259,11 @@ function authenticate(userEmail, userPassword, callback) {
                                 // code to add token to browser to act logged in
                                 // probably need to add a token to table somewhere as well
                                 auth.success = false;
-                                auth.message = "Email or password do not match";
+                                auth.message = "There was a problem with your login.";
                                 callback(err, auth);
                             } else {
                                 if (success === false) {
-                                    auth.message = "Email or password do not match";
+                                    auth.message = "There was a problem with your login.";
                                     callback(err, auth);
                                 } else {
                                     auth.email = res.rows[0].email;
