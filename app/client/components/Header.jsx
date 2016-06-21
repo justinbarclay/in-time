@@ -34,10 +34,7 @@ var header = React.createClass({
                 hashHistory.push('/staff');
                 } else{
                 hashHistory.push('/timesheets/'+authActions.getUserInfo().id);
-            }
-            } else {
-                ReactDOM.findDOMNode(this.refs.home).style.display = 'inherit';
-                hashHistory.push('/');
+                }
             }
         }
     },
