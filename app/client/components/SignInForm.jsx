@@ -15,10 +15,7 @@ var SignInForm = React.createClass({
     displayName: "SignInForm",
     mixins: [authStore.mixin],
     getInitialState: function() {
-        return {
-            signInMessage: '',
-            hidden: true
-        };
+        return ({});
     },
     storeDidChange: function(){
         submit.disabled = false;
