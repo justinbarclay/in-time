@@ -21,11 +21,7 @@ var SignInForm = React.createClass({
         };
     },
     storeDidChange: function(){
-        if(authActions.isLoggedIn()){
-            hashHistory.push("/timesheets/"+authActions.getUserInfo().id);
-        } else {
-            submit.disabled = false;
-        }
+        submit.disabled = false;
     },
     login: function(form) {
         form.preventDefault();
