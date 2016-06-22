@@ -15,13 +15,11 @@ var employeeActions = Flux.createActions({
         AJAXreq.setRequestHeader('ContentType',
             'application/json; charset=UTF8');
         AJAXreq.send(user);
-        console.log("Sync called");
         AJAXreq.onreadystatechange = function() {
             if (AJAXreq.readyState === 4) {
                 var res = JSON.parse(AJAXreq.responseText);
                 newJWT = AJAXreq.getResponseHeader("X-ACCESS-TOKEN");
                 authActions.setJWT(newJWT);
-                console.log(res.data);
                 self.dispatch({
                     actionType: "SYNC_EMPLOYEES",
                     employees: res.data

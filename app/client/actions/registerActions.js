@@ -10,7 +10,6 @@ var registerActions = Flux.createActions({
         return registerStore.getInfo();
     },
     updateEntry: function(entry){
-        console.log("Entry: ", entry);
         this.dispatch({
             actionType: "UPDATE_ORG",
             entry: entry

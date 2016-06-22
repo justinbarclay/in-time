@@ -32,7 +32,6 @@ var Register = React.createClass({
         var org = {"orgname": ReactDOM.findDOMNode(this.refs.orgName).value.trim()};
         if (this.validateSubmission()){
             organization={org:org, user:user};
-            console.log(organization);
             registerActions.signUpOrg(organization);
         }
     },

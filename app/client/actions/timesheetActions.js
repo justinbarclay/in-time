@@ -126,11 +126,9 @@ module.exports = timesheetActions;
 function save(userID, id){
     var timesheet = formatTimesheet(timesheetStore.getTimesheet(userID, id));
     var verify = verifyTimesheet(timesheet);
-    console.log(verify);
     if(verify !== []){
         for(var message in verify){
-            console.log("error");
-            console.log(verify[message]);
+            // Not sure what I want done here
         }
     }
     ajax("POST", "/api/timesheet", timesheet);
@@ -175,7 +173,6 @@ function formatTimesheet(timesheet){
             delete: Boolean(entry.delete)
         };
     });
-    console.log(formattedTimesheet);
     return formattedTimesheet;
 }
 
