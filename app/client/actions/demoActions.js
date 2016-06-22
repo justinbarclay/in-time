@@ -10,17 +10,17 @@ var demoActions = Flux.createActions({
         if(role === "Owner"){
             user = {
                 "email": "owner@timescape.tech",
-                "password": "demo"
+                "password": "password"
             };
         } else if(role === "Supervisor"){
             user = {
                 "email": "dduchovny@timescape.tech",
-                "password": "demo"
+                "password": "password"
             };
         } else if(role === "Staff"){
             user = {
-                "email": "trussel@timescape.tech",
-                "password": "demo"
+                "email": "trusspasswordel@timescape.tech",
+                "password": "password"
             };
         }
         authActions.signIn(user);

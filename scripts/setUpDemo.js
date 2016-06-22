@@ -95,7 +95,7 @@ makeDemo = function(data){
         let demoOwner = {
             "user":{
                 "email": data.owner.email,
-                "password":"demo"
+                "password":"password"
             }, "org": {
                 "orgname": data.owner.organization,
                 "domain": null
@@ -171,8 +171,7 @@ function addEmployee(data, client) {
     let queryString = "INSERT into Users(email, password, org_foreignkey, role, supervisor) VALUES ($1, $2, $3, $4, $5) RETURNING user_id";
     //Asynchronously insert data into the database
     console.log(data);
-    let password = bcrypt.hashSync("demo", bcrypt.genSaltSync(4));
-    console.log("hashed");
+    let password = bcrypt.hashSync("password", bcrypt.genSaltSync(4));
     var employee = [
         data.email, password, data.orgID, data.role, data.supervisorID || null
     ];
