@@ -16,7 +16,6 @@ var TimesheetEditButtons = React.createClass({
         });
     },
     newRow: function() {
-        console.log("New row");
         var newRow = {
             "rowID": uuid.v4(),
             "date": "",

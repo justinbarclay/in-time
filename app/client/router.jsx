@@ -56,7 +56,6 @@ var routes = (
 
 module.exports = {
     run: function(el){
-        console.log(hashHistory);
          render(<Router history={hashHistory} routes={routes}/>, el);
     }
 };

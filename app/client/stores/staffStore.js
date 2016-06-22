@@ -27,10 +27,8 @@ var staffStore = Flux.createStore({
 
 
 findStaff = function(name){
-    console.log(name);
     for(i = 0; i < _staff.length; i++){
         if(_staff[i].name === name){
-            console.log(_staff[i]);
             return _staff[i];
         }
     }
