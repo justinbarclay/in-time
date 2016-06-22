@@ -16,7 +16,7 @@ var Timesheets = React.createClass({
     getInitialState: function() {
         return {
             hidden: this.hideButton(this.props.params.userID, authActions.getUserInfo().id),
-            ownerID: this.props.params.userID,
+            ownerID: parseInt(this.props.params.userID, 10),
             timesheets: timesheetActions.getTimesheets(this.props.params.userID)};
     },
     storeDidChange: function() {

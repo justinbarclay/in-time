@@ -39,6 +39,8 @@ var Timesheet = React.createClass({
     },
     displayApprove: function() {
         currentUser = authActions.getUserInfo();
+        console.log(this.state.userID);
+        console.log(currentUser.id);
         if ((currentUser.role === "Supervisor" || currentUser.role === "Owner") && currentUser.id !== this.state.userID) {
             return true;
         } else {
@@ -98,8 +100,8 @@ var Timesheet = React.createClass({
             var metaHeadings = metaFields.map(function(field, index) {
                 return <label className="metaHeading" key={index}>{field.name}</label>;
             });
-            var editButtons = this.displayApprove()? <Approve userID={this.props.params.userID} timesheetID={this.state.timesheetID}/>
-        : <TimesheetEditButtons userID={this.props.params.userID} timesheetID={this.state.timesheetID}/>;
+            console.log( this.displayApprove());
+            var editButtons = this.displayApprove()? <Approve userID={this.props.params.userID} timesheetID={this.state.timesheetID}/> : <TimesheetEditButtons userID={this.props.params.userID} timesheetID={this.state.timesheetID}/>;
 
             data = <div>
                         <MessageNew accessor="timesheet" hidden={true}/>

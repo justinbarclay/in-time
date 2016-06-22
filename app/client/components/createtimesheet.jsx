@@ -16,6 +16,7 @@ var CreateTimesheet = React.createClass({
     },
     newTimesheet: function(){
         var newID =uuid.v4();
+        console.log(typeof this.props.userID);
         timesheetActions.newTimesheet(this.props.userID, newID);
         hashHistory.push("/timesheet/" + this.props.userID +"/"+ newID);
     },
