@@ -422,3 +422,31 @@ td,
 th {
   padding: 0;
 }
+
+
+/* By default, assume we're building a GUI... (Ivan) */
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+  touch-action: manipulation;
+}
+
+
+/* ...but respect large blocks of text! (Ivan) */
+p,
+p *,
+input,
+textarea,
+.selectable,
+.selectable *,
+[contentEditable] {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  cursor: inherit;
+  touch-action: auto;
+}
