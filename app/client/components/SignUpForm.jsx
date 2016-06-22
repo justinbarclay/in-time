@@ -32,7 +32,6 @@ var SignUpForm = React.createClass({
     signup: function(form){
         form.preventDefault();
         submit.disabled =true;
-        console.log(form);
         user = JSON.stringify({
             "email": ReactDOM.findDOMNode(this.refs.email).value.trim(),
             "password": ReactDOM.findDOMNode(this.refs.password).value.trim(),
@@ -70,7 +69,6 @@ var SignUpForm = React.createClass({
         }
     },
     render: function () {
-        console.log(this.props);
         return (
             <div>
                 <div className="instruction">

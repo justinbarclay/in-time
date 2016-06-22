@@ -7,7 +7,6 @@ var TextEntry = React.createClass({
     },
     handleInputChange: function(event){
         var newValue = event.target.value;
-        console.log("USERID "+ this.props.userID);
         this.props.inputCallback({
             userID: this.props.userID,
             id: this.props.id,

@@ -44,9 +44,6 @@ var Register = React.createClass({
         var email = ReactDOM.findDOMNode(this.refs.email).value.trim();
         var password = ReactDOM.findDOMNode(this.refs.password).value.trim();
         var confirm = ReactDOM.findDOMNode(this.refs.confirmPassword).value.trim();
-
-        //This is a messy if statement
-        // console.log(typeof username);
         if (!this.validateEmail(email)){
             messageActions.addMessage("regorg", "E-mail address is not valid.");
             return false;
