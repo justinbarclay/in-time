@@ -9,6 +9,7 @@ var TimesheetMeta = React.createClass({
     displayName: "timesheetMeta",
     propTypes: [],
     handleChange: function(meta) {
+        console.log(meta);
         timesheetActions.updateMeta(meta);
     },
     changeStart: function(time){
@@ -55,7 +56,7 @@ var TimesheetMeta = React.createClass({
                     /></label>
                 <label>Engagement
                 <TextEntry
-                    userID={this.props.userID}
+                    userID={this.props.timesheet.userID}
                     className="metaInfo"
                     accessor="engagement"
                     id={this.props.timesheet.timesheetID}
