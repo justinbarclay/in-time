@@ -9,7 +9,7 @@ var TimesheetInput = React.createClass({
     propTypes: [],
     getInitialState: function() {
         return {
-            value: null
+            value: ""
         };
     },
     handleChange: function(entry) {

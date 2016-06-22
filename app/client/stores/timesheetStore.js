@@ -180,7 +180,6 @@ var timesheetStore = Flux.createStore({
 
 var findTimesheetIndex = function(userID, id, callback) {
     // returns the index of the timesheet if it exists and null otherwise
-    console.log("Timesheets: " + _timesheets[userID]);
     for (index = 0; index < _timesheets[userID].length; index++) {
 
         if (_timesheets[userID][index].timesheetID === id) {
@@ -207,7 +206,7 @@ var _templateTimesheet = {
 };
 
 function isNumeric(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
+  return !isNaN(parseFloat(n)) && isFinite(n) || n==="";
 }
 
 var cloneObject = function(obj) {
