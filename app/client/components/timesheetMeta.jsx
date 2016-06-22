@@ -9,7 +9,6 @@ var TimesheetMeta = React.createClass({
     displayName: "timesheetMeta",
     propTypes: [],
     handleChange: function(meta) {
-        console.log(meta);
         timesheetActions.updateMeta(meta);
     },
     changeStart: function(time){
