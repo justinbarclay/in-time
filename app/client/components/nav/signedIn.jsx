@@ -29,7 +29,7 @@ var NavSignedIn = React.createClass({
     componentDidMount: function(){
         user = authActions.getUserInfo();
         if(user.role === "Owner"){
-            employeeActions.syncAllEmployees(user.id);
+            return;
         } else {
             timesheetActions.syncTimesheets(user.id);
         }

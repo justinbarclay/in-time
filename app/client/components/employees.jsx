@@ -18,6 +18,9 @@ var Employees = React.createClass({
             employees: employeeActions.getEmployees(),
         });
     },
+    componentDidMount: function(){
+        employeeActions.syncAllEmployees(authActions.getUserInfo().id);
+    },
     storeDidChange: function(){
         this.setState({employees: employeeActions.getEmployees()});
     },
