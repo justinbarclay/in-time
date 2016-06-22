@@ -28,13 +28,12 @@ var Employees = React.createClass({
         if(!employees.length){
             return(
             <div className="employees">
-                <p>It looks like you haven't <Link to="invite">invited</Link> anyone yet!</p>
+                <p>There are no users with that email. Maybe you should <Link to="invite">invite</Link> them!</p>
             </div>
         );
         }
         var list = employees.map(function(employee, index){
             return (<EmployeeButton key={index} email={employee.email} role={employee.role} id={employee.id}/>);
-            //return (<Employee key={index} email={employee.email} role={employee.role} supervisor={employee.supervisor} supervisors={employeeActions.getSupervisors()}/>);
         });
         return (
             <div className="employees">
