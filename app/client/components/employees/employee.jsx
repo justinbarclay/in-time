@@ -2,7 +2,7 @@ var React = require('react');
 var Dropdown = require('react-dropdown').default;
 
 var employeeActions = require('../../actions/employeeActions');
-
+var Message = require('../messageNew');
 var Employee = React.createClass({
     displayName: "Employee",
     propTypes: {},
@@ -32,7 +32,7 @@ var Employee = React.createClass({
     render: function(){
         return (
             <div className="employeeContainer">
-                <Message hidden={true} />
+                <Message accessor="employee" hidden={true} />
                 <div className="employeeRow">
                     <label>{this.state.employee.email}</label>
                     <label>Role:

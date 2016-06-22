@@ -11,7 +11,7 @@ var invite = function(owner, email, role, code, callback){
                 to:       email,
                 from:     'admin@timescape.tech',
                 subject:  'You have been invited to Timescape, helping you escape the hassle of tracking time',
-                    text:     customlink(domain, code)
+                    html:     customlink(domain, code)
             }, function(err, json) {
                 if (err) {
                     console.log(err);
