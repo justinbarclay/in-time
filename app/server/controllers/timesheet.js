@@ -162,7 +162,7 @@ let addMetaData = function(data) {
         data.client.query(upsert, values, function(err, result) {
             if (err) {
                 console.log(err);
-                throw err;
+                    throw err;
             } else {
                 resolve({
                     setup: data.setup,

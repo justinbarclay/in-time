@@ -99,6 +99,7 @@ var timesheetActions = Flux.createActions({
     },
     saveTimesheet: function(userID, id){
         save(userID, id);
+
     },
     approveTimesheet: function(meta){
         ajax("POST", "/api/approve", {timesheetID: meta.id, action:"approve"});
@@ -128,11 +129,13 @@ function save(userID, id){
     var timesheet = formatTimesheet(timesheetStore.getTimesheet(userID, id));
     var verify = verifyTimesheet(timesheet);
     if(verify !== []){
-        for(var message in verify){
-            // Not sure what I want done here
+        for(var index in verify){
+            // Add each message into the queue for the timesheet
+            messageActions.addMessage("timesheet", verify[index]);
         }
+    } else {
+        ajax("POST", "/api/timesheet", timesheet);
     }
-    ajax("POST", "/api/timesheet", timesheet);
 }
 
 function ajax(method, route, data){
@@ -158,8 +161,8 @@ function formatTimesheet(timesheet){
     var formattedTimesheet = {
         timesheetID: timesheet.timesheetID,
         engagement: timesheet.engagement,
-        startDate: timesheet.startDate.format("YYYY-MM-DD"),
-        endDate: timesheet.endDate.format("YYYY-MM-DD"),
+        startDate: timesheet.startDate?timesheet.startDate.format("YYYY-MM-DD") : null,
+        endDate: timesheet.endDate?timesheet.endDate.format("YYYY-MM-DD") : null,
         approved: timesheet.approved,
         delete: Boolean(timesheet.delete),
         userID: localStorage.getItem('USER_ID'),
@@ -169,7 +172,7 @@ function formatTimesheet(timesheet){
         return {
             rowID: entry.rowID,
             service: entry.service,
-            date: entry.date.format("YYYY-MM-DD"),
+            date: entry.date? entry.date.format("YYYY-MM-DD") : null,
             duration: entry.duration,
             delete: Boolean(entry.delete)
         };
@@ -185,24 +188,22 @@ function verifyTimesheet(timesheet){
     for(i=0; i < entries.length; i++){
         messages = messages.concat(verifyEntry(entries[i]));
     }
-
    return _.flatten(messages);
-
 }
 
 function verifyMeta(timesheet){
     var messages = [];
     if(!checkStr(timesheet.timesheetID)) {
-        messages.push("TimesheetID needs to be not blank");
+        messages.push("TimesheetID needs to be not blank.");
     }
     if(!checkStr(timesheet.engagement)) {
-        messages.push("Engagement needs to be not blank");
+        messages.push("Please enter an engagement number.");
     }
     if(!checkStr(timesheet.startDate)) {
-        messages.push("Please enter a start date");
+        messages.push("Please enter a start date.");
     }
     if(!checkStr(timesheet.endDate)) {
-        messages.push("Please enter an end date");
+        messages.push("Please enter an end date.");
     }
     return messages;
 
@@ -211,13 +212,13 @@ function verifyMeta(timesheet){
 function verifyEntry(entry){
     var messages = [];
     if(!checkStr(entry.date)) {
-        messages.push("Please a date for the entry");
+        messages.push("Please check all entries to make sure they have a dates.");
     }
     if(!checkStr(entry.duration)) {
-        messages.push("Please enter a duration for your entry");
+        messages.push("Please check all entries to make sure they have a duration.");
     }
     if(!checkStr(entry.service)){
-        messages.push("Please select a service type");
+        messages.push("Please check all entries to make sure they have a service type.");
     }
     return messages;
 }
