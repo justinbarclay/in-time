@@ -30,8 +30,9 @@ var Register = React.createClass({
             "password": ReactDOM.findDOMNode(this.refs.password).value.trim()
         };
         var org = {"orgname": ReactDOM.findDOMNode(this.refs.orgName).value.trim()};
-        if (this.validateSubmission()){
-            organization={org:org, user:user};
+        var organization={org:org, user:user};
+        var confirmation = ReactDOM.findDOMNode(this.refs.confirmPassword).value.trim();
+        if (this.validateSubmission(organization, confirmation)){
             registerActions.signUpOrg(organization);
         }
     },
@@ -40,10 +41,10 @@ var Register = React.createClass({
         emailRegEx = /^(([a-zA-Z]|[0-9])|([-]|[_]|[.]))+[@](([a-zA-Z0-9])|([-])){2,63}[.](([a-zA-Z0-9]){2,63})+$/;
         return emailRegEx.test(email);
     },
-    validateSubmission: function() {
-        var email = ReactDOM.findDOMNode(this.refs.email).value.trim();
-        var password = ReactDOM.findDOMNode(this.refs.password).value.trim();
-        var confirm = ReactDOM.findDOMNode(this.refs.confirmPassword).value.trim();
+    validateSubmission: function(data, confirm) {
+        var email = data.user.email;
+        var password = data.user.password;
+        var orgName = data.org.orgname;
         if (!this.validateEmail(email)){
             messageActions.addMessage("regorg", "E-mail address is not valid.");
             return false;
@@ -52,6 +53,9 @@ var Register = React.createClass({
             return false;
         } else if (password !== confirm) {
             messageActions.addMessage("regorg", "Passwords do not match.");
+            return false;
+        } else if(!orgName){
+            messageActions.addMessage("regorg", "Please enter an organization name");
             return false;
         } else {
             return true;
