@@ -10,10 +10,8 @@ var _message = {};
 var messageStore = Flux.createStore({
     addMessage: function(accessor, message){
         if(!_message[accessor] || !_message[accessor].hasOwnProperty("current")){
-            console.log("add current");
             _message[accessor] = {"current": message};
         } else if(_message[accessor].stack){
-            console.log("add to stack");
             _message[accessor].stack.push(message);
         } else{
             _message[accessor].stack = [message];
@@ -54,7 +52,6 @@ var messageStore = Flux.createStore({
         this.emitChange();
     }
     if(payload.actionType == "SET_NEXT"){
-        console.log("setting next")
         this.setNext(payload.accessor);
         this.emitChange();
     }

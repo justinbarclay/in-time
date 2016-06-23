@@ -31,7 +31,6 @@ var MessageNew = React.createClass({
         }
     },
     componentWillUpdate: function(newProps, newState){
-        console.log(newState);
         if (newState.hidden){
             ReactDOM.findDOMNode(this.refs.message).style.display = "none";
         } else {
