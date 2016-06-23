@@ -126,9 +126,10 @@ module.exports = timesheetActions;
 //
 ///////////////////////////////////////////////////////////////////////////////
 function save(userID, id){
+    var verify = [];
     var timesheet = formatTimesheet(timesheetStore.getTimesheet(userID, id));
-    var verify = verifyTimesheet(timesheet);
-    if(verify !== []){
+    verify = verifyTimesheet(timesheet);
+    if(verify.length !== 0){
         for(var index in verify){
             // Add each message into the queue for the timesheet
             messageActions.addMessage("timesheet", verify[index]);
