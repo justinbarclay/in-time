@@ -205,11 +205,11 @@ server.post('/api/findTimesheet', function(req, res, next){
 server.post('/api/invite', function(req, res, next){
         data = JSON.parse(req.body);
         code = uuid();
-        invite(data.id, data.email, data.role, code, function(err, message) {
-            console.log(message);
+        invite(data.id, data.email, data.role, code, function(err, data) {
+            console.log(data);
             console.log(!err);
-            data = {message: message, success: !err};
-            res.json(data);
+            message = {message: data.message, success: data.success };
+            res.json(message);
             next();
         });
 });
