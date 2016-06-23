@@ -69,6 +69,11 @@ var employeeActions = Flux.createActions({
             return supervisor.email;
         });
     },
+    clearAll: function(){
+        this.dispatch({
+            actionType: "CLEAR_ALL"
+        });
+    },
     signOut: function(){
         return employeeStore.signOut();
     }
