@@ -21,7 +21,7 @@ var adminActions = Flux.createActions({
                 var auth = AJAXreq.getResponseHeader("X-ACCESS-TOKEN");
                 authActions.setJWT(auth);
                 if(data.message){
-                    messageActions.addMessage("owner", data.message);
+                    messageActions.addMessage("owner", data.message, data.success);
                 }
             }
         };
