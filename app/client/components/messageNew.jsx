@@ -8,13 +8,15 @@ var MessageNew = React.createClass({
     propTypes: {},
     mixins: [messageStore.mixin],
     getInitialState: function(){
-        return {content:messageActions.getMessage(this.props.accessor), hidden: this.props.hidden};
+        return {message:messageActions.getMessage(this.props.accessor), hidden: this.props.hidden};
     },
     storeDidChange: function(){
-        var newMessage = messageActions.getMessage(this.props.accessor);
-        if(newMessage){
-            this.setState({message: newMessage, hidden: false});
-        }
+            var newMessage = messageActions.getMessage(this.props.accessor);
+            if(newMessage){
+                this.setState({message: newMessage, hidden: false});
+            } else {
+                this.setState({message: null, hidden: true});
+            }
     },
     componentWillMount: function(){
         if(this.state.message){
@@ -29,6 +31,7 @@ var MessageNew = React.createClass({
         }
     },
     componentWillUpdate: function(newProps, newState){
+        console.log(newState);
         if (newState.hidden){
             ReactDOM.findDOMNode(this.refs.message).style.display = "none";
         } else {
@@ -36,12 +39,7 @@ var MessageNew = React.createClass({
         }
     },
     handleClick: function(){
-        var message = messageActions.getMessage(this.props.accessor);
-        if(!message){
-            this.setState({hidden: true});
-        } else{
-            this.setState({message: message});
-        }
+        messageActions.setNext(this.props.accessor);
     },
     render: function(){
         return (

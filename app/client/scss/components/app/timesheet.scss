@@ -21,10 +21,18 @@ $pad: .8rem;
     top: -10px;
     max-width: 360px;
     margin: 0 auto;
-    $alert-font-color: #B33A3A;
+    border-width: 5px;
+    border-color: black;
+    border-style: solid;
     @include alert($bg: #E4252D);
+    //background-color: #E4252D;
     text-align: center;
     display: none;
+    transition: background-color 500ms ease;
+    &:hover{
+        transition: background-color 300ms ease;
+        background-color: #C3252D;
+    }
 }
 
 .meta{

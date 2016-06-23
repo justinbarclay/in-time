@@ -17,6 +17,12 @@ var messageActions = Flux.createActions({
     getMessage: function(accessor){
         return messageStore.getMessage(accessor);
     },
+    setNext: function(accessor){
+        this.dispatch({
+            actionType: "SET_NEXT",
+            accessor: accessor
+        });
+    },
     clearMessage: function(accessor){
         return this.dispatch({
             actionType: "CLEAR_MESSAGES",

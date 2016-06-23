@@ -6580,23 +6580,6 @@ input.search {
     height: 37px;
     padding: 0 5px; }
 
-.message {
-  top: -10px;
-  border-style: solid;
-  border-width: 1px;
-  display: block;
-  font-size: 0.8125rem;
-  font-weight: normal;
-  margin-bottom: 1.25rem;
-  padding: 0.875rem 1.5rem 0.875rem 0.875rem;
-  position: relative;
-  transition: opacity 300ms ease-out;
-  background-color: #E4252D;
-  border-color: #cb1921;
-  color: #FFFFFF;
-  text-align: center;
-  display: none; }
-
 @media screen and (min-width: 480px) {
   .signupForm, .signinForm {
     padding-left: 0.9375rem;
@@ -6622,23 +6605,6 @@ input.search {
   .inviteUserForm input {
     height: 37px;
     padding: 0 5px; }
-
-.message {
-  top: -10px;
-  border-style: solid;
-  border-width: 1px;
-  display: block;
-  font-size: 0.8125rem;
-  font-weight: normal;
-  margin-bottom: 1.25rem;
-  padding: 0.875rem 1.5rem 0.875rem 0.875rem;
-  position: relative;
-  transition: opacity 300ms ease-out;
-  background-color: #E4252D;
-  border-color: #cb1921;
-  color: #FFFFFF;
-  text-align: center;
-  display: none; }
 
 @media screen and (min-width: 480px) {
   .signupForm, .signinForm {
@@ -6735,6 +6701,9 @@ button {
   top: -10px;
   max-width: 360px;
   margin: 0 auto;
+  border-width: 5px;
+  border-color: black;
+  border-style: solid;
   border-style: solid;
   border-width: 1px;
   display: block;
@@ -6748,7 +6717,11 @@ button {
   border-color: #cb1921;
   color: #FFFFFF;
   text-align: center;
-  display: none; }
+  display: none;
+  transition: background-color 500ms ease; }
+  .message:hover {
+    transition: background-color 300ms ease;
+    background-color: #C3252D; }
 
 .meta .metaInfo {
   display: block; }
@@ -6968,23 +6941,6 @@ button {
   .register input {
     height: 37px;
     padding: 0 5px; }
-
-.message {
-  top: -10px;
-  border-style: solid;
-  border-width: 1px;
-  display: block;
-  font-size: 0.8125rem;
-  font-weight: normal;
-  margin-bottom: 1.25rem;
-  padding: 0.875rem 1.5rem 0.875rem 0.875rem;
-  position: relative;
-  transition: opacity 300ms ease-out;
-  background-color: #E4252D;
-  border-color: #cb1921;
-  color: #FFFFFF;
-  text-align: center;
-  display: none; }
 
 @media screen and (min-width: 480px) {
   .register {
