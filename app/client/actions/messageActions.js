@@ -5,12 +5,13 @@ var Flux = require("../biff");
 
 // Set of allowed actions
 var messageActions = Flux.createActions({
-    addMessage: function(accessor, message){
+    addMessage: function(accessor, message, success){
         if(message){
             this.dispatch({
                 actionType: "ADD_MESSAGE",
                 accessor: accessor,
-                message: message
+                message: message,
+                success: success
             });
         }
     },

@@ -65,7 +65,8 @@ function finish(data) {
     console.log("finish");
     return new Promise(function(resolve, reject) {
         data.client.query('COMMIT', data.done);
-        data.message = "Timesheet updated";
+        data.message = "Timesheet updated.";
+        data.success = true;
         resolve(data);
     });
 }
@@ -117,7 +118,9 @@ function rollback(data) {
                 resolve({
                     setup: data.setup,
                     client: data.client,
-                    done: data.done
+                    done: data.done,
+                    message: "There was an error with accessing the timesheet",
+                    success: false
                 });
             }
         });

@@ -133,14 +133,13 @@ server.post('/api/timesheet', function(req, res, next){
         res.writeHead(400, {
             'Content-Type': 'application/json'
         });
-        res.json({"message": "Invalid user ID"});
+        res.json({message: "Invalid user ID", success:false});
         return next();
     } else {
-        timesheet.createTimesheet(timesheetObj, function(message) {
-            console.log("Message " + message.message);
-            if (message.message) {
-                console.log("in here");
-                res.json({"message":message.message});
+        timesheet.createTimesheet(timesheetObj, function(data) {
+            console.log("Message " + data.message + data.success);
+            if (data.message) {
+                res.json({"message":data.message, "success":data.success});
             }
             console.log("Done");
             next();

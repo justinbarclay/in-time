@@ -8,12 +8,17 @@ var MessageNew = React.createClass({
     propTypes: {},
     mixins: [messageStore.mixin],
     getInitialState: function(){
-        return {message:messageActions.getMessage(this.props.accessor), hidden: this.props.hidden};
+        var data = messageActions.getMessage(this.props.accessor) || null;
+        if(data){
+            return {message: data.message, success:data.success, hidden: false};
+        } else {
+            return {message: null, hidden: true};
+        }
     },
     storeDidChange: function(){
-            var newMessage = messageActions.getMessage(this.props.accessor);
-            if(newMessage){
-                this.setState({message: newMessage, hidden: false});
+            var data = messageActions.getMessage(this.props.accessor) || null;
+            if(data){
+                this.setState({message: data.message, success:data.success, hidden: false});
             } else {
                 this.setState({message: null, hidden: true});
             }
@@ -41,8 +46,15 @@ var MessageNew = React.createClass({
         messageActions.setNext(this.props.accessor);
     },
     render: function(){
+        var classes;
+        if(this.state.success){
+            classes = "message success";
+        } else {
+            classes = "message failure";
+        }
+        console.log(classes);
         return (
-            <p ref="message" className="message" onClick={this.handleClick}>{this.state.message}</p>
+            <p ref="message" className={classes} onClick={this.handleClick}>{this.state.message}</p>
         );
     }
 });

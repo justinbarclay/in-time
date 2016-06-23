@@ -132,7 +132,7 @@ function save(userID, id){
     if(verify.length !== 0){
         for(var index in verify){
             // Add each message into the queue for the timesheet
-            messageActions.addMessage("timesheet", verify[index]);
+            messageActions.addMessage("timesheet", verify[index], false);
         }
     } else {
         ajax("POST", "/api/timesheet", timesheet);
@@ -153,7 +153,7 @@ function ajax(method, route, data){
             var res = JSON.parse(AJAXreq.responseText);
             jwt = AJAXreq.getResponseHeader("X-ACCESS-TOKEN");
             authActions.setJWT(jwt);
-            messageActions.addMessage("timesheet", res.message);
+            messageActions.addMessage("timesheet", res.message, res.success);
             return res;
         }
     };

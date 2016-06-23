@@ -24,10 +24,12 @@ $pad: .8rem;
     border-width: 5px;
     border-color: black;
     border-style: solid;
-    @include alert($bg: #E4252D);
-    //background-color: #E4252D;
     text-align: center;
     display: none;
+}
+
+.failure{
+    @include alert($bg: #E4252D);
     transition: background-color 500ms ease;
     &:hover{
         transition: background-color 300ms ease;
@@ -35,6 +37,14 @@ $pad: .8rem;
     }
 }
 
+.success{
+    @include alert($bg: #31BF32);
+    transition: background-color 500ms ease;
+    &:hover{
+        transition: background-color 300ms ease;
+        background-color: #29A824;
+    }
+}
 .meta{
     .metaInfo {
         display: block;

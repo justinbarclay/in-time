@@ -6704,6 +6704,10 @@ button {
   border-width: 5px;
   border-color: black;
   border-style: solid;
+  text-align: center;
+  display: none; }
+
+.failure {
   border-style: solid;
   border-width: 1px;
   display: block;
@@ -6716,12 +6720,28 @@ button {
   background-color: #E4252D;
   border-color: #cb1921;
   color: #FFFFFF;
-  text-align: center;
-  display: none;
   transition: background-color 500ms ease; }
-  .message:hover {
+  .failure:hover {
     transition: background-color 300ms ease;
     background-color: #C3252D; }
+
+.success {
+  border-style: solid;
+  border-width: 1px;
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: normal;
+  margin-bottom: 1.25rem;
+  padding: 0.875rem 1.5rem 0.875rem 0.875rem;
+  position: relative;
+  transition: opacity 300ms ease-out;
+  background-color: #31BF32;
+  border-color: #2aa42b;
+  color: #FFFFFF;
+  transition: background-color 500ms ease; }
+  .success:hover {
+    transition: background-color 300ms ease;
+    background-color: #29A824; }
 
 .meta .metaInfo {
   display: block; }

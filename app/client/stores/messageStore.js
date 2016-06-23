@@ -8,14 +8,18 @@ var Flux = require('../biff');
 var _message = {};
 
 var messageStore = Flux.createStore({
-    addMessage: function(accessor, message){
+    addMessage: function(accessor, message, success){
+        console.log("Adding " + message);
         if(!_message[accessor] || !_message[accessor].hasOwnProperty("current")){
-            _message[accessor] = {"current": message};
+            _message[accessor] = {"current": {message: message, success:success}};
+        } else if(!_message[accessor].current){
+            _message[accessor] = {"current": {message: message, success:success}};
         } else if(_message[accessor].stack){
-            _message[accessor].stack.push(message);
+            _message[accessor].stack.push({message: message, success:success});
         } else{
-            _message[accessor].stack = [message];
+            _message[accessor].stack = [{message: message, success:success}];
         }
+        console.log(_message);
     },
     getMessage: function(accessor){
         try{
@@ -40,7 +44,7 @@ var messageStore = Flux.createStore({
     }
 }, function(payload){
     if(payload.actionType == "ADD_MESSAGE"){
-        this.addMessage(payload.accessor, payload.message);
+        this.addMessage(payload.accessor, payload.message, payload.success);
         this.emitChange();
     }
     if(payload.actionType == "CLEAR_MESSAGES"){
