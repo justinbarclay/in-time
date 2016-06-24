@@ -36,7 +36,7 @@ gulp.task('sass', function () {
 // REACT
 // ---------------------------------------------
 /* This does too much and should be split to a compile and a watch statement */
-gulp.task('browserify', function() {
+gulp.task('browserify-dev', function() {
     var bundler = browserify({
         entries: './app/client/main.js', // Only need initial file, browserify finds the deps
         transform: [[babelify, {"presets": ["react"]}]], // We want to convert JSX to normal javascript
@@ -79,6 +79,50 @@ gulp.task('browserify', function() {
     .pipe(gulp.dest('./app/public/js/'));
 });
 
+gulp.task('browserify-prod', function() {
+    process.env.NODE_ENV = 'production';
+    var bundler = browserify({
+        entries: './app/client/main.js', // Only need initial file, browserify finds the deps
+        transform: [[babelify, {"presets": ["react"]}]], // We want to convert JSX to normal javascript
+        debug: false, // Gives us sourcemapping
+        cache: {}, packageCache: {}, fullPaths: true, // Requirement of watchify
+        extensions: ['.jsx','.js']
+    });
+    var watcher  = watchify(bundler);
+
+    return watcher
+    .on('update', function () { // When any files update
+        var updateStart = Date.now();
+        console.log('Updating!');
+        watcher.bundle()
+        .on("error", function(err) {
+                    gutil.log(
+                        gutil.colors.red("Browserify compile error:"),
+                        err.message,
+                        "\n\t",
+                        gutil.colors.cyan("in file"),
+                        './app/client/main.js'
+                    );
+        })  // Create new bundle that uses the cache for high performance
+        .pipe(source('main.js'))
+    // This is where you add uglifying etc.
+        .pipe(gulp.dest('./app/public/js'));
+        console.log('Updated!', (Date.now() - updateStart) + 'ms');
+    })
+    .bundle()
+    .on("error", function(err) {
+                gutil.log(
+                    gutil.colors.red("Browserify compile error:"),
+                    err.message,
+                    "\n\t",
+                    gutil.colors.cyan("in file"),
+                    './app/client/main.js'
+                );
+    }) // Create the initial bundle when starting the task
+    .pipe(source('main.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest('./app/public/js/'));
+});
 // ---------------------------------------------
 // BrowserSync
 // ---------------------------------------------
@@ -113,4 +157,5 @@ gulp.task('sass-watch', function (){
 
 // gulp.task('dev:watch', ['sass-watch', 'browserify']);
 // gulp.task('dev', ['sass-watch', 'browserify','sass']);
-gulp.task('default', ['browserify', 'sass', 'sass-watch']);
+gulp.task('default', ['browserify-dev', 'sass', 'sass-watch']);
+gulp.task('production', ['browserify-prod', 'sass']);

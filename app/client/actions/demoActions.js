@@ -19,7 +19,7 @@ var demoActions = Flux.createActions({
             };
         } else if(role === "Staff"){
             user = {
-                "email": "trusspasswordel@timescape.tech",
+                "email": "trussel@timescape.tech",
                 "password": "password"
             };
         }
