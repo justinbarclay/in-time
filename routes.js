@@ -218,6 +218,7 @@ server.post('/api/employee', function(req, res, next){
 
 server.post('/api/invite', function(req, res, next){
         data = JSON.parse(req.body);
+        var code = uuid();
         invite(data.id, data.email, data.role, code, function(err, data) {
             console.log(data);
             console.log(!err);
