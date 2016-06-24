@@ -49,7 +49,7 @@ var MobileTimesheetMeta = React.createClass({
                     <div className="date">{moment(new Date(this.props.timesheet.startDate)).format("MM/DD/YYYY")} - {moment(new Date(this.props.timesheet.endDate)).format("MM/DD/YYYY")}</div>
                     <div className="text">Engagement:</div><div className="engagement">{this.props.timesheet.engagement}</div>
                 </div>
-                <TimesheetMeta className="timesheetMeta" ref="metaEdit" userID={this.props.timesheet.userID} timesheet={this.props.timesheet} hidden={this.state.edit} readOnly={"true"}/>
+                <TimesheetMeta className="timesheetMeta" ref="metaEdit" userID={this.props.timesheet.userID} timesheet={this.props.timesheet} hidden={this.state.edit} readOnly={true}/>
             </div>
         );
     }
