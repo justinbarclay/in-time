@@ -1,6 +1,7 @@
 var employeeStore = require('../stores/employeeStore');
 var authActions = require('./authActions');
 var staffStore = require('../stores/staffStore');
+var messageActions = require('./messageActions');
 
 var Flux = require("../biff");
 
@@ -49,6 +50,24 @@ var employeeActions = Flux.createActions({
             }
         };
     },
+    updateEmployee: function(id, supervisor, role){
+        var employee = {id: id, supervisor: supervisor, role: role};
+        var AJAXreq = new XMLHttpRequest();
+        AJAXreq.open("POST", "/api/employee", true);
+        AJAXreq.setRequestHeader('ContentType', 'application/json; charset=UTF8');
+        AJAXreq.setRequestHeader('X-ACCESS-TOKEN', authActions.getJWT());
+        AJAXreq.setRequestHeader('ContentType',
+            'application/json; charset=UTF8');
+        AJAXreq.send(JSON.stringify(employee));
+        AJAXreq.onreadystatechange = function() {
+            if (AJAXreq.readyState === 4) {
+                var res = JSON.parse(AJAXreq.responseText);
+                newJWT = AJAXreq.getResponseHeader("X-ACCESS-TOKEN");
+                authActions.setJWT(newJWT);
+                messageActions.addMessage("employee", res.message, res.success);
+            }
+        };
+    },
     update: function(id, accessor, value){
         this.dispatch({
             actionType: "CHANGE",
@@ -68,6 +87,9 @@ var employeeActions = Flux.createActions({
         return supervisors.map(function(supervisor){
             return supervisor.email;
         });
+    },
+    getSupervisorID: function(supervisor){
+        return employeeStore.getSupervisorID(supervisor);
     },
     clearAll: function(){
         this.dispatch({

@@ -16,6 +16,13 @@ var employeeStore = Flux.createStore({
         var supervisors = _employees.filter(findSup);
         return supervisors;
     },
+    getSupervisorID: function(supervisor){
+        for(i=0; i<_employees.length; i++){
+            if(_employees[i].email === supervisor){
+                return _employees[i].id;
+            }
+        }
+    },
     change: function(id, accessor, value){
         for(i=0; i<_employees.length; i++){
             if(_employees[i].id === id){

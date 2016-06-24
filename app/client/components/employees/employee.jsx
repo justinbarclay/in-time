@@ -29,6 +29,10 @@ var Employee = React.createClass({
     _onSelectSupervisor: function(option){
         this._onSelect("supervisor", option.value);
     },
+    updateEmployee: function(){
+        var supervisorID = employeeActions.getSupervisorID(this.state.employee.supervisor);
+        employeeActions.updateEmployee(this.state.employee.id, supervisorID, this.state.employee.role);
+    },
     render: function(){
         return (
             <div className="employeeContainer">
@@ -41,7 +45,7 @@ var Employee = React.createClass({
                     <label>Supervisor:
                         <Dropdown className="employeeDropdown" ref="supervisor" options={this.state.supervisors} onChange={this._onSelectSupervisor} value={this.state.employee.supervisor}/>
                     </label>
-                    <div className="button" onClick={this.saveEmployee}>Save</div>
+                    <div className="button" onClick={this.updateEmployee}>Save</div>
                 </div>
             </div>
         );

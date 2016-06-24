@@ -53,7 +53,9 @@ function finish(data) {
         data.client.query('COMMIT', data.done);
         resolve({error: null,
                  userID: data.userID,
-                 orgID: data.orgID
+                 orgID: data.orgID,
+                 message: data.message,
+                 success: data.success
         });
     });
 }
@@ -249,6 +251,42 @@ function getStaff(data){
         }
     });
 }
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Update Staff
+//
+///////////////////////////////////////////////////////////////////////////////
+function updateEmployee(data){
+    let updateUser = "UPDATE Users SET role=$1, supervisor=$2 WHERE user_id=$3";
+    user = [data.setup.role, data.setup.supervisor, data.setup.id];
+    return new Promise(function(resolve, reject){
+        try{
+            data.client.query(updateUser, user, function(err, result){
+                if(err){
+                    console.log(err);
+                    data.done();
+                    data.error = err;
+                    data.success = false;
+                    reject({
+                        data:data
+                    });
+                } else{
+                    data.message = "User was updated.";
+                    data.success = true;
+                    data.result = result;
+                    resolve(data);
+            }
+        });
+        } catch (error){
+            console.error(error);
+            data.done();
+            data.error = error;
+            reject(data);
+        }
+    });
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 //
 // api Calls
@@ -285,6 +323,16 @@ function getEmployeesPromise(data, callback){
     .then(callback);
 }
 
+function updateEmployeePromise(data, callback){
+    connect(data)
+        .then(begin)
+        .then(updateEmployee)
+        .then(finish)
+        .catch(rollback)
+        .then(callback);
+}
+
 exports.addOrganization = addOrganizationPromise;
 exports.getAllEmployees = getAllEmployeesPromise;
 exports.getEmployees = getEmployeesPromise;
+exports.updateEmployee = updateEmployeePromise;

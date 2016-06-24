@@ -202,9 +202,22 @@ server.post('/api/findTimesheet', function(req, res, next){
         }
 });
 
+server.post('/api/employee', function(req, res, next){
+    try{
+        data = JSON.parse(req.body);
+        owner.updateEmployee(data, function(data){
+            message = {message: data.message, success: data.success};
+            res.json(data);
+            next();
+        });
+    } catch(e){
+        console.error(e);
+    }
+
+});
+
 server.post('/api/invite', function(req, res, next){
         data = JSON.parse(req.body);
-        code = uuid();
         invite(data.id, data.email, data.role, code, function(err, data) {
             console.log(data);
             console.log(!err);
@@ -213,7 +226,6 @@ server.post('/api/invite', function(req, res, next){
             next();
         });
 });
-
 // server.post('/api/allemployees', function(req, res, next){
 //         thing = JSON.parse(req.body);
 //         owner.getAllEmployees(thing, function(data) {
