@@ -11,7 +11,7 @@ var registerStore = Flux.createStore({
     getInfo: function(){
         return _register;
     },
-    updateEntry(entry){
+    updateEntry: function(entry){
         _register[entry.accessor] = entry.value;
     }
 }, function(payload){

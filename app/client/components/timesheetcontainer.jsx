@@ -40,7 +40,7 @@ var Container = React.createClass({
     componentWillUnmount: function(){
         window.removeEventListener("resize", this.updateViewWidth);
     },
-    render(){
+    render:function(){
         return  (
             <div>
                 {this.setContainer(this.state.viewWidth)}

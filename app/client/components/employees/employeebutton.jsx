@@ -6,7 +6,7 @@ var EmployeeButton = React.createClass({
     propTypes: {},
     mixins: [],
     loadEmployee: function(){
-        hashHistory.push(`employee/${this.props.id}`);
+        hashHistory.push("employee/"+this.props.id);
     },
     render: function(){
         return (
