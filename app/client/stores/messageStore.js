@@ -9,7 +9,6 @@ var _message = {};
 
 var messageStore = Flux.createStore({
     addMessage: function(accessor, message, success){
-        console.log("Adding " + message);
         if(!_message[accessor] || !_message[accessor].hasOwnProperty("current")){
             _message[accessor] = {"current": {message: message, success:success}};
         } else if(!_message[accessor].current){
@@ -19,7 +18,6 @@ var messageStore = Flux.createStore({
         } else{
             _message[accessor].stack = [{message: message, success:success}];
         }
-        console.log(_message);
     },
     getMessage: function(accessor){
         try{

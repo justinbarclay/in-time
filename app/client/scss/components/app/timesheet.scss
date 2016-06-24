@@ -113,8 +113,7 @@ $pad: .8rem;
 
 @media(max-width:$mobile-width){
     .m-timesheetRow{
-        text-overflow: '...';
-        overflow: hidden;
+        white-space: pre-wrap;
         border: $shades-of-blue solid 2px;
         background-color: rgba(#008CBA,0.75);
         cursor: pointer;
@@ -126,6 +125,7 @@ $pad: .8rem;
         width: 100%;
         text-align: center;
         display: inline-block;
+
         .date{
             font-size: 1.4em;
         }
@@ -141,6 +141,9 @@ $pad: .8rem;
         }
         .timesheetItem{
             text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
         }
     }
 
