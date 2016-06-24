@@ -84,7 +84,6 @@ $pad: .8rem;
 
 .timesheetRow{
     vertical-align: middle;
-
     .timesheetInput{
         width: calc(33% - #{$pad});
         margin-bottom: 0;
@@ -114,6 +113,8 @@ $pad: .8rem;
 
 @media(max-width:$mobile-width){
     .m-timesheetRow{
+        text-overflow: '...';
+        overflow: hidden;
         border: $shades-of-blue solid 2px;
         background-color: rgba(#008CBA,0.75);
         cursor: pointer;

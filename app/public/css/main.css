@@ -6798,6 +6798,8 @@ button {
 
 @media (max-width: 1000px) {
   .m-timesheetRow {
+    text-overflow: '...';
+    overflow: hidden;
     border: #008CBA solid 2px;
     background-color: rgba(0, 140, 186, 0.75);
     cursor: pointer;
