@@ -52,7 +52,6 @@ var MessageNew = React.createClass({
         } else {
             classes = "message failure";
         }
-        console.log(classes);
         return (
             <p ref="message" className={classes} onClick={this.handleClick}>{this.state.message}</p>
         );

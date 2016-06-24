@@ -6798,8 +6798,7 @@ button {
 
 @media (max-width: 1000px) {
   .m-timesheetRow {
-    text-overflow: '...';
-    overflow: hidden;
+    white-space: pre-wrap;
     border: #008CBA solid 2px;
     background-color: rgba(0, 140, 186, 0.75);
     cursor: pointer;
@@ -6821,7 +6820,10 @@ button {
     .m-timesheetRow:hover {
       background-color: #008CBA; }
     .m-timesheetRow .timesheetItem {
-      text-align: center; }
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%; }
   .timesheetPage {
     padding-left: 0; }
   .fields {
