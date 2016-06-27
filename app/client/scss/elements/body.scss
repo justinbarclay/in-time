@@ -7,3 +7,6 @@ body{
     height: 100%;
     width: 100%;
 }
+input[readOnly]{
+    background-color:$primary-meter-color !important;
+    color:$smoke !important;}

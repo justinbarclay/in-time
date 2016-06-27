@@ -1,6 +1,7 @@
 var React = require("react");
 var Navigation = require("react-router");
 var timesheetActions = require('../../actions/timesheetActions');
+var authActions = require('../../actions/authActions');
 var timesheetStore = require('../../stores/timesheetStore');
 var hashHistory = require('react-router').hashHistory;
 //Child Components
@@ -39,6 +40,14 @@ var TimesheetEditRow = React.createClass({
             entry: timesheetActions.findRow(this.props.params.userID, this.props.params.id, this.props.params.row)
         });
     },
+    readOnly: function(){
+        currentUser = authActions.getUserInfo();
+        if ((currentUser.role !== "Staff" && currentUser.id !== this.state.userID) || this.state.timesheet.approved) {
+            return true;
+        } else {
+            return false;
+        }
+    },
     buildRow: function(field, index) {
         return(
         <label key={index}>{field.name}
@@ -46,6 +55,7 @@ var TimesheetEditRow = React.createClass({
                                 userID={this.props.params.userID}
                                 className={"m-timesheetInput " + field.accessor}
                                 id={this.state.id}
+                                readOnly={this.readOnly}
                                 index={this.state.index}
                                 type={field.type}
                                 value={this.state.timesheet.entries[this.state.index][field.accessor]} />

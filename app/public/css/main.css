@@ -6471,6 +6471,10 @@ body {
   height: 100%;
   width: 100%; }
 
+input[readOnly] {
+  background-color: #008CBA !important;
+  color: #EEEEEE !important; }
+
 .employees {
   margin-top: 2em; }
   .employees p {
