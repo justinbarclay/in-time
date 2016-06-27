@@ -46,8 +46,8 @@ input.search{
 }
 
 @media(max-width:$mobile-width){
-    .search{
-        min-width: calc(360px - 2em);
+    input.search{
+        width: calc(360px - 2em);
     }
     .employeeRow{
         padding-right: 1em;

@@ -49,7 +49,7 @@ var TimesheetRow = React.createClass({
                 maxDate = {this.props.endDate || undefined}
                 selected={this.props.entry.date || undefined}
                 onChange={this.changeDate}
-                readOnly={this.props.readOnly}
+                disabled={this.props.readOnly}
                 type="text" />
 
                 {rows}

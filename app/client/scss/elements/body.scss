@@ -7,6 +7,6 @@ body{
     height: 100%;
     width: 100%;
 }
-input[readOnly]{
-    background-color:$primary-meter-color !important;
-    color:$smoke !important;}
+input[disabled]{
+    background-color:$primary-color !important;
+    color:$eggshell !important;}

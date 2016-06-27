@@ -6471,9 +6471,9 @@ body {
   height: 100%;
   width: 100%; }
 
-input[readOnly] {
+input[disabled] {
   background-color: #008CBA !important;
-  color: #EEEEEE !important; }
+  color: #F0EAD6 !important; }
 
 .employees {
   margin-top: 2em; }
@@ -6516,8 +6516,8 @@ input.search {
   font-size: 1em; }
 
 @media (max-width: 1000px) {
-  .search {
-    min-width: calc(360px - 2em); }
+  input.search {
+    width: calc(360px - 2em); }
   .employeeRow {
     padding-right: 1em; } }
 

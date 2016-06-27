@@ -61,7 +61,7 @@ var Employees = React.createClass({
         return (
             <div className="employeesContainer">
                 <div className="instruction">
-                    <p> Welcome to the Employee Information page, if you're an owner this is the page where you are able to search for staff, set their role, and set their supervisor. If you are not an owner, you should not be here and some code is behaving very naughtily.</p>
+                    <p> Welcome to the Employee Information page! If you're an owner, this is the page where you are able to search for staff, set their role, and give them a supervisor. If you are not an owner, you should not be here and some code is behaving very naughtily.</p>
                 </div>
                 <input className="search" placeholder="Please enter an email..." type="text" onKeyUp={this.search}/>
                 {employees}
