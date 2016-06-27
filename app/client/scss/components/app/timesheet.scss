@@ -156,7 +156,8 @@ $pad: .8rem;
     .metaContainer{
         width:100%;
         .m-timesheetMeta{
-            background-color: $shades-of-blue;
+            border: #008CBA solid 2px;
+            background-color: rgba(0, 140, 186, 0.75);
             display: block;
             color: $white-smoke;
             width: 100%;
