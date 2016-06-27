@@ -26,14 +26,23 @@ var Timesheet = React.createClass({
     storeDidChange: function(){
         this.setState(timesheetActions.getTimesheet(this.props.params.userID, this.props.params.id));
     },
+    disabled: function(){
+        var currentUser = authActions.getUserInfo();
+        var approved = this.state.approved || false;
+        if ((currentUser.role !== "Staff" && currentUser.id != this.props.params.userID) || approved) {
+            return true;
+        } else {
+            return false;
+        }
+    },
     render: function() {
         data = <div className="button">We were unable to find your timesheet,
         <br /> you will be redirected to timesheets shortly</div>;
-
+            console.log(this.disabled());
         return (
             <div className="timesheetPage">
                 <MessageNew accessor="timesheet" hidden={true}/>
-                <MobTimesheetMeta timesheet={this.state}/>
+                <MobTimesheetMeta timesheet={this.state} disabled={this.disabled()}/>
                 {this.props.children}
             </div>
         );
