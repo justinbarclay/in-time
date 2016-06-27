@@ -37,6 +37,14 @@ var Timesheet = React.createClass({
             }, 300);
         }
     },
+    disabled: function(){
+        var approved = this.state.approved || false;
+        if(this.displayApprove() || approved){
+            return true;
+        } else {
+            return false;
+        }
+    },
     displayApprove: function() {
         currentUser = authActions.getUserInfo();
         if ((currentUser.role === "Supervisor" || currentUser.role === "Owner") && currentUser.id !== this.state.userID) {
@@ -86,14 +94,14 @@ var Timesheet = React.createClass({
         if (this.state) {
             var entries = this.state.entries.map(function(entry, index) {
                 if (entry.delete === false) {
-                    return <TimesheetRow userID={self.props.params.userID} readOnly={self.displayApprove()} deletable={true} startDate={self.state.startDate} endDate={self.state.endDate} entry={entry} fields={entryFields.slice(1)} id={self.state.timesheetID} index={index} key={index}/>;
+                    return <TimesheetRow userID={self.props.params.userID} readOnly={self.disabled()} deletable={true} startDate={self.state.startDate} endDate={self.state.endDate} entry={entry} fields={entryFields.slice(1)} id={self.state.timesheetID} index={index} key={index}/>;
                 }
             });
             var headings = entryFields.map(function(field, index) {
                 return <label className="heading" key={index}>{field.name}</label>;
             });
             entryFields.slice(0,1);
-            var metadata = <TimesheetMeta timesheet={this.state} readOnly={self.displayApprove()}/>;
+            var metadata = <TimesheetMeta timesheet={this.state} readOnly={self.displayApprove()} disabled={self.disabled()}/>;
 
             var metaHeadings = metaFields.map(function(field, index) {
                 return <label className="metaHeading" key={index}>{field.name}</label>;
