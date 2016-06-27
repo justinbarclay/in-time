@@ -6471,9 +6471,12 @@ body {
   height: 100%;
   width: 100%; }
 
+input[readOnly] {
+  background-color: white !important; }
+
 input[disabled] {
   background-color: #008CBA !important;
-  color: #F0EAD6 !important; }
+  color: white; }
 
 .employees {
   margin-top: 2em; }

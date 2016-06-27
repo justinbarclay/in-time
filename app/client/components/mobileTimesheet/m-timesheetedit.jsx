@@ -19,7 +19,7 @@ var TimesheetEditRow = React.createClass({
             index: this.props.params.row,
             id: this.props.params.id,
             timesheet:timesheetActions.getTimesheet(this.props.params.userID, this.props.params.id),
-            deletable: this.props.params.userID != authActions.getUserInfo().id,
+            deletable: this.props.params.userID == authActions.getUserInfo().id,
             fields: [
                 {
                     "name": "Duration",
@@ -40,9 +40,10 @@ var TimesheetEditRow = React.createClass({
             entry: timesheetActions.findRow(this.props.params.userID, this.props.params.id, this.props.params.row)
         });
     },
-    readOnly: function(){
-        currentUser = authActions.getUserInfo();
-        if ((currentUser.role !== "Staff" && currentUser.id !== this.state.userID) || this.state.timesheet.approved) {
+    disabled: function(){
+        var currentUser = authActions.getUserInfo();
+        var approved = this.state.timesheet.approved || false;
+        if ((currentUser.role !== "Staff" && currentUser.id != this.props.params.userID) || approved) {
             return true;
         } else {
             return false;
@@ -55,7 +56,7 @@ var TimesheetEditRow = React.createClass({
                                 userID={this.props.params.userID}
                                 className={"m-timesheetInput " + field.accessor}
                                 id={this.state.id}
-                                readOnly={this.readOnly}
+                                readOnly={this.disabled()}
                                 index={this.state.index}
                                 type={field.type}
                                 value={this.state.timesheet.entries[this.state.index][field.accessor]} />
@@ -91,6 +92,7 @@ var TimesheetEditRow = React.createClass({
                 selected={this.state.timesheet.entries[this.state.index].date || undefined}
                 onChange={this.changeDate}
                 readOnly={true}
+                disabled={this.disabled()}
                 type="date" /></label>
                 {this.state.fields.map(this.buildRow)}
                 <div className="control">
