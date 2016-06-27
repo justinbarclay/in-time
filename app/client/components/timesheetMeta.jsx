@@ -61,6 +61,7 @@ var TimesheetMeta = React.createClass({
                     id={this.props.timesheet.timesheetID}
                     type="number"
                     inputCallback={this.handleChange}
+                    readOnly={this.props.readOnly? this.props.readOnly:false}
                     value={this.props.timesheet.engagement} /></label>
             </div>
         );

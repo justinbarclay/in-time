@@ -6,7 +6,7 @@ var TimesheetRow = React.createClass({
     displayName: "Mobile TimesheetRow",
     mixins: [],
     loadRow: function(){
-        hashHistory.push("/timesheet/${this.props.userID}/${this.props.id}/"+this.props.row);
+        hashHistory.push("/timesheet/"+this.props.userID+"/"+this.props.id+"/"+this.props.row);
     },
     render: function(){
         return (<div className="m-timesheetRow" onClick={this.loadRow}>

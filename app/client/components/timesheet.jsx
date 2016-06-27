@@ -86,14 +86,14 @@ var Timesheet = React.createClass({
         if (this.state) {
             var entries = this.state.entries.map(function(entry, index) {
                 if (entry.delete === false) {
-                    return <TimesheetRow userID={self.props.params.userID} deletable={true} startDate={self.state.startDate} endDate={self.state.endDate} entry={entry} fields={entryFields.slice(1)} id={self.state.timesheetID} index={index} key={index}/>;
+                    return <TimesheetRow userID={self.props.params.userID} readOnly={self.displayApprove()} deletable={true} startDate={self.state.startDate} endDate={self.state.endDate} entry={entry} fields={entryFields.slice(1)} id={self.state.timesheetID} index={index} key={index}/>;
                 }
             });
             var headings = entryFields.map(function(field, index) {
                 return <label className="heading" key={index}>{field.name}</label>;
             });
             entryFields.slice(0,1);
-            var metadata = <TimesheetMeta timesheet={this.state} />;
+            var metadata = <TimesheetMeta timesheet={this.state} readOnly={self.displayApprove()}/>;
 
             var metaHeadings = metaFields.map(function(field, index) {
                 return <label className="metaHeading" key={index}>{field.name}</label>;

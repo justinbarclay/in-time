@@ -16,6 +16,7 @@ var TimesheetRow = React.createClass({
     buildRow: function(field, index) {
         return <TimesheetInput  accessor={field.accessor}
                                 className="timesheetInput"
+                                readOnly={this.props.readOnly}
                                 id={this.props.id}
                                 key={index}
                                 index={this.props.index}
@@ -48,6 +49,7 @@ var TimesheetRow = React.createClass({
                 maxDate = {this.props.endDate || undefined}
                 selected={this.props.entry.date || undefined}
                 onChange={this.changeDate}
+                readOnly={this.props.readOnly}
                 type="text" />
 
                 {rows}

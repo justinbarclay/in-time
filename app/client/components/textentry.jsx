@@ -25,7 +25,8 @@ var TextEntry = React.createClass({
             className={this.props.className}
             type={this.props.type}
             value={value}
-            onChange={this.handleInputChange} />
+            onChange={this.handleInputChange}
+            readOnly={this.props.readOnly || false} />
         );
     }
 });
