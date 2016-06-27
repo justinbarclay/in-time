@@ -114,14 +114,18 @@ var timesheetStore = Flux.createStore({
     },
     findRow: function(userID, id, rowIndex){
         var row;
+        console.log(_timesheets);
+        console.log(rowIndex);
+        console.log(id);
         findTimesheetIndex(userID, id, function(index){
+            console.log(index);
             try {
-                row = _timesheets[index].entries[rowIndex];
+                row = _timesheets[userID][index].entries[rowIndex];
                 return row;
             } catch (e){
                 console.log(e);
                 row = undefined;
-                return undefined;
+                return row;
             }
         });
         return row;
