@@ -382,15 +382,7 @@ function authenticate(user, callback) {
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-function authenticatePromise(data, callback){
-    connect(data)
-    .then(findUser)
-    .then(authPassword)
-    .then(updateLastAccessed)
-    .catch(error)
-    .then(finish)
-    .then(callback);
-}
+
 
 var findUser = function(data){
     let selectUser = 'SELECT email, user_id, role, password FROM Users WHERE email=$1';
@@ -468,14 +460,7 @@ var updateLastAccessed = function(data){
     });
 };
 
-let getInfoPromise = function(data, callback){
-    connect(data)
-    .then(getInfo)
-    .then(updateLastAccessed)
-    .catch(error)
-    .then(finish)
-    .then(callback);
-};
+
 function getInfo(data){
     let queryTerm;
     let query;
@@ -512,6 +497,30 @@ function getInfo(data){
         });
     });
 }
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Promises
+//
+////////////////////////////////////////////////////////////////////////////////
+
+function authenticatePromise(data, callback){
+    connect(data)
+    .then(findUser)
+    .then(authPassword)
+    .then(updateLastAccessed)
+    .catch(error)
+    .then(finish)
+    .then(callback);
+}
+let getInfoPromise = function(data, callback){
+    connect(data)
+    .then(getInfo)
+    .then(updateLastAccessed)
+    .catch(error)
+    .then(finish)
+    .then(callback);
+};
 
 exports.authenticate = authenticatePromise;
 exports.signUp = signUp;
