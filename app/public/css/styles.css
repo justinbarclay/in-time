@@ -6426,6 +6426,9 @@ th.hide-for-touch {
   .show-for-print {
     display: none !important; } }
 
+@-ms-viewport {
+  width: device-width; }
+
 body {
   background-color: #F0EAD6; }
 
