@@ -16,5 +16,5 @@ input[disabled]{
     background-color:$primary-color !important;
     color: white !important;
     // -webkit-opacity: 1;
-    //-webkit-text-fill-color: rgba(255, 255, 255, 1)
+    -webkit-text-fill-color: rgba(255, 255, 255, 1);
 }
