@@ -374,14 +374,17 @@ function authenticate(user, callback) {
             });
     });
 }
-var updateLastAccessed = function(userID){
-    pg.connect(conString, function(err, client, done) {
-        if (err) {
-            return console.error('error fetching client from pool', err);
-        }
-        client.query("UPDATE users SET last_accessed=now() WHERE user_id=$1", [userID],
+var updateLastAccessed = function(data){
+    return new Promise(function(resolve, reject){
+        data.client.query("UPDATE users SET last_accessed=now() WHERE user_id=$1", [data.auth.id],
             function(err, res) {
-                done();
+                if(err){
+                    console.error(err);
+                    data.auth.err = err;
+                    reject(data);
+                } else {
+                    resolve(data);
+                }
         });
     });
 };
@@ -402,6 +405,7 @@ function authenticatePromise(data, callback){
     connect(data)
     .then(findUser)
     .then(authPassword)
+    .then(updateLastAccessed)
     .catch(error)
     .then(finish)
     .then(callback);
