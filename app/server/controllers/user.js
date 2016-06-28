@@ -513,39 +513,6 @@ function getInfo(data){
     });
 }
 
-function grabInfo(user, callback){
-    let queryTerm;
-    let query;
-    if(user.id){
-        queryTerm = user.id;
-        query = "SELECT email, user_id, role FROM users where user_id=$1";
-    } else{
-        queryTerm = user.email;
-        query = "SELECT email, user_id, role FROM users where email=$1";
-    }
-    pg.connect(conString, function(err, client, done) {
-        if (err) {
-            return console.error('error fetching client from pool', err);
-        }
-        client.query(query, [queryTerm], function(err, res) {
-            done();
-            let auth = {};
-            if(err){
-                auth.message = err;
-                auth.success = false;
-                console.error(err);
-                callback(auth);
-            } else{
-                auth.email = res.rows[0].email;
-                auth.id = res.rows[0].user_id;
-                auth.role = res.rows[0].role;
-                auth.success = true;
-                auth.message = "Authentication successful";
-                callback(auth);
-            }
-        });
-    });
-}
 exports.authenticate = authenticatePromise;
 exports.signUp = signUp;
 exports.invite = inviteUser;
