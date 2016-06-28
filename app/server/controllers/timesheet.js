@@ -370,7 +370,6 @@ function createTimesheet(data, callback) {
         .then(finish)
         .catch(error)
         .then(callback);
-
 }
 
 function getTimesheets(request, callback) {

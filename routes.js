@@ -29,24 +29,22 @@ server.get('/', restify.serveStatic({
 server.post('/api/signin', function(req, res, next){
     var currentUser = JSON.parse(req.body);
 
-    user.authenticate(currentUser.email, currentUser.password,
-        function(err, auth, signedJWT) {
-            if (err) {
-                res.send(auth);
-                console.error(err);
-                next();
-            } else {
-                console.log("Succesful signin of " +
-                    currentUser.email + " = " + auth
-                    .success);
-                console.log("Message:" + JSON.stringify(
-                        auth.message) + "\n" +
-                    "message length: " + auth.length);
-                res.setHeader('X-ACCESS-TOKEN', signedJWT || null);
-                res.send(auth);
-                next();
-            }
-        });
+    user.authenticate(currentUser, function(data) {
+        if (data.err) {
+            res.send(data.auth);
+            console.error(data.err);
+            next();
+        } else {
+            console.log("Succesful signin of " +
+                currentUser.email + " = " + data.auth
+                .success);
+            console.log("Message:" + JSON.stringify(
+                    data.auth.message));
+            res.setHeader('X-ACCESS-TOKEN', data.signedJWT || null);
+            res.send(data.auth);
+            next();
+        }
+    });
 });
 
 server.post('/api/signup', function(req, res, next){
@@ -71,23 +69,21 @@ server.post('/api/signup', function(req, res, next){
                 console.log("Succesful signUp of " +
                     currentUser.email + " = " + bool
                 );
-                user.authenticate(currentUser.email, currentUser.password,
-                    function(err, auth, signedJWT) {
-                        if (err) {
-                            res.send(auth);
-                            console.error(err);
-                            return next();
-                        } else {
-                            console.log("Succesful signin of " +
-                                currentUser.email + " = " + auth
-                                .success);
-                            console.log("Message:" + JSON.stringify(
-                                    auth.message) + "\n" +
-                                "message length: " + auth.length);
-                            res.setHeader('X-ACCESS-TOKEN', signedJWT || null);
-                            res.send(auth);
-                            return next();
-                        }
+                user.authenticate(currentUser, function(data) {
+                    if (data.err) {
+                        res.send(data.auth);
+                        console.error(data.err);
+                        next();
+                    } else {
+                        console.log("Succesful signin of " +
+                            currentUser.email + " = " + data.auth
+                            .success);
+                        console.log("Message:" + JSON.stringify(
+                                data.auth.message));
+                        res.setHeader('X-ACCESS-TOKEN', data.signedJWT || null);
+                        res.send(data.auth);
+                        next();
+                    }
                 });
         }
     });
@@ -280,25 +276,22 @@ server.post('/api/register', function(req, res, next){
             next();
         } else {
             var currentUser = register.user;
-            user.authenticate(currentUser.email, currentUser.password,
-                function(err, auth, signedJWT) {
-                    if (err) {
-                        res.send(auth);
-                        console.error(err);
-                        next();
-                    } else {
-                        console.log("Succesful signin of " +
-                            currentUser.email + " = " + auth
-                            .success);
-                        console.log("Message:" + JSON.stringify(
-                                auth.message) + "\n" +
-                            "message length: " + auth.length);
-                        res.setHeader('X-ACCESS-TOKEN', signedJWT || null);
-                        res.send(auth);
-                        next();
-                    }
+            user.authenticate(currentUser, function(data) {
+                if (data.err) {
+                    res.send(data.auth);
+                    console.error(data.err);
+                    next();
+                } else {
+                    console.log("Succesful signin of " +
+                        currentUser.email + " = " + data.auth
+                        .success);
+                    console.log("Message:" + JSON.stringify(
+                            data.auth.message));
+                    res.setHeader('X-ACCESS-TOKEN', data.signedJWT || null);
+                    res.send(data.auth);
+                    next();
+                }
             });
-
         }
     });
 });

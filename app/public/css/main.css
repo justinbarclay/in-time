@@ -6588,7 +6588,7 @@ input.search {
     height: 37px;
     padding: 0 5px; }
 
-@media screen and (min-width: 480px) {
+@media screen and (max-width: 480px) {
   .signupForm, .signinForm {
     padding-left: 0.9375rem;
     padding-right: 0.9375rem;
