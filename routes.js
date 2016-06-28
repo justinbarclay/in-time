@@ -299,8 +299,8 @@ server.post('/api/register', function(req, res, next){
 server.post('/api/JWT', function(req, res, next){
         if(res.header('X-ACCESS-TOKEN')){
             var userID = getUserID(res.header('X-ACCESS-TOKEN'));
-            user.grabInfo({id:userID}, function(auth){
-                res.send(auth);
+            user.grabInfo({id:userID}, function(data){
+                res.send(data.auth);
                 next();
             });
         } else {

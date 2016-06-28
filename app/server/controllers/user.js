@@ -374,27 +374,8 @@ function authenticate(user, callback) {
             });
     });
 }
-var updateLastAccessed = function(data){
-    return new Promise(function(resolve, reject){
-        data.client.query("UPDATE users SET last_accessed=now() WHERE user_id=$1", [data.auth.id],
-            function(err, res) {
-                if(err){
-                    console.error(err);
-                    data.auth.err = err;
-                    reject(data);
-                } else {
-                    resolve(data);
-                }
-        });
-    });
-};
-var validateUser = function(userPassword, userEmail) {
-    if (validator.isEmail(userEmail) && !validator.isNull(userPassword)) {
-        return true;
-    } else {
-        return false;
-    }
-};
+
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Authenticate
@@ -472,8 +453,109 @@ var authPassword = function(data){
     });
 };
 
+var updateLastAccessed = function(data){
+    return new Promise(function(resolve, reject){
+        data.client.query("UPDATE users SET last_accessed=now() WHERE user_id=$1", [data.auth.id],
+            function(err, res) {
+                if(err){
+                    console.error(err);
+                    data.auth.err = err;
+                    reject(data);
+                } else {
+                    resolve(data);
+                }
+        });
+    });
+};
+
+let getInfoPromise = function(data, callback){
+    connect(data)
+    .then(getInfo)
+    .then(updateLastAccessed)
+    .catch(error)
+    .then(finish)
+    .then(callback);
+};
+function getInfo(data){
+    let queryTerm;
+    let query;
+    if(data.setup.id){
+        queryTerm = data.setup.id;
+        query = "SELECT email, user_id, role FROM users where user_id=$1";
+    } else{
+        queryTerm = data.setup.email;
+        query = "SELECT email, user_id, role FROM users where email=$1";
+    }
+    return new Promise(function(resolve, reject){
+        data.client.query(query, [queryTerm], function(err, res) {
+            let auth;
+            if(err){
+                auth = {
+                    message: err,
+                    success: false
+                };
+
+                console.error(err);
+                reject(data);
+            } else{
+                auth = {
+                    email: res.rows[0].email,
+                    id: res.rows[0].user_id,
+                    role: res.rows[0].role,
+                    success: true,
+                    message: "Authentication successful"
+                };
+
+                data.auth = auth;
+                resolve(data);
+            }
+        });
+    });
+}
+
+function grabInfo(user, callback){
+    let queryTerm;
+    let query;
+    if(user.id){
+        queryTerm = user.id;
+        query = "SELECT email, user_id, role FROM users where user_id=$1";
+    } else{
+        queryTerm = user.email;
+        query = "SELECT email, user_id, role FROM users where email=$1";
+    }
+    pg.connect(conString, function(err, client, done) {
+        if (err) {
+            return console.error('error fetching client from pool', err);
+        }
+        client.query(query, [queryTerm], function(err, res) {
+            done();
+            let auth = {};
+            if(err){
+                auth.message = err;
+                auth.success = false;
+                console.error(err);
+                callback(auth);
+            } else{
+                auth.email = res.rows[0].email;
+                auth.id = res.rows[0].user_id;
+                auth.role = res.rows[0].role;
+                auth.success = true;
+                auth.message = "Authentication successful";
+                callback(auth);
+            }
+        });
+    });
+}
 exports.authenticate = authenticatePromise;
 exports.signUp = signUp;
 exports.invite = inviteUser;
 exports.signUpOwner = signUpOwner;
-exports.grabInfo = grabInfo;
+exports.grabInfo = getInfoPromise;
+
+var validateUser = function(userPassword, userEmail) {
+    if (validator.isEmail(userEmail) && !validator.isNull(userPassword)) {
+        return true;
+    } else {
+        return false;
+    }
+};
