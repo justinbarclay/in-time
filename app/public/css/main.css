@@ -6476,8 +6476,7 @@ input[readOnly] {
 
 input[disabled] {
   background-color: #008CBA !important;
-  color: white !important;
-  -webkit-text-fill-color: white; }
+  color: white !important; }
 
 .employees {
   margin-top: 2em; }
