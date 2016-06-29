@@ -184,8 +184,8 @@ function makeTables(data, callback){
     .then(clearOwnerTable)
     .then(ownerTable)
     .catch(rollback)
-    .then(finish)
-    .then(callback);
+    .then(finish);
+    //.then(callback);
 }
 
 module.exports = makeTables;

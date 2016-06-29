@@ -115,9 +115,9 @@ function addOrganization(data){
 function createUser(data){
     return new Promise(function(resolve, reject){
         let newuser = data.setup.user;
-        user.signUpOwner(newuser.password, newuser.email, data.setup.org.key, function(err, bool, result){
-            if (err){
-                console.log("createUser");
+        user.signUpOwner(data, function(data){
+            if (!data.success){
+                console.log("create user failed");
                 reject(data);
             } else {
                 resolve({

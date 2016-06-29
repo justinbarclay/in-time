@@ -181,49 +181,49 @@ function signUp(userPassword, userEmail, inviteCode, callback) {
     });
 }
 
-function signUpOwner(userPassword, userEmail, orgkey, callback) {
-    //this function creates a username and hashes
-    //a password then stored it in the database
-    pg.connect(conString, function(err, client, done) {
-        if (err) {
-            return console.error(
-                'error fetching client from pool in user controller',
-                err);
-        }
-        if (validateUser(userPassword, userEmail)) {
-            console.log(userPassword);
-            hashPassword(userPassword, function(err, hash) {
-                if (err) {
-                    done();
-                    return console.error(
-                        "error hashing password",
-                        err);
-                } else {
-                    var owner =[userEmail, hash, orgkey, "Owner"];
-                    console.log("blah");
-                    client.query(
-                        "INSERT into Users(email, password, org_foreignkey, role) VALUES($1, $2, $3, $4)", owner,
-                        function(err, result) {
-                            done();
-                            if (err) {
-                                console.error('error running insert query', err);
-                                callback(err, false);
-                            } else if(result.rows[0]) {
-                                console.log(result);
-                                console.log("User created successfully");
-                                callback(err, true, "User created successfully");
-                            }
-                            else{
-                                console.log(result);
-                                callback(err, false, "Unable to process your request, please try again. If you continue to have difficulty, please speak to your system administrator");
-                            }
+// function signUpOwner(userPassword, userEmail, orgkey, callback) {
+//     //this function creates a username and hashes
+//     //a password then stored it in the database
+//     pg.connect(conString, function(err, client, done) {
+//         if (err) {
+//             return console.error(
+//                 'error fetching client from pool in user controller',
+//                 err);
+//         }
+//         if (validateUser(userPassword, userEmail)) {
+//             console.log(userPassword);
+//             hashPassword(userPassword, function(err, hash) {
+//                 if (err) {
+//                     done();
+//                     return console.error(
+//                         "error hashing password",
+//                         err);
+//                 } else {
+//                     var owner =[userEmail, hash, orgkey, "Owner"];
+//                     console.log("blah");
+//                     client.query(
+//                         "INSERT into Users(email, password, org_foreignkey, role) VALUES($1, $2, $3, $4)", owner,
+//                         function(err, result) {
+//                             done();
+//                             if (err) {
+//                                 console.error('error running insert query', err);
+//                                 callback(err, false);
+//                             } else if(result.rows[0]) {
+//                                 console.log(result);
+//                                 console.log("User created successfully");
+//                                 callback(err, true, "User created successfully");
+//                             }
+//                             else{
+//                                 console.log(result);
+//                                 callback(err, false, "Unable to process your request, please try again. If you continue to have difficulty, please speak to your system administrator");
+//                             }
 
-                        });
-                }
-            });
-        }
-    });
-}
+//                         });
+//                 }
+//             });
+//         }
+//     });
+// }
 function deleteUser(userEmail) {
     //deletes user from database
     pg.connect(conString, function(err, client, done) {
@@ -249,28 +249,35 @@ function deleteUser(userEmail) {
     });
 }
 
-// function inviteUser(owner, userEmail, role, userCode, callback) {
-//     var data = [userEmail, userCode, role];
-//     console.log("Usercode: "+ userCode);
-//     pg.connect(conString, function(err, client, done) {
-//         client.query("SELECT index FROM organization WHERE owner_foreignkey="+owner, function(err, results){
-//             if(!!results){
-//                 var orgforeignkey = results.rows[0].index;
-//                 data.push(orgforeignkey);
-//                 console.log(data);
-//                 client.query("INSERT INTO Users(email, invite_code, role, org_foreignkey, invited_on) values($1, $2, $3, $4, LOCALTIMESTAMP) ", data,
-//                     function(err, res) {
-//                         console.log("RES: ", res);
-//                         callback(err, res);
-//                 });
-//             } else {
-//                 // If this query fails, that mean that the ownerid could not be
-//                 // in the database
-//                 callback(new Error(["Owner could not be found in the database", "user.js", 184]), "Owner not found");
-//             }
-//         });
-//     });
-// }
+////////////////////////////////////////////////////////////////////////////////
+//
+// Invite
+//
+////////////////////////////////////////////////////////////////////////////////
+function signUpOwner(data) {
+    //this function creates a username and hashes
+    //a password then stored it in the database
+    let owner =[data.setup.user.email, data.setup.hash, data.setup.org.key, "Owner"];
+    let insertOwner = "INSERT into Users(email, password, org_foreignkey, role) VALUES($1, $2, $3, $4)";
+    return new Promise(function(resolve, reject){
+        data.client.query(insertOwner, owner, function(err, result) {
+            console.log(err);
+            console.log(result);
+            if (err) {
+                console.error('error running insert query', err);
+                data.message = error;
+                data.success = false;
+                reject(data);
+            } else  {
+                console.log(result);
+                console.log("User created successfully");
+                data.message = "User created successfully";
+                data.success = true;
+                resolve(data);
+            }
+        });
+});
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -422,23 +429,18 @@ function getInfo(data){
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Promises
+// Promise Chains
 //
 ////////////////////////////////////////////////////////////////////////////////
-var updateLastAccessed = function(data){
-    return new Promise(function(resolve, reject){
-        data.client.query("UPDATE users SET last_accessed=now() WHERE user_id=$1", [data.auth.id],
-            function(err, res) {
-                if(err){
-                    console.error(err);
-                    data.auth.err = err;
-                    reject(data);
-                } else {
-                    resolve(data);
-                }
-        });
-    });
-};
+function signUpOwnerPromise(data, callback){
+    // This follows a different format then the rest because it's called from
+    // the owner controller, and can all ready pass in a database connection/client
+    validateAuthInfo(data)
+    .then(hashPassword)
+    .then(signUpOwner)
+    .catch(rollback)
+    .then(callback);
+}
 
 function authenticatePromise(data, callback){
     connect(data)
@@ -469,24 +471,63 @@ let inviteUserPromise = function(data, callback){
 };
 exports.authenticate = authenticatePromise;
 exports.signUp = signUp;
-exports.invite = inviteUserPromise  ;
-exports.signUpOwner = signUpOwner;
+exports.invite = inviteUserPromise;
+exports.signUpOwner = signUpOwnerPromise;
 exports.grabInfo = getInfoPromise;
 
-var validateUser = function(userPassword, userEmail) {
-    if (validator.isEmail(userEmail) && !validator.isNull(userPassword)) {
-        return true;
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Helpers
+//
+///////////////////////////////////////////////////////////////////////////////
+var validateAuthInfo = function(data) {
+    return new Promise(function(resolve, reject){
+    if (validator.isEmail(data.setup.user.email) && !validator.isNull(data.setup.user.password)) {
+        resolve(data);
     } else {
-        return false;
+        console.log(data);
+        console.log("error validating");
+        data.message = "Invalid Email or Password";
+        data.success = false;
+        reject(data);
     }
+});
 };
 
-function hashPassword(userPassword, callback) {
+function hashPassword(data) {
     //this function will hash the password, useful for any interactions with our
     //user system
-    bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(userPassword, salt, function(err, hash) {
-            callback(err, hash);
+    return new Promise(function(resolve, reject){
+        bcrypt.genSalt(10, function(err, salt) {
+            bcrypt.hash(data.setup.user.password, salt, function(err, hash) {
+                if(err){
+                    console.log("hash error", err);
+                    data.err = err;
+                    data.message = "Unable to hash password";
+                    data.success = false;
+                    reject(data);
+                } else {
+                    data.setup.hash = hash;
+                    console.log(data);
+                    resolve(data);
+                }
+            });
         });
     });
 }
+
+var updateLastAccessed = function(data){
+    return new Promise(function(resolve, reject){
+        data.client.query("UPDATE users SET last_accessed=now() WHERE user_id=$1", [data.auth.id],
+            function(err, res) {
+                if(err){
+                    console.error(err);
+                    data.auth.err = err;
+                    reject(data);
+                } else {
+                    resolve(data);
+                }
+        });
+    });
+};

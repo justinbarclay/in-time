@@ -223,19 +223,6 @@ server.post('/api/invite', function(req, res, next){
             next();
         });
 });
-// server.post('/api/allemployees', function(req, res, next){
-//         thing = JSON.parse(req.body);
-//         owner.getAllEmployees(thing, function(data) {
-//             console.log(data);
-//             if(data.err){
-//                 res.send({success: false, message: data.message});
-//                 next();
-//             } else {
-//                 res.send(data);
-//                 next();
-//             }
-//         });
-// });
 
 server.post('/api/allemployees', function(req, res, next){
         thing = JSON.parse(req.body);
