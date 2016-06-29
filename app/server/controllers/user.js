@@ -54,6 +54,7 @@ let connect = function(data) {
     });
 };
 function rollback(data) {
+    console.log("Rollback");
     //if there was a problem rolling back the query
     //something is seriously messed up.  Return the error
     //to the done function to close & remove this client from
@@ -64,20 +65,28 @@ function rollback(data) {
             if (err) {
                 throw err;
             }
-            resolve({err: true});
+            data.err = true;
+            resolve(data);
         });
     });
 
 }
 
 function finish(data) {
-    var final ={
-        auth : data.auth,
-        signedJWT : data.signedJWT
-    };
+    return new Promise(function(resolve, reject){
+        data.client.query('COMMIT', function(err, result){
+            console.log("err " + err);
+            var final ={
+                err: data.err || false,
+                message: data.message || false,
+                auth : data.auth,
+                signedJWT : data.signedJWT
+            };
 
-    data.done();
-    return final;
+            data.done();
+            resolve(final);
+        });
+    });
 }
 
 function begin(data) {
@@ -116,15 +125,6 @@ function error(data){
 // Main Code
 //
 ////////////////////////////////////////////////////////////////////////////////
-function hashPassword(userPassword, callback) {
-    //this function will hash the password, useful for any interactions with our
-    //user system
-    bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(userPassword, salt, function(err, hash) {
-            callback(err, hash);
-        });
-    });
-}
 
 function signUp(userPassword, userEmail, inviteCode, callback) {
     //this function creates a username and hashes
@@ -249,140 +249,71 @@ function deleteUser(userEmail) {
     });
 }
 
-function inviteUser(owner, userEmail, role, userCode, callback) {
-    var data = [userEmail, userCode, role];
-    console.log("Usercode: "+ userCode);
-    pg.connect(conString, function(err, client, done) {
-        client.query("SELECT index FROM organization WHERE owner_foreignkey="+owner, function(err, results){
-            if(!!results){
-                var orgforeignkey = results.rows[0].index;
-                data.push(orgforeignkey);
-                console.log(data);
-                client.query("INSERT INTO Users(email, invite_code, role, org_foreignkey, invited_on) values($1, $2, $3, $4, LOCALTIMESTAMP) ", data,
-                    function(err, res) {
-                        console.log("RES: ", res);
-                        callback(err, res);
-                });
-            } else {
-                // If this query fails, that mean that the ownerid could not be
-                // in the database
-                callback(new Error(["Owner could not be found in the database", "user.js", 184]), "Owner not found");
-            }
-        });
-    });
-}
+// function inviteUser(owner, userEmail, role, userCode, callback) {
+//     var data = [userEmail, userCode, role];
+//     console.log("Usercode: "+ userCode);
+//     pg.connect(conString, function(err, client, done) {
+//         client.query("SELECT index FROM organization WHERE owner_foreignkey="+owner, function(err, results){
+//             if(!!results){
+//                 var orgforeignkey = results.rows[0].index;
+//                 data.push(orgforeignkey);
+//                 console.log(data);
+//                 client.query("INSERT INTO Users(email, invite_code, role, org_foreignkey, invited_on) values($1, $2, $3, $4, LOCALTIMESTAMP) ", data,
+//                     function(err, res) {
+//                         console.log("RES: ", res);
+//                         callback(err, res);
+//                 });
+//             } else {
+//                 // If this query fails, that mean that the ownerid could not be
+//                 // in the database
+//                 callback(new Error(["Owner could not be found in the database", "user.js", 184]), "Owner not found");
+//             }
+//         });
+//     });
+// }
 
-function grabInfo(user, callback){
-    let queryTerm;
-    let query;
-    if(user.id){
-        queryTerm = user.id;
-        query = "SELECT email, user_id, role FROM users where user_id=$1";
-    } else{
-        queryTerm = user.email;
-        query = "SELECT email, user_id, role FROM users where email=$1";
-    }
-    pg.connect(conString, function(err, client, done) {
-        if (err) {
-            return console.error('error fetching client from pool', err);
-        }
-        client.query(query, [queryTerm], function(err, res) {
-            done();
-            let auth = {};
+////////////////////////////////////////////////////////////////////////////////
+//
+// Invite
+//
+////////////////////////////////////////////////////////////////////////////////
+
+function getOrgCode(data){
+    let findNewOwner = "SELECT index FROM organization WHERE owner_foreignkey=$1";
+    return new Promise(function(resolve, reject){
+        data.client.query(findNewOwner, [data.setup.owner], function(err, results){
             if(err){
-                auth.message = err;
-                auth.success = false;
-                console.error(err);
-                callback(auth);
+                console.error("Owner could not be found in the database");
+                data.message = "Owner not found";
+                data.success = false;
+                reject(data);
             } else{
-                auth.email = res.rows[0].email;
-                auth.id = res.rows[0].user_id;
-                auth.role = res.rows[0].role;
-                auth.success = true;
-                auth.message = "Authentication successful";
-                callback(auth);
+                data.setup.orgForeignKey = results.rows[0].index;
+                resolve(data);
             }
         });
     });
 }
-
-function authenticate(user, callback) {
-    //this function checks to see if the userEmail and userPassword match
-    //anything stored in the user database
-    // On a succesful authentication it should generate a JWT, and send it back in JSON with
-    var auth = {
-        err: null,
-        success: null,
-        message: '',
-    };
-    var userEmail = user.email;
-    var userPassword = user.password;
-    if(userPassword.length < 5){
-        auth.message = "There was a problem with your login.";
-        return callback("Password entered is less than 5 characters.", auth);
-    }
-    pg.connect(conString, function(err, client, done) {
-        if (err) {
-            return console.error('error fetching client from pool', err);
-        }
-        client.query("SELECT email, user_id, role, password FROM Users WHERE email=$1", [userEmail],
-            function(err, res) {
-                auth.err = err;
-                auth.success = false;
-                done();
-                if (err) {
-                    auth.message = "Error connecting to the database";
-                    callback(err, auth);
-                } else if (typeof(res.rows[0]) === 'undefined') {
-                    auth.message = "There was a problem with your login.";
-                    console.log(res);
-                    callback(err, auth);
-                } else {
-                    console.log(res.rows);
-                    bcrypt.compare(userPassword, res.rows[0].password,
-                        function(err, success) {
-                            payload.iat = Date.now();
-                            //Set up the auth object to have error and response in them, and then decide how to respond
-                            auth.err = err;
-                            auth.success = success;
-                            if (err) {
-                                // code to add token to browser to act logged in
-                                // probably need to add a token to table somewhere as well
-                                auth.success = false;
-                                auth.message = "There was a problem with your login.";
-                                callback(err, auth);
-                            } else {
-                                if (success === false) {
-                                    auth.message = "There was a problem with your login.";
-                                    callback(err, auth);
-                                } else {
-                                    auth.email = res.rows[0].email;
-                                    auth.id = res.rows[0].user_id;
-                                    auth.role = res.rows[0].role;
-                                    auth.message = "Authentication successful";
-                                    payload.userid = res.rows[0].user_id;
-                                    var signedJWT = jwt.sign(payload, secret, {
-                                        expiresIn: twoWeeks,
-                                        issuer: "Mountain View Industries"
-                                    });
-                                    callback(err, auth, signedJWT);
-                                }
-                            }
-
-                        });
-                }
-            });
+function inviteUser(data) {
+    //owner, userEmail, role, userCode, callback
+    console.log(data);
+    let info = [data.setup.email, data.setup.code, data.setup.role, data.setup.orgForeignKey];
+    let invite = "INSERT INTO Users(email, invite_code, role, org_foreignkey, invited_on) values($1, $2, $3, $4, LOCALTIMESTAMP)";
+    return new Promise(function(resolve, reject){
+        data.client.query(invite, info,function(err, res) {
+                console.error(err);
+                console.log("RES: ", res);
+                data.results = res;
+                resolve(data);
+        });
     });
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Authenticate
 //
 ////////////////////////////////////////////////////////////////////////////////
-
-
 
 var findUser = function(data){
     let selectUser = 'SELECT email, user_id, role, password FROM Users WHERE email=$1';
@@ -445,20 +376,11 @@ var authPassword = function(data){
     });
 };
 
-var updateLastAccessed = function(data){
-    return new Promise(function(resolve, reject){
-        data.client.query("UPDATE users SET last_accessed=now() WHERE user_id=$1", [data.auth.id],
-            function(err, res) {
-                if(err){
-                    console.error(err);
-                    data.auth.err = err;
-                    reject(data);
-                } else {
-                    resolve(data);
-                }
-        });
-    });
-};
+////////////////////////////////////////////////////////////////////////////////
+//
+// getUserInfo
+//
+////////////////////////////////////////////////////////////////////////////////
 
 
 function getInfo(data){
@@ -503,6 +425,20 @@ function getInfo(data){
 // Promises
 //
 ////////////////////////////////////////////////////////////////////////////////
+var updateLastAccessed = function(data){
+    return new Promise(function(resolve, reject){
+        data.client.query("UPDATE users SET last_accessed=now() WHERE user_id=$1", [data.auth.id],
+            function(err, res) {
+                if(err){
+                    console.error(err);
+                    data.auth.err = err;
+                    reject(data);
+                } else {
+                    resolve(data);
+                }
+        });
+    });
+};
 
 function authenticatePromise(data, callback){
     connect(data)
@@ -522,9 +458,18 @@ let getInfoPromise = function(data, callback){
     .then(callback);
 };
 
+let inviteUserPromise = function(data, callback){
+    connect(data)
+    .then(begin)
+    .then(getOrgCode)
+    .then(inviteUser)
+    .catch(rollback)
+    .then(finish)
+    .then(callback);
+};
 exports.authenticate = authenticatePromise;
 exports.signUp = signUp;
-exports.invite = inviteUser;
+exports.invite = inviteUserPromise  ;
 exports.signUpOwner = signUpOwner;
 exports.grabInfo = getInfoPromise;
 
@@ -535,3 +480,13 @@ var validateUser = function(userPassword, userEmail) {
         return false;
     }
 };
+
+function hashPassword(userPassword, callback) {
+    //this function will hash the password, useful for any interactions with our
+    //user system
+    bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(userPassword, salt, function(err, hash) {
+            callback(err, hash);
+        });
+    });
+}

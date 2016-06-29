@@ -4,10 +4,10 @@ var domain = require("../../../config.js").domain;
 
 var invite = function(owner, email, role, code, callback){
     var success;
-    userInvite(owner, email, role, code, function(err, message){
-        console.log(err);
-        console.log(message);
-        if(!err){
+    userInvite({owner: owner, email:email, role:role, code: code}, function(data){
+        console.log(data);
+        console.log(data.message);
+        if(!data.err){
             sendgrid.send({
                 to:       email,
                 from:     'admin@timescape.tech',
@@ -17,19 +17,19 @@ var invite = function(owner, email, role, code, callback){
                 if (err) {
                     console.log(err);
                     console.error(err);
-                    var failMessage = `${data.email} could not be invited at this time, please ensure you have the right e-mail or try again later`;
+                    var failMessage = `${email} could not be invited at this time, please ensure you have the right e-mail or try again later`;
                     sucess = false;
                     callback(err, {message: failMessage, success: success});
                 } else {
                     console.log(json);
-                    succMessage = `An invite was successfully sent to ${data.email}`;
+                    succMessage = `An invite was successfully sent to ${email}`;
                     success = true;
                     return callback(err, {message: succMessage, success: success});
                 }
           });
         } else{
-          var failMessage = `${data.email} has already been invited. An invitation code has not been sent to ${data.email}.`;
-          return callback(err, {message: failMessage, success: false});
+          var failMessage = `${email} has already been invited. An invitation code has not been sent to ${email}.`;
+          return callback(data.err, {message: failMessage, success: false});
         }
     });
 };
