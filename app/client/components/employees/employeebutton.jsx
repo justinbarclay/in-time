@@ -1,12 +1,12 @@
 var React = require('react');
-var hashHistory = require('react-router').hashHistory;
+var browserHistory = require('react-router').browserHistory;
 
 var EmployeeButton = React.createClass({
     displayName: "Employee",
     propTypes: {},
     mixins: [],
     loadEmployee: function(){
-        hashHistory.push("employee/"+this.props.id);
+        browserHistory.push("employee/"+this.props.id);
     },
     render: function(){
         return (

@@ -1,12 +1,12 @@
 var React = require('react');
 var moment = require('moment');
-var hashHistory = require('react-router').hashHistory;
+var browserHistory = require('react-router').browserHistory;
 
 var TimesheetRow = React.createClass({
     displayName: "Mobile TimesheetRow",
     mixins: [],
     loadRow: function(){
-        hashHistory.push("/timesheet/"+this.props.userID+"/"+this.props.id+"/"+this.props.row);
+        browserHistory.push("/timesheet/"+this.props.userID+"/"+this.props.id+"/"+this.props.row);
     },
     render: function(){
         return (<div className="m-timesheetRow" onClick={this.loadRow}>

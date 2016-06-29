@@ -1,6 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var hashHistory = require('react-router').hashHistory;
+var browserHistory = require('react-router').browserHistory;
 
 //actions
 var timesheetActions= require('../actions/timesheetActions');
@@ -17,7 +17,7 @@ var CreateTimesheet = React.createClass({
     newTimesheet: function(){
         var newID =uuid.v4();
         timesheetActions.newTimesheet(this.props.userID, newID);
-        hashHistory.push("/timesheet/" + this.props.userID +"/"+ newID);
+        browserHistory.push("/timesheet/" + this.props.userID +"/"+ newID);
     },
     componentWillUpdate: function(nextProps, nextState){
         if (nextProps.hidden){

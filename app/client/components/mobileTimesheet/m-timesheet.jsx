@@ -2,7 +2,7 @@ var React = require('react');
 var timesheetActions = require('../../actions/timesheetActions');
 var authActions = require('../../actions/authActions');
 var timesheetStore = require('../../stores/timesheetStore');
-var hashHistory = require('react-router').hashHistory;
+var browserHistory = require('react-router').browserHistory;
 //Child Components
 var TimesheetEditButtons = require('./m-timesheeteditbuttons');
 var MobTimesheetMeta = require('./m-timesheetmeta');
@@ -19,7 +19,7 @@ var Timesheet = React.createClass({
 
         if (!this.state){
             setTimeout(function(){
-                hashHistory.push("/timesheets");
+                browserHistory.push("/timesheets");
             }, 300);
         }
     },

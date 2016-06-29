@@ -3,7 +3,7 @@ var Navigation = require("react-router");
 var timesheetActions = require('../../actions/timesheetActions');
 var authActions = require('../../actions/authActions');
 var timesheetStore = require('../../stores/timesheetStore');
-var hashHistory = require('react-router').hashHistory;
+var browserHistory = require('react-router').browserHistory;
 //Child Components
 var TimesheetInput = require('../timesheetInput');
 var DatePicker = require('react-datepicker');
@@ -65,7 +65,7 @@ var TimesheetEditRow = React.createClass({
     },
     deleteRow: function() {
         timesheetActions.deleteRow(this.props.params.userID, this.props.params.id, this.props.params.row);
-        hashHistory.push("/timesheet/"+this.props.params.userID+"/"+this.props.params.id);
+        browserHistory.push("/timesheet/"+this.props.params.userID+"/"+this.props.params.id);
     },
     changeDate: function(time){
         entry = {
@@ -96,7 +96,7 @@ var TimesheetEditRow = React.createClass({
                 type="date" /></label>
                 {this.state.fields.map(this.buildRow)}
                 <div className="control">
-                    <div className="button back" onClick={hashHistory.goBack}>Back</div>
+                    <div className="button back" onClick={browserHistory.goBack}>Back</div>
                     {this.state.deletable ? del : null}
                 </div>
             </div>

@@ -26,7 +26,7 @@ var ReactRouter = require('react-router');
 var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
 var IndexRoute = ReactRouter.IndexRoute;
-var hashHistory = ReactRouter.hashHistory;
+var browserHistory = ReactRouter.browserHistory;
 // On Enter
 auth = require('./routes/routerAuth.js');
 authStaff = auth.staff;
@@ -56,6 +56,6 @@ var routes = (
 
 module.exports = {
     run: function(el){
-         render(<Router history={hashHistory} routes={routes}/>, el);
+         render(<Router history={browserHistory} routes={routes}/>, el);
     }
 };

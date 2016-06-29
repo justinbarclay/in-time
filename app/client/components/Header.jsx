@@ -1,6 +1,6 @@
 //React
 var React = require("react");
-var hashHistory = require('react-router').hashHistory;
+var browserHistory = require('react-router').browserHistory;
 var Router = require("react-router");
 var ReactDOM = require('react-dom');
 var Link = Router.Link;
@@ -29,11 +29,11 @@ var header = React.createClass({
                 ReactDOM.findDOMNode(this.refs.home).style.display = "none";
                 var role = authActions.getUserInfo().role;
                 if(role === "Owner"){
-                hashHistory.push('/employees');
+                browserHistory.push('/employees');
                 } else if (role === "Supervisor"){
-                hashHistory.push('/staff');
+                browserHistory.push('/staff');
                 } else{
-                hashHistory.push('/timesheets/'+authActions.getUserInfo().id);
+                browserHistory.push('/timesheets/'+authActions.getUserInfo().id);
                 }
             }
         }

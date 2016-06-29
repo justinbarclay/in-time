@@ -1,5 +1,5 @@
 var React = require("react");
-var router = require('react-router').hashHistory;
+var router = require('react-router').browserHistory;
 
 // Flux
 var timesheetActions = require("../actions/timesheetActions");

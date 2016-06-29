@@ -1,7 +1,7 @@
 var React = require("react");
 var ReactRouter = require("react-router");
 var Link = ReactRouter.Link;
-var hashHistory = require('react-router').hashHistory;
+var browserHistory = require('react-router').browserHistory;
 var authActions = require("../../actions/authActions");
 var timesheetActions = require("../../actions/timesheetActions");
 var messageActions = require("../../actions/messageActions");
@@ -35,7 +35,7 @@ var NavSignedIn = React.createClass({
         }
     },
     componentWillUnmount: function(){
-        hashHistory.push("/");
+        browserHistory.push("/");
     },
     signOut: function(){
         authActions.signOut();

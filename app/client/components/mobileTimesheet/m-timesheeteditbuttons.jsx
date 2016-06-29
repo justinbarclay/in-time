@@ -1,9 +1,9 @@
 var uuid = require("node-uuid");
 var React = require('react');
-var hashHistory = require("react-router").hashHistory;
+var browserHistory = require("react-router").browserHistory;
 
 var timesheetActions = require("../../actions/timesheetActions");
-var hashHistory = require('react-router').hashHistory;
+var browserHistory = require('react-router').browserHistory;
 
 var TimesheetEditButtons = React.createClass({
     displayName: "row edit",
@@ -31,7 +31,7 @@ var TimesheetEditButtons = React.createClass({
     deleteTimesheet: function() {
         self = this;
         this.setState({timer: window.setTimeout(function(){
-            hashHistory.push('/timesheets');
+            browserHistory.push('/timesheets');
             timesheetActions.deleteTimesheet(self.props.userID, self.state.timesheetID);
         }, 2000)});
     },

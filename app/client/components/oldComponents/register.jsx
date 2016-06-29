@@ -1,6 +1,6 @@
 //React
 var React = require("react");
-var router = require('react-router').hashHistory;
+var router = require('react-router').browserHistory;
 
 registerStore = require("../stores/registerStore");
 registerActions = require("../actions/registerActions");

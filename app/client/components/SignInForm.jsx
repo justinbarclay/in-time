@@ -3,7 +3,7 @@ var React = require("react");
 var ReactDOM = require("react-dom");
 var ReactRouter = require("react-router");
 var Link = ReactRouter.link;
-var hashHistory = ReactRouter.hashHistory;
+var browserHistory = ReactRouter.browserHistory;
 var authActions = require('../actions/authActions');
 var authStore = require('../stores/authStore');
 

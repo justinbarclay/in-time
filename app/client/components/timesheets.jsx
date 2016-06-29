@@ -1,5 +1,5 @@
 var React = require('react');
-var hashHistory = require('react-router').hashHistory;
+var browserHistory = require('react-router').browserHistory;
 var uuid = require("node-uuid");
 //Flux
 var timesheetStore = require('../stores/timesheetStore');

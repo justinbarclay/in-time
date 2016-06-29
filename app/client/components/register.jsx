@@ -2,7 +2,7 @@
 var React = require("react");
 var ReactDOM = require("react-dom");
 var MessageNew = require("./messageNew");
-var HashHistory = require('react-router').HashHistory;
+var browserHistory = require('react-router').browserHistory;
 
 var registerActions = require('../actions/registerActions');
 var authActions = require('../actions/authActions');
