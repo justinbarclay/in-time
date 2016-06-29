@@ -51,32 +51,33 @@ server.post('/api/signup', function(req, res, next){
     //Attempt to login
     //This doesn't go anywhere yet, but it does test the user controller
     console.log("Succesful post to /signup!");
-    currentUser = req.body;
-    console.log(currentUser);
-    user.signUp(currentUser.password,
-        currentUser.email, currentUser.code,
-        function(err, bool, message) {
-            if (err) {
+    signup = req.body;
+    console.log(signup);
+
+    user.signUp({user:{password:signup.password, email: signup.email}, code: signup.code},
+        function(data) {
+            console.log(data);
+            if (data.err) {
                 res.writeHead(400, {
                     'Content-Type': 'application/json'
                 });
                 res.send(
                     "There was an error talking to the server"
                 );
-                console.error(err);
+                console.error(data.err);
                 return next();
             } else {
                 console.log("Succesful signUp of " +
-                    currentUser.email + " = " + bool
+                    signup.email + " = " + !data.err
                 );
-                user.authenticate(currentUser, function(data) {
+                user.authenticate(signup, function(data) {
                     if (data.err) {
                         res.send(data.auth);
                         console.error(data.err);
                         next();
                     } else {
                         console.log("Succesful signin of " +
-                            currentUser.email + " = " + data.auth
+                            signup.email + " = " + data.auth
                             .success);
                         console.log("Message:" + JSON.stringify(
                                 data.auth.message));

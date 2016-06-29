@@ -126,60 +126,60 @@ function error(data){
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-function signUp(userPassword, userEmail, inviteCode, callback) {
-    //this function creates a username and hashes
-    //a password then stored it in the database
-    console.log(conString);
-    console.log(userPassword);
-    console.log(userEmail);
-    pg.connect(conString, function(err, client, done) {
-        if (err) {
-            return console.error(
-                'error fetching client from pool in user controller',
-                err);
-        }
-        if (validateUser(userPassword, userEmail)) {
-            console.log(userPassword);
-            hashPassword(userPassword, function(err, hash) {
-
-                if (err) {
-                    done();
-                    return console.error(
-                        "error hashing password",
-                        err);
-                } else {
-                    client.query(
-                        "UPDATE Users set password='" + hash + "' WHERE email='" + userEmail + "' and invite_code='" + inviteCode + "' RETURNING user_id;",
-                        function(err, result) {
-                            done();
-                            if (err) {
-                                console.error(
-                                    'error running insert query',
-                                    err);
-                                callback(err,
-                                    false);
-                            } else if(result.rows[0]) {
-                                console.log(
-                                    result);
-                                console.log(
-                                    "User created successfully"
-                                );
-                                callback(err,
-                                    true,
-                                    "User created successfully"
-                                );
-                            }
-                            else{
-                                console.log(result);
-                                callback(err, false, "Unable to process your request, please try again. If you continue to have difficulty, please speak to your system administrator");
-                            }
-
-                        });
-                }
-            });
-        }
-    });
-}
+// function signUp(userPassword, userEmail, inviteCode, callback) {
+//     //this function creates a username and hashes
+//     //a password then stored it in the database
+//     console.log(conString);
+//     console.log(userPassword);
+//     console.log(userEmail);
+//     pg.connect(conString, function(err, client, done) {
+//         if (err) {
+//             return console.error(
+//                 'error fetching client from pool in user controller',
+//                 err);
+//         }
+//         if (validateUser(userPassword, userEmail)) {
+//             console.log(userPassword);
+//             hashPassword(userPassword, function(err, hash) {
+//
+//                 if (err) {
+//                     done();
+//                     return console.error(
+//                         "error hashing password",
+//                         err);
+//                 } else {
+//                     client.query(
+//                         "UPDATE Users set password='" + hash + "' WHERE email='" + userEmail + "' and invite_code='" + inviteCode + "' RETURNING user_id;",
+//                         function(err, result) {
+//                             done();
+//                             if (err) {
+//                                 console.error(
+//                                     'error running insert query',
+//                                     err);
+//                                 callback(err,
+//                                     false);
+//                             } else if(result.rows[0]) {
+//                                 console.log(
+//                                     result);
+//                                 console.log(
+//                                     "User created successfully"
+//                                 );
+//                                 callback(err,
+//                                     true,
+//                                     "User created successfully"
+//                                 );
+//                             }
+//                             else{
+//                                 console.log(result);
+//                                 callback(err, false, "Unable to process your request, please try again. If you continue to have difficulty, please speak to your system administrator");
+//                             }
+//
+//                         });
+//                 }
+//             });
+//         }
+//     });
+// }
 
 // function signUpOwner(userPassword, userEmail, orgkey, callback) {
 //     //this function creates a username and hashes
@@ -251,7 +251,7 @@ function deleteUser(userEmail) {
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Invite
+// SignUp
 //
 ////////////////////////////////////////////////////////////////////////////////
 function signUpOwner(data) {
@@ -276,7 +276,31 @@ function signUpOwner(data) {
                 resolve(data);
             }
         });
-});
+    });
+}
+
+function signUp(data) {
+    //this function creates a username and hashes
+    //a password then stored it in the database
+    return new Promise(function(resolve, reject){
+        data.client.query(
+        "UPDATE Users set password='" + data.setup.hash + "' WHERE email='" + data.setup.user.email + "' and invite_code='" + data.setup.code + "' RETURNING user_id;",
+        function(err, result) {
+            console.log(result);
+            if (err) {
+                console.error('error running insert query', err);
+                data.message = err;
+                data.success = false;
+                reject(data);
+            } else{
+                console.log(result);
+                console.log("User created successfully");
+                data.message = "User created successfully";
+                data.success = true;
+                resolve(data);
+            }
+        });
+    });
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -442,6 +466,16 @@ function signUpOwnerPromise(data, callback){
     .then(callback);
 }
 
+function signUpPromise(data, callback){
+    connect(data)
+    .then(begin)
+    .then(validateAuthInfo)
+    .then(hashPassword)
+    .then(signUp)
+    .catch(rollback)
+    .then(finish)
+    .then(callback);
+}
 function authenticatePromise(data, callback){
     connect(data)
     .then(findUser)
@@ -470,7 +504,7 @@ let inviteUserPromise = function(data, callback){
     .then(callback);
 };
 exports.authenticate = authenticatePromise;
-exports.signUp = signUp;
+exports.signUp = signUpPromise;
 exports.invite = inviteUserPromise;
 exports.signUpOwner = signUpOwnerPromise;
 exports.grabInfo = getInfoPromise;
