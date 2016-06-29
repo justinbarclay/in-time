@@ -17,6 +17,7 @@ var pg = require('pg');
 let conString = config.postgres;
 const secret = config.secret;
 const twoWeeks = 20160; // Two weeks in minutes
+pg.defaults.poolSize = 20;
 /* Structure of JWT payload
  * It should have a username, time of creation(iat), and email address
  * When decrypting the payload we can confirm who is requestion infomation and

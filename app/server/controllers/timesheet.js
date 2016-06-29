@@ -2,6 +2,7 @@
 
 let config = require("../../../config.js");
 let pg = require('pg');
+pg.defaults.poolSize = 20;
 let conString = config.postgres;
 let uuid = require('uuid').v4;
 var moment = require('moment');
