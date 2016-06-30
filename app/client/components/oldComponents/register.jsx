@@ -37,6 +37,5 @@ var Register = React.createClass({
         );
     }
 });
-// <RegisterInput name="domain" type="text" accessor="domain" className= "domain" value={this.state.register.domain || ""}/>
 
 module.exports = Register;
