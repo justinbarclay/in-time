@@ -1,9 +1,9 @@
 var React = require("react");
 
 var TextEntry = React.createClass({
-    displayName: "TextEntry",
+    displayName: "Text Entry",
     getInitialState: function(){
-        return {value: null};
+        return {value:null};
     },
     handleInputChange: function(event){
         var newValue = event.target.value;
@@ -19,7 +19,9 @@ var TextEntry = React.createClass({
         });
     },
     render: function (){
-        value = this.state.value || this.props.value;
+        // Value needs to be initialized to a non null input or React gets mad
+        var baseValue = this.props.type === "number" ? 0 : " ";
+        value = this.state.value || this.props.value || baseValue;
         return (
             <input
             className={this.props.className}
