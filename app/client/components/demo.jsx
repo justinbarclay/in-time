@@ -3,21 +3,21 @@ var demoActions = require("../actions/demoActions");
 var authActions = require("../actions/authActions");
 var authStore = require("../stores/authStore");
 var browserHistory = require('react-router').browserHistory;
-
+var goodUser;
+var badUser;
 var Demo = React.createClass({
     displayName: "Demo",
     propTypes: {},
     mixins: [authStore.mixin],
     storeDidChange: function(){
-        var user = authActions.getUserInfo();
-        console.log(user);
-        if(user){
+        if(user.role){
             if(user.role === "Owner"){
                 browserHistory.push('/employees');
             } else if (user.role === "Supervisor"){
                 browserHistory.push('/staff');
             } else{
-                browserHistory.push('/timesheets/'+user.id);
+                console.log("user ", goodUser);
+                browserHistory.push('/timesheets/'+authActions.getUserInfo().id);
             }
         }
     },

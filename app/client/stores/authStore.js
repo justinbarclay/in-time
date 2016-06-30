@@ -10,6 +10,7 @@ var _user = {};
 
 var authStore = Flux.createStore({
     getUserInfo: function() {
+        console.log("USER", _user);
         return _user;
     },
     authenticated: function(){

@@ -1,6 +1,8 @@
 // React
 var React = require("react");
 
+var authActions = require("../actions/authActions");
+
 //Components
 var Signin = require("./SignInForm");
 var Signup = require("./SignUpForm");
@@ -8,6 +10,7 @@ var Logo = require("./home/logo");
 // Router
 var Router = require("react-router");
 var Link = Router.Link;
+var browserHistory = Router.browserHistory;
 
 // Component
 var Home = React.createClass({
@@ -18,8 +21,18 @@ var Home = React.createClass({
         return null;
     },
 
-    componentWillMount: function () {},
-
+    componentWillMount: function () {
+        var user = authActions.getUserInfo();
+        if(user.role){
+            if(user.role === "Owner"){
+                browserHistory.push('/employees');
+            } else if (user.role === "Supervisor"){
+                browserHistory.push('/staff');
+            } else{
+                browserHistory.push("/timesheets/"+user.id);
+            }
+        }
+    },
     componentWillUnmount: function () {},
 
     render: function () {
