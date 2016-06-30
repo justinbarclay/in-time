@@ -31,11 +31,12 @@ var Timesheet = React.createClass({
     },
     componentWillMount: function() {
         var self = this;
-        if (!this.state){
-            setTimeout(function(){
-                router.push("/timesheets"+"/"+self.props.params.userID);
-            }, 300);
-        }
+        console.log("here");
+        // if (!this.state){
+        //     setTimeout(function(){
+        //         router.push("/timesheets"+"/"+self.props.params.userID);
+        //     }, 300);
+        // }
     },
     disabled: function(){
         var approved = this.state.approved || false;

@@ -16,7 +16,7 @@ var TimesheetRows = React.createClass({
         pageState = timesheetActions.getTimesheet(this.props.params.userID, this.props.params.id);
         if (!pageState) {
             timesheetActions.grabTimesheet(this.props.params.userID, this.props.params.id);
-            return null;
+            return {};
         } else {
             return ({timesheet: pageState,
                 entryFields: [
@@ -41,9 +41,12 @@ var TimesheetRows = React.createClass({
     storeDidChange: function() {
         this.setState({timesheet: timesheetActions.getTimesheet(this.props.params.userID, this.props.params.id)});
     },
-    buildRows: function(){
+    buildRows: function(timesheet){
         var self = this;
-        var entries = this.state.timesheet.entries.map(function(entry, index) {
+        if(!timesheet){
+            return null;
+        }
+        var entries = timesheet.entries.map(function(entry, index) {
             if (entry.delete === false) {
                 return <TimesheetRow userID={self.props.params.userID} readOnly={self.displayApprove()} startDate={self.state.timesheet.startDate} endDate={self.state.timesheet.endDate} entry={entry} fields={self.state.entryFields} id={self.state.timesheet.timesheetID} row={index} key={index}/>;
             }
@@ -52,18 +55,25 @@ var TimesheetRows = React.createClass({
     },
     displayApprove: function() {
         currentUser = authActions.getUserInfo();
-        if ((currentUser.role === "Supervisor" || currentUser.role === "Owner") && currentUser.id !== this.state.timesheet.userID) {
-            return true;
-        } else {
+        try{
+            if ((currentUser.role === "Supervisor" || currentUser.role === "Owner") && currentUser.id !== this.state.timesheet.userID) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch(e){
             return false;
         }
     },
     render: function(){
-        var editButtons = this.displayApprove()? <Approve userID={this.props.params.userID} timesheetID={this.state.timesheet.timesheetID}/>
+        var editButtons = null;
+        if(this.state.timesheet){
+        editButtons = this.displayApprove()? <Approve userID={this.props.params.userID} timesheetID={this.state.timesheet.timesheetID}/>
     : <TimesheetEditButtons timesheetID={this.state.timesheet.timesheetID} userID={this.props.params.userID}/>;
+    }
         return(
             <div className="newRowContainer">
-                {this.buildRows()}
+                {this.buildRows(this.state.timesheet)}
                 {editButtons}
             </div>);
     }

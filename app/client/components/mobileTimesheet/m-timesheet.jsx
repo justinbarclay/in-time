@@ -13,15 +13,15 @@ var Timesheet = React.createClass({
     displayName: "Mobile Timesheet",
     mixins: [timesheetStore.mixin],
     getInitialState: function() {
-        return(timesheetActions.getTimesheet(this.props.params.userID, this.props.params.id));
+        pageState = timesheetActions.getTimesheet(this.props.params.userID, this.props.params.id);
+        if (!pageState) {
+            return {};
+        } else {
+            return pageState;
+        }
     },
     componentWillMount: function() {
 
-        if (!this.state){
-            setTimeout(function(){
-                browserHistory.push("/timesheets");
-            }, 300);
-        }
     },
     storeDidChange: function(){
         this.setState(timesheetActions.getTimesheet(this.props.params.userID, this.props.params.id));
