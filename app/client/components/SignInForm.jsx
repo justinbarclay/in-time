@@ -15,10 +15,35 @@ var SignInForm = React.createClass({
     displayName: "SignInForm",
     mixins: [authStore.mixin],
     getInitialState: function() {
-        return ({});
+        var nextPath;
+        try{
+            if(this.props.location.state.nextPathname){
+                nextPath = this.props.location.state.nextPathname;
+                console.log(nextPath);
+            }
+        } catch(e){
+            nextPath = null;
+        }
+        return ({nextPath: nextPath});
     },
     storeDidChange: function(){
         submit.disabled = false;
+
+        var user = authActions.getUserInfo();
+        var path = this.state.nextPath;
+        if(user.role){
+            if (this.state.nextPath){
+                browserHistory.push(path);
+            } else if(role === "Owner"){
+                browserHistory.push('/employees');
+            } else if (role === "Supervisor"){
+                browserHistory.push('/staff');
+            } else{
+                console.log("Path: ", path);
+                browserHistory.push("/timesheets/"+user.id);
+            }
+        }
+
     },
     login: function(form) {
         form.preventDefault();
@@ -30,6 +55,7 @@ var SignInForm = React.createClass({
         authActions.signIn(user);
     },
     render: function() {
+        console.log(this);
         return (
             <div className="signinForm">
                 <MessageNew accessor="signin" hidden={true}/>

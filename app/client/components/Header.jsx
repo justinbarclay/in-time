@@ -27,14 +27,6 @@ var header = React.createClass({
         if(loggedIn !== previousLoggedIn){
             if(loggedIn){
                 ReactDOM.findDOMNode(this.refs.home).style.display = "none";
-                var role = authActions.getUserInfo().role;
-                if(role === "Owner"){
-                browserHistory.push('/employees');
-                } else if (role === "Supervisor"){
-                browserHistory.push('/staff');
-                } else{
-                browserHistory.push('/timesheets/'+authActions.getUserInfo().id);
-                }
             }
         }
     },
