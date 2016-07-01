@@ -1,5 +1,5 @@
 var React = require("react");
-var router = require('react-router').browserHistory;
+var browserHistory = require('react-router').browserHistory;
 
 // Flux
 var timesheetActions = require("../actions/timesheetActions");
@@ -31,12 +31,11 @@ var Timesheet = React.createClass({
     },
     componentWillMount: function() {
         var self = this;
-        console.log("here");
-        // if (!this.state){
-        //     setTimeout(function(){
-        //         router.push("/timesheets"+"/"+self.props.params.userID);
-        //     }, 300);
-        // }
+        if (!this.state){
+            setTimeout(function(){
+                router.push("/timesheets"+"/"+self.props.params.userID);
+            }, 300);
+        }
     },
     disabled: function(){
         var approved = this.state.approved || false;
@@ -119,8 +118,8 @@ var Timesheet = React.createClass({
                         </div>
                     </div>;
         } else {
-            data = <div className="button">We were unable to find your timesheet,
-            <br /> you will be redirected to timesheets shortly</div>;
+            data = <div className="button">Your timesheet seems to have been misplaced. We're looking for it right now but if we don't find it,
+            <br /> you will be redirected shortly</div>;
         }
         return (
             <div className="timesheetPage">{data}</div>

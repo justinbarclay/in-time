@@ -16,7 +16,6 @@ var Demo = React.createClass({
             } else if (user.role === "Supervisor"){
                 browserHistory.push('/staff');
             } else{
-                console.log("user ", goodUser);
                 browserHistory.push('/timesheets/'+authActions.getUserInfo().id);
             }
         }

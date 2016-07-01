@@ -19,7 +19,6 @@ var SignInForm = React.createClass({
         try{
             if(this.props.location.state.nextPathname){
                 nextPath = this.props.location.state.nextPathname;
-                console.log(nextPath);
             }
         } catch(e){
             nextPath = null;
@@ -30,18 +29,15 @@ var SignInForm = React.createClass({
         submit.disabled = false;
 
         var user = authActions.getUserInfo();
-        var path = this.state.nextPath;
-        userID = user.id;
         if(user.role){
             if (this.state.nextPath){
-                browserHistory.push(path);
+                browserHistory.push(this.state.nextPath);
             } else if(user.role === "Owner"){
                 browserHistory.push('/employees');
             } else if (user.role === "Supervisor"){
                 browserHistory.push('/staff');
             } else{
-                console.log("Path: ", userID);
-                browserHistory.push("/timesheets/"+userID);
+                browserHistory.push("/timesheets/"+user.id);
             }
         }
 

@@ -45,7 +45,6 @@ var SignUpForm = React.createClass({
     validateEmail: function(email){
         //this very roughly validates an email address, it is not a thorough check
         emailRegEx = /^(([a-zA-Z]|[0-9])|([-]|[_]|[.]))+[@](([a-zA-Z0-9])|([-])){2,63}[.](([a-zA-Z0-9]){2,63})+$/;
-        // console.log("Running validate email");
         return emailRegEx.test(email);
     },
     validateSubmission: function() {
@@ -54,7 +53,6 @@ var SignUpForm = React.createClass({
         var confirm = ReactDOM.findDOMNode(this.refs.confirmPassword).value.trim();
 
         //This is a messy if statement
-        // console.log(typeof username);
         if (!this.validateEmail(email)){
             messageActions.addMessage("signup", "E-mail address is not valid.");
             return false;

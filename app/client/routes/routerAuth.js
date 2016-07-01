@@ -12,7 +12,6 @@ function authStaff(nextState, replace) {
 }
 
 function authSup(nextState, replace) {
-    console.log("Auth Sup");
     if (!authStore.authenticated()) {
         replace({
             pathname: '/signin'

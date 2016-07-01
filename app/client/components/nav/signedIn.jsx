@@ -21,9 +21,8 @@ var NavSignedIn = React.createClass({
         if(localStorage.getItem("JWT") === "null"){
             authActions.signOut();
         }
-        role = authActions.getUserInfo().role;
         this.setState({
-            role: role
+            role: authActions.getUserInfo().role
         });
     },
     componentDidMount: function(){
