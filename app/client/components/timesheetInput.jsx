@@ -27,7 +27,7 @@ var TimesheetInput = React.createClass({
                 type={this.props.type}
                 userID={this.props.userID}
                 className={this.props.className}
-                value={this.props.value || baseValue} />
+                value={this.props.value} />
         );
     }
 });

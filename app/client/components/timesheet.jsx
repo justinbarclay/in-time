@@ -97,11 +97,10 @@ var Timesheet = React.createClass({
                 "type": "number"
             }
         ];
-        console.log(!!this.state);
         if (this.state) {
             var entries = this.state.entries.map(function(entry, index) {
                 if (entry.delete === false) {
-                    return <TimesheetRow userID={self.props.params.userID} readOnly={self.disabled()} deletable={true} startDate={self.state.startDate} endDate={self.state.endDate} entry={entry} fields={entryFields.slice(1)} id={self.state.timesheetID} index={index} key={index}/>;
+                    return <TimesheetRow userID={self.props.params.userID} readOnly={self.disabled()} startDate={self.state.startDate} endDate={self.state.endDate} entry={entry} fields={entryFields.slice(1)} id={self.state.timesheetID} index={index} key={index}/>;
                 }
             });
             var headings = entryFields.map(function(field, index) {
@@ -113,7 +112,12 @@ var Timesheet = React.createClass({
             var metaHeadings = metaFields.map(function(field, index) {
                 return <label className="metaHeading" key={index}>{field.name}</label>;
             });
-            var editButtons = this.displayApprove()? <Approve userID={this.props.params.userID} timesheetID={this.state.timesheetID}/> : <TimesheetEditButtons userID={this.props.params.userID} timesheetID={this.state.timesheetID}/>;
+            var editButtons;
+            if(!this.disabled()){
+                editButtons = this.displayApprove()? <Approve userID={this.props.params.userID} timesheetID={this.state.timesheetID}/> : <TimesheetEditButtons userID={this.props.params.userID} timesheetID={this.state.timesheetID}/>;
+            } else {
+                editButtons = null;
+            }
 
             data = <div>
                         <MessageNew accessor="timesheet" hidden={true}/>

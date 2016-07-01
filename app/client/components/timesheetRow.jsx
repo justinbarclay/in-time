@@ -53,7 +53,7 @@ var TimesheetRow = React.createClass({
                 type="text" />
 
                 {rows}
-                {this.props.deletable ? del : null}
+                {!this.props.readOnly ? del : null}
             </div>
         );
     }

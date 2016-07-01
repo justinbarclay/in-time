@@ -21,7 +21,7 @@ var TextEntry = React.createClass({
     render: function (){
         // Value needs to be initialized to a non null input or React gets mad
         var baseValue = this.props.type === "number" ? 0 : " ";
-        value = this.state.value || this.props.value || baseValue;
+        var value = this.state.value || this.props.value || baseValue;
         return (
             <input
             className={this.props.className}

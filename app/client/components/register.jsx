@@ -14,12 +14,23 @@ var authStore = require('../stores/authStore');
 var Register = React.createClass({
     displayName: "Register",
     propTypes: [],
-    mixins: [messageStore.mixin],
+    mixins: [messageStore.mixin, authStore.mixin],
     getInitialState: function(){
         return {};
     },
     storeDidChange: function(){
         submit.disabled = false;
+        var user = authStore.getUserInfo();
+
+        if(user.role){
+            if(user.role === "Owner"){
+                browserHistory.push('/employees');
+            } else if(user.role === "Supervisor"){
+                browserHistory.push('/staff');
+            }else if(user.role === "Staff"){
+                browserHistory.push('/timesheets'+user.id);
+            }
+        }
     },
     signup: function(form){
         self = this;
