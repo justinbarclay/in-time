@@ -10,6 +10,7 @@ var Demo = React.createClass({
     propTypes: {},
     mixins: [authStore.mixin],
     storeDidChange: function(){
+        var user = authActions.getUserInfo();
         if(user.role){
             if(user.role === "Owner"){
                 browserHistory.push('/employees');

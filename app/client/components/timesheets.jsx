@@ -22,6 +22,11 @@ var Timesheets = React.createClass({
     storeDidChange: function() {
         this.setState({timesheets:timesheetActions.getTimesheets(this.props.params.userID)});
     },
+    componentWillMount: function(){
+        if(this.props.params.userID === "undefined"){
+            browserHistory.push("/");
+        }
+    },
     hideButton: function(timesheetOwner, currentUser){
         if(timesheetOwner != currentUser){
             return true;

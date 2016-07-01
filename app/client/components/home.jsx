@@ -7,6 +7,7 @@ var authActions = require("../actions/authActions");
 var Signin = require("./SignInForm");
 var Signup = require("./SignUpForm");
 var Logo = require("./home/logo");
+var authStore = require("../stores/authStore");
 // Router
 var Router = require("react-router");
 var Link = Router.Link;
@@ -16,13 +17,17 @@ var browserHistory = Router.browserHistory;
 var Home = React.createClass({
     displayName: "Home",
     propTypes: {},
-    mixins: [],
+    mixins: [authStore.mixin],
     getInitialState: function () {
         return null;
     },
-
+    storeDidChange: function(){
+        this.redirectAuthenticated(authActions.getUserInfo());
+    },
     componentWillMount: function () {
-        var user = authActions.getUserInfo();
+        this.redirectAuthenticated(authActions.getUserInfo());
+    },
+    redirectAuthenticated: function(user){
         if(user.role){
             if(user.role === "Owner"){
                 browserHistory.push('/employees');

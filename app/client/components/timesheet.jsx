@@ -29,12 +29,22 @@ var Timesheet = React.createClass({
             return pageState;
         }
     },
+    storeDidChange: function() {
+        var newTimesheet = timesheetActions.getTimesheet(this.props.params.userID, this.props.params.id);
+        if(newTimesheet){
+            this.setState(newTimesheet);
+        }
+    },
     componentWillMount: function() {
         var self = this;
         if (!this.state){
             setTimeout(function(){
-                router.push("/timesheets"+"/"+self.props.params.userID);
-            }, 300);
+                if(!self.state){
+                    browserHistory.push("/timesheets"+"/"+self.props.params.userID);
+                } else {
+                    console.log("cancelled");
+                }
+            }, 3000);
         }
     },
     disabled: function(){
@@ -52,9 +62,6 @@ var Timesheet = React.createClass({
         } else {
             return false;
         }
-    },
-    storeDidChange: function() {
-        this.setState(timesheetActions.getTimesheet(this.props.params.userID, this.props.params.id));
     },
     render: function() {
         var self = this;
@@ -90,7 +97,7 @@ var Timesheet = React.createClass({
                 "type": "number"
             }
         ];
-
+        console.log(!!this.state);
         if (this.state) {
             var entries = this.state.entries.map(function(entry, index) {
                 if (entry.delete === false) {
