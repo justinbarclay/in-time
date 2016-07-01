@@ -52,7 +52,6 @@ var SignInForm = React.createClass({
         authActions.signIn(user);
     },
     render: function() {
-        console.log(this);
         return (
             <div className="signinForm">
                 <MessageNew accessor="signin" hidden={true}/>
