@@ -54,7 +54,7 @@ var timesheetActions = Flux.createActions({
             userID: userID,
             timesheetID: id
         });
-        save(id);
+        save(userID, id);
 
     },
     deleteTimesheets: function() {
@@ -159,6 +159,7 @@ function ajax(method, route, data){
     };
 }
 function formatTimesheet(timesheet){
+    console.log(timesheet);
     var formattedTimesheet = {
         timesheetID: timesheet.timesheetID,
         engagement: timesheet.engagement,
