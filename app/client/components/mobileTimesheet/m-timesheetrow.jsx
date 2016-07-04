@@ -12,7 +12,7 @@ var TimesheetRow = React.createClass({
         return (<div className="m-timesheetRow" onClick={this.loadRow}>
             <div className="timesheetItem service">{this.props.entry.service}</div>
             <div className="timesheetItem date">{moment(this.props.entry.date).format("MM/DD/YYYY")}</div>
-            <div className="timesheetItem duration">{moment(this.props.entry.duration, "hhmm").format("HH:mm")}</div>
+            <div className="timesheetItem duration">{this.props.entry.duration+'h'}</div>
             <div >{this.props.entry.distance || null}</div>
         </div>);
     }
