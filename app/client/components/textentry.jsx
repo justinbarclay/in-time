@@ -1,4 +1,4 @@
-var React = require("react");
+var React = require('react');
 
 var TextEntry = React.createClass({
     displayName: "Text Entry",

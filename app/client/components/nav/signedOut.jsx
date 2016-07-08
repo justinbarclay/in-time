@@ -1,4 +1,4 @@
-var React = require("react");
+var React = require('react');
 var Link = require("react-router").Link;
 var Router = require("react-router").Router;
 var Route = require("react-router").Route;

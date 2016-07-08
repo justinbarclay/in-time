@@ -1,4 +1,4 @@
-var React = require("react");
+var React = require('react');
 var timesheetActions = require('../actions/timesheetActions');
 //Child Components
 var TextEntry = require("./textentry");

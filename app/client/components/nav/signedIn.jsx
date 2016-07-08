@@ -1,4 +1,4 @@
-var React = require("react");
+var React = require('react');
 var ReactRouter = require("react-router");
 var Link = ReactRouter.Link;
 var browserHistory = require('react-router').browserHistory;

@@ -2,7 +2,7 @@ var Flux = require("../biff");
 var moment = require("moment");
 var timesheetStore = require('../stores/timesheetStore');
 var authActions = require("./authActions");
-var _ = require("underscore");
+var flatten = require("underscore").flatten;
 var messageActions = require('./messageActions');
 
 var timesheetActions = Flux.createActions({
@@ -190,7 +190,7 @@ function verifyTimesheet(timesheet){
     for(i=0; i < entries.length; i++){
         messages = messages.concat(verifyEntry(entries[i]));
     }
-   return _.flatten(messages);
+   return flatten(messages);
 }
 
 function verifyMeta(timesheet){

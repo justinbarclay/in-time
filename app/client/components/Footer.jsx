@@ -1,5 +1,5 @@
 //React
-var React = require("react");
+var React = require('react');
 
 
 var Footer = React.createClass({

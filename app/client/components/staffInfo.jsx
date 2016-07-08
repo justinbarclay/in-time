@@ -1,4 +1,4 @@
-var React = require("react");
+var React = require('react');
 var browserHistory = require("react-router").browserHistory;
 var staffActions = require("../actions/staffActions");
 // Sub-component

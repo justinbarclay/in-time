@@ -1,4 +1,4 @@
-var React = require("react");
+var React = require('react');
 var demoActions = require("../actions/demoActions");
 var authActions = require("../actions/authActions");
 var authStore = require("../stores/authStore");

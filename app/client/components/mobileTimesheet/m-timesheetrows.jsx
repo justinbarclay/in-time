@@ -1,4 +1,4 @@
-var React = require("react");
+var React = require('react');
 //Child Components
 var TimesheetInput = require('../timesheetInput');
 var DatePicker = require('react-datepicker');

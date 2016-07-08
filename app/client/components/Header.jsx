@@ -1,5 +1,5 @@
 //React
-var React = require("react");
+var React = require('react');
 var browserHistory = require('react-router').browserHistory;
 var Router = require("react-router");
 var ReactDOM = require('react-dom');

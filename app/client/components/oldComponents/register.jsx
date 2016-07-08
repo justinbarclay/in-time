@@ -1,5 +1,5 @@
 //React
-var React = require("react");
+var React = require('react');
 var router = require('react-router').browserHistory;
 
 registerStore = require("../stores/registerStore");

@@ -1,4 +1,4 @@
-var React = require("react");
+var React = require('react');
 var adminActions = require("../actions/adminActions");
 var ReactDOM =require('react-dom');
 var MessageNew = require('./messageNew');

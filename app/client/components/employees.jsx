@@ -1,4 +1,4 @@
-var React = require("react");
+var React = require('react');
 var Employee = require('./employees/employee');
 var EmployeeButton = require('./employees/employeebutton');
 var Link = require('react-router').Link;

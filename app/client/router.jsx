@@ -1,5 +1,5 @@
 // React
-var React = require("react");
+var React = require('react');
 var render = require("react-dom").render;
 
 //Main components for Timesheet app

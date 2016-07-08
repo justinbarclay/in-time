@@ -1,4 +1,4 @@
-var React = require("react");
+var React = require('react');
 var Navigation = require("react-router");
 var timesheetActions = require('../actions/timesheetActions');
 //Child Components
