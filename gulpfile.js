@@ -86,7 +86,9 @@ gulp.task('browserify-prod', function() {
         entries: './app/client/main.js', // Only need initial file, browserify finds the deps
         transform: [[babelify, {"presets": ["react"]}]], // We want to convert JSX to normal javascript
         debug: false, // Gives us sourcemapping
-        cache: {}, packageCache: {}, fullPaths: true, // Requirement of watchify
+        dedupe: true,
+        cache: {}, packageCache: {}, fullPaths: false, // Requirement of watchify
+        bundleExternal: true,
         extensions: ['.jsx','.js']
     });
 
