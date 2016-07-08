@@ -26,6 +26,13 @@ server.get('/', restify.serveStatic({
     file: 'index.html'
 }));
 
+
+server.get('/.well-known/acme-challenge/rIY5gjJx8CKkj7B5ohzHrw68IRCuMYAKZhtH4ECcGFs', function(req, res, next){
+    res.contentType = 'text';
+    res.send('rIY5gjJx8CKkj7B5ohzHrw68IRCuMYAKZhtH4ECcGFs.nWHb0MzEeTmtrSdIC8MLdac5EEkJO5hr8UppXXHGIs0');
+    next();
+});
+
 server.post('/api/signin', function(req, res, next){
     var currentUser = JSON.parse(req.body);
 
