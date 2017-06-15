@@ -1,4 +1,4 @@
-var sendgrid = require("sendgrid")('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');
+var sendgrid = require("sendgrid");
 var userInvite = require("./user").invite;
 var domain = require("../../../config.js").domain;
 
